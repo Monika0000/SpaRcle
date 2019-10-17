@@ -1,0 +1,15 @@
+h:416,2;-12
+m:238
+cas:4
+S/door;59;-51
+S/is;30;-49
+S/close;74;-190
+S/open;56;-614
+prw:4
+S/close;ococococ;-73.7667;279
+S/door;diocddi;-22;63
+S/is;ADD;-49;30
+S/open;ADD;-379;87
+t:Speech
+sd:open
+pr:0,000;0,000

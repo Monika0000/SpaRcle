@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\Core">
+      <UniqueIdentifier>{cc563e92-039b-4475-98a1-e1985547b9b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Core">
+      <UniqueIdentifier>{a8059720-33a4-465f-9b1a-441d1bbb4d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Utilites">
+      <UniqueIdentifier>{b5f3b488-f9bd-4d4f-ad52-fb1b19bdd472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Utilites">
+      <UniqueIdentifier>{2d38ed38-0848-4723-bf1a-19ce21ac3006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Logic">
+      <UniqueIdentifier>{43120d8c-69ae-44bd-bee1-aac09dca6489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Logic">
+      <UniqueIdentifier>{e6d780ff-212a-4ef3-866d-8e0c84151de6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\UI">
+      <UniqueIdentifier>{a9f81c30-f225-4668-af04-860b17297112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Reality">
+      <UniqueIdentifier>{74a8347a-34b1-4a3f-9d02-a2d0bbbc946b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Reality">
+      <UniqueIdentifier>{6aecb3cf-db80-4d25-a9ac-08921c5836c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\UI">
+      <UniqueIdentifier>{a7fa0818-0777-4833-bc2c-5b5d5cdf4f52}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="RealityCore.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CentralCore.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Файлы заголовков\Utilites</Filter>
+    </ClInclude>
+    <ClInclude Include="Consequence.h">
+      <Filter>Файлы заголовков\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="CausalityCore.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Файлы заголовков\Utilites</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Файлы заголовков\Utilites</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskTree.h">
+      <Filter>Файлы заголовков\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicalCore.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Файлы заголовков\Reality</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Файлы заголовков\Reality</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEntry.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GetKeyCode.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusBox.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTime.h">
+      <Filter>Файлы заголовков\Reality</Filter>
+    </ClInclude>
+    <ClInclude Include="EmotionCore.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Selector.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Table.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaRcle.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CentralCore.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RealityCore.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CausalityCore.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Consequence.cpp">
+      <Filter>Исходные файлы\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Исходные файлы\Utilites</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskTree.cpp">
+      <Filter>Исходные файлы\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicalCore.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Исходные файлы\Reality</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>Исходные файлы\Reality</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Исходные файлы\Utilites</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTime.cpp">
+      <Filter>Исходные файлы\Reality</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Исходные файлы\Utilites</Filter>
+    </ClCompile>
+    <ClCompile Include="Display.cpp">
+      <Filter>Исходные файлы\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EmotionCore.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SpaRcle.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+</Project>

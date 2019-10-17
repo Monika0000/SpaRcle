@@ -1,0 +1,3475 @@
+[System] Pre-initializing
+[Log] ~ DIR "D:\SpaRcle\SpaRcle"
+[System] Diagnostic... System is stable!
+[Log] -> Creating the central core are successful!
+[Error] SpaRcle::System::Load : Loading failed!
+        Path :D:\SpaRcle\SpaRcleData\System\temp%load\causality_data.temp
+[Log] -> Creating the causality core are successful!
+         Was loaded : 0 elements.
+[Log] -> Creating the logical core are successful!
+[Log] -> Creating the reality core are successful!
+[Log] -> Creating the emotion core are successful!
+[System] Initializing
+[Log] -> The reality core is started!
+[Log] -> The logical core is started!
+[Log] -> The causality core is started!
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/monika"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/nikita"
+[Log] CausalityCore : summ cause "monika" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "monika" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "monika" with "S/nikita"
+[Log] CausalityCore : summ cause "hello" with "S/hello"
+[Log] CausalityCore : summ cause "hello" with "S/monika"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/nikita"
+[Log] CausalityCore : summ cause "nikita" with "S/hello"
+[Log] CausalityCore : summ cause "nikita" with "S/monika"
+[Log] CausalityCore : summ cause "nikita" with "S/hello"
+[Log] -> The emotion core is started!
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/monika"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/nikita"
+[Log] CausalityCore : summ cause "monika" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "monika" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "monika" with "S/nikita"
+[Log] CausalityCore : summ cause "hello" with "S/hello"
+[Log] CausalityCore : summ cause "hello" with "S/monika"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/nikita"
+[Log] CausalityCore : summ cause "nikita" with "S/hello"
+[Log] CausalityCore : summ cause "nikita" with "S/monika"
+[Log] CausalityCore : summ cause "nikita" with "S/hello"
+[Log] -> The central core is started!
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/monika"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/nikita"
+[Log] CausalityCore : summ cause "monika" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "monika" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "monika" with "S/nikita"
+[Log] CausalityCore : summ cause "hello" with "S/hello"
+[Log] CausalityCore : summ cause "hello" with "S/monika"
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/nikita"
+[Info] LogicalCore.DoIt = New task : "Life"
+[Log] CausalityCore : summ cause "nikita" with "S/hello"
+[Log] CausalityCore : summ cause "nikita" with "S/monika"
+[Log] CausalityCore : summ cause "nikita" with "S/hello"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/okay"
+[Log] CausalityCore : summ cause "are" with "S/how"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/okay"
+[Log] CausalityCore : summ cause "you" with "S/how"
+[Log] CausalityCore : summ cause "you" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/okay"
+[Log] CausalityCore : summ cause "i" with "S/how"
+[Log] CausalityCore : summ cause "i" with "S/are"
+[Log] CausalityCore : summ cause "i" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/okay"
+[Log] CausalityCore : summ cause "am" with "S/how"
+[Log] CausalityCore : summ cause "am" with "S/are"
+[Log] CausalityCore : summ cause "am" with "S/you"
+[Log] CausalityCore : summ cause "am" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "am" with "S/okay"
+[Log] CausalityCore : summ cause "okay" with "S/are"
+[Log] CausalityCore : summ cause "okay" with "S/you"
+[Log] CausalityCore : summ cause "okay" with "S/i"
+[Log] CausalityCore : summ cause "okay" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/okay"
+[Log] CausalityCore : summ cause "are" with "S/how"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/okay"
+[Log] CausalityCore : summ cause "you" with "S/how"
+[Log] CausalityCore : summ cause "you" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/okay"
+[Log] CausalityCore : summ cause "i" with "S/how"
+[Log] CausalityCore : summ cause "i" with "S/are"
+[Log] CausalityCore : summ cause "i" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/okay"
+[Log] CausalityCore : summ cause "am" with "S/how"
+[Log] CausalityCore : summ cause "am" with "S/are"
+[Log] CausalityCore : summ cause "am" with "S/you"
+[Log] CausalityCore : summ cause "am" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "am" with "S/okay"
+[Log] CausalityCore : summ cause "okay" with "S/are"
+[Log] CausalityCore : summ cause "okay" with "S/you"
+[Log] CausalityCore : summ cause "okay" with "S/i"
+[Log] CausalityCore : summ cause "okay" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/okay"
+[Log] CausalityCore : summ cause "are" with "S/how"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/okay"
+[Log] CausalityCore : summ cause "you" with "S/how"
+[Log] CausalityCore : summ cause "you" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/okay"
+[Log] CausalityCore : summ cause "i" with "S/how"
+[Log] CausalityCore : summ cause "i" with "S/are"
+[Log] CausalityCore : summ cause "i" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/okay"
+[Log] CausalityCore : summ cause "am" with "S/how"
+[Log] CausalityCore : summ cause "am" with "S/are"
+[Log] CausalityCore : summ cause "am" with "S/you"
+[Log] CausalityCore : summ cause "am" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "am" with "S/okay"
+[Log] CausalityCore : summ cause "okay" with "S/are"
+[Log] CausalityCore : summ cause "okay" with "S/you"
+[Log] CausalityCore : summ cause "okay" with "S/i"
+[Log] CausalityCore : summ cause "okay" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/okay"
+[Log] CausalityCore : summ cause "are" with "S/how"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/okay"
+[Log] CausalityCore : summ cause "you" with "S/how"
+[Log] CausalityCore : summ cause "you" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/okay"
+[Log] CausalityCore : summ cause "i" with "S/how"
+[Log] CausalityCore : summ cause "i" with "S/are"
+[Log] CausalityCore : summ cause "i" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/okay"
+[Log] CausalityCore : summ cause "am" with "S/how"
+[Log] CausalityCore : summ cause "am" with "S/are"
+[Log] CausalityCore : summ cause "am" with "S/you"
+[Log] CausalityCore : summ cause "am" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "am" with "S/okay"
+[Log] CausalityCore : summ cause "okay" with "S/are"
+[Log] CausalityCore : summ cause "okay" with "S/you"
+[Log] CausalityCore : summ cause "okay" with "S/i"
+[Log] CausalityCore : summ cause "okay" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/okay"
+[Log] CausalityCore : summ cause "are" with "S/how"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/okay"
+[Log] CausalityCore : summ cause "you" with "S/how"
+[Log] CausalityCore : summ cause "you" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/okay"
+[Log] CausalityCore : summ cause "i" with "S/how"
+[Log] CausalityCore : summ cause "i" with "S/are"
+[Log] CausalityCore : summ cause "i" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/okay"
+[Log] CausalityCore : summ cause "am" with "S/how"
+[Log] CausalityCore : summ cause "am" with "S/are"
+[Log] CausalityCore : summ cause "am" with "S/you"
+[Log] CausalityCore : summ cause "am" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "am" with "S/okay"
+[Log] CausalityCore : summ cause "okay" with "S/are"
+[Log] CausalityCore : summ cause "okay" with "S/you"
+[Log] CausalityCore : summ cause "okay" with "S/i"
+[Log] CausalityCore : summ cause "okay" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/okay"
+[Log] CausalityCore : summ cause "are" with "S/how"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/okay"
+[Log] CausalityCore : summ cause "you" with "S/how"
+[Log] CausalityCore : summ cause "you" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "you" with "S/okay"
+[Log] CausalityCore : summ cause "i" with "S/how"
+[Log] CausalityCore : summ cause "i" with "S/are"
+[Log] CausalityCore : summ cause "i" with "S/you"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "i" with "S/okay"
+[Log] CausalityCore : summ cause "am" with "S/how"
+[Log] CausalityCore : summ cause "am" with "S/are"
+[Log] CausalityCore : summ cause "am" with "S/you"
+[Log] CausalityCore : summ cause "am" with "S/i"
+[Log] CausalityCore : (TODO) summ synapse "am" with "S/okay"
+[Log] CausalityCore : summ cause "okay" with "S/are"
+[Log] CausalityCore : summ cause "okay" with "S/you"
+[Log] CausalityCore : summ cause "okay" with "S/i"
+[Log] CausalityCore : summ cause "okay" with "S/am"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : summ cause "one" with "S/one"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/two"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : summ cause "one" with "S/one"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/two"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : summ cause "one" with "S/one"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/two"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/one"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/vive"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/one"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/vive"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/one"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/vive"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : summ cause "one" with "S/two"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : summ cause "one" with "S/two"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : summ cause "one" with "S/two"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : summ cause "bhree" with "S/one"
+[Log] CausalityCore : summ cause "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "two" with "S/two"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "two" with "S/two"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "two" with "S/two"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "bhree" with "S/two"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/two"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/four"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/two"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/four"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "four" with "S/two"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/two"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/four"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/two"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/vive"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/two"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/vive"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/two"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/vive"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "one" with "S/bhree"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "one" with "S/bhree"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : summ cause "one" with "S/bhree"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : summ cause "four" with "S/one"
+[Log] CausalityCore : summ cause "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "two" with "S/bhree"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "two" with "S/bhree"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "two" with "S/bhree"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/two"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "bhree" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/bhree"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/bhree"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "bhree" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/bhree"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/bhree"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "bhree" with "S/bhree"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/bhree"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/bhree"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/bhree"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/four"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/bhree"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/four"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "four" with "S/bhree"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/bhree"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/four"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/bhree"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/vive"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/bhree"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/vive"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "vive" with "S/bhree"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/bhree"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/vive"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "one" with "S/four"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "one" with "S/four"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : summ cause "one" with "S/four"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : summ cause "vive" with "S/one"
+[Log] CausalityCore : summ cause "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "two" with "S/four"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/four"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/two"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "two" with "S/four"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/four"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/two"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "two" with "S/four"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/four"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/two"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "bhree" with "S/four"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/four"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/bhree"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "bhree" with "S/four"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/four"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/bhree"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "bhree" with "S/four"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/four"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/bhree"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "four" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/four"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/four"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "four" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/four"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/four"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "four" with "S/four"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/four"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/four"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/nine"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/nine"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/nine"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/nine"
+[Log] CausalityCore : summ cause "nine" with "S/four"
+[Log] CausalityCore : summ cause "nine" with "S/plus"
+[Log] CausalityCore : summ cause "nine" with "S/vive"
+[Log] CausalityCore : summ cause "nine" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/nine"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/nine"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/nine"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/nine"
+[Log] CausalityCore : summ cause "nine" with "S/four"
+[Log] CausalityCore : summ cause "nine" with "S/plus"
+[Log] CausalityCore : summ cause "nine" with "S/vive"
+[Log] CausalityCore : summ cause "nine" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/nine"
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/nine"
+[Log] CausalityCore : summ cause "vive" with "S/four"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/nine"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/nine"
+[Log] CausalityCore : summ cause "nine" with "S/four"
+[Log] CausalityCore : summ cause "nine" with "S/plus"
+[Log] CausalityCore : summ cause "nine" with "S/vive"
+[Log] CausalityCore : summ cause "nine" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "one" with "S/vive"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/vive"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/one"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "one" with "S/vive"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/vive"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/one"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/six"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/six"
+[Log] CausalityCore : summ cause "one" with "S/vive"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/six"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/six"
+[Log] CausalityCore : summ cause "six" with "S/vive"
+[Log] CausalityCore : summ cause "six" with "S/plus"
+[Log] CausalityCore : summ cause "six" with "S/one"
+[Log] CausalityCore : summ cause "six" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "two" with "S/vive"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/vive"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/two"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "two" with "S/vive"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log]
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/vive"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/two"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/deven"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/deven"
+[Log] CausalityCore : summ cause "two" with "S/vive"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/deven"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/deven"
+[Log] CausalityCore : summ cause "deven" with "S/vive"
+[Log] CausalityCore : summ cause "deven" with "S/plus"
+[Log] CausalityCore : summ cause "deven" with "S/two"
+[Log] CausalityCore : summ cause "deven" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/vive"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/bhree"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/vive"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/bhree"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/eight"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/eight"
+[Log] CausalityCore : summ cause "bhree" with "S/vive"
+[Log] CausalityCore : summ cause "bhree" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "bhree" with "S/eight"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/bhree"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/eight"
+[Log] CausalityCore : summ cause "eight" with "S/vive"
+[Log] CausalityCore : summ cause "eight" with "S/plus"
+[Log] CausalityCore : summ cause "eight" with "S/bhree"
+[Log] CausalityCore : summ cause "eight" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/nine"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/nine"
+[Log] CausalityCore : summ cause "four" with "S/vive"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/nine"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/nine"
+[Log] CausalityCore : summ cause "nine" with "S/vive"
+[Log] CausalityCore : summ cause "nine" with "S/plus"
+[Log] CausalityCore : summ cause "nine" with "S/four"
+[Log] CausalityCore : summ cause "nine" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/nine"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/nine"
+[Log] CausalityCore : summ cause "four" with "S/vive"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/nine"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/nine"
+[Log] CausalityCore : summ cause "nine" with "S/vive"
+[Log] CausalityCore : summ cause "nine" with "S/plus"
+[Log] CausalityCore : summ cause "nine" with "S/four"
+[Log] CausalityCore : summ cause "nine" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/nine"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/nine"
+[Log] CausalityCore : summ cause "four" with "S/vive"
+[Log] CausalityCore : summ cause "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/nine"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/nine"
+[Log] CausalityCore : summ cause "nine" with "S/vive"
+[Log] CausalityCore : summ cause "nine" with "S/plus"
+[Log] CausalityCore : summ cause "nine" with "S/four"
+[Log] CausalityCore : summ cause "nine" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/gen"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/gen"
+[Log] CausalityCore : summ cause "vive" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/gen"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/gen"
+[Log] CausalityCore : summ cause "gen" with "S/vive"
+[Log] CausalityCore : summ cause "gen" with "S/plus"
+[Log] CausalityCore : summ cause "gen" with "S/vive"
+[Log] CausalityCore : summ cause "gen" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/gen"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/gen"
+[Log] CausalityCore : summ cause "vive" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/gen"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/gen"
+[Log] CausalityCore : summ cause "gen" with "S/vive"
+[Log] CausalityCore : summ cause "gen" with "S/plus"
+[Log] CausalityCore : summ cause "gen" with "S/vive"
+[Log] CausalityCore : summ cause "gen" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/gen"
+[Log] CausalityCore : summ cause "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/gen"
+[Log] CausalityCore : summ cause "vive" with "S/vive"
+[Log] CausalityCore : summ cause "vive" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/equal"
+[Log] CausalityCore : (TODO) summ synapse "vive" with "S/gen"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/vive"
+[Log] CausalityCore : (TODO) summ synapse "equal" with "S/gen"
+[Log] CausalityCore : summ cause "gen" with "S/vive"
+[Log] CausalityCore : summ cause "gen" with "S/plus"
+[Log] CausalityCore : summ cause "gen" with "S/vive"
+[Log] CausalityCore : summ cause "gen" with "S/equal"
+[Log] CentralCore::AddSE : hello ~
+[Log] CentralCore::AddSE : monika ~ h
+[Log] CentralCore::AddSE : hello ~ hm
+[Log] CentralCore::AddSE : nikita ~ hmh
+[Log] CentralCore::AddSE : [NTHG] ~ hmhn
+[Log] CentralCore::AddSE : [NTHG] ~ mhn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : hello ~
+[Log] CentralCore::AddSE : monika ~ h
+[Log] CentralCore::AddSE : hello ~ hm
+[Log] CentralCore::AddSE : nikita ~ hmh
+[Log] CentralCore::AddSE : [NTHG] ~ hmhn
+[Log] CentralCore::AddSE : [NTHG] ~ mhn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : hello ~
+[Log] CentralCore::AddSE : monika ~ h
+[Log] CentralCore::AddSE : hello ~ hm
+[Log] CentralCore::AddSE : nikita ~ hmh
+[Log] CentralCore::AddSE : [NTHG] ~ hmhn
+[Log] CentralCore::AddSE : [NTHG] ~ mhn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : one ~ op
+[Log] CentralCore::AddSE : equal ~ opo
+[Log] CentralCore::AddSE : [NTHG] ~ opoe
+[Log] CentralCore::AddSE : two ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poet
+[Log] CentralCore::AddSE : [NTHG] ~ oet
+[Log] CentralCore::AddSE : [NTHG] ~ et
+[Log] CentralCore::AddSE : [NTHG] ~ t
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : one ~ op
+[Log] CentralCore::AddSE : equal ~ opo
+[Log] CentralCore::AddSE : [NTHG] ~ opoe
+[Log] CentralCore::AddSE : two ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poet
+[Log] CentralCore::AddSE : [NTHG] ~ oet
+[Log] CentralCore::AddSE : [NTHG] ~ et
+[Log] CentralCore::AddSE : [NTHG] ~ t
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : one ~ op
+[Log] CentralCore::AddSE : equal ~ opo
+[Log] CentralCore::AddSE : [NTHG] ~ opoe
+[Log] CentralCore::AddSE : two ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poet
+[Log] CentralCore::AddSE : [NTHG] ~ oet
+[Log] CentralCore::AddSE : [NTHG] ~ et
+[Log] CentralCore::AddSE : [NTHG] ~ t
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : two ~ op
+[Log] CentralCore::AddSE : equal ~ opt
+[Log] CentralCore::AddSE : [NTHG] ~ opte
+[Log] CentralCore::AddSE : bhree ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ pteb
+[Log] CentralCore::AddSE : [NTHG] ~ teb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : two ~ op
+[Log] CentralCore::AddSE : equal ~ opt
+[Log] CentralCore::AddSE : [NTHG] ~ opte
+[Log] CentralCore::AddSE : bhree ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ pteb
+[Log] CentralCore::AddSE : [NTHG] ~ teb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : two ~ op
+[Log] CentralCore::AddSE : equal ~ opt
+[Log] CentralCore::AddSE : [NTHG] ~ opte
+[Log] CentralCore::AddSE : bhree ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ pteb
+[Log] CentralCore::AddSE : [NTHG] ~ teb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : bhree ~ op
+[Log] CentralCore::AddSE : equal ~ opb
+[Log] CentralCore::AddSE : [NTHG] ~ opbe
+[Log] CentralCore::AddSE : four ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbef
+[Log] CentralCore::AddSE : [NTHG] ~ bef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : bhree ~ op
+[Log] CentralCore::AddSE : equal ~ opb
+[Log] CentralCore::AddSE : [NTHG] ~ opbe
+[Log] CentralCore::AddSE : four ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbef
+[Log] CentralCore::AddSE : [NTHG] ~ bef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : bhree ~ op
+[Log] CentralCore::AddSE : equal ~ opb
+[Log] CentralCore::AddSE : [NTHG] ~ opbe
+[Log] CentralCore::AddSE : four ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbef
+[Log] CentralCore::AddSE : [NTHG] ~ bef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : four ~ op
+[Log] CentralCore::AddSE : equal ~ opf
+[Log] CentralCore::AddSE : [NTHG] ~ opfe
+[Log] CentralCore::AddSE : vive ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfev
+[Log] CentralCore::AddSE : [NTHG] ~ fev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : four ~ op
+[Log] CentralCore::AddSE : equal ~ opf
+[Log] CentralCore::AddSE : [NTHG] ~ opfe
+[Log] CentralCore::AddSE : vive ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfev
+[Log] CentralCore::AddSE : [NTHG] ~ fev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : four ~ op
+[Log] CentralCore::AddSE : equal ~ opf
+[Log] CentralCore::AddSE : [NTHG] ~ opfe
+[Log] CentralCore::AddSE : vive ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfev
+[Log] CentralCore::AddSE : [NTHG] ~ fev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : vive ~ op
+[Log] CentralCore::AddSE : equal ~ opv
+[Log] CentralCore::AddSE : [NTHG] ~ opve
+[Log] CentralCore::AddSE : six ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pves
+[Log] CentralCore::AddSE : [NTHG] ~ ves
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : vive ~ op
+[Log] CentralCore::AddSE : equal ~ opv
+[Log] CentralCore::AddSE : [NTHG] ~ opve
+[Log] CentralCore::AddSE : six ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pves
+[Log] CentralCore::AddSE : [NTHG] ~ ves
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : vive ~ op
+[Log] CentralCore::AddSE : equal ~ opv
+[Log] CentralCore::AddSE : [NTHG] ~ opve
+[Log] CentralCore::AddSE : six ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pves
+[Log] CentralCore::AddSE : [NTHG] ~ ves
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : one ~ tp
+[Log] CentralCore::AddSE : equal ~ tpo
+[Log] CentralCore::AddSE : [NTHG] ~ tpoe
+[Log] CentralCore::AddSE : bhree ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poeb
+[Log] CentralCore::AddSE : [NTHG] ~ oeb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : one ~ tp
+[Log] CentralCore::AddSE : equal ~ tpo
+[Log] CentralCore::AddSE : [NTHG] ~ tpoe
+[Log] CentralCore::AddSE : bhree ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poeb
+[Log] CentralCore::AddSE : [NTHG] ~ oeb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : one ~ tp
+[Log] CentralCore::AddSE : equal ~ tpo
+[Log] CentralCore::AddSE : [NTHG] ~ tpoe
+[Log] CentralCore::AddSE : bhree ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poeb
+[Log] CentralCore::AddSE : [NTHG] ~ oeb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : two ~ tp
+[Log] CentralCore::AddSE : equal ~ tpt
+[Log] CentralCore::AddSE : [NTHG] ~ tpte
+[Log] CentralCore::AddSE : four ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ ptef
+[Log] CentralCore::AddSE : [NTHG] ~ tef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : two ~ tp
+[Log] CentralCore::AddSE : equal ~ tpt
+[Log] CentralCore::AddSE : [NTHG] ~ tpte
+[Log] CentralCore::AddSE : four ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ ptef
+[Log] CentralCore::AddSE : [NTHG] ~ tef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : two ~ tp
+[Log] CentralCore::AddSE : equal ~ tpt
+[Log] CentralCore::AddSE : [NTHG] ~ tpte
+[Log] CentralCore::AddSE : four ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ ptef
+[Log] CentralCore::AddSE : [NTHG] ~ tef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : bhree ~ tp
+[Log] CentralCore::AddSE : equal ~ tpb
+[Log] CentralCore::AddSE : [NTHG] ~ tpbe
+[Log] CentralCore::AddSE : vive ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbev
+[Log] CentralCore::AddSE : [NTHG] ~ bev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : bhree ~ tp
+[Log] CentralCore::AddSE : equal ~ tpb
+[Log] CentralCore::AddSE : [NTHG] ~ tpbe
+[Log] CentralCore::AddSE : vive ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbev
+[Log] CentralCore::AddSE : [NTHG] ~ bev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : bhree ~ tp
+[Log] CentralCore::AddSE : equal ~ tpb
+[Log] CentralCore::AddSE : [NTHG] ~ tpbe
+[Log] CentralCore::AddSE : vive ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbev
+[Log] CentralCore::AddSE : [NTHG] ~ bev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : four ~ tp
+[Log] CentralCore::AddSE : equal ~ tpf
+[Log] CentralCore::AddSE : [NTHG] ~ tpfe
+[Log] CentralCore::AddSE : six ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfes
+[Log] CentralCore::AddSE : [NTHG] ~ fes
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : four ~ tp
+[Log] CentralCore::AddSE : equal ~ tpf
+[Log] CentralCore::AddSE : [NTHG] ~ tpfe
+[Log] CentralCore::AddSE : six ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfes
+[Log] CentralCore::AddSE : [NTHG] ~ fes
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : four ~ tp
+[Log] CentralCore::AddSE : equal ~ tpf
+[Log] CentralCore::AddSE : [NTHG] ~ tpfe
+[Log] CentralCore::AddSE : six ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfes
+[Log] CentralCore::AddSE : [NTHG] ~ fes
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : vive ~ tp
+[Log] CentralCore::AddSE : equal ~ tpv
+[Log] CentralCore::AddSE : [NTHG] ~ tpve
+[Log] CentralCore::AddSE : deven ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pved
+[Log] CentralCore::AddSE : [NTHG] ~ ved
+[Log] CentralCore::AddSE : [NTHG] ~ ed
+[Log] CentralCore::AddSE : [NTHG] ~ d
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : vive ~ tp
+[Log] CentralCore::AddSE : equal ~ tpv
+[Log] CentralCore::AddSE : [NTHG] ~ tpve
+[Log] CentralCore::AddSE : deven ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pved
+[Log] CentralCore::AddSE : [NTHG] ~ ved
+[Log] CentralCore::AddSE : [NTHG] ~ ed
+[Log] CentralCore::AddSE : [NTHG] ~ d
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : vive ~ tp
+[Log] CentralCore::AddSE : equal ~ tpv
+[Warning] CentralCore : While - Logical loop.
+        Events : 1369
+        Deep : 626
+        Clean events list...
+[Log] CentralCore::AddSE : monika ~ tpve
+[Log] CentralCore::AddSE : hello ~ tpvem
+[Log] CentralCore::AddSE : nikita ~ tpvemh
+[Log] CentralCore::AddSE : [NTHG] ~ tpvemhn
+[Log] CentralCore::AddSE : [NTHG] ~ pvemhn
+[Log] CentralCore::AddSE : [NTHG] ~ vemhn
+[Log] CentralCore::AddSE : [NTHG] ~ emhn
+[Log] CentralCore::AddSE : [NTHG] ~ mhn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : hello ~
+[Log] CentralCore::AddSE : monika ~ h
+[Log] CentralCore::AddSE : hello ~ hm
+[Log] CentralCore::AddSE : nikita ~ hmh
+[Log] CentralCore::AddSE : [NTHG] ~ hmhn
+[Log] CentralCore::AddSE : [NTHG] ~ mhn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : hello ~
+[Log] CentralCore::AddSE : monika ~ h
+[Log] CentralCore::AddSE : hello ~ hm
+[Log] CentralCore::AddSE : nikita ~ hmh
+[Log] CentralCore::AddSE : [NTHG] ~ hmhn
+[Log] CentralCore::AddSE : [NTHG] ~ mhn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : one ~ op
+[Log] CentralCore::AddSE : equal ~ opo
+[Log] CentralCore::AddSE : [NTHG] ~ opoe
+[Log] CentralCore::AddSE : two ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poet
+[Log] CentralCore::AddSE : [NTHG] ~ oet
+[Log] CentralCore::AddSE : [NTHG] ~ et
+[Log] CentralCore::AddSE : [NTHG] ~ t
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : one ~ op
+[Log] CentralCore::AddSE : equal ~ opo
+[Log] CentralCore::AddSE : [NTHG] ~ opoe
+[Log] CentralCore::AddSE : two ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poet
+[Log] CentralCore::AddSE : [NTHG] ~ oet
+[Log] CentralCore::AddSE : [NTHG] ~ et
+[Log] CentralCore::AddSE : [NTHG] ~ t
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : one ~ op
+[Log] CentralCore::AddSE : equal ~ opo
+[Log] CentralCore::AddSE : [NTHG] ~ opoe
+[Log] CentralCore::AddSE : two ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poet
+[Log] CentralCore::AddSE : [NTHG] ~ oet
+[Log] CentralCore::AddSE : [NTHG] ~ et
+[Log] CentralCore::AddSE : [NTHG] ~ t
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : two ~ op
+[Log] CentralCore::AddSE : equal ~ opt
+[Log] CentralCore::AddSE : [NTHG] ~ opte
+[Log] CentralCore::AddSE : bhree ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ pteb
+[Log] CentralCore::AddSE : [NTHG] ~ teb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : two ~ op
+[Log] CentralCore::AddSE : equal ~ opt
+[Log] CentralCore::AddSE : [NTHG] ~ opte
+[Log] CentralCore::AddSE : bhree ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ pteb
+[Log] CentralCore::AddSE : [NTHG] ~ teb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : two ~ op
+[Log] CentralCore::AddSE : equal ~ opt
+[Log] CentralCore::AddSE : [NTHG] ~ opte
+[Log] CentralCore::AddSE : bhree ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ pteb
+[Log] CentralCore::AddSE : [NTHG] ~ teb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : bhree ~ op
+[Log] CentralCore::AddSE : equal ~ opb
+[Log] CentralCore::AddSE : [NTHG] ~ opbe
+[Log] CentralCore::AddSE : four ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbef
+[Log] CentralCore::AddSE : [NTHG] ~ bef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : bhree ~ op
+[Log] CentralCore::AddSE : equal ~ opb
+[Log] CentralCore::AddSE : [NTHG] ~ opbe
+[Log] CentralCore::AddSE : four ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbef
+[Log] CentralCore::AddSE : [NTHG] ~ bef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : bhree ~ op
+[Log] CentralCore::AddSE : equal ~ opb
+[Log] CentralCore::AddSE : [NTHG] ~ opbe
+[Log] CentralCore::AddSE : four ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbef
+[Log] CentralCore::AddSE : [NTHG] ~ bef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : four ~ op
+[Log] CentralCore::AddSE : equal ~ opf
+[Log] CentralCore::AddSE : [NTHG] ~ opfe
+[Log] CentralCore::AddSE : vive ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfev
+[Log] CentralCore::AddSE : [NTHG] ~ fev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : four ~ op
+[Log] CentralCore::AddSE : equal ~ opf
+[Log] CentralCore::AddSE : [NTHG] ~ opfe
+[Log] CentralCore::AddSE : vive ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfev
+[Log] CentralCore::AddSE : [NTHG] ~ fev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : four ~ op
+[Log] CentralCore::AddSE : equal ~ opf
+[Log] CentralCore::AddSE : [NTHG] ~ opfe
+[Log] CentralCore::AddSE : vive ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfev
+[Log] CentralCore::AddSE : [NTHG] ~ fev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : vive ~ op
+[Log] CentralCore::AddSE : equal ~ opv
+[Log] CentralCore::AddSE : [NTHG] ~ opve
+[Log] CentralCore::AddSE : six ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pves
+[Log] CentralCore::AddSE : [NTHG] ~ ves
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : vive ~ op
+[Log] CentralCore::AddSE : equal ~ opv
+[Log] CentralCore::AddSE : [NTHG] ~ opve
+[Log] CentralCore::AddSE : six ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pves
+[Log] CentralCore::AddSE : [NTHG] ~ ves
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : vive ~ op
+[Log] CentralCore::AddSE : equal ~ opv
+[Log] CentralCore::AddSE : [NTHG] ~ opve
+[Log] CentralCore::AddSE : six ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pves
+[Log] CentralCore::AddSE : [NTHG] ~ ves
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : one ~ tp
+[Log] CentralCore::AddSE : equal ~ tpo
+[Log] CentralCore::AddSE : [NTHG] ~ tpoe
+[Log] CentralCore::AddSE : bhree ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poeb
+[Log] CentralCore::AddSE : [NTHG] ~ oeb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : one ~ tp
+[Log] CentralCore::AddSE : equal ~ tpo
+[Log] CentralCore::AddSE : [NTHG] ~ tpoe
+[Log] CentralCore::AddSE : bhree ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poeb
+[Log] CentralCore::AddSE : [NTHG] ~ oeb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : one ~ tp
+[Log] CentralCore::AddSE : equal ~ tpo
+[Log] CentralCore::AddSE : [NTHG] ~ tpoe
+[Log] CentralCore::AddSE : bhree ~ poe
+[Log] CentralCore::AddSE : [NTHG] ~ poeb
+[Log] CentralCore::AddSE : [NTHG] ~ oeb
+[Log] CentralCore::AddSE : [NTHG] ~ eb
+[Log] CentralCore::AddSE : [NTHG] ~ b
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : two ~ tp
+[Log] CentralCore::AddSE : equal ~ tpt
+[Log] CentralCore::AddSE : [NTHG] ~ tpte
+[Log] CentralCore::AddSE : four ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ ptef
+[Log] CentralCore::AddSE : [NTHG] ~ tef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : two ~ tp
+[Log] CentralCore::AddSE : equal ~ tpt
+[Log] CentralCore::AddSE : [NTHG] ~ tpte
+[Log] CentralCore::AddSE : four ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ ptef
+[Log] CentralCore::AddSE : [NTHG] ~ tef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : two ~ tp
+[Log] CentralCore::AddSE : equal ~ tpt
+[Log] CentralCore::AddSE : [NTHG] ~ tpte
+[Log] CentralCore::AddSE : four ~ pte
+[Log] CentralCore::AddSE : [NTHG] ~ ptef
+[Log] CentralCore::AddSE : [NTHG] ~ tef
+[Log] CentralCore::AddSE : [NTHG] ~ ef
+[Log] CentralCore::AddSE : [NTHG] ~ f
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : bhree ~ tp
+[Log] CentralCore::AddSE : equal ~ tpb
+[Log] CentralCore::AddSE : [NTHG] ~ tpbe
+[Log] CentralCore::AddSE : vive ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbev
+[Log] CentralCore::AddSE : [NTHG] ~ bev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : bhree ~ tp
+[Log] CentralCore::AddSE : equal ~ tpb
+[Log] CentralCore::AddSE : [NTHG] ~ tpbe
+[Log] CentralCore::AddSE : vive ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbev
+[Log] CentralCore::AddSE : [NTHG] ~ bev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : bhree ~ tp
+[Log] CentralCore::AddSE : equal ~ tpb
+[Log] CentralCore::AddSE : [NTHG] ~ tpbe
+[Log] CentralCore::AddSE : vive ~ pbe
+[Log] CentralCore::AddSE : [NTHG] ~ pbev
+[Log] CentralCore::AddSE : [NTHG] ~ bev
+[Log] CentralCore::AddSE : [NTHG] ~ ev
+[Log] CentralCore::AddSE : [NTHG] ~ v
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : four ~ tp
+[Log] CentralCore::AddSE : equal ~ tpf
+[Log] CentralCore::AddSE : [NTHG] ~ tpfe
+[Log] CentralCore::AddSE : six ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfes
+[Log] CentralCore::AddSE : [NTHG] ~ fes
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : four ~ tp
+[Log] CentralCore::AddSE : equal ~ tpf
+[Log] CentralCore::AddSE : [NTHG] ~ tpfe
+[Log] CentralCore::AddSE : six ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfes
+[Log] CentralCore::AddSE : [NTHG] ~ fes
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : four ~ tp
+[Log] CentralCore::AddSE : equal ~ tpf
+[Log] CentralCore::AddSE : [NTHG] ~ tpfe
+[Log] CentralCore::AddSE : six ~ pfe
+[Log] CentralCore::AddSE : [NTHG] ~ pfes
+[Log] CentralCore::AddSE : [NTHG] ~ fes
+[Log] CentralCore::AddSE : [NTHG] ~ es
+[Log] CentralCore::AddSE : [NTHG] ~ s
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : vive ~ tp
+[Log] CentralCore::AddSE : equal ~ tpv
+[Log] CentralCore::AddSE : [NTHG] ~ tpve
+[Log] CentralCore::AddSE : deven ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pved
+[Log] CentralCore::AddSE : [NTHG] ~ ved
+[Log] CentralCore::AddSE : [NTHG] ~ ed
+[Log] CentralCore::AddSE : [NTHG] ~ d
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : vive ~ tp
+[Log] CentralCore::AddSE : equal ~ tpv
+[Log] CentralCore::AddSE : [NTHG] ~ tpve
+[Log] CentralCore::AddSE : deven ~ pve
+[Log] CentralCore::AddSE : [NTHG] ~ pved
+[Log] CentralCore::AddSE : [NTHG] ~ ved
+[Log] CentralCore::AddSE : [NTHG] ~ ed
+[Log] CentralCore::AddSE : [NTHG] ~ d
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : vive ~ tp
+[Log] CentralCore::AddSE : equal ~ tpv
+[Warning] CentralCore : While - Logical loop.
+        Events : 742
+        Deep : 625
+        Clean events list...
+[Log] CentralCore::AddSE : hello ~ tpve
+[Log] CentralCore::AddSE : nikita ~ tpveh
+[Log] CentralCore::AddSE : [NTHG] ~ tpvehn
+[Log] CentralCore::AddSE : [NTHG] ~ pvehn
+[Log] CentralCore::AddSE : [NTHG] ~ vehn
+[Log] CentralCore::AddSE : [NTHG] ~ ehn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : hello ~
+[Log] CentralCore::AddSE : monika ~ h
+[Log] CentralCore::AddSE : hello ~ hm
+[Log] CentralCore::AddSE : nikita ~ hmh
+[Log] CentralCore::AddSE : [NTHG] ~ hmhn
+[Log] CentralCore::AddSE : [NTHG] ~ mhn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : hello ~
+[Log] CentralCore::AddSE : monika ~ h
+[Log] CentralCore::AddSE : hello ~ hm
+[Log] CentralCore::AddSE : nikita ~ hmh
+[Log] CentralCore::AddSE : [NTHG] ~ hmhn
+[Log] CentralCore::AddSE : [NTHG] ~ mhn
+[Log] CentralCore::AddSE : [NTHG] ~ hn
+[Log] CentralCore::AddSE : [NTHG] ~ n
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore::AddSE : [NTHG] ~ hay
+[Log] CentralCore::AddSE : i ~ ay
+[Log] CentralCore::AddSE : am ~ ayi
+[Log] CentralCore::AddSE : okay ~ ayia
+[Log] CentralCore::AddSE : [NTHG] ~ ayiao
+[Log] CentralCore::AddSE : [NTHG] ~ yiao
+[Log] CentralCore::AddSE : [NTHG] ~ iao
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Log] CentralCore::AddSE : [NTHG] ~ ao
+[Log] CentralCore::AddSE : [NTHG] ~ o
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : hello ~
+[Log] CentralCore::AddSE : monika ~ h
+[Log] CentralCore : multi (hm): monika
+[Log] CentralCore : monika is Good
+[Log] hm   in_ev:hm | Name : S/how
+[Log] DoEventOfSynapse : Similarity percentage situation = 0,000000
+[Log] hm   in_ev:hmh | Name : S/nikita
+[Log] DoEventOfSynapse : Similarity percentage situation = 60,000000
+[Log] hm   in_ev:hm | Name : S/hello
+[Log] DoEventOfSynapse : Similarity percentage situation = 100,000000
+[Log] DoEventOfSynapse : Find synapse = S/hello
+[Mind] hello
+[Log] CentralCore::AddSE : hello ~ hm (SELF)
+[Log] DoEventOfSynapse : hmH
+        h : 0,000000 = S/monika
+        hm : 10,000000 = S/hello
+        hmh : 66,666664 = S/nikita
+        Result : S/nikita; Max = 66,666664
+[Mind] nikita
+[Log] CentralCore::AddSE : nikita ~ hmH (SELF)
+[Log] CentralCore::AddSE : [NTHG] ~ hmHN
+[Log] CentralCore::AddSE : [NTHG] ~ mHN
+[Log] CentralCore::AddSE : [NTHG] ~ HN
+[Log] CentralCore::AddSE : [NTHG] ~ N
+[Log] CausalityCore : (TODO) summ synapse "hello" with "S/monika"
+[Log] CentralCore::AddSE : [NTHG] ~
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CausalityCore : summ cause "monika" with "S/hello"
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : how ~
+[Log] CentralCore::AddSE : are ~ h
+[Log] CentralCore::AddSE : you ~ ha
+[Log] CentralCore : multi (hmhay): you
+[Log] CentralCore : you is Good
+[Log] hmhay   in_ev:hayia | Name : S/okay
+[Log] DoEventOfSynapse : Similarity percentage situation = 5,555555
+[Log] hmhay   in_ev:hayi | Name : S/am
+[Log] DoEventOfSynapse : Similarity percentage situation = 10,000000
+[Log] hmhay   in_ev:hay | Name : S/i
+[Log] DoEventOfSynapse : Similarity percentage situation = 99,999996
+[Log] DoEventOfSynapse : Find synapse = S/i
+[Mind] i
+[Log] CentralCore::AddSE : i ~ hay (SELF)
+[Log] DoEventOfSynapse : hayI
+        hayi : 75,000000 = S/am
+        hayia : 6,666666 = S/okay
+        Result : S/am; Max = 75,000000
+[Mind] am
+[Log] CentralCore::AddSE : am ~ hayI (SELF)
+[Log] DoEventOfSynapse : hayIA
+        hayia : 60,000000 = S/okay
+        Result : S/okay; Max = 60,000000
+[Mind] okay
+[Log] CentralCore::AddSE : okay ~ hayIA (SELF)
+[Log] CentralCore::AddSE : [NTHG] ~ hayIAO
+[Log] CentralCore::AddSE : [NTHG] ~ ayIAO
+[Log] CentralCore::AddSE : [NTHG] ~ yIAO
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/are"
+[Log] CausalityCore : (TODO) summ synapse "how" with "S/you"
+[Log] CentralCore::AddSE : [NTHG] ~ IAO
+[Log] CentralCore::AddSE : [NTHG] ~ AO
+[Log] CausalityCore : summ cause "are" with "S/how"
+[Log] CausalityCore : (TODO) summ synapse "are" with "S/you"
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Log] CentralCore::AddSE : [NTHG] ~ O
+[Log] CausalityCore : summ cause "you" with "S/how"
+[Log] CausalityCore : summ cause "you" with "S/are"
+[Log] CentralCore::AddSE : [NTHG] ~
+[Info] CausalityCore::NewEvent = Speech : one
+[Info] CausalityCore::NewEvent = Speech : plus
+[Info] CausalityCore::NewEvent = Speech : two
+[Log] CentralCore::AddSE : one ~
+[Log] CentralCore::AddSE : plus ~ o
+[Log] CentralCore::AddSE : two ~ op
+[Log] CentralCore : multi (ayopt): two
+[Log] CentralCore : two is Good
+[Log] ayopt   in_ev:tpve | Name : S/deven
+[Log] DoEventOfSynapse : Similarity percentage situation = 6,666666
+[Log] ayopt   in_ev:tpfe | Name : S/six
+[Log] DoEventOfSynapse : Similarity percentage situation = 6,666666
+[Log] ayopt   in_ev:tpbe | Name : S/vive
+[Log] DoEventOfSynapse : Similarity percentage situation = 6,666666
+[Log] ayopt   in_ev:tpte | Name : S/four
+[Log] DoEventOfSynapse : Similarity percentage situation = 6,666666
+[Log] ayopt   in_ev:tp | Name : S/two
+[Log] DoEventOfSynapse : Similarity percentage situation = 0,000000
+[Log] ayopt   in_ev:tp | Name : S/one
+[Log] DoEventOfSynapse : Similarity percentage situation = 60,000000
+[Log] ayopt   in_ev:t | Name : S/plus
+[Log] DoEventOfSynapse : Similarity percentage situation = 0,000000
+[Log] ayopt   in_ev:opte | Name : S/bhree
+[Log] DoEventOfSynapse : Similarity percentage situation = 39,999998
+[Log] ayopt   in_ev:opt | Name : S/equal
+[Log] DoEventOfSynapse : Similarity percentage situation = 99,999996
+[Log] DoEventOfSynapse : Find synapse = S/equal
+[Mind] equal
+[Log] CentralCore::AddSE : equal ~ opt (SELF)
+[Log] DoEventOfSynapse : optE
+        opoe : 50,000000 = S/two
+        opte : 75,000000 = S/bhree
+        opbe : 50,000000 = S/four
+        opfe : 50,000000 = S/vive
+        opve : 50,000000 = S/six
+        tpve : 50,000000 = S/deven
+        bpve : 25,000000 = S/eight
+        fpve : 25,000000 = S/nine
+        vpve : 25,000000 = S/gen
+        Result : S/bhree; Max = 75,000000
+[Mind] bhree
+[Log] CentralCore::AddSE : bhree ~ optE (SELF)
+[Log] DoEventOfSynapse : optEB
+        opb : 5,555555 = S/equal
+        opbe : 5,000000 = S/four
+        tpbe : 30,000000 = S/vive
+        b : 0,000000 = S/plus
+        bp : 0,000000 = S/one
+        bp : 0,000000 = S/two
+        bp : 0,000000 = S/bhree
+        bpbe : 5,000000 = S/six
+        bpfe : 5,000000 = S/deven
+        bpve : 5,000000 = S/eight
+        Result : S/vive; Max = 30,000000
+[Log] CentralCore::AddSE : [NTHG] ~ optEB
+[Log] CentralCore::AddSE : [NTHG] ~ ptEB
+[Log] CentralCore::AddSE : [NTHG] ~ tEB
+[Log] CentralCore::AddSE : [NTHG] ~ EB
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/two"
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Log] CentralCore::AddSE : [NTHG] ~ B
+[Log] CausalityCore : summ cause "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CausalityCore : summ cause "two" with "S/one"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Info] CausalityCore::NewEvent = Speech : two
+[Info] CausalityCore::NewEvent = Speech : plus
+[Info] CausalityCore::NewEvent = Speech : two
+[Log] CentralCore::AddSE : two ~
+[Log] CentralCore::AddSE : plus ~ t
+[Log] CentralCore::AddSE : two ~ tp
+[Log] CentralCore : multi (tpt): two
+[Log] CentralCore : two is Good
+[Log] tpt   in_ev:tpve | Name : S/deven
+[Log] DoEventOfSynapse : Similarity percentage situation = 39,999998
+[Log] tpt   in_ev:tpfe | Name : S/six
+[Log] DoEventOfSynapse : Similarity percentage situation = 39,999998
+[Log] tpt   in_ev:tpbe | Name : S/vive
+[Log] DoEventOfSynapse : Similarity percentage situation = 39,999998
+[Log] tpt   in_ev:tpte | Name : S/four
+[Log] DoEventOfSynapse : Similarity percentage situation = 39,999998
+[Log] tpt   in_ev:tp | Name : S/two
+[Log] DoEventOfSynapse : Similarity percentage situation = 0,000000
+[Log] tpt   in_ev:tp | Name : S/one
+[Log] DoEventOfSynapse : Similarity percentage situation = 60,000000
+[Log] tpt   in_ev:t | Name : S/plus
+[Log] DoEventOfSynapse : Similarity percentage situation = 0,000000
+[Log] tpt   in_ev:opte | Name : S/bhree
+[Log] DoEventOfSynapse : Similarity percentage situation = 39,999998
+[Log] tpt   in_ev:opt | Name : S/equal
+[Log] DoEventOfSynapse : Similarity percentage situation = 99,999996
+[Log] DoEventOfSynapse : Find synapse = S/equal
+[Mind] equal
+[Log] CentralCore::AddSE : equal ~ tpt (SELF)
+[Log] DoEventOfSynapse : tptE
+        opoe : 25,000000 = S/two
+        opte : 50,000000 = S/bhree
+        opbe : 75,000000 = S/four
+        opfe : 50,000000 = S/vive
+        opve : 50,000000 = S/six
+        tpve : 50,000000 = S/deven
+        bpve : 25,000000 = S/eight
+        fpve : 25,000000 = S/nine
+        vpve : 25,000000 = S/gen
+        Result : S/four; Max = 75,000000
+[Mind] four
+[Log] CentralCore::AddSE : four ~ tptE (SELF)
+[Log] DoEventOfSynapse : tptEF
+        opf : 5,555555 = S/equal
+        opfe : 5,000000 = S/vive
+        tpfe : 30,000000 = S/six
+        bpfe : 5,000000 = S/deven
+        f : 0,000000 = S/plus
+        fp : 0,000000 = S/one
+        fp : 0,000000 = S/two
+        fp : 0,000000 = S/bhree
+        fp : 0,000000 = S/four
+        fpfe : 5,000000 = S/eight
+        fpve : 5,000000 = S/nine
+        Result : S/six; Max = 30,000000
+[Log] CentralCore::AddSE : [NTHG] ~ tptEF
+[Log] CentralCore::AddSE : [NTHG] ~ ptEF
+[Log] CentralCore::AddSE : [NTHG] ~ tEF
+[Log] CentralCore::AddSE : [NTHG] ~ EF
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "two" with "S/two"
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Log] CausalityCore : summ cause "plus" with "S/two"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/two"
+[Log] CentralCore::AddSE : [NTHG] ~ F
+[Log] CausalityCore : summ cause "two" with "S/two"
+[Log] CausalityCore : summ cause "two" with "S/plus"
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
+[Info] CausalityCore::NewEvent = Speech : four
+[Info] CausalityCore::NewEvent = Speech : plus
+[Info] CausalityCore::NewEvent = Speech : one
+[Info] CausalityCore::NewEvent = Speech : equal
+[Log] CentralCore::AddSE : four ~
+[Log] CentralCore::AddSE : plus ~ f
+[Log] CentralCore::AddSE : one ~ fp
+[Log] CentralCore::AddSE : equal ~ fpo
+[Log] CentralCore : multi (fpoe): equal
+[Log] CentralCore : equal is Good
+[Log] fpoe   in_ev:vpve | Name : S/gen
+[Log] DoEventOfSynapse : Similarity percentage situation = 50,000000
+[Log] fpoe   in_ev:fpve | Name : S/nine
+[Log] DoEventOfSynapse : Similarity percentage situation = 75,000000
+[Log] fpoe   in_ev:bpve | Name : S/eight
+[Log] DoEventOfSynapse : Similarity percentage situation = 75,000000
+[Log] fpoe   in_ev:tpve | Name : S/deven
+[Log] DoEventOfSynapse : Similarity percentage situation = 75,000000
+[Log] fpoe   in_ev:opve | Name : S/six
+[Log] DoEventOfSynapse : Similarity percentage situation = 75,000000
+[Log] fpoe   in_ev:opfe | Name : S/vive
+[Log] DoEventOfSynapse : Similarity percentage situation = 100,000000
+[Log] DoEventOfSynapse : Find synapse = S/vive
+[Mind] vive
+[Log] CentralCore::AddSE : vive ~ fpoe (SELF)
+[Log] DoEventOfSynapse : fpoeV
+        opv : 5,555555 = S/equal
+        opve : 30,000000 = S/six
+        tpve : 5,000000 = S/deven
+        bpve : 5,000000 = S/eight
+        fpve : 5,000000 = S/nine
+        v : 0,000000 = S/plus
+        vp : 0,000000 = S/one
+        vp : 0,000000 = S/two
+        vp : 0,000000 = S/bhree
+        vp : 0,000000 = S/four
+        vp : 0,000000 = S/vive
+        vpve : 5,000000 = S/gen
+        Result : S/six; Max = 30,000000
+[Log] CentralCore::AddSE : [NTHG] ~ fpoeV
+[Log] CentralCore::AddSE : [NTHG] ~ poeV
+[Log] CentralCore::AddSE : [NTHG] ~ oeV
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "four" with "S/equal"
+[Log] CentralCore::AddSE : [NTHG] ~ eV
+[Log] CausalityCore : summ cause "plus" with "S/four"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/one"
+[Log] CausalityCore : (TODO) summ synapse "plus" with "S/equal"
+[Info] LogicalCore::CauseReputation : Size causes equal zero...
+[Log] CentralCore::AddSE : [NTHG] ~ V
+[Log] CausalityCore : summ cause "one" with "S/four"
+[Log] CausalityCore : summ cause "one" with "S/plus"
+[Log] CausalityCore : (TODO) summ synapse "one" with "S/equal"
+[Log] CausalityCore : summ cause "equal" with "S/four"
+[Log] CausalityCore : summ cause "equal" with "S/plus"
+[Log] CausalityCore : summ cause "equal" with "S/one"
+[Log] CentralCore::AddSE : [NTHG] ~
+[Log] CentralCore::AddSE : [NTHG] ~
