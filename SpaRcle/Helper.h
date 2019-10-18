@@ -19,6 +19,57 @@ namespace SpaRcle {
 		Synp, PerhWill
 	};
 
+	class Synapse {
+	public:
+		static inline void SummHpSyns(boost::tuple<std::string, double>& left, boost::tuple<std::string, double>& right) { 
+			left.get<1>() = (left.get<1>() + right.get<1>()) / Div; }
+		static inline void SummHpSyns(boost::tuple<std::string, double>& left, double right) {
+			left.get<1>() = (left.get<1>() + right) / Div; }
+		static std::string ClearSensivity(std::string& sensiv);
+
+		///!Depend !of !size !sensivity
+		inline static double GetPercent(std::string& first, std::string& second, short modifer = -1) {
+			double percent = 0;
+			size_t size = 0; double trueVal;
+			if (second.size() > first.size()) { size = first.size(); trueVal = 100.f / second.size(); }
+			else { size = second.size(); trueVal = 100.f / first.size(); }
+			for (size_t t = 0; t < size; t++) {
+				if (first[size - t - 1] == '*' || second[size - t - 1] == '*') {
+					percent += trueVal; continue;
+				}
+				if (first[size - t - 1] == second[size - t - 1])
+					percent += trueVal;
+				else if (modifer != -1)
+					if (first[size - t - 1] == '_' || second[size - t - 1] == '_')
+						percent += trueVal / (4 + modifer);
+			}
+			return percent;
+		}
+		static void FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp);
+		static std::string GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s);
+		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
+		static bool SummSensivity(std::string& left, std::string& right, bool check = false);
+		static void SummSensivity(Consequence& left, size_t index, std::string& right, ECom com);
+		inline static std::string GetSensivityOfName(std::string name) {
+			if (count_word_in_sensiv == 1) { name.resize(1); return name; }
+			else if (count_word_in_sensiv == 2) {
+				std::string newName;
+				if (name.size() < 2) Debug::Log("Helper::GetSensivityOfName : size of name < 2! \n\tName : " + name, Error);
+				newName += name[0]; newName += name[name.size() - 1];
+				return newName;
+			}
+			else {
+				Debug::Log("Helper::GetSensivityOfName : unknow variant!", Error);
+				return "[ERROR]";
+			}
+			//if (name.size() > SpaRcle::count_word_in_sensiv)
+			//	name.resize(SpaRcle::count_word_in_sensiv);
+		}
+		static double SimilarityPercentage(std::string first, std::string second, bool lenght = false, bool normalize = false);
+		///!Depend !of !size !sensivity
+	};
+
+
 	class Helper {
 	public : 
 		inline static KeyboardLayout GetLayout() {
@@ -46,15 +97,6 @@ namespace SpaRcle {
 		}
 
 		static std::vector<std::string> Split(std::string text, std::string chr);
-
-		static inline void SummHpSyns(boost::tuple<std::string,  double>& left, boost::tuple<std::string, double>& right) { // std::string,  std::string,
-			//left.get<2>() = (left.get<2>() + right.get<2>()) / Div;
-			left.get<1>() = (left.get<1>() + right.get<1>()) / Div;
-		}
-		static inline void SummHpSyns(boost::tuple<std::string,  double>& left,double right) {//std::string,
-			//left.get<2>() = (left.get<2>() + right) / Div;
-			left.get<1>() = (left.get<1>() + right) / Div;
-		}
 
 		static inline std::string GetNameWithType(Consequence& conq) {
 			std::string n;
@@ -96,33 +138,20 @@ namespace SpaRcle {
 				int indx = Helper::IndexOfSynapse(left.PerhapsWill, right.PerhapsWill[i].get<0>());
 				if (indx == -1) left.PerhapsWill.push_back(right.PerhapsWill[i]);
 				else {
-					//left.PerhapsWill[indx].get<1>() = Helper::SummSensivity(left.PerhapsWill[indx].get<1>(), right.PerhapsWill[i].get<1>()); // Суммируем ситуацию данных событий
-					//Helper::SummSensivity(left.PerhapsWill[indx].get<1>(), right.PerhapsWill[i].get<1>()); // Суммируем ситуацию данных событий
-					Helper::SummSensivity(left, indx, right.PerhapsWill[i].get<1>(), ECom::PerhWill); // Суммируем ситуацию данных событий
+					Synapse::SummSensivity(left, indx, right.PerhapsWill[i].get<1>(), ECom::PerhWill); // Суммируем ситуацию данных событий
 					left.PerhapsWill[indx].get<2>() = (left.PerhapsWill[indx].get<2>() + right.PerhapsWill[i].get<2>()) / Div; /* Суммируем полезность */
-
 					left.PerhapsWill[indx].get<3>()++;
-					//left.PerhapsWill[indx].get<3>() = (left.PerhapsWill[indx].get<3>() + right.PerhapsWill[i].get<3>()) / 2;
-					// TODO : Нужно складывать ситуацию - то, что было до синапса
-					// 0 - Name, 1 - Sensiv, 2 - Helpfulness, 3 - meets
 				}
 			}
 
-			left.Synapses = left.Synapses; /* Складываем синапсы, с учетом поиска идентичных элементов */
+			//left.Synapses = left.Synapses; /* Складываем синапсы, с учетом поиска идентичных элементов */
 			if (left.Synapses.size() == 0) left.Synapses = right.Synapses;
 			else if (right.Synapses.size() == 0) right.Synapses = left.Synapses;
 			else for (size_t i = 0; i < right.Synapses.size(); i++) {
 				int indx = Helper::IndexOfSynapse(left.Synapses, right.Synapses[i].get<0>());
 				if (indx == -1) left.Synapses.push_back(right.Synapses[i]);
-				else {
-					//left.Synapses[indx].get<1>() = Helper::SummSensivity(left.Synapses[indx].get<1>(), right.Synapses[i].get<1>()); // Суммируем ситуацию данных событий
-					//Helper::SummSensivity(left.Synapses[indx].get<1>(), right.Synapses[i].get<1>()); // Суммируем ситуацию данных событий
-					///!Helper::SummSensivity(left, indx, right.Synapses[i].get<1>(), ECom::Synp); // Суммируем ситуацию данных событий
-					//left.Synapses[indx].get<2>() = (left.Synapses[indx].get<2>() + right.Synapses[i].get<2>()) / Div; /* Суммируем полезность */
-					Helper::SummHpSyns(left.Synapses[indx], right.Synapses[i]);
-					// TODO : Нужно складывать ситуацию - то, что было до синапса
-					// 0 - Name, 1 - Sensiv, 2 - Helpfulness
-				}
+				else 
+					Synapse::SummHpSyns(left.Synapses[indx], right.Synapses[i]);
 			}
 		}
 		inline static bool SummActionConseq(Consequence& left, Consequence& right) {
@@ -130,28 +159,28 @@ namespace SpaRcle {
 				Debug::Log("Helper::SummActionConseq : Discrepancy types! \n	Left : "
 					+ std::string(ToString(left.action.type)) + "\n	Right : "
 					+ std::string(ToString(right.action.type)), Error);
-				return false;
-			}
+				return false; }
 
 			if (left.name != right.name) {
 				Debug::Log("Helper::SummActionConseq : Discrepancy names! \n	Left : "
 					+ left.name + "\n	Right : " + right.name, Error);
-				return false;
-			}
+				return false; }
 
 			switch (left.action.type)
 			{
 			case AType::Undefined: {
-				break;
-			}
+				/// \TODO
+				break; }
 			case AType::Speech: {
-				break;
-			}
+				/// \TODO
+				break; }
+			case AType::VisualData: {
+				/// \TODO
+				break; }
 			default:
 				Debug::Log("Helper::SummActionConseq : Unknown type! \n\tType : \"" + std::string(ToString(left.action.type)) 
 					+ "\"\n\t Name : "+ left.name, Error);
-				break;
-			}
+				break; }
 			return true;
 		}
 
@@ -169,46 +198,8 @@ namespace SpaRcle {
 			return -1;
 		}
 
-		///!Depend !of !size !sensivity
-		inline static double GetPercent(std::string& first, std::string& second, short modifer = -1) {
-			double percent = 0;
-			size_t size = 0; double trueVal;
-			if (second.size() > first.size()) { size = first.size(); trueVal = 100.f / second.size(); }
-			else { size = second.size(); trueVal = 100.f / first.size(); }
-			for (size_t t = 0; t < size; t++) {
-				if (first[size - t - 1] == '*' || second[size - t - 1] == '*') {
-					percent += trueVal;continue;}
-				if (first[size - t - 1] == second[size - t - 1])
-					percent += trueVal;
-				else if (modifer != -1)
-					if (first[size - t - 1] == '_' || second[size - t - 1] == '_')
-						percent += trueVal / (4 + modifer);
-			}
-			return percent;
-		}
-		static void FindAndSummSensiv(Consequence&con, std::string name, std::string sens, double hp);
-		static std::string GetSensivityCauses(std::vector<boost::tuple<std::string,int, double>>& s);
-		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
-		static bool SummSensivity(std::string& left, std::string& right, bool check = false);
-		static void SummSensivity(Consequence& left, size_t index, std::string& right, ECom com);
-		inline static std::string GetSensivityOfName(std::string name) {
-			if (count_word_in_sensiv == 1) { name.resize(1); return name; }
-			else if (count_word_in_sensiv == 2) {
-				std::string newName;
-				if (name.size() < 2) Debug::Log("Helper::GetSensivityOfName : size of name < 2! \n\tName : "+name, Error);
-				newName += name[0]; newName += name[name.size() - 1];
-				return newName;
-			}
-			else {
-				Debug::Log("Helper::GetSensivityOfName : unknow variant!", Error);
-				return "[ERROR]"; }
-			//if (name.size() > SpaRcle::count_word_in_sensiv)
-			//	name.resize(SpaRcle::count_word_in_sensiv);
-		}
-		static double SimilarityPercentage(std::string first, std::string second, bool lenght = false, bool normalize = false);
-		///!Depend !of !size !sensivity
 
-		static std::string ClearSensivity(std::string& sensiv);
+
 
 		template<typename T> inline static void Sort(std::vector<int>& keys, std::vector<T>& data)
 		{
@@ -308,19 +299,22 @@ namespace SpaRcle {
 		}
 
 		inline static AType GetConseqType(std::string conseq) {
-			std::string head = Helper::Remove(conseq, 2);
-
-			SWITCH(head) {
-				CASE("S/") :{
-					return AType::Speech;
-				}
-			DEFAULT: {
+			//std::string head = Helper::Remove(conseq, 2);
+			
+			AType a = ToAType(conseq[0]);
+			if (a == AType::Undefined)
 				Debug::Log("GetConseqType : Unknown type! Name : " + conseq, Error);
-				return AType::Undefined;
-				}
-			}
 
-			return AType::Undefined;
+			//SWITCH(head) {
+			//	CASE("S/") :{
+			//		return AType::Speech;
+			//	}
+			//DEFAULT: {
+			///	return AType::Undefined;
+			//	}
+			//}
+
+			return a;
 		}
 
 		template<typename T> inline static bool SelectionSort(std::vector<int>& keys, std::vector<T>& data_1, std::vector<T>& data_2)
@@ -364,13 +358,13 @@ namespace SpaRcle {
 		}
 
 
-		class format { // Устаревший
-			std::stringstream ss;
-		public:
-			template<typename T>
-			format &operator <<(const T &x) { ss << x; return *this; }
-			operator std::string() { return ss.str(); }
-		};
+		//class format { // Устаревший
+		//	std::stringstream ss;
+		//public:
+		//	template<typename T>
+		//	format &operator <<(const T &x) { ss << x; return *this; }
+		//	operator std::string() { return ss.str(); }
+		//};
 	};
 
 	class System {
@@ -378,6 +372,7 @@ namespace SpaRcle {
 		static bool Save(std::string name, std::string data, std::string additionalPath = "\\temp");
 		static bool Load(std::string name, std::vector<std::string>& data, bool Delete = false);
 	};
+
 
 	template <typename T>
 	const bool Contains(std::vector<T>& Vec, const T& Element)

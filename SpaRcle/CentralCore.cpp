@@ -41,44 +41,35 @@ namespace SpaRcle {
 		if (event.Synapses.size() > 0) {
 			Helper::SelectionSort(event.Synapses);
 			int index = event.Synapses.size() - 1;
-			//Debug::Log("DoEventOfSynapse : " + event.name + " variants = " +std::to_string(index + 1));
 			bool find = false;
 			size_t dp = 0;
+			/// Добавить возможность крайностей - когда мы совершенно не знаем ответа, но нам нужно что-то сказать,
+			/// и у нас есть варианты (хоть и не самые подходящие(но не плохие)) ты мы будем пытаться их выполнить
 
 		Repeat:
-			//Debug::Log(index);
-			//if (event.Synapses[index].get<2>() > 0)
 			if (event.Synapses[index].get<1>() > 0)
 			{
+				//Debug::Log(event.Synapses[index].get<0>(), Error);
+				/// \see Ищем самый схожий синапс
 				size_t idx = 0; double percent = 0; auto& s_au = event.Synapses[index].get<0>();
-				for (size_t t = 0; t < event.PerhapsWill.size(); t++)
+				for (size_t t = 0; t < event.PerhapsWill.size(); t++) {
 					if (event.PerhapsWill[t].get<0>() == s_au) {
-						if (event.PerhapsWill[t].get<2>() < 0) {
-							Debug::Log("DEOS : Bad syanpse! \"" + s_au + "\" = " + event.PerhapsWill[t].get<1>(), Module);
-							continue;
-						}
+						if (event.PerhapsWill[t].get<2>() < 0) { Debug::Log("DEOS : Bad syanpse! \"" + s_au + "\" = " + event.PerhapsWill[t].get<1>(), Module); continue; }
 						/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
-						double per = Helper::SimilarityPercentage(event.PerhapsWill[t].get<1>(), core.SE_With_MyActions, true, true);
+						double per = Synapse::SimilarityPercentage(event.PerhapsWill[t].get<1>(), core.SE_With_MyActions, true, true);
+						//Debug::Log(event.PerhapsWill[t].get<1>() + " = " + core.SE_With_MyActions + " : "+ std::to_string(per), Info);
 						if (per > percent) { percent = per; idx = t; }
 					}
+				}
 
-				//Debug::Log("Result : " + event.Synapses[index].get < 0 >() + std::to_string(max));
-
-				//double percent = Helper::SimilarityPercentage(Situation, event.Synapses[index].get<1>(), true);
-				//Debug::Log(Situation + "   in_ev:" + event.Synapses[index].get<1>() + " | Name : " + event.Synapses[index].get<0>());
-
-				//%TODO : ($ГОТОВО) Возможно лучше сортировать и искать самый схожий синапс
-			
 				if (percent != 0) {
-					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);// + "\n\tFirst : " + Situation +
+					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);
 					if (percent >= PeriodicSix + 10) { /// \bug +10
 						Debug::Log("DEOS : Find synapse = " + event.Synapses[index].get<0>());
 						//%Выполняем %полезное %действие...
 						std::string syn = event.Synapses[index].get<0>();
 					Deep:
 						if (syn[0] == 'S') {
-							//syn = syn.substr(2);
-
 							Consequence con;
 							if (con.Load(syn.substr(2), AType::Speech, false, false)) {
 								real.DoAction(con.action);
@@ -89,35 +80,24 @@ namespace SpaRcle {
 									std::string sens_log; size_t index = 0; double max = 0;
 
 									for (size_t t = 0; t < con.Synapses.size(); t++) {
-										//auto& a = con.Synapses[t];
-										//double perc = Helper::SimilarityPercentage(core.SE_With_MyActions, a.get<1>(), true);
-
 										size_t idx_2 = 0; double perc = 0; auto& s_au_2 = con.Synapses[t].get<0>();
 										for (size_t tt = 0; tt < con.PerhapsWill.size(); tt++)
 											if (con.PerhapsWill[tt].get<0>() == s_au_2) {
-												//double per = Helper::GetPercent(con.PerhapsWill[tt].get<1>(), core.SE_With_MyActions);
 												/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
-												double per = Helper::SimilarityPercentage(con.PerhapsWill[tt].get<1>(), core.SE_With_MyActions, true, true);
+												double per = Synapse::SimilarityPercentage(con.PerhapsWill[tt].get<1>(), core.SE_With_MyActions, true, true);
 												if (per > perc) { perc = per; idx_2 = tt; }
 											}
 
 										if (t == 0) max = perc;
 										else if (perc >= max) { index = t; max = perc; }
-
-										//sens_log += "\t" + con.Synapses[t].get<1>() + " : " + std::to_string(perc) + " = " + con.Synapses[t].get<0>() + "\n";
-										//sens_log += "\t" + a.get<1>() + " : " + std::to_string(perc) + " = " + a.get<0>() + "\n";
 									}
 									Debug::Log("DEOS : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " + 
 										con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
 									if (max > 58) { // 76
 										syn = con.Synapses[index].get<0>();
-										//}
-											//if (max > 6) {
 										dp++;
-										if (dp > 20)
-											Debug::Log("CentralCore : Logical loop! See to logs...", Warning);
-										else
-											goto Deep;
+										if (dp > 20) Debug::Log("CentralCore : Logical loop! See to logs...", Warning);
+										else goto Deep;
 									}
 								}
 							}
@@ -133,7 +113,7 @@ namespace SpaRcle {
 					else if (index > 0) { index--; goto Repeat; }/// $Если $не $подходит
 				}
 				else { ///\to NOT FOUND SOLUTION
-					Debug::Log("DEOS : Not found solution = \"" + event.name + "\" at synapse \"" + s_au + "\"", Module);
+					Debug::Log("DEOS : Not found solution = \"" + event.name + "\" at synapse \"" + s_au + "\" index="+std::to_string(index), Module);
 					if (index > 0) { index--; goto Repeat; }
 				}
 			}
@@ -365,7 +345,7 @@ namespace SpaRcle {
 			if (IDoIt) for (size_t i = 0; i < event_name.size(); i++)	event_name[i] = toupper(event_name[i]);
 			/// \see %Определяем %принадлежность %этого %события %к %нам (!сделали !его !мы !или !нет)
 
-			this->SE_With_MyActions += Helper::GetSensivityOfName(event_name);
+			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name);
 		}
 	}
 

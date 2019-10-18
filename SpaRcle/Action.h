@@ -10,6 +10,7 @@ namespace SpaRcle {
 	{
 		Undefined, Speech, Move, VisualData
 	};
+
 	inline const char* ToString(AType a)
 	{
 		switch (a)
@@ -19,6 +20,18 @@ namespace SpaRcle {
 		case Move: return "Move";
 		case VisualData: return "Visual";
 		default:      return "[Unknown]";
+		}
+	}
+	inline const AType ToAType(char c) {
+		switch (c)
+		{
+		case 'S':
+			return Speech;
+		case 'V':
+			return VisualData;
+		default:
+			//Debug::Log("ToAType : Unknown type! \"" + std::string(1, c) + "\"");
+			return Undefined;
 		}
 	}
 

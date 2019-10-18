@@ -454,6 +454,13 @@ namespace SpaRcle {
 		this->EventData = DataTime();
 		this->action = Action(speech);
 	}
+	Consequence::Consequence(Visual visual)
+	{
+		this->name = visual.tag;
+		this->meetings = 1;
+		this->EventData = DataTime();
+		this->action = Action(visual);
+	}
 	Consequence::Consequence(std::string name, Action action) {
 		this->name = name;
 		this->action = action;

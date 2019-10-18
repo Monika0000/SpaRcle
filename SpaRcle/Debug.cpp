@@ -25,7 +25,8 @@ namespace SpaRcle {
 
 	void Debug::Log(int mess, bool nline, DType type, ConsoleColor text_color)
 	{
-		std::string s = Helper::format() << mess;
+		//std::string s = Helper::format() << mess;
+		std::string s = std::to_string(mess);
 		Debug::Log(std::basic_string(s), nline, type, text_color);
 	}
 

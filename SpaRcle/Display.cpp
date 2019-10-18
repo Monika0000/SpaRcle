@@ -158,7 +158,8 @@ namespace SpaRcle {
 					case 2:
 						core->_causality->NewEvent(Consequence(var, Action(Sound(var, 10, 15)))); /* positive*/ break;
 					default:
-						std::string token = Helper::format() << selectResult;
+						//std::string token = Helper::format() << selectResult;
+						std::string token = std::to_string(selectResult);
 						Debug::Log("Display::MainDialog = Error : unknown token \"" + token + "\"", Error);
 						break;
 					}

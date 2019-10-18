@@ -109,8 +109,8 @@ namespace SpaRcle {
 			if (ref_will.name == Settings::EmptyName)
 				continue;
 
-			std::string Sensivity = Helper::GetSensivityCauses(Ref_ev, t + Settings::Size_SCP);
-			Sensivity = Helper::ClearSensivity(Sensivity);
+			std::string Sensivity = Synapse::GetSensivityCauses(Ref_ev, t + Settings::Size_SCP);
+			Sensivity = Synapse::ClearSensivity(Sensivity);
 			/* Получаем то, что описывает нашу текущую ситуацию относительно будущего следствия */
 
 			std::string S_name; S_name += ToString(ref_will.action.type)[0];
@@ -121,21 +121,20 @@ namespace SpaRcle {
 				if (S_index == -1) { 
 					// Добавляем синапс на новый нейрон, который нужно будет выпоолнить после этого
 					//conq.Synapses.push_back(boost::tuple<std::string, std::string, double>(S_name, Sensivity, ref_will.GetSummHP())); // ======== Добавляем новый снапс ========
+					
+					
 					conq.Synapses.push_back(boost::tuple<std::string, double>(S_name, ref_will.GetSummHP())); // ======== Добавляем новый снапс ========
 					if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : add synapse \"" + S_name + "\" to \"" + conq.name + "\"");
 				}
 				else { // Summ consequences (synapses)
 					if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : (TODO) summ synapse \"" + conq.name + "\" with \"" + S_name + "\"");
-					//conq.Synapses[S_index].get<2>() = (conq.Synapses[S_index].get<2>() + ref_will.GetSummHP()) / 1.5f; // Суммируем полезность
-					Helper::SummHpSyns(conq.Synapses[S_index], ref_will.GetSummHP());
-					//conq.Synapses[S_index].get<1>() = Helper::SummSensivity(conq.Synapses[S_index].get<1>(), Sensivity);
-					//Helper::SummSensivity(conq.Synapses[S_index].get<1>(), Sensivity);
-					Helper::SummSensivity(conq, S_index, Sensivity, ECom::Synp);
+					Synapse::SummHpSyns(conq.Synapses[S_index], ref_will.GetSummHP());
+					//Synapse::SummSensivity(conq, S_index, Sensivity, ECom::Synp);
 				}
 			}
 
 			#pragma region [ ========= PERHAPSWILL ========= ]
-			Helper::FindAndSummSensiv(conq, S_name, Sensivity, ref_will.GetSummHP());
+			Synapse::FindAndSummSensiv(conq, S_name, Sensivity, ref_will.GetSummHP());
 			/*
 			int P_index = Helper::IndexOfSynapse(conq.PerhapsWill, S_name);
 			if (P_index == -1) {
@@ -205,7 +204,7 @@ namespace SpaRcle {
 				//return;
 			}
 			for (size_t i = 0; i < (*_core).CheckedEvents.size() - 1; i++) {
-				temp.push_back(Helper::GetSensivityCauses((*_core).CheckedEvents, i));
+				temp.push_back(Synapse::GetSensivityCauses((*_core).CheckedEvents, i));
 			}
 			for (size_t i = 0; i < Settings::Size_SCP; i++)
 				(*_core).Sensivity_List.push_back(temp[Settings::Size_SCP + i]); // Я хз зачем это, но лучше не трогай.
@@ -267,7 +266,7 @@ namespace SpaRcle {
 				for (size_t tt = 0; tt < 15; tt++)
 					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
-			if (false) {
+			if (true) {
 				double tone = 10;
 				double volime = 15;
 
@@ -293,7 +292,7 @@ namespace SpaRcle {
 
 				for (int a = 1; a < 6; a++)
 					for (int b = 1; b < 6; b++)
-						for (size_t t = 0; t < 3; t++)
+						for (size_t t = 0; t < 6; t++)
 						{
 							(*_core).UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(a), tone, volime)));
 							(*_core).UncheckedEvents.push_back(Consequence(Sound("plus", tone, volime)));
@@ -373,14 +372,14 @@ namespace SpaRcle {
 
 						//if (event.name != Settings::EmptyName) {
 							// Решаем, что с этим следствием делать.
-						std::string Situation = Helper::GetSensivityCauses((*_core).CheckedEvents);
+						std::string Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
 						//Debug::Log(Situation);
 
-						Situation += Helper::GetSensivityOfName(event.name);// event.name[0];
+						Situation += Synapse::GetSensivityOfName(event.name);// event.name[0];
 						//Debug::Log(Situation);
 
 						//Situation += Helper::GetSensivityCauses((*_core). CheckedEvents);
-						Situation = Helper::ClearSensivity(Situation);
+						Situation = Synapse::ClearSensivity(Situation);
 						//Debug::Log(event.name + " " + Helper::GetSensivityCauses((*_core). CheckedEvents));
 						C_ref.NewEvent(event, Situation);
 						//}
@@ -398,7 +397,7 @@ namespace SpaRcle {
 					if (event.name != Settings::EmptyName) {
 						event.Save();
 
-						Current_sensivity += Helper::GetSensivityOfName(event.name); // event.name[0];					  // System
+						Current_sensivity += Synapse::GetSensivityOfName(event.name); // event.name[0];					  // System
 						(*_core).Sensivity_List.push_back(Current_sensivity); // System
 					}
 					else

@@ -69,6 +69,8 @@ namespace SpaRcle {
 
 	}
 
+	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
 	int Helper::IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name)
 	{
 		for (size_t i = 0; i < s.size(); i++)
@@ -129,214 +131,7 @@ namespace SpaRcle {
 		return point;
 	}
 
-	void Helper::FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp) // 1 - name, 2 - sensiv
-	{
-		if (sens.size() < 2)
-			return;
-
-		double max = 0; size_t index = 0;
-		for (size_t t = 0; t < con.PerhapsWill.size(); t++)
-		{
-			std::string p = con.PerhapsWill[t].get<1>();
-			double var = GetPercent(sens, p);
-			if (var > max) {
-				index = t; max = var;
-			}
-			//Helper::SummSensivity(con, index, Cause.get<1>(), ECom::PerhWill);
-			//loaded.PerhapsWill[index].get<2>() = (loaded.PerhapsWill[index].get<2>() + Cause.get<3>()) / 2;
-			//loaded.PerhapsWill[index].get<3>()++; // Increment
-		}
-		if (max > 90) {
-			con.PerhapsWill[index].get<2>() = (con.PerhapsWill[index].get<2>() + hp) / 2;
-			con.PerhapsWill[index].get<3>()++; // Increment
-		}
-		else
-		{
-			con.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(name, sens, hp, 1));
-		}
-	}
-
-	std::string SpaRcle::Helper::GetSensivityCauses(std::vector<boost::tuple<std::string,int, double>>& s)
-	{
-		std::string Sensiv;
-		for (auto& a : s) {
-			if (a.get<0>() != Settings::EmptyName) {
-				if (a.get<0>()[0] != '.')
-					if (count_word_in_sensiv == 1) {
-						if (a.get<0>()[1] == '/')
-							//Sensiv += a.get<0>().substr(2, count_word_in_sensiv + 2); // [2]
-							Sensiv += a.get<0>()[2]; // [2]
-						else
-							//Sensiv += a.get<0>().substr(0, count_word_in_sensiv); //[0]
-							Sensiv += a.get<0>()[0]; //[0]
-					}
-					else
-					{
-						if (a.get<0>()[1] == '/') { Sensiv += a.get<0>()[2]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }// [2]
-						else { Sensiv += a.get<0>()[0]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }//[0]
-					}
-			}
-			else
-				Sensiv += ".";
-		}
-		return Sensiv; // TODO : Возможно следует доделать, ну или обратить внимание в будущем.
-	}
-	std::string SpaRcle::Helper::GetSensivityCauses(std::vector<Consequence>& s, int to_index)
-	{
-		std::string Sensiv;
-
-		if(to_index == -1)
-			to_index = s.size() - 1;
-
-		for (int i = 0; i <= to_index; i++) {
-			if (s[i].name != Settings::EmptyName) {
-				if (s[i].name[0] != '.')
-					if (count_word_in_sensiv == 1) {
-						if (s[i].name[1] == '/') Sensiv += s[i].name[2]; //Sensiv += s[i]. name.substr(2, Settings::count_sens + 2); // [2]
-						else Sensiv += s[i].name[0];					 //. substr(0, Settings::count_sens); //[0]
-					}
-					else {
-						if (s[i].name[1] == '/') { Sensiv += s[i].name[2]; Sensiv += s[i].name[s[i].name.size() - 1]; } // [2]
-						else { Sensiv += s[i].name[0]; Sensiv += s[i].name[s[i].name.size() - 1]; }//[0]
-					}
-			}
-			else
-				Sensiv += ".";//std::string(count_word_in_sensiv, '.');
-		}
-		return Sensiv; // TODO : Возможно следует доделать, ну или обратить внимание в будущем.
-	}
-	bool SpaRcle::Helper::SummSensivity(std::string& left, std::string& right, bool check) // std::string
-	{
-		if (right.size() > left.size())
-		{
-			//return (left + right.substr(left.size())); //TODO
-			left = left + right.substr(left.size());
-			return true;
-		}
-		else if (left.size() > right.size())
-		{
-
-		}
-
-		if (check) {
-			//if (left.size() == right.size()) {
-				//size_t p = 0;
-				//for (size_t t = 0; t < left.size(); t++)
-				//	if (left[t] == right[t])
-				//		p++;
-
-				//Debug::Log("=========================================================", Error);
-				//Debug::Log(100.f / left.size() * p, Error);
-
-				//if (100.f / left.size() * p >= 90)
-				//	return true;
-				//else
-				//	return false;
-			//}
-			//else {}
-		}
-
-		return true;
-	}
-	void Helper::SummSensivity(Consequence& left, size_t index, std::string& right, ECom com)
-	{
-		if (com == ECom::PerhWill) {
-			auto& a = left.PerhapsWill[index].get<1>();
-			//if (a == "S/equal")
-			if (SummSensivity(a, right, true))
-			{
-				//if (a.size() == right.size())
-				//	if (GetPercent(a, right) < 75)
-				//	{
-				//		left.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(left.PerhapsWill[index].get<0>(), right,
-				//			left.PerhapsWill[index].get<2>(), left.PerhapsWill[index].get<3>()));
-				//	}
-				if (count_word_in_sensiv == 1) {
-					if (left.name[0] == right[right.size() - 1]) {
-						for (size_t t = 0; t < a.size(); t++) {
-							//if (a[t] != right[t]) a[t] = '*';
-						}
-					}
-					//Debug::Log("dasdsdasdadasd");
-					//	}
-					
-				}
-			}
-		}
-		else if (com == ECom::Synp)
-			if (!SummSensivity(left.Synapses[index].get<0>(), right, true))
-			{
-				//left.Synapses.push_back(boost::tuple<std::string, std::string, double>(left.Synapses[index].get<0>(), right,
-				//	left.Synapses[index].get<2>()));
-			}
-		{
-
-		}
-	}
-	std::string SpaRcle::Helper::ClearSensivity(std::string& sensiv)
-	{
-		std::string clean;
-		for (auto& a : sensiv)
-			if (a != '.')
-				clean += a;
-
-		return clean;
-	}
-	
-	double SpaRcle::Helper::SimilarityPercentage(std::string first, std::string second, bool lenght, bool normalize)
-	{
-		//TODO : при hm hmh схожесть 0!!!!!!
-		//Debug::Log(std::to_string(first.size()) + "_" + std::to_string(second.size()));
-		//Debug::Log(first + "_" + second);
-		double trueVal;
-		//size_t size;
-		short mode = 0;
-		int modifer = 0;
-
-		// Сравниваем относительно первого, то-есть, процент схожести будет говорить насколько второй похож на первый.
-		if (second.size() > first.size()) mode = 1;
-		else if (first.size() > second.size()) mode = -1;
-		else { //trueVal = 100.f / first.size(); //size = first.size(); 
-		}
-
-		if (mode == 1) {
-			if (lenght) { 
-				modifer = second.size() - first.size();
-				second += std::string("_", modifer); }
-
-			/// \todo 
-			if (normalize) second = second.substr(second.size() - first.size());
-			//trueVal = 100.f / second.size(); //size = first.size();
-		}
-		else if (mode == -1) {
-			if (lenght) { 
-				modifer = first.size() - second.size();
-				first += std::string("_", modifer); }
-
-			/// \todo 
-			if(normalize) first = first.substr(first.size() - second.size());
-			//trueVal = 100.f / first.size(); //size = second.size();
-		}
-
-		//double percent = 0;
-		//size_t max = second.size() >= first.size() ? first.size() : second.size();
-		//Debug::Log(modifer);
-
-		//Debug::Log(first + " " + second);
-
-
-		/*
-		for (size_t i = 0; i < max; i++) {
-			if (first[i] == second[i])
-				percent += trueVar;
-			else if (i + 1 < max)
-				if (first[i] == second[i + 1])
-					percent += (trueVar / 1.5f);
-		}
-		*/
-
-		return GetPercent(first, second, modifer);
-	}
+	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 	bool SpaRcle::System::Save(std::string name, std::string data, std::string additionalPath)
 	{
@@ -397,5 +192,219 @@ namespace SpaRcle {
 			Debug::Log("SpaRcle::System::Load : An exception has occured! \n\tPath : " + p, Error);
 			return false;
 		}
+	}
+
+	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+	void Synapse::FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp) // 1 - name, 2 - sensiv
+	{
+		if (sens.size() < 2)
+			return;
+
+		double max = 0; size_t index = 0;
+		for (size_t t = 0; t < con.PerhapsWill.size(); t++)
+		{
+			std::string p = con.PerhapsWill[t].get<1>();
+			double var = GetPercent(sens, p);
+			if (var > max) {
+				index = t; max = var;
+			}
+			//Helper::SummSensivity(con, index, Cause.get<1>(), ECom::PerhWill);
+			//loaded.PerhapsWill[index].get<2>() = (loaded.PerhapsWill[index].get<2>() + Cause.get<3>()) / 2;
+			//loaded.PerhapsWill[index].get<3>()++; // Increment
+		}
+		if (max > 90) {
+			con.PerhapsWill[index].get<2>() = (con.PerhapsWill[index].get<2>() + hp) / 2;
+			con.PerhapsWill[index].get<3>()++; // Increment
+		}
+		else
+		{
+			con.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(name, sens, hp, 1));
+		}
+	}
+	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s)
+	{
+		std::string Sensiv;
+		for (auto& a : s) {
+			if (a.get<0>() != Settings::EmptyName) {
+				if (a.get<0>()[0] != '.')
+					if (count_word_in_sensiv == 1) {
+						if (a.get<0>()[1] == '/')
+							//Sensiv += a.get<0>().substr(2, count_word_in_sensiv + 2); // [2]
+							Sensiv += a.get<0>()[2]; // [2]
+						else
+							//Sensiv += a.get<0>().substr(0, count_word_in_sensiv); //[0]
+							Sensiv += a.get<0>()[0]; //[0]
+					}
+					else
+					{
+						if (a.get<0>()[1] == '/') { Sensiv += a.get<0>()[2]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }// [2]
+						else { Sensiv += a.get<0>()[0]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }//[0]
+					}
+			}
+			else
+				Sensiv += ".";
+		}
+		return Sensiv; // TODO : Возможно следует доделать, ну или обратить внимание в будущем.
+	}
+	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<Consequence>& s, int to_index)
+	{
+		std::string Sensiv;
+
+		if (to_index == -1)
+			to_index = s.size() - 1;
+
+		for (int i = 0; i <= to_index; i++) {
+			if (s[i].name != Settings::EmptyName) {
+				if (s[i].name[0] != '.')
+					if (count_word_in_sensiv == 1) {
+						if (s[i].name[1] == '/') Sensiv += s[i].name[2]; //Sensiv += s[i]. name.substr(2, Settings::count_sens + 2); // [2]
+						else Sensiv += s[i].name[0];					 //. substr(0, Settings::count_sens); //[0]
+					}
+					else {
+						if (s[i].name[1] == '/') { Sensiv += s[i].name[2]; Sensiv += s[i].name[s[i].name.size() - 1]; } // [2]
+						else { Sensiv += s[i].name[0]; Sensiv += s[i].name[s[i].name.size() - 1]; }//[0]
+					}
+			}
+			else
+				Sensiv += ".";//std::string(count_word_in_sensiv, '.');
+		}
+		return Sensiv; // TODO : Возможно следует доделать, ну или обратить внимание в будущем.
+	}
+	bool SpaRcle::Synapse::SummSensivity(std::string& left, std::string& right, bool check) // std::string
+	{
+		if (right.size() > left.size())
+		{
+			//return (left + right.substr(left.size())); //TODO
+			left = left + right.substr(left.size());
+			return true;
+		}
+		else if (left.size() > right.size())
+		{
+
+		}
+
+		if (check) {
+			//if (left.size() == right.size()) {
+				//size_t p = 0;
+				//for (size_t t = 0; t < left.size(); t++)
+				//	if (left[t] == right[t])
+				//		p++;
+
+				//Debug::Log("=========================================================", Error);
+				//Debug::Log(100.f / left.size() * p, Error);
+
+				//if (100.f / left.size() * p >= 90)
+				//	return true;
+				//else
+				//	return false;
+			//}
+			//else {}
+		}
+
+		return true;
+	}
+	void Synapse::SummSensivity(Consequence& left, size_t index, std::string& right, ECom com)
+	{
+		if (com == ECom::PerhWill) {
+			auto& a = left.PerhapsWill[index].get<1>();
+			//if (a == "S/equal")
+			if (SummSensivity(a, right, true))
+			{
+				//if (a.size() == right.size())
+				//	if (GetPercent(a, right) < 75)
+				//	{
+				//		left.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(left.PerhapsWill[index].get<0>(), right,
+				//			left.PerhapsWill[index].get<2>(), left.PerhapsWill[index].get<3>()));
+				//	}
+				if (count_word_in_sensiv == 1) {
+					if (left.name[0] == right[right.size() - 1]) {
+						for (size_t t = 0; t < a.size(); t++) {
+							//if (a[t] != right[t]) a[t] = '*';
+						}
+					}
+					//Debug::Log("dasdsdasdadasd");
+					//	}
+
+				}
+			}
+		}
+		else if (com == ECom::Synp)
+			/*
+				Портит синапсы, добавляя в их имена чувствительность, которая была удалена в новых вурсиях из синапсов
+			*/
+			//if (!SummSensivity(left.Synapses[index].get<0>(), right, true)) 
+			//{
+				//left.Synapses.push_back(boost::tuple<std::string, std::string, double>(left.Synapses[index].get<0>(), right,
+				//	left.Synapses[index].get<2>()));
+			//}
+		{
+
+		}
+	}
+	std::string SpaRcle::Synapse::ClearSensivity(std::string& sensiv)
+	{
+		std::string clean;
+		for (auto& a : sensiv)
+			if (a != '.')
+				clean += a;
+
+		return clean;
+	}
+	double SpaRcle::Synapse::SimilarityPercentage(std::string first, std::string second, bool lenght, bool normalize)
+	{
+		//TODO : при hm hmh схожесть 0!!!!!!
+		//Debug::Log(std::to_string(first.size()) + "_" + std::to_string(second.size()));
+		//Debug::Log(first + "_" + second);
+		double trueVal;
+		//size_t size;
+		short mode = 0;
+		int modifer = 0;
+
+		// Сравниваем относительно первого, то-есть, процент схожести будет говорить насколько второй похож на первый.
+		if (second.size() > first.size()) mode = 1;
+		else if (first.size() > second.size()) mode = -1;
+		else { //trueVal = 100.f / first.size(); //size = first.size(); 
+		}
+
+		if (mode == 1) {
+			if (lenght) {
+				modifer = second.size() - first.size();
+				second += std::string("_", modifer);
+			}
+
+			/// \todo 
+			if (normalize) second = second.substr(second.size() - first.size());
+			//trueVal = 100.f / second.size(); //size = first.size();
+		}
+		else if (mode == -1) {
+			if (lenght) {
+				modifer = first.size() - second.size();
+				first += std::string("_", modifer);
+			}
+
+			/// \todo 
+			if (normalize) first = first.substr(first.size() - second.size());
+			//trueVal = 100.f / first.size(); //size = second.size();
+		}
+
+		//double percent = 0;
+		//size_t max = second.size() >= first.size() ? first.size() : second.size();
+		//Debug::Log(modifer);
+
+		//Debug::Log(first + " " + second);
+
+
+		/*
+		for (size_t i = 0; i < max; i++) {
+			if (first[i] == second[i])
+				percent += trueVar;
+			else if (i + 1 < max)
+				if (first[i] == second[i + 1])
+					percent += (trueVar / 1.5f);
+		}
+		*/
+
+		return GetPercent(first, second, modifer);
 	}
 }

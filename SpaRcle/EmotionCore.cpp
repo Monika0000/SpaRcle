@@ -9,6 +9,7 @@
 namespace SpaRcle {
 	EmotionCore::EmotionCore(int cpuSpeed)
 	{
+		this->core = NULL;
 		DelayCPU = cpuSpeed;
 		Debug::Log("-> Creating the emotion core are successful!");
 	}
@@ -39,24 +40,22 @@ namespace SpaRcle {
 
 	boost::tuple<double, double> EmotionCore::EmotionHelpfulness(Action & act)
 	{
-		//Helpfulness * hp = (Helpfulness*)malloc(sizeof(Helpfulness));
-
 		boost::tuple<double, double> hp(0, 0);
 
 		switch (act.type)
 		{
 		case AType::Speech: {
-			//Sound s = act.GetSound();
 			Sound s = act;
-
 			Paradigm_Emotion(hp.get<0>(),hp.get<1>(), s); // Using emotional paradigm
-
-			break;
-		}
+			break; }
+		case AType::VisualData: {
+			Visual v = act;
+			hp.get<1>() = 10;
+			/// \TODO Add method mathing helpfulness in visual data
+			break; }
 		default:
 			Debug::Log("EmotionCore::EmotionHelpfulness = ERROR : unknown token \"" + std::string(ToString(act.type)) + "\"", Error);
-			break;
-		}
+			break; }
 
 		return hp;
 	}

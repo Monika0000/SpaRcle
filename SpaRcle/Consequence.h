@@ -36,6 +36,7 @@ namespace SpaRcle {
 		Consequence(std::string name);
 		Consequence(std::string name, AType atype);
 		Consequence(Sound speech);
+		Consequence(Visual visual);
 		Consequence(std::string name, Action action);
 		Consequence(std::string name, Action action, int meets);
 		Consequence(std::string name, Action action, int meets, double Bad, double Good);

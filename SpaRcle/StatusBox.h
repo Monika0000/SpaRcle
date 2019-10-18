@@ -63,7 +63,8 @@ namespace SpaRcle {
 			case 2: ButtonActive.setFillColor(yellow); break;
 			case 3: ButtonActive.setFillColor(red); break;
 			default:
-				std::string s = Helper::format() << status;
+				//std::string s = Helper::format() << status;
+				std::string s = std::to_string(status);
 				Debug::Log("StatusBox.draw : Error! Unknown status : " + s);
 				Sleep(500);
 				break;

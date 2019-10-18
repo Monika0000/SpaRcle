@@ -142,53 +142,44 @@ namespace SpaRcle {
 
 
 	bool LogicalCore::CauseReputation(boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, 
-		std::string>& Cause, const bool Diagnostic) // CauseReputation
-	{
+		std::string>& Cause, const bool Diagnostic) /* CauseReputation */ {
 		//// «десь все вроде бы готово. “естирование прошло более менее стабильно.
-		//return true;
-		if (Cause.get<0>().size() == 0 && Cause.get<1>().size() == 0 && Cause.get<2>().size() == 0)
-		{
+		if (Cause.get<0>().size() == 0 && Cause.get<1>().size() == 0 && Cause.get<2>().size() == 0) {
 			Debug::Log("LogicalCore::CauseReputation : Size causes equal zero...", Info);
-			return false;
-		}
+			return false; }
 
 		if (!Helper::SelectionSort(Cause.get<1>(), Cause.get<0>(), Cause.get<2>())) { // Sorting...
-			Settings::Status = -4;
-		}
+			Settings::Status = -4; }
 
 		size_t size = Cause.get<0>().size();
-		//return true;
-
 		for (size_t i = 0; i < size; i++) {
 			Consequence loaded;
-
 			try {
 				int last_index = size - 1 - i; // ѕеречисление с конца массива в начало (инверси€). »бо массив отсортирован от меньшего к большему
-				//Debug::Log(last_index);
-				//Debug::Log(Cause.get<0>()[last_index]);
-				//continue;
 
+				AType t = ToAType(Cause.get<0>()[last_index][0]);
+				if (t != Undefined) { // Error
+					if (!loaded.Load(Cause.get<0>()[last_index].substr(2), t, true, Diagnostic))
+						if (Diagnostic) return false;
+						else continue; }
+				else { Debug::Log("LogicalCore::CauseReputation : Unknown type! \"" + Cause.get<0>()[last_index] + "\"", Warning); continue; }
+
+				/*
 				if (Cause.get<0>()[last_index][0] == 'S') { // Error
 					if (!loaded.Load(Cause.get<0>()[last_index].substr(2), AType::Speech, true, Diagnostic))
-						if (Diagnostic)
-							return false;
-						else continue;
-				}
+						if (Diagnostic) return false;
+						else continue; }
 				else {
 					Debug::Log("LogicalCore::CauseReputation : Unknown type! \"" + Cause.get<0>()[last_index] + "\"", Warning);
-					continue;
-				}
-
+					continue; }
+				*/
 
 				// TODO :
 				//	Ќаписать логику того, как насто€щее событие будет вли€ть на наше отношение к прошлому - причинам насто€щего.
 				//	“ак же следует добавить учет количества встреч причины в этом следствии.
 				//
 			}
-			catch (...)
-			{
-				Debug::Log("LogicalCore::CauseReputation : An exception has occured! [First Block]", Error);
-			}
+			catch (...) { Debug::Log("LogicalCore::CauseReputation : An exception has occured! [First Block]", Error); }
 
 			//continue;//FIX
 
@@ -239,7 +230,7 @@ namespace SpaRcle {
 					}
 					*/
 					//boost::tuple<std::string, std::string, double> tp(, Cause.get<2>()[i], );
-					Helper::FindAndSummSensiv(loaded, Cause.get<4>(), Cause.get<2>()[i], Cause.get<3>());
+					Synapse::FindAndSummSensiv(loaded, Cause.get<4>(), Cause.get<2>()[i], Cause.get<3>());
 
 					loaded.meetings++;
 

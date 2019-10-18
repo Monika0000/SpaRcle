@@ -10,30 +10,44 @@
 #include "Settings.h"
 
 namespace SpaRcle {
-	RealityCore::RealityCore(int cpuSpeed)
-	{
+	RealityCore::RealityCore(int cpuSpeed) {
 		core = NULL;
 		DelayCPU = cpuSpeed;
 		Debug::Log("-> Creating the reality core are successful!");
 	}
 
-	RealityCore::~RealityCore()
-	{
+	RealityCore::~RealityCore() {
 		if (Process.joinable())
 			Process.detach();
 		Debug::Log("-> The reality core has completed it's work!", Info);
 	}
 
-	void RealitySolution(int* delay, RealityCore* rcore)
-	{	
+	void RealitySolution(int* delay, RealityCore* rcore) {	
 		RealityCore& real = *rcore;
 		CentralCore& core = *real.core;
 		CausalityCore& causal = *core._causality;
 		size_t r_timer = 0;
 		
+		if (false) {
+			for (int i = 0; i < 10; i++) {
+				causal.UncheckedEvents.push_back(Consequence(Visual("door")));
+				causal.UncheckedEvents.push_back(Consequence(Visual("open_door")));
+				causal.UncheckedEvents.push_back(Consequence(Visual("himan")));
+				causal.UncheckedEvents.push_back(Consequence(Visual("axe")));
+				for (int z = 0; z < 10; z++) causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+			}
+		}
 		if (true) { /// Lerning of the dialogs
 			std::vector<std::string> lines;
-			System::Load("Dialogs\\dialog_1.txt", lines);
+			System::Load("Dialogs\\dialog_2.txt", lines);
+			for (size_t t = 0; t < lines.size(); t++)
+			{
+				for (auto a : Helper::Split(lines[t].substr(2), " ")) {
+					for (auto& w : a)
+						w = std::tolower(w);
+					causal.UncheckedEvents.push_back(Consequence(Sound(a, 10, 15)));
+				}
+			}
 		}
 
 		while (true)
