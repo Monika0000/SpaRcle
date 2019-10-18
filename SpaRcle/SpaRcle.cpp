@@ -202,7 +202,7 @@ int main(int argc, char **argv)
 		_core = new CentralCore(5);
 		_causality = new CausalityCore(5);
 		_logic = new LogicalCore(5);
-		_reality = new RealityCore(1500);
+		_reality = new RealityCore(100);
 		_emotion = new EmotionCore(1500);
 		#pragma endregion
 
@@ -235,6 +235,7 @@ int main(int argc, char **argv)
 		while (true)
 		{
 			Sleep(100);
+			Settings::Layout = Helper::GetLayout();
 			if (Settings::Status < 0) {
 				break;
 			}

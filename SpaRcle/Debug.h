@@ -7,7 +7,7 @@
 
 namespace SpaRcle {
 	enum DType {
-		Info = 1, Log = 2, Warning = 3, Error = 4, System = 5, Mind = 6
+		Info = 1, Log = 2, Warning = 3, Error = 4, System = 5, Mind = 6, Module = 7
 	};
 
 	enum DClass

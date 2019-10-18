@@ -12,6 +12,7 @@
 #include <ctime>
 #include <boost/tuple/tuple.hpp>
 #include <direct.h>
+#include "Settings.h"
 
 namespace SpaRcle {
 	enum ECom {
@@ -20,6 +21,18 @@ namespace SpaRcle {
 
 	class Helper {
 	public : 
+		inline static KeyboardLayout GetLayout() {
+			switch (LOWORD(GetKeyboardLayout(0)))
+			{
+			case 0x409:
+				return KeyboardLayout::EN;
+			case 0x419:
+				return KeyboardLayout::RU;
+			default:
+				return KeyboardLayout::UNKNOWN;
+			}
+		}
+
 		static std::wstring s2ws(const std::string& s)
 		{
 			int len;
@@ -222,7 +235,6 @@ namespace SpaRcle {
 				}
 			}
 		}
-
 		template<typename T> inline static void SelectionSort(std::vector<int>& keys, std::vector<T>& data)
 		{
 			if (keys.size() != data.size()) {
@@ -257,7 +269,6 @@ namespace SpaRcle {
 				std::swap(data[startIndex], data[smallestIndex]);
 			}
 		}
-
 		inline static void SelectionSort(std::vector<boost::tuples::tuple<std::string, double>>& Synapses) {//, std::string
 			for (size_t startIndex = 0; startIndex < Synapses.size() - 1; ++startIndex)
 			{
@@ -280,7 +291,6 @@ namespace SpaRcle {
 				std::swap(Synapses[startIndex], Synapses[smallestIndex]);
 			}
 		}
-
 		inline static void SelectionSort(std::vector<boost::tuples::tuple<std::string, int, double>>& Causes, bool warning = true) { // Sort to meetings
 			if (Causes.size() >= 3)
 				for (size_t startIndex = 0; startIndex < Causes.size() - 1; ++startIndex)

@@ -3,6 +3,9 @@
 #include <string>
 
 namespace SpaRcle {
+	enum KeyboardLayout {
+		EN, RU, UNKNOWN
+	};
 	class Settings
 	{
 	public:
@@ -15,6 +18,7 @@ namespace SpaRcle {
 		static bool PathsIsSet; // Установлена-ли рабочая директория
 		///////////////////////////////
 		static bool CoreDebug; // Отладка работы ядер
+		static KeyboardLayout Layout;
 		static bool EventsProcessigDebug; // Отладка обработки проверенных событий
 		static const int SaveNumbers;
 		static const size_t Size_SCP; /* Synapse & Cause & Perhaps | Min = 5 | Интеллект <=> Производительность */

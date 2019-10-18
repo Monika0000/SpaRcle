@@ -192,6 +192,8 @@ namespace SpaRcle {
 						CASE("t") :{
 							if (post == "Speech")
 								action.type = Speech;
+							else if (post == "Visual")
+								action.type = VisualData;
 							else
 								Debug::Log("SpaRcle::Consequence::Load::CASE(t) = WARNING : Unknown type! \n\tPath : " + path +
 									"\n\tLine : " + line +

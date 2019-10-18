@@ -2,6 +2,7 @@
 #include "Settings.h"
 #include "LogicalCore.h"
 #include "CausalityCore.h"
+#include "Helper.h"
 
 namespace SpaRcle {
 	std::string Settings::PathPj = "D:\\SpaRcle\\Release";
@@ -12,6 +13,7 @@ namespace SpaRcle {
 	bool Settings::PathsIsSet = false;
 	////////////////////////////
 	bool Settings::CoreDebug = false;
+	KeyboardLayout Settings::Layout = UNKNOWN;
 	bool Settings::EventsProcessigDebug = true;
 	const int Settings::SaveNumbers = 5;
 	const size_t Settings::Size_SCP = 5;
@@ -24,6 +26,7 @@ namespace SpaRcle {
 
 	void Settings::SetDefaultPaths(std::string project)
 	{
+		Layout = Helper::GetLayout();
 		PathPj = project;
 		SysDir = PathPj + "\\System";
 		Resources = PathPj + "\\Resources";

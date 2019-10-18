@@ -9,24 +9,16 @@ namespace SpaRcle {
 	Action::Action(Sound sound)
 	{
 		this->sound = sound;
-		this->type = Speech;
-	}
+		this->type = Speech; }
+	Action::Action(Visual visual)
+	{
+		this->visual = visual;
+		this->type = VisualData; }
 
 	Action::~Action()
 	{
-
-	}
-
-	/*
-	const Sound Action::GetSound() {
-		if (type == AType::Speech)
-			return sound;
-		else {
-			Debug::Log("Action::GetSound() = ERROR : trying get to type \"Sound\", where has : " + std::string(ToString(type)) + "!", Error);
-		}
-		return Sound();
-	}
-	*/
+		sound.~Sound();
+		visual.~Visual(); }
 
 	std::string Action::GetSaveData(Action * action)
 	{
@@ -42,10 +34,17 @@ namespace SpaRcle {
 		case AType::Speech:
 		{
 			data += "sd:" + action->sound.text + "\n";
-			data += "pr:" + Helper::Remove(std::to_string(action->sound.tone), Settings::SaveNumbers) + ";" + Helper::Remove(std::to_string(action->sound.volime), Settings::SaveNumbers);
+			data += "pr:" + Helper::Remove(std::to_string(action->sound.tone), Settings::SaveNumbers) + ";" + Helper::Remove(std::to_string(action->sound.volime),
+				Settings::SaveNumbers);
+			break;
+		}
+		case AType::VisualData:
+		{
+			data += "vs:" + action->visual.tag;
 			break;
 		}
 		default:
+			Debug::Log("Action::GetSaveData : Unknown type!", Error);
 			return "[Error]";
 		}
 
@@ -62,18 +61,20 @@ namespace SpaRcle {
 		std::string post = line.substr(n);
 		SWITCH(pref)
 		{
-			CASE("sd") :{
-				sound.text = post;
-				break;
-			}
+	///^SOUND
+			CASE("sd") :{ sound.text = post; break; }
 			CASE("pr") :{
-				int n2;
-				std::string t = ReadUpToChar(post, ';', n2);
-
+				int n2; std::string t = ReadUpToChar(post, ';', n2);
 				sound.tone = std::stof(t);
 				sound.volime = std::stof(post.substr(n2));
-				break;
-			}
+				break; }
+	///^SOUND
+
+
+	///^VISUAL
+			CASE("vs") :{ visual.tag = post; break; }
+	///^VISUAL
+
 		DEFAULT: {
 			Debug::Log("SpaRcle::Action::ApplyLine::SWITCH = WARNING : Uncorrect char! \n\tLine : "  + line +
 				"\n\tSymbol : " + pref, Warning);
@@ -83,7 +84,8 @@ namespace SpaRcle {
 		return true;
 	}
 
-	bool Action::Save(std::string path, Action& action) {
+	/*
+	bool Action::Save(std::string path, Action& action) { // 
 
 		switch (action.type)
 		{
@@ -94,6 +96,7 @@ namespace SpaRcle {
 			return true;
 		}
 		default:
+			Debug::Log("Action::Save : Unknown type! \"" + path + "\"", Error);
 			return false;
 		}
 	}
@@ -101,4 +104,5 @@ namespace SpaRcle {
 	bool Action::Save(std::string path) {
 		return Save(path, *this);
 	}
+	*/
 }

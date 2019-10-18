@@ -25,20 +25,31 @@ namespace SpaRcle {
 	}
 
 	void RealitySolution(int* delay, RealityCore* rcore)
-	{
-		//int count = 0;
+	{	
+		RealityCore& real = *rcore;
+		CentralCore& core = *real.core;
+		CausalityCore& causal = *core._causality;
+		size_t r_timer = 0;
+		
+		if (true) { /// Lerning of the dialogs
+			std::vector<std::string> lines;
+			System::Load("Dialogs\\dialog_1.txt", lines);
+		}
+
 		while (true)
 		{
 			Sleep(*delay);
-			_asm {
 
+			if (r_timer >= 500 / (*delay)) {
+				causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+				r_timer = 0;
 			}
-		
+			else r_timer++;
 			//std::string s = Helper::format() << count;
 			//rcore->core->_causality->NewEvent(Consequence("TestEvent " + s, Action()));
 			if(Settings::CoreDebug)
 				Debug::Log("Processing reality...");
-			//count++;
+			
 		}
 	}
 

@@ -80,6 +80,11 @@ namespace SpaRcle {
 						if (Messages[0].get<3>() == Black)
 							Messages[0].get<3>() = ConsoleColor::Green;
 						break;
+					case SpaRcle::Module:
+						pref = "[Module] ";
+						if (Messages[0].get<3>() == Black)
+							Messages[0].get<3>() = ConsoleColor::Brown;
+						break;
 					default:
 						break;
 					}

@@ -215,7 +215,19 @@ namespace SpaRcle {
 		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
 		#pragma endregion 
 
-		if (true) {
+		if (false) {
+			if (false) {
+				double tone = 8, volime = 13;
+				for (size_t t = 0; t < 3; t++)
+				{
+					(*_core).UncheckedEvents.push_back(Consequence(Sound("test", tone, volime)));
+
+					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+
+					for (size_t tt = 0; tt < 10; tt++)
+						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+				}
+			}
 			if (false) {
 				for (size_t t = 0; t < 30; t++) {
 					(*_core).UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
@@ -240,7 +252,7 @@ namespace SpaRcle {
 					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (true) {
+			if (false) {
 				double good = 20;
 				for (size_t t = 0; t < 3; t++) {
 					(*_core).UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
@@ -255,7 +267,7 @@ namespace SpaRcle {
 				for (size_t tt = 0; tt < 15; tt++)
 					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
-			if (true) {
+			if (false) {
 				double tone = 10;
 				double volime = 15;
 
@@ -275,7 +287,7 @@ namespace SpaRcle {
 						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (true) {
+			if (false) {
 				double tone = 8;
 				double volime = 13;
 

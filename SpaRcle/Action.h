@@ -1,13 +1,14 @@
 #pragma once
 #include <string>
 #include "Sound.h"
+#include "Visual.h"
 #include "Settings.h"
 #include "Debug.h"
 
 namespace SpaRcle {
 	enum AType
 	{
-		Undefined, Speech, Move
+		Undefined, Speech, Move, VisualData
 	};
 	inline const char* ToString(AType a)
 	{
@@ -16,6 +17,7 @@ namespace SpaRcle {
 		case Undefined:   return "Undefined";
 		case Speech:   return "Speech";
 		case Move: return "Move";
+		case VisualData: return "Visual";
 		default:      return "[Unknown]";
 		}
 	}
@@ -25,10 +27,11 @@ namespace SpaRcle {
 	public:
 		Action();
 		Action(Sound sound);
+		Action(Visual visual);
 		~Action();
 
-		bool Save(std::string path);
-		static bool Save(std::string path, Action& action);
+		//bool Save(std::string path);
+		//static bool Save(std::string path, Action& action);
 
 		static std::string GetSaveData(Action* action);
 		std::string GetSaveData();
@@ -36,8 +39,6 @@ namespace SpaRcle {
 		bool ApplyLine(std::string line); // Only for loading consequence!
 
 		AType type;
-
-		//const Sound GetSound();
 
 		operator Sound()
 		{
@@ -48,8 +49,18 @@ namespace SpaRcle {
 
 			return Sound();
 		}
+		operator Visual()
+		{
+			if (type == AType::VisualData)
+				return visual;
+			else
+				Debug::Log("Action::GetVisualData() = ERROR : trying get to type \"VisualData\", where has : " + std::string(ToString(type)) + "!", Error);
+
+			return Visual();
+		}
 	private:
 		Sound sound;
+		Visual visual;
 		/* [reality data container] */
 	};
 }
