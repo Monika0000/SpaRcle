@@ -6,14 +6,9 @@
 #include <boost/tuple/tuple.hpp>
 
 namespace SpaRcle {
-	enum DType {
-		Info = 1, Log = 2, Warning = 3, Error = 4, System = 5, Mind = 6, Module = 7
-	};
+	enum DType { Info = 1, Log = 2, Warning = 3, Error = 4, System = 5, Mind = 6, Module = 7 };
 
-	enum DClass
-	{
-		Central, Logic, Causality, Reality, Emotion
-	};
+	enum DClass { Central, Logic, Causality, Reality, Emotion };
 
 	enum ConsoleColor {
 		Black = 0,
@@ -38,13 +33,10 @@ namespace SpaRcle {
 	{
 	public:
 		static void Log(std::string mess, bool nline, SpaRcle::DType type = DType::Log, SpaRcle::ConsoleColor type_color = Black);
-
 		static void Log(std::string mess, SpaRcle::DType type = DType::Log, SpaRcle::ConsoleColor type_color = Black);
-
 		static void Log(int mess, bool nline = true, DType type = DType::Log, ConsoleColor type_color = Black);
 
 		static void StartDebugger();
-
 		static void StopDebugger();
 
 	private :

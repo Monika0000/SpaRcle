@@ -15,10 +15,6 @@
 #include "Settings.h"
 
 namespace SpaRcle {
-	enum ECom {
-		Synp, PerhWill
-	};
-
 	class Synapse {
 	public:
 		static inline void SummHpSyns(boost::tuple<std::string, double>& left, boost::tuple<std::string, double>& right) { 
@@ -49,7 +45,7 @@ namespace SpaRcle {
 		static std::string GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
 		static bool SummSensivity(std::string& left, std::string& right, bool check = false);
-		static void SummSensivity(Consequence& left, size_t index, std::string& right, ECom com);
+		static void SummSensivity(Consequence& left, size_t index, std::string& right);
 		inline static std::string GetSensivityOfName(std::string name) {
 			if (count_word_in_sensiv == 1) { name.resize(1); return name; }
 			else if (count_word_in_sensiv == 2) {
@@ -67,11 +63,21 @@ namespace SpaRcle {
 		}
 		static double SimilarityPercentage(std::string first, std::string second, bool lenght = false, bool normalize = false);
 		///!Depend !of !size !sensivity
+
+		static int IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name);
+		static int IndexOfSynapse(std::vector<boost::tuple<std::string, double>>& s, std::string name); //std::string,
+		static int IndexOfSynapse(std::vector<boost::tuple<std::string, std::string, double, int>>& s, std::string name);
+
+		static int FindGoodSynapse(std::vector<boost::tuple<std::string, int, double>>& s);
+		static int FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index = 0);
 	};
 
 
 	class Helper {
 	public : 
+		static std::string Transliteration(std::string line, bool inRus = false);
+		static std::string TransliterationEN(char ch);
+
 		inline static KeyboardLayout GetLayout() {
 			switch (LOWORD(GetKeyboardLayout(0)))
 			{
@@ -83,7 +89,6 @@ namespace SpaRcle {
 				return KeyboardLayout::UNKNOWN;
 			}
 		}
-
 		static std::wstring s2ws(const std::string& s)
 		{
 			int len;
@@ -95,33 +100,21 @@ namespace SpaRcle {
 			delete[] buf;
 			return r;
 		}
-
 		static std::vector<std::string> Split(std::string text, std::string chr);
-
 		static inline std::string GetNameWithType(Consequence& conq) {
 			std::string n;
 			n += ToString(conq.action.type)[0];
 			return n + "/" + conq.name;
 		}
-		
 		static std::string NumberToWord(int number);
-
 		static std::string Remove(std::string text, int index);
-
 		static bool DirExists(std::string dir);
-
-		static int IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name);
-		static int IndexOfSynapse(std::vector<boost::tuple<std::string,  double>>& s, std::string name); //std::string,
-		static int IndexOfSynapse(std::vector<boost::tuple<std::string, std::string, double, int>>& s, std::string name);
-
-		static int FindGoodSynapse(std::vector<boost::tuple<std::string, int, double>>& s);
-		static int FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index = 0);
 
 		inline static void SimpleSummConseq(Consequence& left, Consequence& right) {
 			if (left.Causes.size() == 0) left.Causes = right.Causes;
 			else if (right.Causes.size() == 0) right.Causes = left.Causes;
 			else for (size_t i = 0; i < right.Causes.size(); i++) {
-				int indx = Helper::IndexOfSynapse(left.Causes, right.Causes[i].get<0>());
+				int indx = Synapse::IndexOfSynapse(left.Causes, right.Causes[i].get<0>());
 				if (indx == -1)
 					left.Causes.push_back(right.Causes[i]);
 				else {
@@ -135,10 +128,10 @@ namespace SpaRcle {
 			if (left.PerhapsWill.size() == 0) left.PerhapsWill = right.PerhapsWill;
 			else if (right.PerhapsWill.size() == 0) right.PerhapsWill = left.PerhapsWill;
 			else for (size_t i = 0; i < right.PerhapsWill.size(); i++) {
-				int indx = Helper::IndexOfSynapse(left.PerhapsWill, right.PerhapsWill[i].get<0>());
+				int indx = Synapse::IndexOfSynapse(left.PerhapsWill, right.PerhapsWill[i].get<0>());
 				if (indx == -1) left.PerhapsWill.push_back(right.PerhapsWill[i]);
 				else {
-					Synapse::SummSensivity(left, indx, right.PerhapsWill[i].get<1>(), ECom::PerhWill); // Суммируем ситуацию данных событий
+					Synapse::SummSensivity(left, indx, right.PerhapsWill[i].get<1>()); // Суммируем ситуацию данных событий
 					left.PerhapsWill[indx].get<2>() = (left.PerhapsWill[indx].get<2>() + right.PerhapsWill[i].get<2>()) / Div; /* Суммируем полезность */
 					left.PerhapsWill[indx].get<3>()++;
 				}
@@ -148,7 +141,7 @@ namespace SpaRcle {
 			if (left.Synapses.size() == 0) left.Synapses = right.Synapses;
 			else if (right.Synapses.size() == 0) right.Synapses = left.Synapses;
 			else for (size_t i = 0; i < right.Synapses.size(); i++) {
-				int indx = Helper::IndexOfSynapse(left.Synapses, right.Synapses[i].get<0>());
+				int indx = Synapse::IndexOfSynapse(left.Synapses, right.Synapses[i].get<0>());
 				if (indx == -1) left.Synapses.push_back(right.Synapses[i]);
 				else 
 					Synapse::SummHpSyns(left.Synapses[indx], right.Synapses[i]);
@@ -197,9 +190,6 @@ namespace SpaRcle {
 					return (int)t;
 			return -1;
 		}
-
-
-
 
 		template<typename T> inline static void Sort(std::vector<int>& keys, std::vector<T>& data)
 		{
@@ -356,15 +346,6 @@ namespace SpaRcle {
 
 			return true;
 		}
-
-
-		//class format { // Устаревший
-		//	std::stringstream ss;
-		//public:
-		//	template<typename T>
-		//	format &operator <<(const T &x) { ss << x; return *this; }
-		//	operator std::string() { return ss.str(); }
-		//};
 	};
 
 	class System {
@@ -373,16 +354,13 @@ namespace SpaRcle {
 		static bool Load(std::string name, std::vector<std::string>& data, bool Delete = false);
 	};
 
-
-	template <typename T>
-	const bool Contains(std::vector<T>& Vec, const T& Element)
+	template <typename T> const bool Contains(std::vector<T>& Vec, const T& Element)
 	{
 		if (std::find(Vec.begin(), Vec.end(), Element) != Vec.end())
 			return true;
 
 		return false;
 	};
-
 	inline std::string ReadUpToChar(std::string line, char ch, int& num)
 	{
 		std::string result;
@@ -397,7 +375,6 @@ namespace SpaRcle {
 
 		return result;
 	}
-
 	template<typename T> inline std::vector<T> Remove(std::vector<T> arr, size_t index)
 	{
 		if (index > arr.size())
@@ -406,7 +383,6 @@ namespace SpaRcle {
 			arr.resize(index);
 		return arr;
 	}
-
 	inline double Round(double x) {
 		return ((x * 100) / 100);
 		//return floor(x * 100) / 100;

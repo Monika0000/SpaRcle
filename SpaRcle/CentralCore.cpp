@@ -26,15 +26,12 @@ namespace SpaRcle {
 		DelayCPU = cpuSpeed;
 		Debug::Log("-> Creating the central core are successful!");
 	}
-
 	CentralCore::~CentralCore()
 	{
 		if (Process.joinable())
 			Process.detach();
 		Debug::Log("-> The central core has completed it's work!", Info);
 	}
-
-
 
 	bool DoEventOfSynapse(Consequence& event, std::string& Situation, CentralCore& core) {
 		RealityCore& real = (*core._reality);
@@ -348,29 +345,11 @@ namespace SpaRcle {
 			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name);
 		}
 	}
-
-	/*
-	void CentralCore::AddSE() {
-		//Debug::Log(this->SE_With_MyActions.size());
-
-	ret:
-		//Debug::Log(this->SE_With_MyActions.size());
-		if (this->SE_With_MyActions.size() >= 1)
-			if (std::isupper(this->SE_With_MyActions[0])) {
-				this->SE_With_MyActions.erase(this->SE_With_MyActions.begin());
-				goto ret;
-			}
-			else
-				this->SE_With_MyActions.erase(this->SE_With_MyActions.begin());
-	}
-	*/
-
 	void CentralCore::NewEvent(Consequence event, std::string Situation)
 	{
 		Events.push_back(boost::tuple<Consequence, std::string>(event, Situation));
 		//Debug::Log(event.name + " - 123");
 	}
-
 	void CentralCore::Start()
 	{
 		if (!Settings::PathsIsSet) {
@@ -386,7 +365,6 @@ namespace SpaRcle {
 		//Process = std::thread { std::move(CentralSolution), std::ref(DelayCPU) };
 		Debug::Log("-> The central core is started!");
 	}
-
 
 	void CentralCore::ConnectReality(RealityCore* core) { _reality = core; _reality->core = this; }
 	void CentralCore::ConnectCausality(CausalityCore* core) { _causality = core; _causality->core = this; }

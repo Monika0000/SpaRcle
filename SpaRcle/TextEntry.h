@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "Helper.h"
+#include <sstream>
 #include "GL/glut.h"
 #include "GetKeyCode.h"
 #include <SFML/Window.hpp>
@@ -69,7 +71,11 @@ namespace SpaRcle {
 							return s;
 						}
 						else
+						{
+							if (Settings::Layout == RU)
+								key = Helper::Transliteration(key);
 							context += key;
+						}
 						//Sleep(100);
 					}
 					timer = 4;
@@ -82,7 +88,21 @@ namespace SpaRcle {
 			else
 				s = "|";
 
-			sf::Text text(s, font, 15);
+			//sf::String::fromUtf8
+			sf::Text text("", font, 15);
+			//s = "авыауу";
+		
+			//std::wostringstream ost;
+			//ost << L"смывв" << s.c_str();
+			//std::wstring buf(ost.str());
+
+			sf::String ss = sf::String::fromUtf32(s.begin(), s.end());
+			//std::cout << ss[2];
+
+			//ss = ss.toUtf32();
+			//ss.fromUtf16()
+			text.setString(ss);
+
 			text.setFillColor(sf::Color(2,2,2));
 			text.setPosition(Position.x + 1.3f, Position.y + 1.5f);
 

@@ -40,7 +40,6 @@ namespace SpaRcle {
 		DelayCPU = cpuSpeed;
 		Debug::Log("-> Creating the causality core are successful! \n\t Was loaded : " + std::to_string(CheckedEvents.size()) + " elements.");
 	}
-
 	CausalityCore::~CausalityCore() {
 		if (Process.joinable())
 			Process.detach();
@@ -78,7 +77,7 @@ namespace SpaRcle {
 			
 			//continue;
 
-			int С_index = Helper::IndexOfSynapse(conq.Causes, C_name); // Ищем схожую причину
+			int С_index = Synapse::IndexOfSynapse(conq.Causes, C_name); // Ищем схожую причину
 			if (С_index == -1) {
 				// Добавляем синапс на нейрон являющийся причиной данного следствия (нейрона)
 				conq.Causes.push_back(boost::tuple<std::string, int, double>(C_name, 1, Ref_ev[t].GetSummHP()));
@@ -117,7 +116,7 @@ namespace SpaRcle {
 			S_name += "/"; S_name += ref_will.name; // Генерируем имя
 
 			if (ref_will.GetSummHP() > 0) { // Ищем синапсы, чтобы можно было продолжить действия после этого нейрона
-				int S_index = Helper::IndexOfSynapse(conq.Synapses, S_name); // Получаем индекс
+				int S_index = Synapse::IndexOfSynapse(conq.Synapses, S_name); // Получаем индекс
 				if (S_index == -1) { 
 					// Добавляем синапс на новый нейрон, который нужно будет выпоолнить после этого
 					//conq.Synapses.push_back(boost::tuple<std::string, std::string, double>(S_name, Sensivity, ref_will.GetSummHP())); // ======== Добавляем новый снапс ========
@@ -469,7 +468,6 @@ namespace SpaRcle {
 				Debug::Log("Processing causality... ");
 		}
 	}
-
 	void CausalityCore::Start()
 	{
 		//union d { int f = 5; };

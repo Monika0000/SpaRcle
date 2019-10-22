@@ -225,212 +225,7 @@ namespace SpaRcle {
 
 		return true;
 	}
-#if 0
-	bool Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic)
-	{
-		std::string path;
-		if (!Diagnostic)
-			path = Settings::Logic + "\\" + ToString(atype) + "\\" + name + Settings::exp_conseq;
-		else
-			path = Settings::SysDir + "\\TestingData\\" + ToString(atype) + "\\" + name + Settings::exp_conseq;
 
-		std::ifstream fin;
-		try { fin.open(path); }
-		catch (...) { Debug::Log("Consequence::Load : Openning failed! \n	" + path, Error); }
-
-		if (!fin.is_open()) {
-			if (notFoundIsError)
-				Debug::Log("SpaRcle::Consequence::Load : Loading failed! \n	" + path, Error);
-			return false;
-		}
-
-
-		bool findType = false;
-		this->name = name;
-
-		try
-		{
-			while (!fin.eof()) {
-				std::string line;
-				try {
-					std::getline(fin, line);
-				}
-				catch (...) {
-					Debug::Log("SpaRcle::Consequence::Load : Failed read line! \n	" + path, Error);
-					Debug::Log("[============================= FATAL ERROR =============================]", Error);
-					Settings::Status = -3; return false;
-				}
-
-				if (!findType) {
-					int n;
-					try {
-						std::string pref = ReadUpToChar(line, ':', n);
-						std::string post = line.substr(n);
-
-						try {
-							SWITCH(pref)
-							{
-								CASE("m") : {
-									try {
-										meetings = std::atoi(post.c_str()); break;
-									}
-									catch (...) {
-										Debug::Log("SpaRcle::Consequence::Load : An exception has occured! \n\tBlock : Meetings\n	" + path, Error);
-										Debug::Log("[============================= FATAL ERROR =============================]", Error);
-										Settings::Status = -3; return false;
-									}
-								}
-								CASE("cas") : {
-									size_t leng = std::atoi(post.c_str());
-									for (size_t i = 0; i < leng; i++)
-									{
-										boost::tuple<std::string, int, double> t;
-										std::string l; int n2;
-										try {
-											std::getline(fin, l);
-											if (l.size() == 0)
-												std::getline(fin, l);
-											if (l.size() == 0) {
-												Debug::Log("Consequence::Load : Failed read cause!", Warning);
-												continue;
-											}
-
-											t.get<0>() = ReadUpToChar(l, ';', n2);
-											l = l.substr(n2);
-
-											t.get<1>() = std::atoi(ReadUpToChar(l, ';', n2).c_str());
-											l = l.substr(n2);
-											t.get<2>() = std::stod(l);
-											Causes.push_back(t);
-										}
-										catch (...) {
-											Debug::Log("SpaRcle::Consequence::Load : An exception has occured! \n\tBlock : Cause\n\tLine : " + l + "\n\t" + path, Error);
-											Debug::Log("[============================= FATAL ERROR =============================]", Error);
-											Settings::Status = -3; return false;
-										}
-									}
-									break;
-								}
-								CASE("prw") : {
-									try {
-										size_t leng = std::atoi(post.c_str());
-										for (size_t i = 0; i < leng; i++)
-										{
-											boost::tuple<std::string, std::string, double, int> t;
-											std::string l; int n2;
-
-											std::getline(fin, l);
-											t.get<0>() = ReadUpToChar(l, ';', n2);
-											l = l.substr(n2);
-											t.get<1>() = ReadUpToChar(l, ';', n2);
-											l = l.substr(n2);
-											t.get<2>() = std::stof(ReadUpToChar(l, ';', n2));
-											l = l.substr(n2);
-											t.get<3>() = std::atoi(l.c_str());
-											PerhapsWill.push_back(t);
-										}
-										break;
-									}
-									catch (...) {
-										Debug::Log("SpaRcle::Consequence::Load : An exception has occured! \n\tBlock : PerhapsWill\n	" + path, Error);
-										Debug::Log("[============================= FATAL ERROR =============================]", Error);
-										Settings::Status = -3; return false;
-									}
-								}
-								CASE("syn") : {
-									try {
-										size_t leng = std::atoi(post.c_str());
-										for (size_t i = 0; i < leng; i++)
-										{
-											boost::tuple<std::string, std::string, double> t;
-											std::string l; int n2;
-
-											std::getline(fin, l);
-											t.get<0>() = ReadUpToChar(l, ';', n2);
-											l = l.substr(n2);
-											t.get<1>() = ReadUpToChar(l, ';', n2);
-											l = l.substr(n2);
-											t.get<2>() = std::stof(post.c_str());
-											Synapses.push_back(t);
-										}
-										break;
-									}
-									catch (...) {
-										Debug::Log("SpaRcle::Consequence::Load : An exception has occured! \n\tBlock : Synapse\n	" + path, Error);
-										Debug::Log("[============================= FATAL ERROR =============================]", Error);
-										Settings::Status = -3; return false;
-									}
-								}
-								CASE("h") :{
-									try {
-										int n2;
-										std::string bad = ReadUpToChar(post, ';', n2);
-
-										Bad = std::stof(bad);
-										Good = std::stof(post.substr(n2));
-										break;
-									}
-									catch (...) {
-										Debug::Log("SpaRcle::Consequence::Load : An exception has occured! \n\tBlock : Helpfulness\n	" + path, Error);
-										Debug::Log("[============================= FATAL ERROR =============================]", Error);
-										Settings::Status = -3;
-										return false;
-									}
-								}
-								CASE("t") :{
-									try {
-										if (post == "Speech")
-											action.type = Speech;
-										else
-											Debug::Log("SpaRcle::Consequence::Load::CASE(t) = WARNING : Unknown type! \n\tPath : " + path +
-												"\n\tLine : " + line +
-												"\n\tSymbol : " + post, Warning);
-										//std::cout << "SWITCH::CASE : t" << std::endl;
-										findType = true;
-										break;
-									}
-									catch (...) {
-										Debug::Log("SpaRcle::Consequence::Load : An exception has occured! \n\tBlock : Type action\n	" + path, Error);
-										Debug::Log("[============================= FATAL ERROR =============================]", Error);
-										Settings::Status = -3; return false;
-									}
-								}
-							DEFAULT:
-								Debug::Log("SpaRcle::Consequence::Load::SWITCH = WARNING : Uncorrect char! \n\tPath : " + path +
-									"\n\tLine : " + line +
-									"\n\tSymbol : " + pref, Warning);
-								break;
-							}
-						}
-						catch (...) {
-							Debug::Log("SpaRcle::Consequence::Load : Switch error! \n	" + path, Error);
-							Debug::Log("[============================= FATAL ERROR =============================]", Error);
-							Settings::Status = -3; return false;
-						}
-					}
-					catch (...) {
-						Debug::Log("SpaRcle::Consequence::Load : Pref-Post error! \n	" + path, Error);
-						Debug::Log("[============================= FATAL ERROR =============================]", Error);
-						Settings::Status = -3; return false;
-					}
-				}
-				else
-					if (!action.ApplyLine(line))
-						std::cout << "\n\t" + path << std::endl;
-			}
-
-			fin.close();
-
-			return true;
-		}
-		catch (...) {
-			Debug::Log("SpaRcle::Consequence::Load : An exception has occured! \n	" + path, Error);
-			Debug::Log("[============================= FATAL ERROR =============================]", Error);
-			Settings::Status = -3;
-			return false;
-		}
-	}
-#endif
 	Consequence::Consequence() {
 		meetings = 1;
 		EventData = DataTime();
@@ -467,14 +262,12 @@ namespace SpaRcle {
 		this->EventData = DataTime();
 		this->meetings = 1;
 	}
-
 	Consequence::Consequence(std::string name, Action action, int meets) {
 		this->name = name;
 		this->action = action;
 		this->meetings = meets;
 		this->EventData = DataTime();
 	}
-
 	Consequence::Consequence(std::string name, Action action, int meets, double Bad, double Good) {
 		this->name = name;
 		this->action = action;
@@ -483,7 +276,6 @@ namespace SpaRcle {
 		this->Bad = Bad;
 		this->EventData = DataTime();
 	}
-
 	Consequence::~Consequence() { }
 
 	const Consequence operator+(Consequence& left, Consequence& right)

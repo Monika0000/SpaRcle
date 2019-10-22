@@ -147,7 +147,7 @@ return 0;
 
 // Task : Сделай кнопки,чтобы быстро кликать на события (идет, бежит, прыгает, летит,больно)
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	//std::cout << ((1.22322e-4)* 100) / 100 << std::endl;
 	//std::cout << ((1.3676e-294)* 10) / 100 << std::endl;
@@ -155,6 +155,7 @@ int main(int argc, char **argv)
 	system("color 70");
 	setlocale(LC_ALL, "rus");
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
+
 	//return Settings::count_sens - 1;
 	//std::string s = "12345";
 	//std::cout << s.substr(0, 1) << std::endl;return 1;
@@ -162,75 +163,72 @@ int main(int argc, char **argv)
 	//std::cout << Helper::GetSensivityOfName("1") << std::endl;
 	//std::cout << Helper::SimilarityPercentage("012000", "013000") << std::endl;
 
-
-
-
 	#pragma region [======== Pre-Init ========]
-	Debug::StartDebugger();
-	Sleep(100);
-	Debug::Log("Pre-initializing", DType::System);
+		Debug::StartDebugger();
+		Sleep(100);
+		Debug::Log("Pre-initializing", DType::System);
 
-	Settings::CoreDebug = false; // Disable loging cores
-	//////////////////////////////
-	TCHAR cwd[100];
-	GetCurrentDirectory(100, cwd);
-	std::wstring ws(&cwd[0]);
-	Settings::SetPaths(std::string(ws.begin(), ws.end()),
-		"D:\\SpaRcle\\SpaRcleData\\System",
-		"D:\\SpaRcle\\SpaRcle\\Resources",
-		"D:\\SpaRcle\\SpaRcleData\\Memory",
-		"D:\\SpaRcle\\SpaRcleData\\Logic");
-	Debug::Log("~ DIR \"" + Settings::PathPj + "\"");
-
-
-	//std::string all; Consequence conq("four", AType::Speech);
-	//for (auto& a : LogicalCore::DecomposeConsequence(conq)) all += "\n\t" + a;
-	//Debug::Log("Decompose \"4\" : " + all); Sleep(1111111);
-
-	if (!Settings::Diagnostic())
-		Debug::Log("Diagnostic... System is unstable!", true, DType::System, SpaRcle::Red);
-	else
-	{
-		boost::tuple<int> r;
-		Debug::Log("Diagnostic... System is stable!", DType::System, SpaRcle::Green);
-
-		//std::cout << Helper::SimilarityPercentage("12", "123") << std::endl;
-		//Sleep(225552);
-
-		Settings::Status = 1;
+		Settings::CoreDebug = false; // Disable loging cores
 		//////////////////////////////
-		_core = new CentralCore(5);
-		_causality = new CausalityCore(5);
-		_logic = new LogicalCore(5);
-		_reality = new RealityCore(100);
-		_emotion = new EmotionCore(1500);
-		#pragma endregion
+		TCHAR cwd[100];
+		GetCurrentDirectory(100, cwd);
+		std::wstring ws(&cwd[0]);
+		Settings::SetPaths(std::string(ws.begin(), ws.end()),
+			"D:\\SpaRcle\\SpaRcleData\\System",
+			"D:\\SpaRcle\\SpaRcle\\Resources",
+			"D:\\SpaRcle\\SpaRcleData\\Memory",
+			"D:\\SpaRcle\\SpaRcleData\\Logic");
+		Debug::Log("~ DIR \"" + Settings::PathPj + "\"");
 
-		#pragma region [======== Init ========]
-		Debug::Log("Initializing", DType::System);
-		Display::StartDisplay(_core); // Graph-mode
 
-		_core->ConnectLogic(_logic);
-		_core->ConnectCausality(_causality);
-		_core->ConnectReality(_reality);
-		_core->ConnectEmotion(_emotion);
+		//std::string all; Consequence conq("four", AType::Speech);
+		//for (auto& a : LogicalCore::DecomposeConsequence(conq)) all += "\n\t" + a;
+		//Debug::Log("Decompose \"4\" : " + all); Sleep(1111111);
 
-		Sleep(100);
-		_reality->Start();
+		if (!Settings::Diagnostic())
+			Debug::Log("Diagnostic... System is unstable!", true, DType::System, SpaRcle::Red);
+		else
+		{
+			boost::tuple<int> r;
+			Debug::Log("Diagnostic... System is stable!", DType::System, SpaRcle::Green);
 
-		Sleep(100);
-		_logic->Start();
+			//std::cout << Helper::SimilarityPercentage("12", "123") << std::endl;
+			//Sleep(225552);
 
-		Sleep(100);
-		_causality->Start();
-		
-		Sleep(100);
-		_emotion->Start();
-		Sleep(100);
+			Settings::Status = 1;
+			//////////////////////////////
+			_core = new CentralCore(5);
+			_causality = new CausalityCore(5);
+			_logic = new LogicalCore(5);
+			_reality = new RealityCore(100);
+			_emotion = new EmotionCore(1500);
+	#pragma endregion
 
-		_core->Start();
-		Sleep(100);
-		#pragma endregion
+	#pragma region [======== Init ========]
+			Debug::Log("Initializing", DType::System);
+			Display::StartDisplay(_core); // Graph-mode
+
+			_core->ConnectLogic(_logic);
+			_core->ConnectCausality(_causality);
+			_core->ConnectReality(_reality);
+			_core->ConnectEmotion(_emotion);
+
+			Sleep(100);
+			_reality->Start();
+
+			Sleep(100);
+			_logic->Start();
+
+			Sleep(100);
+			_causality->Start();
+
+			Sleep(100);
+			_emotion->Start();
+			Sleep(100);
+
+			_core->Start();
+			Sleep(100);
+	#pragma endregion
 
 		while (true)
 		{
@@ -259,7 +257,7 @@ int main(int argc, char **argv)
 
 		Display::Deactive();
 		std::cout << std::endl;
-		
+
 
 		return 0;
 	}

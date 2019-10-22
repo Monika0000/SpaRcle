@@ -151,8 +151,8 @@ namespace SpaRcle {
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) if (shift) return "Ø"; else return "ø";
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) if (shift) return "Ù"; else return "ù";
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) if (shift) return "Ç"; else return "ç";
-								if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) if (shift) return "Õ"; else return "õ";
-								if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) if (shift) return "Õ"; else return "ú";
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::LBracket)) if (shift) return "Õ"; else return "õ";
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::RBracket)) if (shift) return "Ú"; else return "ú";
 				#pragma endregion
 
 				#pragma region 2_Line
@@ -165,8 +165,8 @@ namespace SpaRcle {
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) if (shift) return "Î"; else return "î";
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) if (shift) return "Ë"; else return "ë";
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) if (shift) return "Ä"; else return "ä";
-								if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) if (shift) return "Æ"; else return "æ";
-								if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) if (shift) return "Ý"; else return "ý";
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Semicolon)) if (shift) return "Æ"; else return "æ";
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Quote)) if (shift) return "Ý"; else return "ý";
 				#pragma endregion
 
 				#pragma region 3_Line
@@ -177,8 +177,8 @@ namespace SpaRcle {
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) if (shift) return "È"; else return "è";
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) if (shift) return "Ò"; else return "ò";
 								if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) if (shift) return "Ü"; else return "ü";
-								if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) if (shift) return "Á"; else return "á";
-								if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) if (shift) return "Þ"; else return "þ";
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Comma)) if (shift) return "Á"; else return "á";
+								if (sf::Keyboard::isKeyPressed(sf::Keyboard::Period)) if (shift) return "Þ"; else return "þ";
 				#pragma endregion
 			}
 			return "";

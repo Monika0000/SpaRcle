@@ -7,43 +7,24 @@
 #include <stdio.h>
 
 namespace SpaRcle {
-	void Debug::Log(std::string mess, bool nline, SpaRcle::DType type, SpaRcle::ConsoleColor type_color)
-	{
-		//std::cout << "asd" << std::endl;
-		//try {
-		//	if (Settings::Status >= 0)
-				Messages.push_back(boost::tuple<std::string, bool, DType, ConsoleColor>(mess, nline, type, type_color));
-		//}
-		//catch (...) {
-
-		//}
-	}
+	void Debug::Log(std::string mess, bool nline, SpaRcle::DType type, SpaRcle::ConsoleColor type_color) 
+	{ Messages.push_back(boost::tuple<std::string, bool, DType, ConsoleColor>(mess, nline, type, type_color)); }
 
 	void Debug::Log(std::string mess, SpaRcle::DType type, SpaRcle::ConsoleColor text_color) {
-		Debug::Log(mess, true, type, text_color);
-	}
+		Debug::Log(mess, true, type, text_color); }
 
-	void Debug::Log(int mess, bool nline, DType type, ConsoleColor text_color)
-	{
-		//std::string s = Helper::format() << mess;
+	void Debug::Log(int mess, bool nline, DType type, ConsoleColor text_color) {
 		std::string s = std::to_string(mess);
-		Debug::Log(std::basic_string(s), nline, type, text_color);
-	}
+		Debug::Log(std::basic_string(s), nline, type, text_color); }
 
 	bool Debug::IsStart = false;
 	std::vector<boost::tuple<std::string, bool, DType, ConsoleColor>> Debug::Messages;
 	std::thread Debug::Process;
 
 	void Debug::DebuggerSolution() {
-		//std::string p = Settings::SysDir + "\\Log.txt"; // path to system file
-		//std::ofstream fout; fout.open(p);
-		//fout << "[=================== START ===================]" << std::endl;
 		while (true) {
 			try {
-				if (Settings::Status < 0 && Debug::Messages.size() == 0) {
-					//std::cout << Settings::Status << std::endl;
-					continue;
-				}
+				if (Settings::Status < 0 && Debug::Messages.size() == 0) { continue; }
 
 				if (Messages.size() > 0) {
 					HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -91,37 +72,24 @@ namespace SpaRcle {
 					}
 
 					SetConsoleTextAttribute(hConsole, (WORD)((LightGray << 4) | Messages[0].get<3>()));
-
 					std::cout << pref;
-
 					SetConsoleTextAttribute(hConsole, (WORD)((LightGray << 4) | Black));
 
-					if (Messages[0].get<1>())
-						std::cout << Messages[0].get<0>() << std::endl;
-					else
-						std::cout << Messages[0].get<0>();
-
-					//fout << (pref + Messages[0].get<0>()) << std::endl;
-
+					if (Messages[0].get<1>()) std::cout << Messages[0].get<0>() << std::endl;
+					else std::cout << Messages[0].get<0>();
+					
 					Messages.erase(Messages.begin());
 				}
 			}
-			catch (...) {
-
-			}
+			catch (...) { }
 		}
 	}
 
-	void Debug::StartDebugger()
-	{
+	void Debug::StartDebugger() {
 		if (!IsStart) {
-			Process = std::thread(DebuggerSolution);
-		}
-	}
+			Process = std::thread(DebuggerSolution); } }
 
-	void Debug::StopDebugger()
-	{
+	void Debug::StopDebugger() {
 		if (Debug::Process.joinable())
-			Debug::Process.detach();
-	}
+			Debug::Process.detach(); }
 }

@@ -21,7 +21,6 @@ namespace SpaRcle {
 
 		Debug::Log("-> Creating the logical core are successful!");
 	}
-
 	LogicalCore::~LogicalCore() {
 		if (Process.joinable())
 			Process.detach();
@@ -31,37 +30,6 @@ namespace SpaRcle {
 		Debug::Log("-> The logical core has completed it's work!", Info);
 	}
 	 
-	std::vector<std::string> LogicalCore::DecomposeConsequence(Consequence& conseq)
-	{
-		/*
-			Раскладываем следствие на состовляющие 
-			Пример : четыре состоит из :
-				два + два 
-				три + один
-				четыре + ноль
-		*/
-		std::string name = Helper::GetNameWithType(conseq);
-
-		std::vector<std::string> decomps;
-		for (size_t t = 0; t < conseq.Causes.size(); t++) {
-			if (name == conseq.Causes[t].get<0>()) {
-				continue;
-			}
-
-			Consequence load(conseq.Causes[t].get<0>().substr(2), Helper::GetConseqType(conseq.Causes[t].get<0>()));
-			for (size_t t2 = 0; t2 < load.PerhapsWill.size(); t2++) {
-				
-				if (conseq.Causes[t].get<0>() == load.PerhapsWill[t2].get<0>())
-				{
-					decomps.push_back(conseq.Causes[t].get<0>());
-					break;
-				}
-			}
-		}
-
-		return decomps;
-	}
-
 	void LogicalSolution(int* delay, LogicalCore* _core) {
 		CentralCore& core = *(*_core).core;
 		RealityCore& real = *core._reality;
@@ -96,7 +64,6 @@ namespace SpaRcle {
 				Debug::Log("Processing logical... ");
 		}
 	}
-
 	void LogicalCore::Start()
 	{
 		Process = std::thread(LogicalSolution, &DelayCPU, this);
@@ -128,7 +95,6 @@ namespace SpaRcle {
 			//core->_reality->DoAction(Action(Sound("I'am can speek!"))); // [TEST CODE]
 		}
 	}
-
 	void LogicalCore::EditCauses(std::vector<std::string>& Causes, std::vector<int>& Meets, std::vector<std::string> Sensivitys, Consequence& conq)
 	{
 		std::string name;
@@ -138,8 +104,36 @@ namespace SpaRcle {
 		this->Causes.push_back(boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string>
 			(Causes, Meets, Sensivitys, conq.GetSummHP(), name)); // Добавляем элемент в конец
 	}
+	std::vector<std::string> LogicalCore::DecomposeConsequence(Consequence& conseq)
+	{
+		/*
+			Раскладываем следствие на состовляющие
+			Пример : четыре состоит из :
+				два + два
+				три + один
+				четыре + ноль
+		*/
+		std::string name = Helper::GetNameWithType(conseq);
 
+		std::vector<std::string> decomps;
+		for (size_t t = 0; t < conseq.Causes.size(); t++) {
+			if (name == conseq.Causes[t].get<0>()) {
+				continue;
+			}
 
+			Consequence load(conseq.Causes[t].get<0>().substr(2), Helper::GetConseqType(conseq.Causes[t].get<0>()));
+			for (size_t t2 = 0; t2 < load.PerhapsWill.size(); t2++) {
+
+				if (conseq.Causes[t].get<0>() == load.PerhapsWill[t2].get<0>())
+				{
+					decomps.push_back(conseq.Causes[t].get<0>());
+					break;
+				}
+			}
+		}
+
+		return decomps;
+	}
 
 	bool LogicalCore::CauseReputation(boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, 
 		std::string>& Cause, const bool Diagnostic) /* CauseReputation */ {
@@ -251,7 +245,6 @@ namespace SpaRcle {
 
 		return true;
 	}
-
 	bool LogicalCore::GetOpposite(Consequence & opposite, Consequence & event, bool Diagnostic)
 	{
 		// А вот и самый сложный участок кода. Здесь мы должны найти противоположность следствию. Удачи...

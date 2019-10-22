@@ -4,6 +4,57 @@
 #include <tchar.h>
 
 namespace SpaRcle {
+	std::string Helper::TransliterationEN(char ch)
+	{
+		ch = std::toupper(ch);
+		switch (ch) {
+		case ' ': return " ";
+		case 'А': return "A";
+		case 'Б': return "B";
+		case 'В': return "V";
+		case 'Г': return "G";
+		case 'Д': return "D";
+		case 'Е': return "E";
+		case 'Ё': return "JE";
+		case 'Ж': return "ZH";
+		case 'З': return "Z";
+		case 'И': return "I";
+		case 'Й': return "Y";
+		case 'К': return "K";
+		case 'Л': return "L";
+		case 'М': return "M";
+		case 'Н': return "N";
+		case 'О': return "O";
+		case 'П': return "P";
+		case 'Р': return "R";
+		case 'С': return "S";
+		case 'Т': return "T";
+		case 'У': return "U";
+		case 'Ф': return "F";
+		case 'Х': return "KH";
+		case 'Ц': return "C";
+		case 'Ч': return "CH";
+		case 'Ш': return "SH";
+		case 'Щ': return "JSH";
+		case 'Ъ': return "HH";
+		case 'Ы': return "IH";
+		case 'Ь': return "JH";
+		case 'Э': return "EH";
+		case 'Ю': return "JU";
+		case 'Я': return "JA";
+		default: Debug::Log("TransliterationEN : unknown char! \"" + std::string(1, ch) + "\"", Error); return "[ERROR]";
+		}
+	}
+	std::string Helper::Transliteration(std::string line, bool inRus)
+	{
+		std::string en;
+		for (auto& c: line) {
+			en += TransliterationEN(c);
+		}
+		for (int i = 0; i < en.size(); i++)
+			en[i] = tolower(en[i]);
+		return en;
+	}
 	std::vector<std::string> Helper::Split(std::string text, std::string chr)
 	{
 		std::vector<std::string> arr;
@@ -19,12 +70,11 @@ namespace SpaRcle {
 
 		return arr;
 	}
-
 	std::string Helper::NumberToWord(int number)
 	{
 		switch (number) {
 		case 0: return "zero";
-		case 1: return "one"; 
+		case 1: return "one";
 		case 2: return "two";
 		case 3: return "bhree";
 		case 4: return "four";
@@ -43,7 +93,6 @@ namespace SpaRcle {
 		}
 		return "[ERROR]";
 	}
-
 	std::string Helper::Remove(std::string text, int index)
 	{
 		if ((size_t)index >= text.size())
@@ -53,7 +102,6 @@ namespace SpaRcle {
 			str += text[i];
 		return str;
 	}
-
 	bool Helper::DirExists(std::string dir)
 	{
 		std::wstring stemp = s2ws(dir);
@@ -71,21 +119,21 @@ namespace SpaRcle {
 
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
-	int Helper::IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name)
+	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name)
 	{
 		for (size_t i = 0; i < s.size(); i++)
 			if (s[i].get<0>() == name)
 				return i; // Found!
 		return -1; // Not found!
 	}
-	int Helper::IndexOfSynapse(std::vector<boost::tuple<std::string,  double>>& s, std::string name)
+	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, double>>& s, std::string name)
 	{
 		for (size_t i = 0; i < s.size(); i++)
 			if (s[i].get<0>() == name)
 				return i; // Found!
 		return -1; // Not found!
 	} //std::string,
-	int Helper::IndexOfSynapse(std::vector<boost::tuple<std::string, std::string, double, int>>& s, std::string name)
+	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, std::string, double, int>>& s, std::string name)
 	{
 		for (size_t i = 0; i < s.size(); i++)
 			if (s[i].get<0>() == name)
@@ -93,9 +141,9 @@ namespace SpaRcle {
 		return -1; // Not found!
 	}
 
-	int Helper::FindGoodSynapse(std::vector<boost::tuple<std::string, int, double>>& s)
+	int Synapse::FindGoodSynapse(std::vector<boost::tuple<std::string, int, double>>& s)
 	{
-		if(s.size() == 0)
+		if (s.size() == 0)
 			return -1;
 
 		int point = 0;
@@ -110,7 +158,7 @@ namespace SpaRcle {
 
 		return point;
 	}
-	int Helper::FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index)
+	int Synapse::FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index)
 	{
 		if (s.size() == 0) return -1;
 		if (s.size() - 1 < from_index) {
@@ -156,8 +204,8 @@ namespace SpaRcle {
 
 			return true;
 		}
-		catch (...){
-			Debug::Log("SpaRcle::System::Save : An exception has occured! \n\tPath : "+ p, Error);
+		catch (...) {
+			Debug::Log("SpaRcle::System::Save : An exception has occured! \n\tPath : " + p, Error);
 			return false;
 		}
 	}
@@ -175,15 +223,16 @@ namespace SpaRcle {
 			while (!fin.eof()) {
 				std::string line;
 				std::getline(fin, line);
-				if(line == "" || line == " ")
-				{ }
+				if (line == "" || line == " ")
+				{
+				}
 				else
 					data.push_back(line);
 			}
 
 			fin.close();
 
-			if(Delete)
+			if (Delete)
 				remove(p.c_str());
 
 			return true;
@@ -304,43 +353,37 @@ namespace SpaRcle {
 
 		return true;
 	}
-	void Synapse::SummSensivity(Consequence& left, size_t index, std::string& right, ECom com)
+	void Synapse::SummSensivity(Consequence& left, size_t index, std::string& right)
 	{
-		if (com == ECom::PerhWill) {
-			auto& a = left.PerhapsWill[index].get<1>();
-			//if (a == "S/equal")
-			if (SummSensivity(a, right, true))
-			{
-				//if (a.size() == right.size())
-				//	if (GetPercent(a, right) < 75)
-				//	{
-				//		left.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(left.PerhapsWill[index].get<0>(), right,
-				//			left.PerhapsWill[index].get<2>(), left.PerhapsWill[index].get<3>()));
-				//	}
-				if (count_word_in_sensiv == 1) {
-					if (left.name[0] == right[right.size() - 1]) {
-						for (size_t t = 0; t < a.size(); t++) {
-							//if (a[t] != right[t]) a[t] = '*';
-						}
+		auto& a = left.PerhapsWill[index].get<1>();
+		//if (a == "S/equal")
+		if (SummSensivity(a, right, true))
+		{
+			//if (a.size() == right.size())
+			//	if (GetPercent(a, right) < 75)
+			//	{
+			//		left.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(left.PerhapsWill[index].get<0>(), right,
+			//			left.PerhapsWill[index].get<2>(), left.PerhapsWill[index].get<3>()));
+			//	}
+			if (count_word_in_sensiv == 1) {
+				if (left.name[0] == right[right.size() - 1]) {
+					for (size_t t = 0; t < a.size(); t++) {
+						//if (a[t] != right[t]) a[t] = '*';
 					}
-					//Debug::Log("dasdsdasdadasd");
-					//	}
-
 				}
+				//Debug::Log("dasdsdasdadasd");
+				//	}
+
 			}
 		}
-		else if (com == ECom::Synp)
-			/*
-				Портит синапсы, добавляя в их имена чувствительность, которая была удалена в новых вурсиях из синапсов
-			*/
-			//if (!SummSensivity(left.Synapses[index].get<0>(), right, true)) 
-			//{
-				//left.Synapses.push_back(boost::tuple<std::string, std::string, double>(left.Synapses[index].get<0>(), right,
-				//	left.Synapses[index].get<2>()));
-			//}
-		{
-
-		}
+		/*
+	Портит синапсы, добавляя в их имена чувствительность, которая была удалена в новых вурсиях из синапсов
+*/
+//if (!SummSensivity(left.Synapses[index].get<0>(), right, true)) 
+//{
+	//left.Synapses.push_back(boost::tuple<std::string, std::string, double>(left.Synapses[index].get<0>(), right,
+	//	left.Synapses[index].get<2>()));
+//}
 	}
 	std::string SpaRcle::Synapse::ClearSensivity(std::string& sensiv)
 	{

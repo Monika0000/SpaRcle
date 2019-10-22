@@ -13,14 +13,11 @@ namespace SpaRcle {
 	RealityCore::RealityCore(int cpuSpeed) {
 		core = NULL;
 		DelayCPU = cpuSpeed;
-		Debug::Log("-> Creating the reality core are successful!");
-	}
-
+		Debug::Log("-> Creating the reality core are successful!"); }
 	RealityCore::~RealityCore() {
 		if (Process.joinable())
 			Process.detach();
-		Debug::Log("-> The reality core has completed it's work!", Info);
-	}
+		Debug::Log("-> The reality core has completed it's work!", Info); }
 
 	void RealitySolution(int* delay, RealityCore* rcore) {	
 		RealityCore& real = *rcore;
@@ -42,6 +39,11 @@ namespace SpaRcle {
 			System::Load("Dialogs\\dialog_2.txt", lines);
 			for (size_t t = 0; t < lines.size(); t++)
 			{
+				if (lines[t] == "[END]") {
+					for (size_t e = 0; e < 15; e++)
+						causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+					continue; }
+
 				for (auto a : Helper::Split(lines[t].substr(2), " ")) {
 					for (auto& w : a)
 						w = std::tolower(w);
@@ -54,19 +56,19 @@ namespace SpaRcle {
 		{
 			Sleep(*delay);
 
-			if (r_timer >= 500 / (*delay)) {
-				causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
-				r_timer = 0;
-			}
-			else r_timer++;
+			if (Settings::isMinding)
+				if (r_timer >= 500 / (*delay)) {
+					causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+					r_timer = 0;
+				}
+				else r_timer++;
 			//std::string s = Helper::format() << count;
 			//rcore->core->_causality->NewEvent(Consequence("TestEvent " + s, Action()));
-			if(Settings::CoreDebug)
+			if (Settings::CoreDebug)
 				Debug::Log("Processing reality...");
-			
+
 		}
 	}
-
 	void RealityCore::Start()
 	{
 		Process = std::thread(RealitySolution, &DelayCPU, this);

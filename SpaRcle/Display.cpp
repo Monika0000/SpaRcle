@@ -26,7 +26,7 @@ namespace SpaRcle {
 
 	static void MainDialog(CentralCore* core) {
 		sf::Font defaultFont;
-		defaultFont.loadFromFile(Settings::Resources + "\\calibri.ttf");
+		defaultFont.loadFromFile(Settings::Resources + "\\arial.ttf"); //calibri.ttf a_AlternaNr.ttf
 
 		//sf::Window window(sf::VideoMode(800, 600), "SpaRcle : Display");
 		sf::RenderWindow window(sf::VideoMode(800, 600), "SpaRcle : Display");
@@ -178,21 +178,13 @@ namespace SpaRcle {
 		return;
 	}
 
-
-	void Display::StartDisplay(CentralCore* core)
-	{
+	void Display::StartDisplay(CentralCore* core) {
 		if (Status == 0) {
 			display = std::thread(MainDialog, core);
-			Status = 1;
-		}
-		else {
-			SpaRcle::Debug::Log("Display already is started!");
-		}
-	}
+			Status = 1; }
+		else SpaRcle::Debug::Log("Display already is started!"); }
 
-	void Display::Deactive()
-	{
+	void Display::Deactive() {
 		if (display.joinable())
-			display.detach();
-	}
+			display.detach(); }
 }

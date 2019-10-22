@@ -20,6 +20,7 @@ namespace SpaRcle {
 	std::string Settings::version = "0.1_alpha_sparcle";
 	const std::string Settings::EmptyName = "[NTHG]";
 	int Settings::Status = 0;
+	bool Settings::isMinding = true;
 	////////////////////////////
 	std::string Settings::exp_conseq = ".cnq"; // .cnq
 	std::string Settings::exp_action = ".act";
