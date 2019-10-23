@@ -77,8 +77,8 @@ namespace SpaRcle {
 			
 			//continue;
 
-			int С_index = Synapse::IndexOfSynapse(conq.Causes, C_name); // Ищем схожую причину
-			if (С_index == -1) {
+			int C_index = Synapse::IndexOfSynapse(conq.Causes, C_name); // Ищем схожую причину
+			if (C_index == -1) {
 				// Добавляем синапс на нейрон являющийся причиной данного следствия (нейрона)
 				conq.Causes.push_back(boost::tuple<std::string, int, double>(C_name, 1, Ref_ev[t].GetSummHP()));
 
@@ -90,12 +90,12 @@ namespace SpaRcle {
 			else {
 				if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : summ cause \"" + conq.name + "\" with \"" + C_name + "\"");
 				// Summ consequences
-				conq.Causes[С_index].get<2>() = (conq.Causes[С_index].get<2>() + Ref_ev[t].GetSummHP()) / 1.5f; /* Суммируем полезность */
-				conq.Causes[С_index].get<1>()++; // Увеличиваем количество встреч данного события на 1
+				conq.Causes[C_index].get<2>() = (conq.Causes[C_index].get<2>() + Ref_ev[t].GetSummHP()) / 1.5f; /* Суммируем полезность */
+				conq.Causes[C_index].get<1>()++; // Увеличиваем количество встреч данного события на 1
 				//std::cout << conq.Causes[С_index].get<1>() << std::endl;
 
 				Temp_Causes.push_back(C_name); // Добавляем причину для дальнейшей обработки
-				Temp_Meets.push_back(conq.Causes[С_index].get<1>()); // Добавляем колличество встреч данной причины
+				Temp_Meets.push_back(conq.Causes[C_index].get<1>()); // Добавляем колличество встреч данной причины
 			}
 			#pragma endregion
 		}
@@ -213,7 +213,7 @@ namespace SpaRcle {
 		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
 		#pragma endregion 
 
-		if (false) {
+		if (true) {
 			if (false) {
 				double tone = 8, volime = 13;
 				for (size_t t = 0; t < 3; t++)
@@ -250,7 +250,7 @@ namespace SpaRcle {
 					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (false) {
+			if (true) {
 				double good = 20;
 				for (size_t t = 0; t < 3; t++) {
 					(*_core).UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
@@ -269,7 +269,7 @@ namespace SpaRcle {
 				double tone = 10;
 				double volime = 15;
 
-				for (size_t t = 0; t < 6; t++)
+				for (size_t t = 0; t < 3; t++)
 				{
 					(*_core).UncheckedEvents.push_back(Consequence(Sound("how", tone, volime)));
 					(*_core).UncheckedEvents.push_back(Consequence(Sound("are", tone, volime)));
@@ -285,13 +285,13 @@ namespace SpaRcle {
 						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (false) {
+			if (true) {
 				double tone = 8;
 				double volime = 13;
 
 				for (int a = 1; a < 6; a++)
 					for (int b = 1; b < 6; b++)
-						for (size_t t = 0; t < 6; t++)
+						for (size_t t = 0; t < 3; t++)
 						{
 							(*_core).UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(a), tone, volime)));
 							(*_core).UncheckedEvents.push_back(Consequence(Sound("plus", tone, volime)));
@@ -374,7 +374,7 @@ namespace SpaRcle {
 						std::string Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
 						//Debug::Log(Situation);
 
-						Situation += Synapse::GetSensivityOfName(event.name);// event.name[0];
+						Situation += Synapse::GetSensivityOfName(event.name);
 						//Debug::Log(Situation);
 
 						//Situation += Helper::GetSensivityCauses((*_core). CheckedEvents);
@@ -396,7 +396,7 @@ namespace SpaRcle {
 					if (event.name != Settings::EmptyName) {
 						event.Save();
 
-						Current_sensivity += Synapse::GetSensivityOfName(event.name); // event.name[0];					  // System
+						Current_sensivity += Synapse::GetSensivityOfName(event.name);  // System
 						(*_core).Sensivity_List.push_back(Current_sensivity); // System
 					}
 					else

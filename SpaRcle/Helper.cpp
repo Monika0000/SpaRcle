@@ -6,42 +6,43 @@
 namespace SpaRcle {
 	std::string Helper::TransliterationEN(char ch)
 	{
-		ch = std::toupper(ch);
+
+		ch = std::tolower(ch);
 		switch (ch) {
 		case ' ': return " ";
-		case 'А': return "A";
-		case 'Б': return "B";
-		case 'В': return "V";
-		case 'Г': return "G";
-		case 'Д': return "D";
-		case 'Е': return "E";
-		case 'Ё': return "JE";
-		case 'Ж': return "ZH";
-		case 'З': return "Z";
-		case 'И': return "I";
-		case 'Й': return "Y";
-		case 'К': return "K";
-		case 'Л': return "L";
-		case 'М': return "M";
-		case 'Н': return "N";
-		case 'О': return "O";
-		case 'П': return "P";
-		case 'Р': return "R";
-		case 'С': return "S";
-		case 'Т': return "T";
-		case 'У': return "U";
-		case 'Ф': return "F";
-		case 'Х': return "KH";
-		case 'Ц': return "C";
-		case 'Ч': return "CH";
-		case 'Ш': return "SH";
-		case 'Щ': return "JSH";
-		case 'Ъ': return "HH";
-		case 'Ы': return "IH";
-		case 'Ь': return "JH";
-		case 'Э': return "EH";
-		case 'Ю': return "JU";
-		case 'Я': return "JA";
+		case 'а': return "a";
+		case 'б': return "b";
+		case 'в': return "v";
+		case 'г': return "g";
+		case 'д': return "d";
+		case 'е': return "e";
+		case 'ё': return "je";
+		case 'ж': return "zh";
+		case 'з': return "z";
+		case 'и': return "i";
+		case 'й': return "y";
+		case 'к': return "k";
+		case 'л': return "l";
+		case 'м': return "m";
+		case 'н': return "n";
+		case 'о': return "o";
+		case 'п': return "p";
+		case 'р': return "r";
+		case 'с': return "s";
+		case 'т': return "t";
+		case 'у': return "u";
+		case 'ф': return "f";
+		case 'х': return "kh";
+		case 'ц': return "c";
+		case 'ч': return "ch";
+		case 'ш': return "sh";
+		case 'щ': return "jsh";
+		case 'ъ': return "hh";
+		case 'ы': return "ih";
+		case 'ь': return "jh";
+		case 'э': return "eh";
+		case 'ю': return "ju";
+		case 'я': return "ja";
 		default: Debug::Log("TransliterationEN : unknown char! \"" + std::string(1, ch) + "\"", Error); return "[ERROR]";
 		}
 	}
@@ -51,8 +52,8 @@ namespace SpaRcle {
 		for (auto& c: line) {
 			en += TransliterationEN(c);
 		}
-		for (int i = 0; i < en.size(); i++)
-			en[i] = tolower(en[i]);
+		//for (int i = 0; i < en.size(); i++)
+		//	en[i] = tolower(en[i]);
 		return en;
 	}
 	std::vector<std::string> Helper::Split(std::string text, std::string chr)
@@ -279,16 +280,16 @@ namespace SpaRcle {
 				if (a.get<0>()[0] != '.')
 					if (count_word_in_sensiv == 1) {
 						if (a.get<0>()[1] == '/')
-							//Sensiv += a.get<0>().substr(2, count_word_in_sensiv + 2); // [2]
 							Sensiv += a.get<0>()[2]; // [2]
 						else
-							//Sensiv += a.get<0>().substr(0, count_word_in_sensiv); //[0]
 							Sensiv += a.get<0>()[0]; //[0]
 					}
 					else
 					{
-						if (a.get<0>()[1] == '/') { Sensiv += a.get<0>()[2]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }// [2]
-						else { Sensiv += a.get<0>()[0]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }//[0]
+						if (a.get<0>()[1] == '/') 
+						{ Sensiv += a.get<0>()[2]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }// [2]
+						else 
+						{ Sensiv += a.get<0>()[0]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }//[0]
 					}
 			}
 			else
@@ -305,15 +306,25 @@ namespace SpaRcle {
 
 		for (int i = 0; i <= to_index; i++) {
 			if (s[i].name != Settings::EmptyName) {
-				if (s[i].name[0] != '.')
+				if (s[i].name[0] != '.') {
+					Sensiv += Synapse::GetSensivityOfName(s[i].name);
+					/*
 					if (count_word_in_sensiv == 1) {
 						if (s[i].name[1] == '/') Sensiv += s[i].name[2]; //Sensiv += s[i]. name.substr(2, Settings::count_sens + 2); // [2]
 						else Sensiv += s[i].name[0];					 //. substr(0, Settings::count_sens); //[0]
 					}
 					else {
-						if (s[i].name[1] == '/') { Sensiv += s[i].name[2]; Sensiv += s[i].name[s[i].name.size() - 1]; } // [2]
-						else { Sensiv += s[i].name[0]; Sensiv += s[i].name[s[i].name.size() - 1]; }//[0]
+						if (s[i].name[1] == '/')
+						{
+							Sensiv += s[i].name[2]; Sensiv += s[i].name[s[i].name.size() - 1];
+						} // [2]
+						else
+						{
+							Sensiv += s[i].name[0]; Sensiv += s[i].name[s[i].name.size() - 1];
+						}//[0]
 					}
+					*/
+				}
 			}
 			else
 				Sensiv += ".";//std::string(count_word_in_sensiv, '.');
@@ -356,7 +367,6 @@ namespace SpaRcle {
 	void Synapse::SummSensivity(Consequence& left, size_t index, std::string& right)
 	{
 		auto& a = left.PerhapsWill[index].get<1>();
-		//if (a == "S/equal")
 		if (SummSensivity(a, right, true))
 		{
 			//if (a.size() == right.size())
@@ -365,25 +375,21 @@ namespace SpaRcle {
 			//		left.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(left.PerhapsWill[index].get<0>(), right,
 			//			left.PerhapsWill[index].get<2>(), left.PerhapsWill[index].get<3>()));
 			//	}
-			if (count_word_in_sensiv == 1) {
-				if (left.name[0] == right[right.size() - 1]) {
-					for (size_t t = 0; t < a.size(); t++) {
-						//if (a[t] != right[t]) a[t] = '*';
-					}
-				}
-				//Debug::Log("dasdsdasdadasd");
-				//	}
-
-			}
+			//if (count_word_in_sensiv == 1) {
+			//	if (left.name[0] == right[right.size() - 1]) {
+			//		for (size_t t = 0; t < a.size(); t++) {
+			//			//if (a[t] != right[t]) a[t] = '*';
+			//		} } }
 		}
+
 		/*
-	Портит синапсы, добавляя в их имена чувствительность, которая была удалена в новых вурсиях из синапсов
-*/
-//if (!SummSensivity(left.Synapses[index].get<0>(), right, true)) 
-//{
-	//left.Synapses.push_back(boost::tuple<std::string, std::string, double>(left.Synapses[index].get<0>(), right,
-	//	left.Synapses[index].get<2>()));
-//}
+			Портит синапсы, добавляя в их имена чувствительность, которая была удалена в новых вурсиях из синапсов
+		*/
+	///\bug if (!SummSensivity(left.Synapses[index].get<0>(), right, true)) 
+	//{
+		//left.Synapses.push_back(boost::tuple<std::string, std::string, double>(left.Synapses[index].get<0>(), right,
+		//	left.Synapses[index].get<2>()));
+	//}
 	}
 	std::string SpaRcle::Synapse::ClearSensivity(std::string& sensiv)
 	{
@@ -399,7 +405,7 @@ namespace SpaRcle {
 		//TODO : при hm hmh схожесть 0!!!!!!
 		//Debug::Log(std::to_string(first.size()) + "_" + std::to_string(second.size()));
 		//Debug::Log(first + "_" + second);
-		double trueVal;
+		//double trueVal;
 		//size_t size;
 		short mode = 0;
 		int modifer = 0;
@@ -407,13 +413,14 @@ namespace SpaRcle {
 		// Сравниваем относительно первого, то-есть, процент схожести будет говорить насколько второй похож на первый.
 		if (second.size() > first.size()) mode = 1;
 		else if (first.size() > second.size()) mode = -1;
-		else { //trueVal = 100.f / first.size(); //size = first.size(); 
-		}
+		//else { //trueVal = 100.f / first.size(); //size = first.size(); 
+		//}
 
 		if (mode == 1) {
 			if (lenght) {
 				modifer = second.size() - first.size();
-				second += std::string("_", modifer);
+				//second += std::string(Settings::TrueSymbol, modifer);
+				second += std::string(modifer, Settings::TrueSymbol);
 			}
 
 			/// \todo 
@@ -423,30 +430,14 @@ namespace SpaRcle {
 		else if (mode == -1) {
 			if (lenght) {
 				modifer = first.size() - second.size();
-				first += std::string("_", modifer);
+				//first += std::string(Settings::TrueSymbol, modifer);
+				first += std::string(modifer, Settings::TrueSymbol);
 			}
 
 			/// \todo 
 			if (normalize) first = first.substr(first.size() - second.size());
 			//trueVal = 100.f / first.size(); //size = second.size();
 		}
-
-		//double percent = 0;
-		//size_t max = second.size() >= first.size() ? first.size() : second.size();
-		//Debug::Log(modifer);
-
-		//Debug::Log(first + " " + second);
-
-
-		/*
-		for (size_t i = 0; i < max; i++) {
-			if (first[i] == second[i])
-				percent += trueVar;
-			else if (i + 1 < max)
-				if (first[i] == second[i + 1])
-					percent += (trueVar / 1.5f);
-		}
-		*/
 
 		return GetPercent(first, second, modifer);
 	}

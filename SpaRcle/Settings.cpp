@@ -19,6 +19,7 @@ namespace SpaRcle {
 	const size_t Settings::Size_SCP = 5;
 	std::string Settings::version = "0.1_alpha_sparcle";
 	const std::string Settings::EmptyName = "[NTHG]";
+	const char Settings::TrueSymbol = '_';
 	int Settings::Status = 0;
 	bool Settings::isMinding = true;
 	////////////////////////////

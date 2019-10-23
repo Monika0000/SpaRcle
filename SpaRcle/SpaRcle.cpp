@@ -156,6 +156,10 @@ int main(int argc, char** argv)
 	setlocale(LC_ALL, "rus");
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
 
+	//std::cout << Synapse::GetSensivityOfName("S/lol");
+	//std::cout << "asd";
+	//return 1;
+
 	//return Settings::count_sens - 1;
 	//std::string s = "12345";
 	//std::cout << s.substr(0, 1) << std::endl;return 1;

@@ -26,7 +26,7 @@ namespace SpaRcle {
 		///!Depend !of !size !sensivity
 		inline static double GetPercent(std::string& first, std::string& second, short modifer = -1) {
 			double percent = 0;
-			size_t size = 0; double trueVal;
+			size_t size = 0; double trueVal = 0;
 			if (second.size() > first.size()) { size = first.size(); trueVal = 100.f / second.size(); }
 			else { size = second.size(); trueVal = 100.f / first.size(); }
 			for (size_t t = 0; t < size; t++) {
@@ -36,7 +36,7 @@ namespace SpaRcle {
 				if (first[size - t - 1] == second[size - t - 1])
 					percent += trueVal;
 				else if (modifer != -1)
-					if (first[size - t - 1] == '_' || second[size - t - 1] == '_')
+					if (first[size - t - 1] == Settings::TrueSymbol || second[size - t - 1] == Settings::TrueSymbol)
 						percent += trueVal / (4 + modifer);
 			}
 			return percent;
@@ -47,11 +47,19 @@ namespace SpaRcle {
 		static bool SummSensivity(std::string& left, std::string& right, bool check = false);
 		static void SummSensivity(Consequence& left, size_t index, std::string& right);
 		inline static std::string GetSensivityOfName(std::string name) {
+			if (name.size() > 2)
+				if (name[1] == '/') name = name.substr(2);
 			if (count_word_in_sensiv == 1) { name.resize(1); return name; }
 			else if (count_word_in_sensiv == 2) {
 				std::string newName;
-				if (name.size() < 2) Debug::Log("Helper::GetSensivityOfName : size of name < 2! \n\tName : " + name, Error);
-				newName += name[0]; newName += name[name.size() - 1];
+				if (name.size() < 2) {
+					//Debug::Log("Helper::GetSensivityOfName : size of name < 2! \n\tName : " + name, Error);
+					//newName += name[0];
+					//newName += Settings::TrueSymbol;
+					newName = "ff";
+				}
+				else
+					newName += name[0]; newName += name[name.size() - 1];
 				return newName;
 			}
 			else {

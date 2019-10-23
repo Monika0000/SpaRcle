@@ -24,6 +24,7 @@ namespace SpaRcle {
 		static const size_t Size_SCP; /* Synapse & Cause & Perhaps | Min = 5 | Интеллект <=> Производительность */
 		static std::string version;
 		static const std::string EmptyName;
+		static const char TrueSymbol;
 		static int Status;
 		static bool isMinding;
 		///////////////////////////////
@@ -44,7 +45,7 @@ namespace SpaRcle {
 
 	const double PeriodicSix = (1.f / 3.f) * 200.f;
 
-	const static size_t count_word_in_sensiv = 1;
+	const static size_t count_word_in_sensiv = 2;
 
 	static const size_t max_size_SEWMA = 25; // Max size sensivity events with my actions.
 }
