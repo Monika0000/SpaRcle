@@ -33,20 +33,64 @@ namespace SpaRcle {
 		Debug::Log("-> The central core has completed it's work!", Info);
 	}
 
+	bool DoFindSynapse(Consequence& event, int _index, RealityCore& real, CentralCore& core) {
+		size_t dp = 0;
+		Debug::Log("DEOS : Find synapse = " + event.Synapses[_index].get<0>());
+		//%¬ыполн€ем %полезное %действие...
+		std::string syn = event.Synapses[_index].get<0>();
+	Deep:
+		if (syn[0] == 'S') {
+			Consequence con;
+			if (con.Load(syn.substr(2), AType::Speech, false, false)) {
+				real.DoAction(con.action);
+				real.core->AddSE(con.name, true);
+				//find = true;
+
+				if (con.Synapses.size() != 0) {
+					std::string sens_log; size_t index = 0; double max = 0;
+
+					for (size_t t = 0; t < con.Synapses.size(); t++) {
+						size_t idx_2 = 0; double perc = 0; auto& s_au_2 = con.Synapses[t].get<0>();
+						for (size_t tt = 0; tt < con.PerhapsWill.size(); tt++)
+							if (con.PerhapsWill[tt].get<0>() == s_au_2) {
+								/// \see Ќормализуем длину чувствительностей и сравниваем их между собой.
+								double per = Synapse::SimilarityPercentage(con.PerhapsWill[tt].get<1>(), core.SE_With_MyActions, true, true);
+								if (per > perc) { perc = per; idx_2 = tt; }
+							}
+
+						if (t == 0) max = perc;
+						else if (perc >= max) { index = t; max = perc; }
+					}
+					Debug::Log("DEOS : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " +
+						con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
+					if (max > 58) { // 76
+						syn = con.Synapses[index].get<0>();
+						dp++;
+						if (dp > 20) Debug::Log("CentralCore : Logical loop! See to logs...", Warning);
+						else goto Deep;
+					}
+				}
+			}
+			else
+				Debug::Log("DEOS::DoAction : Failed! \n\t  Name : \"" + con.name + "\"\n\t  Type : "
+					+ ToString(con.action.type) + "\n\t  Synapse : " + syn, Warning);
+		}
+		else
+			Debug::Log("DEOS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(_index), Error);
+	}
 	bool DoEventOfSynapse(Consequence& event, std::string& Situation, CentralCore& core) {
 		RealityCore& real = (*core._reality);
 		if (event.Synapses.size() > 0) {
 			Helper::SelectionSort(event.Synapses);
 			int index = event.Synapses.size() - 1;
 			bool find = false;
-			size_t dp = 0;
+			int meets = -1, deepModeIndex = -1;
 			/// ƒобавить возможность крайностей - когда мы совершенно не знаем ответа, но нам нужно что-то сказать,
 			/// и у нас есть варианты (хоть и не самые подход€щие(но не плохие)) ты мы будем пытатьс€ их выполнить
 
 		Repeat:
 			if (event.Synapses[index].get<1>() > 0)
 			{
-				//Debug::Log(event.Synapses[index].get<0>(), Error);
 				/// \see »щем самый схожий синапс
 				size_t idx = 0; double percent = 0; auto& s_au = event.Synapses[index].get<0>();
 				for (size_t t = 0; t < event.PerhapsWill.size(); t++) {
@@ -54,57 +98,27 @@ namespace SpaRcle {
 						if (event.PerhapsWill[t].get<2>() < 0) { Debug::Log("DEOS : Bad syanpse! \"" + s_au + "\" = " + event.PerhapsWill[t].get<1>(), Module); continue; }
 						/// \see Ќормализуем длину чувствительностей и сравниваем их между собой.
 						double per = Synapse::SimilarityPercentage(event.PerhapsWill[t].get<1>(), core.SE_With_MyActions, true, true);
-						//Debug::Log(event.PerhapsWill[t].get<1>() + " = " + core.SE_With_MyActions + " : "+ std::to_string(per), Info);
 						if (per > percent) { percent = per; idx = t; }
 					}
 				}
 
 				if (percent != 0) {
 					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);
-					if (percent >= PeriodicSix + 10) { /// \bug +10
-						Debug::Log("DEOS : Find synapse = " + event.Synapses[index].get<0>());
-						//%¬ыполн€ем %полезное %действие...
-						std::string syn = event.Synapses[index].get<0>();
-					Deep:
-						if (syn[0] == 'S') {
-							Consequence con;
-							if (con.Load(syn.substr(2), AType::Speech, false, false)) {
-								real.DoAction(con.action);
-								real.core->AddSE(con.name, true);
-								find = true;
-
-								if (con.Synapses.size() != 0) {
-									std::string sens_log; size_t index = 0; double max = 0;
-
-									for (size_t t = 0; t < con.Synapses.size(); t++) {
-										size_t idx_2 = 0; double perc = 0; auto& s_au_2 = con.Synapses[t].get<0>();
-										for (size_t tt = 0; tt < con.PerhapsWill.size(); tt++)
-											if (con.PerhapsWill[tt].get<0>() == s_au_2) {
-												/// \see Ќормализуем длину чувствительностей и сравниваем их между собой.
-												double per = Synapse::SimilarityPercentage(con.PerhapsWill[tt].get<1>(), core.SE_With_MyActions, true, true);
-												if (per > perc) { perc = per; idx_2 = tt; }
-											}
-
-										if (t == 0) max = perc;
-										else if (perc >= max) { index = t; max = perc; }
-									}
-									Debug::Log("DEOS : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " + 
-										con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
-									if (max > 58) { // 76
-										syn = con.Synapses[index].get<0>();
-										dp++;
-										if (dp > 20) Debug::Log("CentralCore : Logical loop! See to logs...", Warning);
-										else goto Deep;
-									}
-								}
-							}
-							else
-								Debug::Log("DEOS::DoAction : Failed! \n\t  Name : \"" + con.name + "\"\n\t  Type : "
-									+ ToString(con.action.type) + "\n\t  Synapse : " + syn, Warning);
+					if(percent == 100){
+						Debug::Log("DEOS : Super variant = " + event.PerhapsWill[idx].get<0>() + "; Meets = " + std::to_string(event.PerhapsWill[idx].get<3>()), Module);
+						find = true;
+						if (event.PerhapsWill[idx].get<3>() > meets) {
+							meets = event.PerhapsWill[idx].get<3>();
+							deepModeIndex = index;
 						}
-						else
-							Debug::Log("DEOS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(index), Error);
-
+						if (index > 0) { index--; goto Repeat; }
+						else {
+							DoFindSynapse(event, deepModeIndex, real, core);
+						}
+					}
+					else if (percent >= PeriodicSix + 10) { /// \bug +10
+						DoFindSynapse(event, index, real, core);
+						find = true;
 						if (!find && index > 0) { index--; /*Debug::Log(index);*/ goto Repeat; } // ≈сли не вышло
 					}
 					else if (index > 0) { index--; goto Repeat; }/// $≈сли $не $подходит

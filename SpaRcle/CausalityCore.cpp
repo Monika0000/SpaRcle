@@ -119,20 +119,21 @@ namespace SpaRcle {
 				int S_index = Synapse::IndexOfSynapse(conq.Synapses, S_name); // Получаем индекс
 				if (S_index == -1) { 
 					// Добавляем синапс на новый нейрон, который нужно будет выпоолнить после этого
-					//conq.Synapses.push_back(boost::tuple<std::string, std::string, double>(S_name, Sensivity, ref_will.GetSummHP())); // ======== Добавляем новый снапс ========
-					
-					
 					conq.Synapses.push_back(boost::tuple<std::string, double>(S_name, ref_will.GetSummHP())); // ======== Добавляем новый снапс ========
 					if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : add synapse \"" + S_name + "\" to \"" + conq.name + "\"");
 				}
 				else { // Summ consequences (synapses)
-					if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : (TODO) summ synapse \"" + conq.name + "\" with \"" + S_name + "\"");
+					if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : summ synapse \"" + conq.name + "\" with \"" + S_name + "\"");
 					Synapse::SummHpSyns(conq.Synapses[S_index], ref_will.GetSummHP());
-					//Synapse::SummSensivity(conq, S_index, Sensivity, ECom::Synp);
 				}
 			}
 
 			#pragma region [ ========= PERHAPSWILL ========= ]
+			//for (auto& a : conq.Synapses)
+			//	Debug::Log("Syn : " + a.get<0>());
+			//for (auto& a : conq.PerhapsWill)
+			//	Debug::Log("Per : " + a.get<0>());
+			//Debug::Log(S_name, Error);
 			Synapse::FindAndSummSensiv(conq, S_name, Sensivity, ref_will.GetSummHP());
 			/*
 			int P_index = Helper::IndexOfSynapse(conq.PerhapsWill, S_name);
@@ -213,7 +214,7 @@ namespace SpaRcle {
 		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
 		#pragma endregion 
 
-		if (true) {
+		if (false) {
 			if (false) {
 				double tone = 8, volime = 13;
 				for (size_t t = 0; t < 3; t++)
@@ -285,7 +286,7 @@ namespace SpaRcle {
 						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (true) {
+			if (false) {
 				double tone = 8;
 				double volime = 13;
 
@@ -349,6 +350,12 @@ namespace SpaRcle {
 							//event = helpData + event; failure
 
 							///event = event + helpData;
+							//for (auto& a : helpData.PerhapsWill)
+							//	Debug::Log(a.get<0>(), Error);
+							//Debug::Log("==================", Error);
+							//for (auto& a : event.PerhapsWill)
+							//	Debug::Log(a.get<0>(), Error);
+
 
 							Helper::SummActionConseq(event, helpData);
 							Helper::SimpleSummConseq(event, helpData);
@@ -448,7 +455,7 @@ namespace SpaRcle {
 						// Избавляемся от точек. (Пустых следствий)
 						
 						//Высокая верятность неизвестной ошибки!!!!!!!!!!!!!!!!!
-						L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
+						//L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
 						/* Изменяем репутацию причин, которые только что произошли отталкитваясь от следствий в которых они находятся */
 					}
 

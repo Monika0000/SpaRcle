@@ -48,7 +48,7 @@ namespace SpaRcle {
 		bool operator!=(Consequence& right) { return !(*this == right); }
 		bool operator>(Consequence& right) { return (EventData > right.EventData); }
 		bool operator<(Consequence& right) { return (EventData < right.EventData); }
-		friend const Consequence operator+(Consequence& left, Consequence& right);
+		//friend const Consequence operator+(Consequence& left, Consequence& right);
 	};
 
 	inline const char *conseq_info =

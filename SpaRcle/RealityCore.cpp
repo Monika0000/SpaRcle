@@ -34,9 +34,9 @@ namespace SpaRcle {
 				for (int z = 0; z < 10; z++) causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
 		}
-		if (false) { /// Lerning of the dialogs
+		if (true) { /// Lerning of the dialogs
 			std::vector<std::string> lines;
-			System::Load("Dialogs\\dialog_2.txt", lines);
+			System::Load("Dialogs\\dialog_3.txt", lines);
 			for (size_t t = 0; t < lines.size(); t++)
 			{
 				if (lines[t] == "[END]") {
@@ -47,7 +47,7 @@ namespace SpaRcle {
 				for (auto a : Helper::Split(lines[t].substr(2), " ")) {
 					for (auto& w : a)
 						w = std::tolower(w);
-					causal.UncheckedEvents.push_back(Consequence(Sound(a, 10, 15)));
+					causal.UncheckedEvents.push_back(Consequence(Sound(Helper::Transliteration(a), 10, 15)));
 				}
 			}
 		}

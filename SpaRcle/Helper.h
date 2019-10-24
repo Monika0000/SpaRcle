@@ -44,8 +44,8 @@ namespace SpaRcle {
 		static void FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp);
 		static std::string GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
-		static bool SummSensivity(std::string& left, std::string& right, bool check = false);
-		static void SummSensivity(Consequence& left, size_t index, std::string& right);
+		//static bool SummSensivity(std::string& left, std::string& right, bool check = false);
+		//static void SummSensivity(Consequence& left, size_t index, std::string& right);
 		inline static std::string GetSensivityOfName(std::string name) {
 			if (name.size() > 2)
 				if (name[1] == '/') name = name.substr(2);
@@ -54,12 +54,15 @@ namespace SpaRcle {
 				std::string newName;
 				if (name.size() < 2) {
 					//Debug::Log("Helper::GetSensivityOfName : size of name < 2! \n\tName : " + name, Error);
-					//newName += name[0];
+					newName += name[0];
 					//newName += Settings::TrueSymbol;
-					newName = "ff";
+					newName += Settings::TrueSymbol;
+					//newName = "ff";
 				}
 				else
+				{
 					newName += name[0]; newName += name[name.size() - 1];
+				}
 				return newName;
 			}
 			else {
@@ -132,19 +135,43 @@ namespace SpaRcle {
 				}
 			}
 
-			left.PerhapsWill = left.PerhapsWill; /* Складываем будущие следствия, с учетом поиска идентичных элементов */
-			if (left.PerhapsWill.size() == 0) left.PerhapsWill = right.PerhapsWill;
-			else if (right.PerhapsWill.size() == 0) right.PerhapsWill = left.PerhapsWill;
-			else for (size_t i = 0; i < right.PerhapsWill.size(); i++) {
-				int indx = Synapse::IndexOfSynapse(left.PerhapsWill, right.PerhapsWill[i].get<0>());
-				if (indx == -1) left.PerhapsWill.push_back(right.PerhapsWill[i]);
-				else {
-					Synapse::SummSensivity(left, indx, right.PerhapsWill[i].get<1>()); // Суммируем ситуацию данных событий
-					left.PerhapsWill[indx].get<2>() = (left.PerhapsWill[indx].get<2>() + right.PerhapsWill[i].get<2>()) / Div; /* Суммируем полезность */
-					left.PerhapsWill[indx].get<3>()++;
+			//left.PerhapsWill = left.PerhapsWill; /* Складываем будущие следствия, с учетом поиска идентичных элементов */
+			if (left.PerhapsWill.size() == 0) 
+				left.PerhapsWill = right.PerhapsWill;
+			else if (right.PerhapsWill.size() == 0) 
+				right.PerhapsWill = left.PerhapsWill;
+			else {
+				/*
+				for (size_t i = 0; i < right.PerhapsWill.size(); i++) {
+					int indx = Synapse::IndexOfSynapse(left.PerhapsWill, right.PerhapsWill[i].get<0>());
+					if (indx == -1) left.PerhapsWill.push_back(right.PerhapsWill[i]);
+					else {
+						//Synapse::FindAndSummSensiv(left, right.PerhapsWill[i].get<0>(), );
+						//Synapse::SummSensivity(left, indx, right.PerhapsWill[i].get<1>()); // Суммируем ситуацию данных событий
+						left.PerhapsWill[indx].get<2>() = (left.PerhapsWill[indx].get<2>() + right.PerhapsWill[i].get<2>()) / Div; // Суммируем полезность
+						left.PerhapsWill[indx].get<3>()++;
+					}
+				}
+				///\bug !Очень !устаревший !код
+				*/
+				size_t index = 0; bool f = false;
+				for (size_t i = 0; i < right.PerhapsWill.size(); i++) {
+					f = false;
+					for (size_t p = index; p < left.PerhapsWill.size(); p++) {
+						if (right.PerhapsWill[i].get<0>() == left.PerhapsWill[p].get<0>())
+							if (right.PerhapsWill[i].get<1>() == left.PerhapsWill[p].get<1>())
+							{
+								left.PerhapsWill[p].get<2>() = (left.PerhapsWill[p].get<2>() + right.PerhapsWill[i].get<2>()) / Div; // Суммируем полезность 
+								left.PerhapsWill[p].get<3>()++;
+								index = p;
+								f = true;
+								break;
+							}
+					}
+					if (!f)
+						left.PerhapsWill.push_back(right.PerhapsWill[i]);
 				}
 			}
-
 			//left.Synapses = left.Synapses; /* Складываем синапсы, с учетом поиска идентичных элементов */
 			if (left.Synapses.size() == 0) left.Synapses = right.Synapses;
 			else if (right.Synapses.size() == 0) right.Synapses = left.Synapses;

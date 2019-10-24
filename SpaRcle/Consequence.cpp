@@ -277,15 +277,19 @@ namespace SpaRcle {
 		this->EventData = DataTime();
 	}
 	Consequence::~Consequence() { }
-
+	
+	/*
 	const Consequence operator+(Consequence& left, Consequence& right)
 	{
-		/* INFO : Приоритет идет следущим образом : TODO преписать описание!!!!!!!!!!!!
-				  Action = right
-				  DataTime = right
-				  PerhapsWill<Sensiv> = left + right
-				  Synapses<Sensiv> = left + right
-		*/
+		for (auto& a : right.PerhapsWill)
+			Debug::Log(a.get<0>(), Error);
+
+		// INFO : Приоритет идет следущим образом : TODO преписать описание!!!!!!!!!!!!
+		//		  Action = right
+		//		  DataTime = right
+		//		  PerhapsWill<Sensiv> = left + right
+		//		  Synapses<Sensiv> = left + right
+		//
 
 		Consequence result; //double div = 1.5f;
 
@@ -299,51 +303,12 @@ namespace SpaRcle {
 		result.EventData = left.EventData; // INFO: possible BUG
 		result.meetings = left.meetings + right.meetings;
 
-#pragma region [========== Summ ==========]
-#if 0 
-		result.Causes = left.Causes; /* Складываем причины, с учетом поиска идентичных элементов */
-		if (result.Causes.size() == 0) result.Causes = right.Causes;
-		else for (size_t i = 0; i < right.Causes.size(); i++) {
-			int indx = Helper::IndexOfSynapse(result.Causes, right.Causes[i].get<0>());
-			if (indx == -1)
-				result.Causes.push_back(right.Causes[i]);
-			else {
-				result.Causes[indx].get<1>() = result.Causes[indx].get<1>() + right.Causes[i].get<1>(); // Суммируем количество встреч данного события
 
-				result.Causes[indx].get<2>() = (result.Causes[indx].get<2>() + right.Causes[i].get<2>()) / div; /* Суммируем полезность */
-			}
-		}
-
-		result.PerhapsWill = left.PerhapsWill; /* Складываем будущие следствия, с учетом поиска идентичных элементов */
-		if (result.PerhapsWill.size() == 0) result.PerhapsWill = right.PerhapsWill;
-		else for (size_t i = 0; i < right.PerhapsWill.size(); i++) {
-			int indx = Helper::IndexOfSynapse(result.PerhapsWill, right.PerhapsWill[i].get<0>());
-			if (indx == -1) result.PerhapsWill.push_back(right.PerhapsWill[i]);
-			else {
-				result.PerhapsWill[indx].get<1>() = Helper::SummSensivity(result.PerhapsWill[indx].get<1>(), right.PerhapsWill[i].get<1>()); // Суммируем ситуацию данных событий
-				result.PerhapsWill[indx].get<2>() = (result.PerhapsWill[indx].get<2>() + right.PerhapsWill[i].get<2>()) / div; /* Суммируем полезность */
-				// TODO : Нужно складывать ситуацию - то, что было до синапса
-				// 0 - Name, 1 - Sensiv, 2 - Helpfulness
-			}
-		}
-
-		result.Synapses = left.Synapses; /* Складываем синапсы, с учетом поиска идентичных элементов */
-		if (result.Synapses.size() == 0) result.Synapses = right.Synapses;
-		else for (size_t i = 0; i < right.Synapses.size(); i++) {
-			int indx = Helper::IndexOfSynapse(result.Synapses, right.Synapses[i].get<0>());
-			if (indx == -1) result.Synapses.push_back(right.Synapses[i]);
-			else {
-				result.Synapses[indx].get<1>() = Helper::SummSensivity(result.Synapses[indx].get<1>(), right.Synapses[i].get<1>()); // Суммируем ситуацию данных событий
-				result.Synapses[indx].get<2>() = (result.Synapses[indx].get<2>() + right.Synapses[i].get<2>()) / div; /* Суммируем полезность */
-				// TODO : Нужно складывать ситуацию - то, что было до синапса
-				// 0 - Name, 1 - Sensiv, 2 - Helpfulness
-			}
-		}
-#endif 
 
 		Helper::SimpleSummConseq(result, right);
-#pragma endregion
+
 
 		return result;
 	}
+	*/
 }
