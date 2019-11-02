@@ -9,6 +9,7 @@
 #include <vector>
 #include "Consequence.h"
 #include <windows.h>
+#include <rpcndr.h>
 #include <ctime>
 #include <boost/tuple/tuple.hpp>
 #include <direct.h>
@@ -90,7 +91,10 @@ namespace SpaRcle {
 		static std::string TransliterationEN(char ch);
 
 		inline static KeyboardLayout GetLayout() {
-			switch (LOWORD(GetKeyboardLayout(0)))
+			HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+			DWORD id = GetThreadId(hStdOut);
+
+			switch (LOWORD(GetKeyboardLayout(id)))
 			{
 			case 0x409:
 				return KeyboardLayout::EN;

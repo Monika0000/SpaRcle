@@ -34,7 +34,7 @@ namespace SpaRcle {
 				for (int z = 0; z < 10; z++) causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
 		}
-		if (true) { /// Lerning of the dialogs
+		if (false) { /// Lerning of the dialogs
 			std::vector<std::string> lines;
 			System::Load("Dialogs\\dialog_3.txt", lines);
 			for (size_t t = 0; t < lines.size(); t++)

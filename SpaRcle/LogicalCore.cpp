@@ -150,7 +150,6 @@ namespace SpaRcle {
 			Consequence loaded;
 			try {
 				int last_index = size - 1 - i; // Перечисление с конца массива в начало (инверсия). Ибо массив отсортирован от меньшего к большему
-
 				AType t = ToAType(Cause.get<0>()[last_index][0]);
 				if (t != Undefined) { // Error
 					if (!loaded.Load(Cause.get<0>()[last_index].substr(2), t, true, Diagnostic))
@@ -175,8 +174,6 @@ namespace SpaRcle {
 			}
 			catch (...) { Debug::Log("LogicalCore::CauseReputation : An exception has occured! [First Block]", Error); }
 
-			//continue;//FIX
-
 			size_t percent = (size_t)((double)size * 0.6f);
 			if (size - i > percent) {
 				try {
@@ -185,17 +182,12 @@ namespace SpaRcle {
 						loaded.Good -= loaded.Bad * 0.25f;
 						// Чем выше вероятность того, что это следствие является истинной прчиной, тем сильнее меняется его репутация 
 					}
-					else if (Cause.get<3>() > 0)
-					{
+					else if (Cause.get<3>() > 0) {
 						loaded.Good += (Cause.get<3>() / 3) * (size - i);
-						loaded.Bad -= loaded.Good * 0.25f;
-					}
-					else Debug::Log("LogicalCore::CauseReputation : Непредвиденная ситуация... \n\tHelpfulness = 0 \n\tName conseq : " + Cause.get<4>(), Warning);
-				}
-				catch (...)
-				{
-					Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Second Block]", Error);
-				}
+						loaded.Bad -= loaded.Good * 0.25f; }
+					else Debug::Log("LogicalCore::CauseReputation : Непредвиденная ситуация... \n\tHelpfulness = 0 \n\tName conseq : " + Cause.get<4>(), Warning); }
+				catch (...) {
+					Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Second Block]", Error); }
 
 				try {
 					/*
@@ -231,18 +223,13 @@ namespace SpaRcle {
 					if (!Diagnostic) // Saving
 						loaded.Save();
 					else // Debug-Save
-					{
 						Consequence::Save(&loaded, true);
-					}
 				}
-				catch (...)
-				{
-					Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Third Block]", Error);
-				}
+				catch (...) {
+					Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Third Block]", Error); }
 			}
 			else break;
 		}
-
 		return true;
 	}
 	bool LogicalCore::GetOpposite(Consequence & opposite, Consequence & event, bool Diagnostic)

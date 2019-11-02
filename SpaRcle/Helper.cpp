@@ -251,12 +251,10 @@ namespace SpaRcle {
 	{
 		if (sens.size() < 2) {
 			Debug::Log("Synapse::FindAndSummSensiv : sens.size() < 2! \n\tConq : "+con.name + "\n\tName : " + name + "\n\tSens : " + sens, Warning);
-			return;
-		}
+			return; }
 
 		double max = 0; size_t index = 0;
-		for (size_t t = 0; t < con.PerhapsWill.size(); t++)
-		{
+		for (size_t t = 0; t < con.PerhapsWill.size(); t++) {
 			if (con.PerhapsWill[t].get<0>() == name) {
 				std::string p = con.PerhapsWill[t].get<1>();
 				double var = GetPercent(sens, p);
@@ -264,21 +262,15 @@ namespace SpaRcle {
 					index = t; max = var;
 				}
 			}
-			//Helper::SummSensivity(con, index, Cause.get<1>(), ECom::PerhWill);
-			//loaded.PerhapsWill[index].get<2>() = (loaded.PerhapsWill[index].get<2>() + Cause.get<3>()) / 2;
-			//loaded.PerhapsWill[index].get<3>()++; // Increment
 		}
 		if (max > 90) {
 			con.PerhapsWill[index].get<2>() = (con.PerhapsWill[index].get<2>() + hp) / 2;
 			con.PerhapsWill[index].get<3>()++; // Increment
 			Debug::Log("Synapse::FindAndSummSensiv : summ perhaps will \"" + name + "\" to conseq \"" + con.name + 
-				"\" \n\tperc:"+std::to_string(max) + ";sens:"+sens + "="+ con.PerhapsWill[index].get<1>());
-		}
-		else
-		{
+				"\" \n\tperc:"+std::to_string(max) + ";sens:"+sens + "="+ con.PerhapsWill[index].get<1>()); }
+		else {
 			Debug::Log("Synapse::FindAndSummSensiv : add perhaps will \""+name+"\" to conseq \""+con.name + "\"");
-			con.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(name, sens, hp, 1));
-		}
+			con.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(name, sens, hp, 1)); }
 	}
 	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s)
 	{

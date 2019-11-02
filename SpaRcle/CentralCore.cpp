@@ -35,7 +35,7 @@ namespace SpaRcle {
 
 	bool DoFindSynapse(Consequence& event, int _index, RealityCore& real, CentralCore& core) {
 		size_t dp = 0;
-		Debug::Log("DEOS : Find synapse = " + event.Synapses[_index].get<0>());
+		Debug::Log("DEOS : Find synapse = " + event.Synapses[_index].get<0>(), Module);
 		//%Выполняем %полезное %действие...
 		std::string syn = event.Synapses[_index].get<0>();
 	Deep:
@@ -44,7 +44,6 @@ namespace SpaRcle {
 			if (con.Load(syn.substr(2), AType::Speech, false, false)) {
 				real.DoAction(con.action);
 				real.core->AddSE(con.name, true);
-				//find = true;
 
 				if (con.Synapses.size() != 0) {
 					std::string sens_log; size_t index = 0; double max = 0;
@@ -106,15 +105,13 @@ namespace SpaRcle {
 					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);
 					if(percent == 100){
 						Debug::Log("DEOS : Super variant = " + event.PerhapsWill[idx].get<0>() + "; Meets = " + std::to_string(event.PerhapsWill[idx].get<3>()), Module);
-						find = true;
+						find = true; 
 						if (event.PerhapsWill[idx].get<3>() > meets) {
 							meets = event.PerhapsWill[idx].get<3>();
-							deepModeIndex = index;
-						}
+							deepModeIndex = index; }
 						if (index > 0) { index--; goto Repeat; }
-						else {
+						else 
 							DoFindSynapse(event, deepModeIndex, real, core);
-						}
 					}
 					else if (percent >= PeriodicSix + 10) { /// \bug +10
 						DoFindSynapse(event, index, real, core);

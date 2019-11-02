@@ -214,7 +214,7 @@ namespace SpaRcle {
 		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
 		#pragma endregion 
 
-		if (false) {
+		if (true) {
 			if (false) {
 				double tone = 8, volime = 13;
 				for (size_t t = 0; t < 3; t++)
@@ -286,7 +286,7 @@ namespace SpaRcle {
 						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (false) {
+			if (true) {
 				double tone = 8;
 				double volime = 13;
 
