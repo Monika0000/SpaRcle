@@ -268,6 +268,7 @@ namespace SpaRcle {
 
 		while (true)
 		{
+			if (!Settings::IsActive) break;
 			//break;
 			Sleep(*delay);
 			try {

@@ -47,75 +47,75 @@ int main(int argc, char** argv)
 	setlocale(LC_ALL, "rus");
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
 
-	#pragma region [======== Pre-Init ========]
-		Debug::StartDebugger();
+#pragma region [======== Pre-Init ========]
+	Settings::IsActive = true;
+	Debug::StartDebugger();
+	Sleep(100);
+	Debug::Log("Pre-initializing", DType::System);
+
+	Settings::CoreDebug = false;
+	TCHAR cwd[100];
+	GetCurrentDirectory(100, cwd);
+	std::wstring ws(&cwd[0]);
+	Settings::SetPaths(std::string(ws.begin(), ws.end()),
+		"D:\\SpaRcle\\SpaRcleData\\System",
+		"D:\\SpaRcle\\SpaRcle\\Resources",
+		"D:\\SpaRcle\\SpaRcleData\\Memory",
+		"D:\\SpaRcle\\SpaRcleData\\Logic");
+	Debug::Log("~ DIR \"" + Settings::PathPj + "\"");
+
+	if (!Settings::Diagnostic())
+		Debug::Log("Diagnostic... System is unstable!", true, DType::System, SpaRcle::Red);
+	else
+	{
+		boost::tuple<int> r;
+		Debug::Log("Diagnostic... System is stable!", DType::System, SpaRcle::Green);
+
+		//std::cout << Helper::SimilarityPercentage("12", "123") << std::endl;
+		//Sleep(225552);
+
+		//////////////////////////////
+		_core = new CentralCore(5);
+		_causality = new CausalityCore(5);
+		_logic = new LogicalCore(5);
+		_reality = new RealityCore(100);
+		_emotion = new EmotionCore(1500);
+#pragma endregion
+
+#pragma region [======== Init ========]
+		Debug::Log("Initializing", DType::System);
+		//Display::StartDisplay(_core); // Graph-mode
+		Window::Get()->AddAllElements();
+		Window::Get()->SetCore(_core);
+
+		_core->ConnectLogic(_logic);
+		_core->ConnectCausality(_causality);
+		_core->ConnectReality(_reality);
+		_core->ConnectEmotion(_emotion);
+
 		Sleep(100);
-		Debug::Log("Pre-initializing", DType::System);
+		_reality->Start();
 
-		Settings::CoreDebug = false; 
-		TCHAR cwd[100];
-		GetCurrentDirectory(100, cwd);
-		std::wstring ws(&cwd[0]);
-		Settings::SetPaths(std::string(ws.begin(), ws.end()),
-			"D:\\SpaRcle\\SpaRcleData\\System",
-			"D:\\SpaRcle\\SpaRcle\\Resources",
-			"D:\\SpaRcle\\SpaRcleData\\Memory",
-			"D:\\SpaRcle\\SpaRcleData\\Logic");
-		Debug::Log("~ DIR \"" + Settings::PathPj + "\"");
+		Sleep(100);
+		_logic->Start();
 
-		if (!Settings::Diagnostic())
-			Debug::Log("Diagnostic... System is unstable!", true, DType::System, SpaRcle::Red);
-		else
-		{
-			boost::tuple<int> r;
-			Debug::Log("Diagnostic... System is stable!", DType::System, SpaRcle::Green);
+		Sleep(100);
+		_causality->Start();
 
-			//std::cout << Helper::SimilarityPercentage("12", "123") << std::endl;
-			//Sleep(225552);
+		Sleep(100);
+		_emotion->Start();
+		Sleep(100);
 
-			Settings::Status = 1;
-			//////////////////////////////
-			_core = new CentralCore(5);
-			_causality = new CausalityCore(5);
-			_logic = new LogicalCore(5);
-			_reality = new RealityCore(100);
-			_emotion = new EmotionCore(1500);
-	#pragma endregion
-
-	#pragma region [======== Init ========]
-			Debug::Log("Initializing", DType::System);
-			//Display::StartDisplay(_core); // Graph-mode
-			Window::Get()->AddAllElements();
-
-			_core->ConnectLogic(_logic);
-			_core->ConnectCausality(_causality);
-			_core->ConnectReality(_reality);
-			_core->ConnectEmotion(_emotion);
-
-			Sleep(100);
-			_reality->Start();
-
-			Sleep(100);
-			_logic->Start();
-
-			Sleep(100);
-			_causality->Start();
-
-			Sleep(100);
-			_emotion->Start();
-			Sleep(100);
-
-			_core->Start();
-			Sleep(100);
-	#pragma endregion
+		_core->Start();
+		Sleep(100);
+#pragma endregion
 
 		while (true)
 		{
 			Sleep(100);
 			Settings::Layout = Helper::GetLayout();
-			if (Settings::Status < 0) {
+			if (!Settings::IsActive)
 				break;
-			}
 
 			if (Display::Status == 2)
 				break;
@@ -124,26 +124,29 @@ int main(int argc, char** argv)
 				//std::cout << "Для продолжения нажмите Enter\n";
 				Debug::Log("Starting are successful. For exit press the Enter...", DType::System);
 				std::cin.get();
+				Settings::IsActive = false;
 				break;
 			}
 		}
 
-		Debug::StopDebugger();
-		std::cout << "================================== STOP ==================================" << std::endl;
-		Sleep(20000);
-
+		std::cout << "==================================[STOP]==================================" << std::endl;
+		Sleep(2000);
 		Destruct();
-
+		delete Window::Get();
 		Display::Deactive();
+		Sleep(2000);
+
+		Debug::StopDebugger();
+		Sleep(2000);
 		std::cout << std::endl;
 
 
 		return 0;
 	}
 
-	Sleep(200);
-
 	Debug::StopDebugger();
+	Sleep(1000);
+
 	return -1;
 }
 

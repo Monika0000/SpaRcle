@@ -32,6 +32,8 @@ namespace SpaRcle {
 	class Debug
 	{
 	public:
+		Debug();
+		~Debug();
 		static void Log(std::string mess, bool nline, SpaRcle::DType type = DType::Log, SpaRcle::ConsoleColor type_color = Black);
 		static void Log(std::string mess, SpaRcle::DType type = DType::Log, SpaRcle::ConsoleColor type_color = Black);
 		static void Log(int mess, bool nline = true, DType type = DType::Log, ConsoleColor type_color = Black);

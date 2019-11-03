@@ -37,6 +37,8 @@ namespace SpaRcle {
 
 		while (true)
 		{
+			if (!Settings::IsActive) break;
+
 			Sleep(*delay);
 			try {
 				// && (*_core).core->_causality->CheckedEvents.size() == 0
@@ -143,7 +145,7 @@ namespace SpaRcle {
 			return false; }
 
 		if (!Helper::SelectionSort(Cause.get<1>(), Cause.get<0>(), Cause.get<2>())) { // Sorting...
-			Settings::Status = -4; }
+			Settings::IsActive = false; }
 
 		size_t size = Cause.get<0>().size();
 		for (size_t i = 0; i < size; i++) {

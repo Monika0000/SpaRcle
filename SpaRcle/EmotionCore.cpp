@@ -62,6 +62,7 @@ namespace SpaRcle {
 
 	void EmotionSolution(int* delay, EmotionCore* core) {
 		while (true){
+			if (!Settings::IsActive) break;
 			Sleep(*delay);
 			if (Settings::CoreDebug)
 				Debug::Log("Processing emotion...");

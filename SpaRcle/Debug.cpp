@@ -7,7 +7,13 @@
 #include <stdio.h>
 
 namespace SpaRcle {
-	void Debug::Log(std::string mess, bool nline, SpaRcle::DType type, SpaRcle::ConsoleColor type_color) 
+	Debug::Debug()
+	{
+	}
+	Debug::~Debug()
+	{
+	}
+	void Debug::Log(std::string mess, bool nline, SpaRcle::DType type, SpaRcle::ConsoleColor type_color)
 	{ Messages.push_back(boost::tuple<std::string, bool, DType, ConsoleColor>(mess, nline, type, type_color)); }
 
 	void Debug::Log(std::string mess, SpaRcle::DType type, SpaRcle::ConsoleColor text_color) {
@@ -23,8 +29,9 @@ namespace SpaRcle {
 
 	void Debug::DebuggerSolution() {
 		while (true) {
+			if (!IsStart) { break; }
 			try {
-				if (Settings::Status < 0 && Debug::Messages.size() == 0) { continue; }
+				if (!Settings::IsActive && Debug::Messages.size() == 0) { continue; }
 
 				if (Messages.size() > 0) {
 					HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -83,13 +90,20 @@ namespace SpaRcle {
 			}
 			catch (...) { }
 		}
+		std::cout << "==================================[EXIT]==================================" << std::endl;
+		Debug::Messages.clear();
 	}
 
 	void Debug::StartDebugger() {
 		if (!IsStart) {
+			IsStart = true;
 			Process = std::thread(DebuggerSolution); } }
 
 	void Debug::StopDebugger() {
+		Debug::Log("Stopping debugger...", System);
+		Sleep(2000);
+		IsStart = false;
 		if (Debug::Process.joinable())
-			Debug::Process.detach(); }
+			Debug::Process.detach(); 
+	}
 }

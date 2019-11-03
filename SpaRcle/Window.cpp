@@ -36,17 +36,23 @@ namespace SpaRcle {
 	}
 	sf::RectangleShape Window::NormalizeRect(sf::RectangleShape sp, float modifer)
 	{
-		sp.setPosition(NormalizePos(sp.getPosition(), modifer));
+		sp.setPosition(NormalizePos(sp.getPosition()));
 		sp.setScale(NormalizeScale(sp.getScale(), modifer));
 		return sp; }
 
 	void Window::AddAllElements()
 	{
-		AddButton("Hello", sf::Vector2f(140, 90), sf::Vector2f(60, 20), "Test button", 3);
-		AddButton("Hello1", sf::Vector2f(140, 190), sf::Vector2f(60, 20), "Test button", 3);
+		AddRect("BG", sf::Vector2f(0, 0), sf::Vector2f(10000, 10000), sf::Color(155, 155, 155));
+		AddButton("Hello", sf::Vector2f(140, 90), sf::Vector2f(60, 20), "Test button", 3, [=](Window& win) {
+			Debug::Log("Hello world!");
+			});
+
+		AddButton("Hello1", sf::Vector2f(140, 190), sf::Vector2f(60, 20), "Test2 button", 3, [=](Window& win) {
+			Debug::Log("Hello NIKITA!");
+			});
 	}
 
-	void Window::AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context, float scale)
+	void Window::AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context, float scale, GAction act)
 	{
 		sf::RectangleShape* rect = new sf::RectangleShape(sf::Vector2f(size));
 
@@ -59,53 +65,53 @@ namespace SpaRcle {
 		Buttons.insert(std::pair<std::string, Button*>(name, new Button(pos, size, context, scale)));
 
 		AddMouseEvent(name);
-		AddEvent(name);
+		AddEvent(name, act);
 	}
-
-
 	void Window::AddMouseEvent(std::string key)
 	{
 		Mouses.insert(std::pair<std::string, GMouse>(key, [=](Window& win, sf::RectangleShape& pos, std::string keyAction) {
-
+			Button& button = *win.Buttons[keyAction];
 			if (win.MousePos.x <= (int)win.CurrentSize.x && win.MousePos.y <= (int)win.CurrentSize.y && win.MousePos.x >= (int)pos.getPosition().x
 				&& win.MousePos.x <= (int)pos.getPosition().x + pos.getSize().x &&
-				win.MousePos.y >= (int)pos.getPosition().y && win.MousePos.y <= pos.getPosition().y + pos.getSize().y) 
-				{
-				win.Actions[keyAction](&win);
-				win.Buttons[keyAction]->IsActive = true;
+				win.MousePos.y >= (int)pos.getPosition().y && win.MousePos.y <= pos.getPosition().y + pos.getSize().y)
+			{
+				button.IsActive = true;
 
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-					win.Buttons[keyAction]->L_clicked = 1;
+				if (button.delay > 0)
+					button.delay--;
+				else
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+					{
+						button.L_clicked = 8;
+						button.delay = 20;
+						win.Actions[keyAction](win);
+					}
 			}
 			else
 				win.Buttons[keyAction]->IsActive = false;
 
 			}));
 	}
+	void Window::AddEvent(std::string key, GAction act) { Actions.insert(std::pair<std::string, GAction>(key, act)); }
+	void Window::AddRect(std::string key, sf::Vector2f pos, sf::Vector2f size, sf::Color color) {
+		sf::RectangleShape* rect = new sf::RectangleShape();
+		(*rect).setSize(size); (*rect).setPosition(pos); (*rect).setFillColor(color);
+		Rectangles.insert(std::pair<std::string, sf::RectangleShape*>(key, rect)); }
+	void Window::AddTextEntry(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale) {
 
-	void Window::AddEvent(std::string key)
-	{
-		Actions.insert(std::pair<std::string, GAction>(key, [=](Window*win) {
-			Debug::Log("IsClicked!");
-			}));
 	}
+	void Window::AddLClickEvent(std::string key, std::function<void(Window& win)> event) {
 
-	void Window::AddTextEntry(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale)
-	{
 	}
+	void Window::AddTable(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale) {
 
-	void Window::AddLClickEvent(std::string key, std::function<void(Window& win)> event)
-	{
-	}
-
-	void Window::AddTable(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale)
-	{
 	}
 
 	Window::Window()
 	{
 		Debug::Log("Creating window...", DType::Info);
 
+		core = NULL;
 		defaultTex.loadFromFile("D:\\SpaRcle\\SpaRcle\\Resources\\default.jpg");
 		defaultFont.loadFromFile(Settings::Resources + "\\arial.ttf"); //calibri.ttf a_AlternaNr.ttf
 
@@ -118,6 +124,9 @@ namespace SpaRcle {
 
 		G_proc = std::thread([]() {
 			auto& wn = *Window::Get();
+		Ret:
+			if (wn.core == NULL)
+				goto Ret;
 
 			sf::RenderWindow window(sf::VideoMode(800, 600), "SpaRcle : Display");
 			window.setVerticalSyncEnabled(true); // V-Syns
@@ -131,6 +140,7 @@ namespace SpaRcle {
 			sf::Sprite sprite;
 
 			while (window.isOpen()) {
+				if (!Settings::IsActive) { Debug::Log("Stopping window graphics...", Info); break; }
 				Sleep(100);
 
 				wn.MousePos = sf::Mouse::getPosition(window);
@@ -232,7 +242,16 @@ namespace SpaRcle {
 					it_mouse++;
 				}
 			}
+			Debug::Log("Stopping window logic...", Info);
 		});
+	}
+
+	Window::~Window()
+	{
+		if (L_proc.joinable())
+			L_proc.detach();
+		if (G_proc.joinable())
+			G_proc.detach();
 	}
 
 	Window* Window::Get()
@@ -240,6 +259,7 @@ namespace SpaRcle {
 		static Window* wind = new Window();
 		return wind;
 	}
+	void Window::SetCore(CentralCore* core) { this->core = core; }
 	Button::Button(sf::RectangleShape* act, sf::RectangleShape* nAct, sf::RectangleShape* bord)
 	{
 		this->active = act;
@@ -262,7 +282,7 @@ namespace SpaRcle {
 		this->text->setFillColor(sf::Color(255, 255, 255));
 		this->text->setFont(Window::defaultFont);
 
-		this->click->setFillColor(sf::Color(0, 255, 0));
+		this->click->setFillColor(sf::Color(0, 150, 0));
 		this->click->setPosition(sf::Vector2f(pos.x + 4.f, pos.y + 4.f));
 		this->click->setSize(sf::Vector2f(size.x - 2.5f, size.y - 2.5f));
 

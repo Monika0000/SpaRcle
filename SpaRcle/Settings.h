@@ -25,7 +25,7 @@ namespace SpaRcle {
 		static std::string version;
 		static const std::string EmptyName;
 		static const char TrueSymbol;
-		static int Status;
+		static bool IsActive;
 		static bool isMinding;
 		///////////////////////////////
 		static std::string exp_conseq;

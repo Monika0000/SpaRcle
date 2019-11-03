@@ -216,7 +216,7 @@ namespace SpaRcle {
 			}
 			catch (...) {
 				Debug::Log("Consequence::Load : Loading failed! \n\t" + path, Error);
-				Settings::Status = -3;
+				Settings::IsActive = false;
 				fin.close();
 				return false;
 			}

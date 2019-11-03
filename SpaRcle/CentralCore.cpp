@@ -211,12 +211,12 @@ namespace SpaRcle {
 		while (true)
 		{
 			//break;
-
+			if (!Settings::IsActive) break;
 			Sleep(*DelayCPU);
 			//_asm { }
 			try {
-				core._logic->DoIt(core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks[
-					core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks.size() - 1]);
+				//core._logic->DoIt(core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks[
+				//	core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks.size() - 1]);
 
 				if (causal.UncheckedEvents.size() == 0) {
 					//if (core.Events.size() > 0) {
