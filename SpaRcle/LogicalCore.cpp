@@ -39,28 +39,21 @@ namespace SpaRcle {
 		{
 			if (!Settings::IsActive) break;
 
-			Sleep(*delay);
 			try {
 				// && (*_core).core->_causality->CheckedEvents.size() == 0
 				if (causal.CheckedEvents.size() <= Settings::Size_SCP * 2 + 1 && causal.UncheckedEvents.size() == 0 && core.Events.size() == 0) {
 					if ((*_core).Causes.size() > 0) {
-
-						//std::cout << "Error Error" << std::endl;
 						LogicalCore::CauseReputation((*_core).Causes[0]); // Get first element  //ERROR
-
 						(*_core).Causes.erase((*_core).Causes.begin()); // Удаляем элемент в самом начале
 					}
 				}
 				else {
-					//Debug::Log((*_core).core->_causality->CheckedEvents.size());
+					Sleep(*delay);
 				}
 			}
 			catch (...) {
 				Debug::Log("LogicalSolution : An exception has ocurred!", Error);
 				break;
-
-				//std::cout << e.bstrDescription << std::endl;
-				//std::cout << e.scode << std::endl;
 			}
 			if (Settings::CoreDebug)
 				Debug::Log("Processing logical... ");

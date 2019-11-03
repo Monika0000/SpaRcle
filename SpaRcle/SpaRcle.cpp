@@ -85,8 +85,8 @@ int main(int argc, char** argv)
 #pragma region [======== Init ========]
 		Debug::Log("Initializing", DType::System);
 		//Display::StartDisplay(_core); // Graph-mode
-		Window::Get()->AddAllElements();
 		Window::Get()->SetCore(_core);
+		Window::Get()->AddAllElements();
 
 		_core->ConnectLogic(_logic);
 		_core->ConnectCausality(_causality);

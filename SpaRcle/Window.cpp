@@ -18,8 +18,8 @@ namespace SpaRcle {
 	}
 	sf::Vector2f Window::NormalizeScale(sf::Vector2f scale, float modifer) {
 		return sf::Vector2f(
-			 modifer* (float(CurrentSize.x) / float(Window::DisplaySize.x)),
-			 modifer* (float(CurrentSize.y) / float(Window::DisplaySize.y)));
+			 modifer * (float(CurrentSize.x) / float(Window::DisplaySize.x)),
+			 modifer * (float(CurrentSize.y) / float(Window::DisplaySize.y)));
 	}
 	sf::Sprite Window::NormalizeSprite(sf::Sprite sp)
 	{
@@ -43,16 +43,21 @@ namespace SpaRcle {
 	void Window::AddAllElements()
 	{
 		AddRect("BG", sf::Vector2f(0, 0), sf::Vector2f(10000, 10000), sf::Color(155, 155, 155));
-		AddButton("Hello", sf::Vector2f(140, 90), sf::Vector2f(60, 20), "Test button", 3, [=](Window& win) {
-			Debug::Log("Hello world!");
+		AddButton("Hello", sf::Vector2f(25, 890), sf::Vector2f(80, 20), "  [Hello Monika]", 3, [=](Window& win) {
+				win.core->_causality->UncheckedEvents.push_back(Consequence(Sound("hello", 10, 15)));
+				win.core->_causality->UncheckedEvents.push_back(Consequence(Sound("monika", 10, 15)));
 			});
 
-		AddButton("Hello1", sf::Vector2f(140, 190), sf::Vector2f(60, 20), "Test2 button", 3, [=](Window& win) {
+		AddButton("Hello1", sf::Vector2f(25, 960), sf::Vector2f(80, 20), "  [How are you]", 3, [=](Window& win) {
 			Debug::Log("Hello NIKITA!");
 			});
+
+		AddButton("Skip", sf::Vector2f(25, 1030), sf::Vector2f(80, 20), "    	[Skip]", 3, [=](Window& win) {
+				win.core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+			}, 1);
 	}
 
-	void Window::AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context, float scale, GAction act)
+	void Window::AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context, float scale, GAction act, short max_delay)
 	{
 		sf::RectangleShape* rect = new sf::RectangleShape(sf::Vector2f(size));
 
@@ -62,7 +67,7 @@ namespace SpaRcle {
 		sf::Text* text = new sf::Text();
 		(*text).setString(context);
 
-		Buttons.insert(std::pair<std::string, Button*>(name, new Button(pos, size, context, scale)));
+		Buttons.insert(std::pair<std::string, Button*>(name, new Button(pos, size, context, scale, max_delay)));
 
 		AddMouseEvent(name);
 		AddEvent(name, act);
@@ -79,11 +84,11 @@ namespace SpaRcle {
 
 				if (button.delay > 0)
 					button.delay--;
-				else
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+				else if(button.delay <= 0)
+					if (win.LMouse)
 					{
 						button.L_clicked = 8;
-						button.delay = 20;
+						button.delay = button.max_delay;
 						win.Actions[keyAction](win);
 					}
 			}
@@ -140,7 +145,7 @@ namespace SpaRcle {
 			sf::Sprite sprite;
 
 			while (window.isOpen()) {
-				if (!Settings::IsActive) { Debug::Log("Stopping window graphics...", Info); break; }
+				if (!Settings::IsActive) { break; }
 				Sleep(100);
 
 				wn.MousePos = sf::Mouse::getPosition(window);
@@ -218,7 +223,9 @@ namespace SpaRcle {
 
 				window.display();
 			}
+			Debug::Log("Stopping window graphics...", Info);
 			wn.IsActive = false;
+			Settings::IsActive = false;
 		});
 		L_proc = std::thread([]() {
 			auto& wn = *Window::Get();
@@ -228,6 +235,8 @@ namespace SpaRcle {
 
 			while (wn.IsActive) {
 				Sleep(10);
+
+				wn.LMouse = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
 
 				it_mouse = (wn.Mouses.begin());
 				for (size_t t = 0; t < wn.Mouses.size(); t++) {
@@ -244,6 +253,7 @@ namespace SpaRcle {
 			}
 			Debug::Log("Stopping window logic...", Info);
 		});
+		Debug::Log("Window is created!", DType::Info);
 	}
 
 	Window::~Window()
@@ -260,15 +270,11 @@ namespace SpaRcle {
 		return wind;
 	}
 	void Window::SetCore(CentralCore* core) { this->core = core; }
-	Button::Button(sf::RectangleShape* act, sf::RectangleShape* nAct, sf::RectangleShape* bord)
+	Button::Button(sf::Vector2f pos, sf::Vector2f size, std::string text, float scale, short max_delay)
 	{
-		this->active = act;
-		this->border = bord;
-		this->notActive = nAct;
+		this->max_delay = max_delay;
 		this->IsActive = false;
-	}
-	Button::Button(sf::Vector2f pos, sf::Vector2f size, std::string text, float scale)
-	{
+		this->delay = 0; // Important!!!!
 		this->L_clicked = 0;
 		this->scale = scale;
 		this->active = new sf::RectangleShape();
@@ -277,10 +283,12 @@ namespace SpaRcle {
 		this->click = new sf::RectangleShape();
 
 		this->text = new sf::Text();
-		this->text->setString(text);
-		this->text->setPosition(sf::Vector2f(pos.x + 10, pos.y + pos.x / 8));
-		this->text->setFillColor(sf::Color(255, 255, 255));
-		this->text->setFont(Window::defaultFont);
+		if (text != "") {
+			this->text->setString(text);
+			this->text->setPosition(sf::Vector2f(pos.x + 10, pos.y + 8));
+			this->text->setFillColor(sf::Color(255, 255, 255));
+			this->text->setFont(Window::defaultFont);
+		}
 
 		this->click->setFillColor(sf::Color(0, 150, 0));
 		this->click->setPosition(sf::Vector2f(pos.x + 4.f, pos.y + 4.f));
@@ -300,4 +308,10 @@ namespace SpaRcle {
 		this->border->setSize(size);
 		this->border->setPosition(pos.x, pos.y);
 	}
+	CheckBox::CheckBox(sf::Vector2f pos, sf::Vector2f size, float scale, short max_delay) : Button(pos, size, "", scale, max_delay)
+	{
+		//__super::Button(pos, size, "", scale, max_delay);
+		IsChecked = false;
+	}
 }
+// refactoring

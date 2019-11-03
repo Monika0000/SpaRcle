@@ -88,7 +88,7 @@ namespace SpaRcle {
 					Messages.erase(Messages.begin());
 				}
 			}
-			catch (...) { }
+			catch (...) { std::cout << "[Error] Debug::Log : An exception has occured!" << std::endl; }
 		}
 		std::cout << "==================================[EXIT]==================================" << std::endl;
 		Debug::Messages.clear();

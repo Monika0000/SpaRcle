@@ -14,7 +14,7 @@ namespace SpaRcle {
 	////////////////////////////
 	bool Settings::CoreDebug = false;
 	KeyboardLayout Settings::Layout = UNKNOWN;
-	bool Settings::EventsProcessigDebug = true;
+	bool Settings::EventsProcessigDebug = false;
 	const int Settings::SaveNumbers = 5;
 	const size_t Settings::Size_SCP = 5;
 	std::string Settings::version = "0.1_alpha_sparcle";

@@ -11,15 +11,19 @@
 
 namespace SpaRcle {
 	struct Button{
-		Button(sf::RectangleShape* act, sf::RectangleShape* nAct, sf::RectangleShape* bord);
-		Button(sf::Vector2f pos, sf::Vector2f size, std::string text, float scale);
+		Button(sf::Vector2f pos, sf::Vector2f size, std::string text, float scale, short max_delay = 20);
 		bool IsActive;
 		sf::RectangleShape* active,* notActive, *click;
 		sf::RectangleShape* border;
 		sf::Text* text;
 		float scale;
 		short delay;
+		short max_delay;
 		int L_clicked;
+	};
+	struct CheckBox : public Button {
+		CheckBox(sf::Vector2f pos, sf::Vector2f size, float scale, short max_delay = 20);
+		bool IsChecked;
 	};
 	class Window;
 	
@@ -50,9 +54,10 @@ namespace SpaRcle {
 		sf::Vector2i MousePos;
 		CentralCore* core;
 		bool IsActive;
+		bool LMouse;
 
 		void AddAllElements();
-		void AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context = "", float scale = 1, GAction act = [=](Window&win) {});
+		void AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context = "", float scale = 1, GAction act = [=](Window&win) {}, short max_delay= 20);
 		void AddMouseEvent(std::string key);
 		void AddEvent(std::string key, GAction act);
 		void AddRect(std::string key, sf::Vector2f pos, sf::Vector2f size, sf::Color color = sf::Color(100, 100, 100));

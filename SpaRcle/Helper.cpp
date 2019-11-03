@@ -266,10 +266,10 @@ namespace SpaRcle {
 		if (max > 90) {
 			con.PerhapsWill[index].get<2>() = (con.PerhapsWill[index].get<2>() + hp) / 2;
 			con.PerhapsWill[index].get<3>()++; // Increment
-			Debug::Log("Synapse::FindAndSummSensiv : summ perhaps will \"" + name + "\" to conseq \"" + con.name + 
-				"\" \n\tperc:"+std::to_string(max) + ";sens:"+sens + "="+ con.PerhapsWill[index].get<1>()); }
+			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : summ perhaps will \"" + name + "\" to conseq \"" + con.name +
+				"\"; perc:"+std::to_string(max) + "; sens:"+sens + "="+ con.PerhapsWill[index].get<1>()); }
 		else {
-			Debug::Log("Synapse::FindAndSummSensiv : add perhaps will \""+name+"\" to conseq \""+con.name + "\"");
+			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : add perhaps will \""+name+"\" to conseq \""+con.name + "\"");
 			con.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(name, sens, hp, 1)); }
 	}
 	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s)

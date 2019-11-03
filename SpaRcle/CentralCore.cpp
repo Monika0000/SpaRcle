@@ -201,58 +201,38 @@ namespace SpaRcle {
 		CentralCore& core = *_core;
 		RealityCore& real = *core._reality;
 		CausalityCore& causal = *core._causality;
-		//Consequence pain = Consequence("pain", Action(Sound("PAIN")), 1, 40, 10); 
-		//	pain.Synapses.push_back(boost::tuple<std::string, std::string, double>("S/nothing", "rj", 14));
-		//	pain.Synapses.push_back(boost::tuple<std::string, std::string, double>("S/regen", "snrj", 100));
-		//	pain.Synapses.push_back(boost::tuple<std::string, std::string, double>("S/sit", "nstj", 90));
-		//core.Events.push_back(boost::tuple<Consequence, std::string>(pain, "nsrj"));
 		size_t timer = 0, size_ev = 0, deep = 0;
 
 		while (true)
 		{
-			//break;
 			if (!Settings::IsActive) break;
-			Sleep(*DelayCPU);
-			//_asm { }
+			if(core.Events.size() == 0) Sleep(*DelayCPU);
+
 			try {
-				//core._logic->DoIt(core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks[
-				//	core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks.size() - 1]);
+				core._logic->DoIt(core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks[
+					core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks.size() - 1]);
 
 				if (causal.UncheckedEvents.size() == 0) {
-					//if (core.Events.size() > 0) {
-					//	Debug::Log("multi (" + core.Events[0].get<1>() + "): " + core.Events[0].get<0>().name);
-					//	core.Events.erase(core.Events.begin()); }
-
 					if (core.Events.size() > 1) {
 					Ret:
 						Consequence& conseq = core.Events[deep].get<0>();
 						(*_core).AddSE(conseq.name, false); // Петля
 
 						if (conseq.name == Settings::EmptyName) {
-							//Debug::Log("EPMTY : " + std::to_string(deep) + " " + std::to_string(core.Events.size()));
-							//core.Events.erase(core.Events.begin() + deep);
-							if (core.Events.size() > deep + 1)
-							{
-								deep++;
-								goto Ret;
-							}
-							else
-							{
+							if (core.Events.size() > deep + 1) {
+								deep++; goto Ret; }
+							else {
 								for (size_t t = deep; t > 0; t--)
 									core.Events.erase(core.Events.end() - t);
 								core.Events.erase(core.Events.begin());
-								deep = 0;
-							}
-							//deep = 0;
+								deep = 0; }
 						}
 						else {
 							std::string sit = core.Events[deep].get<1>();
 
 							if (core.Events.size() > deep + 1) {
 								if (conseq.EventData.sec + 5 >= core.Events[deep + 1].get<0>().EventData.sec) {
-									deep++;
-									goto Ret;
-								}
+									deep++; goto Ret; }
 								else {
 									Debug::Log("CentralCore : While - Logical loop. \n\tEvents : "
 										+ std::to_string(core.Events.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
@@ -260,23 +240,17 @@ namespace SpaRcle {
 									if (core.Events.size() != 0) {
 										for (size_t t = deep; t > 0; t--)
 											core.Events.erase(core.Events.end() - t);
-										core.Events.erase(core.Events.begin());
-									}
+										core.Events.erase(core.Events.begin()); }
 									deep = 0;
 								}
 							}
 							else {
 								Debug::Log("CentralCore : multi (" + sit + "): " + conseq.name);
-								//std::reverse(core.Events[deep].get<1>().begin(), core.Events[deep].get<1>().end());
 								CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core);
-
-								//std::cout << core.Events.size() << std::endl;
-								//std::cout << deep << std::endl;
 								if (core.Events.size() != 0) {
 									for (size_t t = deep; t > 0; t--)
 										core.Events.erase(core.Events.end() - t);
-									core.Events.erase(core.Events.begin());
-								}
+									core.Events.erase(core.Events.begin()); }
 								deep = 0;
 							}
 						}
@@ -285,46 +259,18 @@ namespace SpaRcle {
 						Consequence& conseq = core.Events[0].get<0>();
 						if (conseq.name == Settings::EmptyName) {
 							(*_core).AddSE(conseq.name, false);
-							//Debug::Log("dasdsad");
 						}
 						else {
 							Debug::Log("CentralCore : only (" + core.Events[0].get<1>() + "): " + conseq.name);
-							//std::reverse(core.Events[deep].get<1>().begin(), core.Events[deep].get<1>().end());
 							CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core);
 						}
 						core.Events.erase(core.Events.begin());
 					}
 				}
-
-				/*
-					if (core.Events.size() > 0)
-						if (size_ev != core.Events.size()) {
-							if(size_ev < core.Events.size())
-								//if (core.Events[0].get<0>().PerhapsWill.size())
-									timer = 50;
-							////////////////////////////
-							size_ev = core.Events.size();
-							deep++;
-						}
-						else {
-							if (timer == 0) {
-								Debug::Log(core.Events[deep].get<0>().name);
-								core.Events.erase(core.Events.begin());
-								deep--;
-
-							}
-							else timer--;
-						}
-						*/
-						//std::string s = Helper::format() << count;
-						//core->_logic->DoIt(Task(Consequence("Life " + s, Action())));
-						//count++;
-						//core->DelayCPU = 1500;
 			}
 			catch (...) {
 				Debug::Log("CentralCore : An exception has occured! \n\tEvents : " + std::to_string(core.Events.size()) +
 					"\n\tDeep : " + std::to_string(deep), Error);
-				//					"\n\tDeep : " + std::to_string(deep)
 				break;
 			}
 			if (Settings::CoreDebug)

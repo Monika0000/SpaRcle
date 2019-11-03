@@ -169,7 +169,7 @@ namespace SpaRcle {
 		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
 		#pragma endregion 
 
-		if (false) {
+		if (true) {
 			if (false) {
 				double tone = 8, volime = 13;
 				for (size_t t = 0; t < 3; t++)
@@ -269,11 +269,11 @@ namespace SpaRcle {
 		while (true)
 		{
 			if (!Settings::IsActive) break;
-			//break;
-			Sleep(*delay);
-			try {
-				if ((*_core).UncheckedEvents.size() > 0)
-				{
+			if((*_core).UncheckedEvents.size() == 0)
+				Sleep(*delay);
+
+			if ((*_core).UncheckedEvents.size() > 0)
+			{
 					Consequence event = (*_core).UncheckedEvents[0]; // Get first event
 
 					if (event.name != Settings::EmptyName) {
@@ -286,65 +286,17 @@ namespace SpaRcle {
 						event.Bad = event.Bad + hp.get<0>();
 						event.Good = event.Good + hp.get<1>();
 
-						if (false) {
-							std::cout << "	n:" << helpData.name << std::endl;
-							std::cout << "	m:" << helpData.meetings << std::endl;
-							std::cout << "	h:bad:" << helpData.Bad << std::endl;
-							std::cout << "	h:good:" << helpData.Good << std::endl;
-							std::cout << std::endl;
-						}
-						if (false) {
-							std::cout << "	n:" << event.name << std::endl;
-							std::cout << "	m:" << event.meetings << std::endl;
-							std::cout << "	h:bad:" << event.Bad << std::endl;
-							std::cout << "	h:good:" << event.Good << std::endl;
-							std::cout << std::endl;
-						}
-
 						if (!found)	helpData.~Consequence();
 						else {
-							//event = helpData + event; failure
-
-							///event = event + helpData;
-							//for (auto& a : helpData.PerhapsWill)
-							//	Debug::Log(a.get<0>(), Error);
-							//Debug::Log("==================", Error);
-							//for (auto& a : event.PerhapsWill)
-							//	Debug::Log(a.get<0>(), Error);
-
-
 							Helper::SummActionConseq(event, helpData);
 							Helper::SimpleSummConseq(event, helpData);
 							event.meetings = event.meetings + helpData.meetings;
-
-							//Debug::Log(event.Causes.size());
-							//Debug::Log(helpData.Causes.size());
-
-							if (false) {
-								std::cout << "	n:" << event.name << std::endl;
-								std::cout << "	m:" << event.meetings << std::endl;
-								std::cout << "	h:bad:" << event.Bad << std::endl;
-								std::cout << "	h:good:" << event.Good << std::endl;
-								//std::cout << "t:" << ToString(event.action.type) << std::endl;
-								//std::cout << "sd:text:" << event.action.GetSound().text << std::endl;
-								//std::cout << "sd:tone:" << event.action.GetSound().tone << std::endl;
-								//std::cout << "sd:volime:" << event.action.GetSound().volime << std::endl;
-							}
 						}
 
-						//if (event.name != Settings::EmptyName) {
-							// Решаем, что с этим следствием делать.
 						std::string Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
-						//Debug::Log(Situation);
-
 						Situation += Synapse::GetSensivityOfName(event.name);
-						//Debug::Log(Situation);
-
-						//Situation += Helper::GetSensivityCauses((*_core). CheckedEvents);
 						Situation = Synapse::ClearSensivity(Situation);
-						//Debug::Log(event.name + " " + Helper::GetSensivityCauses((*_core). CheckedEvents));
 						C_ref.NewEvent(event, Situation);
-						//}
 
 						if (found) {
 							event.Bad = (event.Bad + helpData.Bad) / Div;
@@ -370,7 +322,7 @@ namespace SpaRcle {
 				}
 
 				/* Пост-процессинг. Здесь мы объединям некоторую информацию и проводим синапсы между нейронами. */
-				//if(false)
+				
 				if ((*_core).CheckedEvents.size() > ((Settings::Size_SCP * 2) + 1))
 				{
 					Consequence& conq = (*_core).CheckedEvents[Settings::Size_SCP]; // 6-ый element
@@ -386,14 +338,9 @@ namespace SpaRcle {
 							conq.Good = (conq.Good + load.Good) / Div;
 
 							Helper::SimpleSummConseq(conq, load);
-
 							Helper::SummActionConseq(conq, load);
 						}
 
-						//for (auto& a : (*_core).CheckedEvents)
-						//	std::cout << a.name << std::endl;
-						
-						///std::cout << std::endl;
 						CausalityCore::CheckedEventsProcessing((*_core).CheckedEvents, Temp_Causes, Temp_Meets);
 						/* Обрабатываем следствия устанавливая между ними взаимосвязи и добавляем в них причины. */
 
@@ -411,25 +358,17 @@ namespace SpaRcle {
 						// Избавляемся от точек. (Пустых следствий)
 						
 						//Высокая верятность неизвестной ошибки!!!!!!!!!!!!!!!!!
-						//L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
+						L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
 						/* Изменяем репутацию причин, которые только что произошли отталкитваясь от следствий в которых они находятся */
 					}
 
 					(*_core).CheckedEvents.erase((*_core).CheckedEvents.begin()); // Удаляем первый еэлемент
-					/// \bug Current_sensivity.erase(0); //Удаляем одну причину (Полностью очищает строку)
-					Current_sensivity.erase(Current_sensivity.begin(), Current_sensivity.begin()+ count_word_in_sensiv);    // $Удаляем $одну $причину
+					Current_sensivity.erase(Current_sensivity.begin(), Current_sensivity.begin() + count_word_in_sensiv);    // $Удаляем $одну $причину
 					(*_core).Sensivity_List.erase((*_core).Sensivity_List.begin());											// $Удаляем $одну $причину
 				}
 			}
-			catch(...) {
-				//std::cout << e.bstrDescription << std::endl;
-				//std::cout << e.scode << std::endl;
-				Debug::Log("CausalityCore : An exception has occured!", Error);
-				break;
-			}
 			if (Settings::CoreDebug)
 				Debug::Log("Processing causality... ");
-		}
 	}
 	void CausalityCore::Start()
 	{
