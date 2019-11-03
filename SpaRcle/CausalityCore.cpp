@@ -59,26 +59,18 @@ namespace SpaRcle {
  
 	inline bool SpaRcle::CausalityCore::CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, const bool Diagnostic)
 	{
-		// Здесь все вроде-бы готово. Пока-что лучше больше не трогать данный участок кода.\
-		
-		//Debug::Log("CausalityCore::CheckedEventsProcessing : work");
-
+		// Здесь все вроде-бы готово. Пока-что лучше больше не трогать данный участок кода.
 		Consequence& conq = Ref_ev[Settings::Size_SCP]; // 6-ый element
 
 		for (size_t t = 0; t < Settings::Size_SCP; t++) {
 			/* Здесь мы суммируем и добавляем в нейрон синапсы, ведущие к другим нейронам */
-
-			if (Ref_ev[t].name == Settings::EmptyName) {
-				continue; }
+			if (Ref_ev[t].name == Settings::EmptyName)  continue; 
 			
 			#pragma region [========== CAUSES =========] 
 			std::string C_name; C_name += ToString(Ref_ev[t].action.type)[0];
 			C_name += "/" + Ref_ev[t].name; // Генерируем имя
 			
-			//continue;
-
-			int C_index = Synapse::IndexOfSynapse(conq.Causes, C_name); // Ищем схожую причину
-			if (C_index == -1) {
+			if (int C_index = Synapse::IndexOfSynapse(conq.Causes, C_name); C_index == -1) { // Ищем схожую причину
 				// Добавляем синапс на нейрон являющийся причиной данного следствия (нейрона)
 				conq.Causes.push_back(boost::tuple<std::string, int, double>(C_name, 1, Ref_ev[t].GetSummHP()));
 
@@ -89,10 +81,8 @@ namespace SpaRcle {
 			}
 			else {
 				if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : summ cause \"" + conq.name + "\" with \"" + C_name + "\"");
-				// Summ consequences
 				conq.Causes[C_index].get<2>() = (conq.Causes[C_index].get<2>() + Ref_ev[t].GetSummHP()) / 1.5f; /* Суммируем полезность */
 				conq.Causes[C_index].get<1>()++; // Увеличиваем количество встреч данного события на 1
-				//std::cout << conq.Causes[С_index].get<1>() << std::endl;
 
 				Temp_Causes.push_back(C_name); // Добавляем причину для дальнейшей обработки
 				Temp_Meets.push_back(conq.Causes[C_index].get<1>()); // Добавляем колличество встреч данной причины
@@ -100,13 +90,11 @@ namespace SpaRcle {
 			#pragma endregion
 		}
 		/* Для начала узнаем, что является причиной этого следствия */
-		//if(false)
 		for (size_t t = 0; t < Settings::Size_SCP + 1; t++) {
 			#pragma region [ ========= SYNAPSE ========= ]
 			Consequence& ref_will = Ref_ev[t + Settings::Size_SCP + 1];
 
-			if (ref_will.name == Settings::EmptyName)
-				continue;
+			if (ref_will.name == Settings::EmptyName) continue;
 
 			std::string Sensivity = Synapse::GetSensivityCauses(Ref_ev, t + Settings::Size_SCP);
 			Sensivity = Synapse::ClearSensivity(Sensivity);
@@ -128,42 +116,9 @@ namespace SpaRcle {
 				}
 			}
 
-			#pragma region [ ========= PERHAPSWILL ========= ]
-			//for (auto& a : conq.Synapses)
-			//	Debug::Log("Syn : " + a.get<0>());
-			//for (auto& a : conq.PerhapsWill)
-			//	Debug::Log("Per : " + a.get<0>());
-			//Debug::Log(S_name, Error);
-			Synapse::FindAndSummSensiv(conq, S_name, Sensivity, ref_will.GetSummHP());
-			/*
-			int P_index = Helper::IndexOfSynapse(conq.PerhapsWill, S_name);
-			if (P_index == -1) {
-				// Добавляем синапс на новое возможное следствие
-				//Debug::Log("\"" + Sensivity + "\"");
-				Debug::Log(conq.PerhapsWill.size());
-				conq.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(S_name, Sensivity, ref_will.GetSummHP(), 1));
-				if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : add perhaps \"" + S_name + "\" to \"" + conq.name + "\"");
-				//Debug::Log(conq.PerhapsWill.size());
-			}
-			else {
-				// Summ consequences (PERHAPSWILL)
-				if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : summ perhaps \"" + conq.name + "\" with \"" + S_name + "\"");
-				conq.PerhapsWill[P_index].get<2>() = (conq.PerhapsWill[P_index].get<2>() + ref_will.GetSummHP()) / 1.5f; // Суммируем полезность 
-				//conq.PerhapsWill[P_index].get<1>() = "ADD";
-
-				// TODO : Нужно складывать чувствительность!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				//conq.PerhapsWill[P_index].get<1>() = Helper::SummSensivity(conq.PerhapsWill[P_index].get<1>(), Sensivity);
-				//Helper::SummSensivity(conq.PerhapsWill[P_index].get<1>(), Sensivity);
-				Helper::SummSensivity(conq, P_index, Sensivity, ECom::PerhWill);
-
-				//for (size_t i = 0; i < Situations.size(); i++) std::cout << Situations[i] << std::endl;
-				//Debug::Log(Sensivity);
-				conq.PerhapsWill[P_index].get<3>()++; //Increment
-			} 
-			*/
 			#pragma endregion
 
-			#pragma endregion
+			Synapse::FindAndSummSensiv(conq, S_name, Sensivity, ref_will.GetSummHP()); // Perhaps will
 		}
 		/* А теперь  */
 
@@ -214,7 +169,7 @@ namespace SpaRcle {
 		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
 		#pragma endregion 
 
-		if (true) {
+		if (false) {
 			if (false) {
 				double tone = 8, volime = 13;
 				for (size_t t = 0; t < 3; t++)

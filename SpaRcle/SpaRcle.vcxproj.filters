@@ -120,6 +120,9 @@
     <ClInclude Include="Visual.h">
       <Filter>Файлы заголовков\Reality</Filter>
     </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Файлы заголовков\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="Visual.cpp">
       <Filter>Исходные файлы\Reality</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Исходные файлы\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

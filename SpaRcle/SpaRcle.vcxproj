@@ -187,6 +187,7 @@
     <ClInclude Include="TaskTree.h" />
     <ClInclude Include="TextEntry.h" />
     <ClInclude Include="Visual.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="SpaRcle.cpp" />
     <ClCompile Include="TaskTree.cpp" />
     <ClCompile Include="Visual.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SpaRcle.rc" />

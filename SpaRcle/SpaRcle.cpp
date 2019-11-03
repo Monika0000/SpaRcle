@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Display.h"
 #include "CentralCore.h"
+#include "Window.h"
 #include "CausalityCore.h"
 #include "LogicalCore.h"
 #include "RealityCore.h"
@@ -16,7 +17,6 @@
 #include <thread>
 #include <stdexcept>
 using namespace SpaRcle;
-//using namespace boost::tuples;
 
 #pragma region Propetries;
 CentralCore* _core;
@@ -38,115 +38,6 @@ void Destruct() {
 }
 #pragma endregion
  
-/*
-class B;
-class C;
-
-class A {
-public:
-	A();
-	int type;
-	virtual B* Get(const B& b);
-	virtual C* Get(const C& c);
-};
-
-class B : public A
-{
-public:
-	B();
-	B* Get(const B& b) override;
-};
-class C : public A
-{
-public:
-	C();
-	C* Get(const C& c) override;
-};
-
-
-A::A() {
-	std::cout << "A construct" << std::endl;
-}
-B* A::Get(const B& b) { return new B(); }
-C* A::Get(const C& c) { return new C(); }
-
-
-B::B() : A() {
-	std::cout << "B construct" << std::endl;}	
-B* B::Get(const B& b) {
-	std::cout << "B Get" << std::endl;
-	return this; }
-
-C::C() : A() {
-	std::cout << "C construct" << std::endl;}
-C* C::Get(const C& c) {
-	std::cout << "C Get" << std::endl;
-	return this; }
-*/
-
-/*
-class B {
-
-};
-class A {
-public:
-	//A(const B& b) {
-	//}
-	operator B() {
-		return B();
-	}
-};
-*/
-
-/*
-class Object {
-public :
-	template <typename T> Object(T value) {
-
-	}
-	 
-	template <typename T> T Get() {
-
-	}
-
-private :
-	template <typename T> class Data
-	{
-	public:
-
-	};
-
-	Data data;
-};
-*/
-
-/*
-void Demo(int(*_printf) (const char *, ...))
-{
-	_printf("Hello, OSIX!n");
-	return;
-}
-FILE *f;
-char buff[1000];
-int(*_printf) (const char *, ...);
-int(*_main) (int, char **);
-void(*_Demo) (int(*) (const char *, ...));
-
-_Demo = Demo;
-_main = main;
-_printf = printf;
-int func_len = (unsigned int)_main + (unsigned int)_Demo;
-func_len = func_len * 10;
-
-f = fopen("Demo32.bin", "wb");
-for (int a = 0; a < func_len; a++)
-	fputc(((int)buff[a]) ^ 0x77, f);
-fclose(f);
-return 0;
-*/
-
-// Task : Сделай кнопки,чтобы быстро кликать на события (идет, бежит, прыгает, летит,больно)
-
 int main(int argc, char** argv)
 {
 	//std::cout << ((1.22322e-4)* 100) / 100 << std::endl;
@@ -156,24 +47,12 @@ int main(int argc, char** argv)
 	setlocale(LC_ALL, "rus");
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
 
-	//std::cout << Synapse::GetSensivityOfName("S/lol");
-	//std::cout << "asd";
-	//return 1;
-
-	//return Settings::count_sens - 1;
-	//std::string s = "12345";
-	//std::cout << s.substr(0, 1) << std::endl;return 1;
-	//std::cout << Helper::GetSensivityOfName("1234567") << std::endl;
-	//std::cout << Helper::GetSensivityOfName("1") << std::endl;
-	//std::cout << Helper::SimilarityPercentage("012000", "013000") << std::endl;
-
 	#pragma region [======== Pre-Init ========]
 		Debug::StartDebugger();
 		Sleep(100);
 		Debug::Log("Pre-initializing", DType::System);
 
-		Settings::CoreDebug = false; // Disable loging cores
-		//////////////////////////////
+		Settings::CoreDebug = false; 
 		TCHAR cwd[100];
 		GetCurrentDirectory(100, cwd);
 		std::wstring ws(&cwd[0]);
@@ -183,11 +62,6 @@ int main(int argc, char** argv)
 			"D:\\SpaRcle\\SpaRcleData\\Memory",
 			"D:\\SpaRcle\\SpaRcleData\\Logic");
 		Debug::Log("~ DIR \"" + Settings::PathPj + "\"");
-
-
-		//std::string all; Consequence conq("four", AType::Speech);
-		//for (auto& a : LogicalCore::DecomposeConsequence(conq)) all += "\n\t" + a;
-		//Debug::Log("Decompose \"4\" : " + all); Sleep(1111111);
 
 		if (!Settings::Diagnostic())
 			Debug::Log("Diagnostic... System is unstable!", true, DType::System, SpaRcle::Red);
@@ -210,7 +84,8 @@ int main(int argc, char** argv)
 
 	#pragma region [======== Init ========]
 			Debug::Log("Initializing", DType::System);
-			Display::StartDisplay(_core); // Graph-mode
+			//Display::StartDisplay(_core); // Graph-mode
+			Window::Get()->AddAllElements();
 
 			_core->ConnectLogic(_logic);
 			_core->ConnectCausality(_causality);
