@@ -14,6 +14,7 @@ namespace SpaRcle {
 		int meetings;
 		double Bad = 0, Good = 0;
 		Action action; /* Multi-value */
+		bool self = false;
 
 		std::vector<boost::tuple<std::string, double>> Synapses;			/* This are ref to path Consequence		|	Max = 5   */
 		std::vector<boost::tuple<std::string, std::string, double, int>> PerhapsWill;			/* This are ref to path Consequence		|	Max = 10  */
@@ -31,7 +32,7 @@ namespace SpaRcle {
 		Consequence();
 		Consequence(std::string name);
 		Consequence(std::string name, AType atype);
-		Consequence(Sound speech);
+		Consequence(Sound speech, bool self = false);
 		Consequence(Visual visual);
 		Consequence(std::string name, Action action);
 		Consequence(std::string name, Action action, int meets);

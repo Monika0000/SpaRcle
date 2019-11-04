@@ -21,6 +21,8 @@ namespace SpaRcle
 		std::vector<Consequence> CheckedEvents = {};
 		std::vector<std::string> Sensivity_List = {};
 
+		std::string Current_sensivity;
+
 		void Start();
 		void NewEvent(Consequence event);
 

@@ -54,7 +54,7 @@ namespace SpaRcle {
 
 		while (true)
 		{
-			//if (!Settings::IsActive) break;
+			if (!Settings::IsActive) break;
 			Sleep(*delay);
 
 			if (Settings::isMinding)
@@ -87,6 +87,7 @@ namespace SpaRcle {
 			//action.Get(action.type, &s);
 
 			Debug::Log(s.text, DType::Mind);
+			this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
 			break;
 			}
 		default:

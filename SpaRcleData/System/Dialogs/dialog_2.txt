@@ -1,9 +1,0 @@
-1 Hello Monika
-2 Hello Nikita
-1 How are you Monika
-2 I am fine
-2 Nikita
-1 I am fine too
-1 What did you do today
-2 walked
-2 The weather is just great

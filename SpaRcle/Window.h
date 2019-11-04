@@ -12,6 +12,8 @@
 namespace SpaRcle {
 	struct Button{
 		Button(sf::Vector2f pos, sf::Vector2f size, std::string text, float scale, short max_delay = 20);
+		Button();
+		~Button();
 		bool IsActive;
 		sf::RectangleShape* active,* notActive, *click;
 		sf::RectangleShape* border;
@@ -24,6 +26,8 @@ namespace SpaRcle {
 	struct CheckBox : public Button {
 		CheckBox(sf::Vector2f pos, sf::Vector2f size, float scale, short max_delay = 20);
 		bool IsChecked;
+		sf::RectangleShape* _checked;
+		sf::RectangleShape* _default;
 	};
 	class Window;
 	
@@ -32,7 +36,7 @@ namespace SpaRcle {
 	typedef std::map<std::string, sf::Text*> GTexts;
 	typedef std::map<std::string, sf::CircleShape*> GCircles;
 	typedef std::map<std::string, sf::RectangleShape*> GRects;
-	typedef std::function<void(Window&win)> GAction;
+	typedef std::function<void(Window&win, Button*button)> GAction;
 	typedef std::function<void(Window&win, sf::RectangleShape& pos, std::string keyAction)> GMouse;
 
 	typedef std::map<std::string, GMouse> MouseActions;
@@ -57,12 +61,13 @@ namespace SpaRcle {
 		bool LMouse;
 
 		void AddAllElements();
-		void AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context = "", float scale = 1, GAction act = [=](Window&win) {}, short max_delay= 20);
+		void AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context = "", float scale = 1, GAction act = [=](Window&win, Button*button) {}, short max_delay= 20);
+		void AddCheckBox(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context = "", float scale = 1, GAction act = [=](Window&win, Button* button) {}, short max_delay= 20);
 		void AddMouseEvent(std::string key);
 		void AddEvent(std::string key, GAction act);
 		void AddRect(std::string key, sf::Vector2f pos, sf::Vector2f size, sf::Color color = sf::Color(100, 100, 100));
 		void AddTextEntry(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale = 1);
-		void AddLClickEvent(std::string key, std::function<void(Window&win)> event);
+		void AddLClickEvent(std::string key, GAction event);
 		void AddTable(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale = 1);
 
 		Window();
@@ -75,6 +80,7 @@ namespace SpaRcle {
 		GRects Rectangles;
 		GSprites Sprites;
 		std::map<std::string, Button*> Buttons;
+		//std::map<std::string, CheckBox*> CkeckBoxes;
 		std::map<std::string, GAction> Actions;
 		MouseActions Mouses;
 		GRects MouseRects;

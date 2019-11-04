@@ -136,9 +136,9 @@ namespace SpaRcle {
 		EmotionCore& E_ref = *C_ref._emotion;
 		RealityCore& R_ref = *C_ref._reality;
 		LogicalCore& L_ref = *C_ref._logic;
+		//bool self = false;
 
-		std::string Current_sensivity;
-
+		std::string& Current_sensivity = (*_core).Current_sensivity;
 		#pragma region [===== Pre-Processing =====]
 
 		/// \see В данном регионе мы определяем начальную ситуацию, при которой программа должна начать работать.
@@ -161,7 +161,7 @@ namespace SpaRcle {
 			for (size_t i = 0; i < (*_core).CheckedEvents.size() - 1; i++) {
 				temp.push_back(Synapse::GetSensivityCauses((*_core).CheckedEvents, i));
 			}
-			for (size_t i = 0; i < Settings::Size_SCP; i++)
+			for (size_t i = 0; i < Settings::Size_SCP; i++) ///\bug TODO : ERRORS
 				(*_core).Sensivity_List.push_back(temp[Settings::Size_SCP + i]); // Я хз зачем это, но лучше не трогай.
 		}
 		
@@ -296,14 +296,16 @@ namespace SpaRcle {
 						std::string Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
 						Situation += Synapse::GetSensivityOfName(event.name);
 						Situation = Synapse::ClearSensivity(Situation);
-						C_ref.NewEvent(event, Situation);
+						if(!event.self) 
+							C_ref.NewEvent(event, Situation);
 
 						if (found) {
 							event.Bad = (event.Bad + helpData.Bad) / Div;
 							event.Good = (event.Good + helpData.Good) / Div;
 						}
 					}
-					else C_ref.NewEvent(Consequence(Settings::EmptyName), Settings::EmptyName);
+					else if(!event.self) 
+						C_ref.NewEvent(Consequence(Settings::EmptyName), Settings::EmptyName);
 
 					(*_core).CheckedEvents.push_back(event);						  // System
 					(*_core).UncheckedEvents.erase((*_core).UncheckedEvents.begin()); // System
@@ -311,7 +313,11 @@ namespace SpaRcle {
 					if (event.name != Settings::EmptyName) {
 						event.Save();
 
-						Current_sensivity += Synapse::GetSensivityOfName(event.name);  // System
+						if (!event.self)
+							Current_sensivity += Synapse::GetSensivityOfName(event.name);  // System
+						else
+							Current_sensivity += Helper::ToUpper(Synapse::GetSensivityOfName(event.name));  // System
+
 						(*_core).Sensivity_List.push_back(Current_sensivity); // System
 					}
 					else
@@ -348,11 +354,9 @@ namespace SpaRcle {
 						for (auto a : (*_core).Sensivity_List)
 							if (a[a.size() - 1] != '.') {
 								for (size_t t = 0; t < a.size();t++)
-									if (a[t] == '.') 
-									{
+									if (a[t] == '.') {
 										a.erase(a.begin() + t);
-										t--;
-									}
+										t--; }
 								clean_sensiv.push_back(a);
 							}
 						// Избавляемся от точек. (Пустых следствий)

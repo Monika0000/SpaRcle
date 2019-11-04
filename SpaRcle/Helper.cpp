@@ -46,6 +46,12 @@ namespace SpaRcle {
 		default: Debug::Log("TransliterationEN : unknown char! \"" + std::string(1, ch) + "\"", Error); return "[ERROR]";
 		}
 	}
+	std::string Helper::ToUpper(std::string s)
+	{
+		for (auto& a : s)
+			a= toupper(a);
+		return s;
+	}
 	std::string Helper::Transliteration(std::string line, bool inRus)
 	{
 		std::string en;

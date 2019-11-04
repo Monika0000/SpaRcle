@@ -25,11 +25,6 @@ LogicalCore* _logic;
 RealityCore* _reality;
 EmotionCore* _emotion;
 void Destruct() {
-	//_emotion->~EmotionCore();
-	//_reality->~RealityCore();
-	//_logic->~LogicalCore();
-	//_causality->~CausalityCore();
-	//_core->~CentralCore();
 	delete _emotion;
 	delete _reality;
 	delete _logic;
@@ -40,14 +35,11 @@ void Destruct() {
  
 int main(int argc, char** argv)
 {
-	//std::cout << ((1.22322e-4)* 100) / 100 << std::endl;
-	//std::cout << ((1.3676e-294)* 10) / 100 << std::endl;
-	//std::cout << Round(1.3676e-294) << std::endl;
 	system("color 70");
 	setlocale(LC_ALL, "rus");
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
 
-#pragma region [======== Pre-Init ========]
+	#pragma region [======== Pre-Init ========]
 	Settings::IsActive = true;
 	Debug::StartDebugger();
 	Sleep(100);
@@ -58,10 +50,10 @@ int main(int argc, char** argv)
 	GetCurrentDirectory(100, cwd);
 	std::wstring ws(&cwd[0]);
 	Settings::SetPaths(std::string(ws.begin(), ws.end()),
-		"D:\\SpaRcle\\SpaRcleData\\System",
+		"D:\\SpaRcleData\\System",
 		"D:\\SpaRcle\\SpaRcle\\Resources",
-		"D:\\SpaRcle\\SpaRcleData\\Memory",
-		"D:\\SpaRcle\\SpaRcleData\\Logic");
+		"D:\\SpaRcleData\\Memory",
+		"D:\\SpaRcleData\\Logic");
 	Debug::Log("~ DIR \"" + Settings::PathPj + "\"");
 
 	if (!Settings::Diagnostic())
@@ -82,11 +74,10 @@ int main(int argc, char** argv)
 		_emotion = new EmotionCore(1500);
 #pragma endregion
 
-#pragma region [======== Init ========]
+	#pragma region [======== Init ========]
 		Debug::Log("Initializing", DType::System);
 		//Display::StartDisplay(_core); // Graph-mode
-		Window::Get()->SetCore(_core);
-		Window::Get()->AddAllElements();
+		Window::Get()->SetCore(_core); Window::Get()->AddAllElements();
 
 		_core->ConnectLogic(_logic);
 		_core->ConnectCausality(_causality);
@@ -129,8 +120,6 @@ int main(int argc, char** argv)
 			}
 		}
 
-
-
 		std::cout << "==================================[STOP]==================================" << std::endl;
 		Sleep(2000);
 		Destruct();
@@ -142,7 +131,6 @@ int main(int argc, char** argv)
 		Sleep(2000);
 		std::cout << std::endl;
 
-
 		return 0;
 	}
 
@@ -151,14 +139,3 @@ int main(int argc, char** argv)
 
 	return -1;
 }
-
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
-
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.

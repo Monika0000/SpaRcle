@@ -35,7 +35,7 @@ namespace SpaRcle {
 
 	bool DoFindSynapse(Consequence& event, int _index, RealityCore& real, CentralCore& core) {
 		size_t dp = 0;
-		Debug::Log("DEOS : Find synapse = " + event.Synapses[_index].get<0>(), Module);
+		Debug::Log("DFS : Find synapse = " + event.Synapses[_index].get<0>(), Module);
 		//%Выполняем %полезное %действие...
 		std::string syn = event.Synapses[_index].get<0>();
 	Deep:
@@ -60,22 +60,22 @@ namespace SpaRcle {
 						if (t == 0) max = perc;
 						else if (perc >= max) { index = t; max = perc; }
 					}
-					Debug::Log("DEOS : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " +
+					Debug::Log("DFS : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " +
 						con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
 					if (max > 58) { // 76
 						syn = con.Synapses[index].get<0>();
 						dp++;
-						if (dp > 20) Debug::Log("CentralCore : Logical loop! See to logs...", Warning);
+						if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
 						else goto Deep;
 					}
 				}
 			}
 			else
-				Debug::Log("DEOS::DoAction : Failed! \n\t  Name : \"" + con.name + "\"\n\t  Type : "
+				Debug::Log("DSF::DoAction : Failed! \n\t  Name : \"" + con.name + "\"\n\t  Type : "
 					+ ToString(con.action.type) + "\n\t  Synapse : " + syn, Warning);
 		}
 		else
-			Debug::Log("DEOS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(_index), Error);
+			Debug::Log("DFS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(_index), Error);
 	}
 	bool DoEventOfSynapse(Consequence& event, std::string& Situation, CentralCore& core) {
 		RealityCore& real = (*core._reality);
@@ -131,17 +131,11 @@ namespace SpaRcle {
 			return false;
 	}
 
-	void SpaRcle::CentralCore::ProcessingEvent(Consequence& event, std::string Situation, CentralCore& core)
-	{
+	void SpaRcle::CentralCore::ProcessingEvent(Consequence& event, std::string Situation, CentralCore& core) {
 		// TODO : Требуется калибровка порогов чувствительности.
-
-		if (event.Bad > event.Good && event.Bad > 3) {
-
-			// Пытаемся выкрутиться из ситуации с наименьшим ущербом
+		if (event.Bad > event.Good && event.Bad > 3) { // Пытаемся выкрутиться из ситуации с наименьшим ущербом
 			Debug::Log("CentralCore : " + event.name + " is Bad"); /* Debuging */
-
-			// Если имеется хоть какое-то решение
-			bool find = DoEventOfSynapse(event, Situation, core);
+			bool find = DoEventOfSynapse(event, Situation, core); // Если имеется хоть какое-то решение
 
 			if (!find) // Если все совсем печально...
 			{
@@ -150,8 +144,6 @@ namespace SpaRcle {
 				// TODO : current work!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				// Пытаемся придумать решение...
 
-				//Debug::Log(ToString(event.action.type));
-				//Debug::Log(event.name);
 				Consequence opposite; bool seccues = false;
 				if (LogicalCore::GetOpposite(opposite, event))
 				{
@@ -203,8 +195,7 @@ namespace SpaRcle {
 		CausalityCore& causal = *core._causality;
 		size_t timer = 0, size_ev = 0, deep = 0;
 
-		while (true)
-		{
+		while (true) {
 			if (!Settings::IsActive) break;
 			if(core.Events.size() == 0) Sleep(*DelayCPU);
 
@@ -262,8 +253,7 @@ namespace SpaRcle {
 						}
 						else {
 							Debug::Log("CentralCore : only (" + core.Events[0].get<1>() + "): " + conseq.name);
-							CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core);
-						}
+							CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core); }
 						core.Events.erase(core.Events.begin());
 					}
 				}
@@ -290,16 +280,24 @@ namespace SpaRcle {
 			if (this->SE_With_MyActions.size() > 0)
 				this->SE_With_MyActions.erase(this->SE_With_MyActions.begin(), this->SE_With_MyActions.begin() + count_word_in_sensiv);
 		}
-		else
-		{
+		else {
 			if (this->SE_With_MyActions.size() >= SpaRcle::max_size_SEWMA * SpaRcle::count_word_in_sensiv)
 				for (size_t t = 0; t < SpaRcle::count_word_in_sensiv; t++)
 					this->SE_With_MyActions.erase(this->SE_With_MyActions.begin() + t);
 
-			if (IDoIt) for (size_t i = 0; i < event_name.size(); i++)	event_name[i] = toupper(event_name[i]);
+			if (IDoIt) for (size_t i = 0; i < event_name.size(); i++) event_name[i] = toupper(event_name[i]);
 			/// \see %Определяем %принадлежность %этого %события %к %нам (!сделали !его !мы !или !нет)
 
 			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name);
+
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+			//this->_causality->Current_sensivity.erase(this->_causality->Current_sensivity.begin(), this->_causality->Current_sensivity.begin() + count_word_in_sensiv);
+			//this->_causality->Current_sensivity += Synapse::GetSensivityOfName(event_name);
+
+			//this->_causality->Sensivity_List.erase(this->_causality->Sensivity_List.begin());
+			//this->_causality->Sensivity_List.push_back(this->_causality->Current_sensivity);
 		}
 	}
 	void CentralCore::NewEvent(Consequence event, std::string Situation)

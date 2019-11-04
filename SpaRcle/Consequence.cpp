@@ -242,8 +242,9 @@ namespace SpaRcle {
 	{
 		Load(name, atype);
 	}
-	Consequence::Consequence(Sound speech)
+	Consequence::Consequence(Sound speech, bool self)
 	{
+		this->self = self;
 		this->name = speech.text;
 		this->meetings = 1;
 		this->EventData = DataTime();
