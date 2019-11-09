@@ -6,6 +6,7 @@ namespace SpaRcle {
 	{
 	public:
 		DataTime();
+		~DataTime();
 
 		int year;
 		int day;

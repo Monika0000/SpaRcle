@@ -50,7 +50,7 @@ namespace SpaRcle {
 			save += "/" + a.name + "\n";
 		}
 
-		System::Save("causality_data.temp", save, "\\temp%load");
+		//System::Save("causality_data.temp", save, "\\temp%load"); useless
 
 		UncheckedEvents.~vector();
 		CheckedEvents.~vector();
@@ -136,9 +136,11 @@ namespace SpaRcle {
 		EmotionCore& E_ref = *C_ref._emotion;
 		RealityCore& R_ref = *C_ref._reality;
 		LogicalCore& L_ref = *C_ref._logic;
-		//bool self = false;
 
 		std::string& Current_sensivity = (*_core).Current_sensivity;
+		Consequence event;
+		Consequence helpData;
+
 		#pragma region [===== Pre-Processing =====]
 
 		/// \see В данном регионе мы определяем начальную ситуацию, при которой программа должна начать работать.
@@ -266,43 +268,34 @@ namespace SpaRcle {
 				(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 		}
 
-		while (true)
-		{
-			if (!Settings::IsActive) break;
-			if((*_core).UncheckedEvents.size() == 0)
-				Sleep(*delay);
+		while (Settings::IsActive) {
+			if((*_core).UncheckedEvents.size() == 0) Sleep(*delay);
 
-			if ((*_core).UncheckedEvents.size() > 0)
-			{
-					Consequence event = (*_core).UncheckedEvents[0]; // Get first event
+			if ((*_core).UncheckedEvents.size() > 0) {
+					event = (*_core).UncheckedEvents[0]; // Get first event
 
 					if (event.name != Settings::EmptyName) {
-						Consequence helpData; // Воспомогательная информация [find counsequence -> get info from consequence]
+						// Воспомогательная информация [find counsequence -> get info from consequence]
 						bool found = helpData.Load(event.name, event.action.type, false, false);
 
 						boost::tuple<double, double> hp(0, 0);
 						hp = E_ref.EmotionHelpfulness(event.action); // Эмоционально реагируем на событие
+						event.Bad = event.Bad + hp.get<0>(); event.Good = event.Good + hp.get<1>();
 
-						event.Bad = event.Bad + hp.get<0>();
-						event.Good = event.Good + hp.get<1>();
-
-						if (!found)	helpData.~Consequence();
+						if (!found) {}//helpData.~Consequence();
 						else {
 							Helper::SummActionConseq(event, helpData);
 							Helper::SimpleSummConseq(event, helpData);
-							event.meetings = event.meetings + helpData.meetings;
-						}
+							event.meetings = event.meetings + helpData.meetings; }
 
 						std::string Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
 						Situation += Synapse::GetSensivityOfName(event.name);
 						Situation = Synapse::ClearSensivity(Situation);
-						if(!event.self) 
-							C_ref.NewEvent(event, Situation);
+						if(!event.self) C_ref.NewEvent(event, Situation);
 
 						if (found) {
 							event.Bad = (event.Bad + helpData.Bad) / Div;
-							event.Good = (event.Good + helpData.Good) / Div;
-						}
+							event.Good = (event.Good + helpData.Good) / Div; }
 					}
 					else if(!event.self) 
 						C_ref.NewEvent(Consequence(Settings::EmptyName), Settings::EmptyName);
@@ -313,18 +306,17 @@ namespace SpaRcle {
 					if (event.name != Settings::EmptyName) {
 						event.Save();
 
-						if (!event.self)
-							Current_sensivity += Synapse::GetSensivityOfName(event.name);  // System
-						else
-							Current_sensivity += Helper::ToUpper(Synapse::GetSensivityOfName(event.name));  // System
+						if (!event.self) Current_sensivity += Synapse::GetSensivityOfName(event.name);  // System
+						else Current_sensivity += Helper::ToUpper(Synapse::GetSensivityOfName(event.name));  // System
 
 						(*_core).Sensivity_List.push_back(Current_sensivity); // System
 					}
-					else
-					{
+					else {
 						Current_sensivity += std::string(count_word_in_sensiv,'.');						 	  // System
 						(*_core).Sensivity_List.push_back(Current_sensivity); // System
 					}
+					event.~Consequence();
+					helpData.~Consequence();
 				}
 
 				/* Пост-процессинг. Здесь мы объединям некоторую информацию и проводим синапсы между нейронами. */
@@ -338,14 +330,12 @@ namespace SpaRcle {
 						std::vector<int> Temp_Meets;
 
 						Consequence load;
-						if (load.Load(conq.name, conq.action.type))
-						{
+						if (load.Load(conq.name, conq.action.type)) {
 							conq.Bad = (conq.Bad + load.Bad) / Div;
 							conq.Good = (conq.Good + load.Good) / Div;
 
 							Helper::SimpleSummConseq(conq, load);
-							Helper::SummActionConseq(conq, load);
-						}
+							Helper::SummActionConseq(conq, load); }
 
 						CausalityCore::CheckedEventsProcessing((*_core).CheckedEvents, Temp_Causes, Temp_Meets);
 						/* Обрабатываем следствия устанавливая между ними взаимосвязи и добавляем в них причины. */
@@ -368,22 +358,15 @@ namespace SpaRcle {
 
 					(*_core).CheckedEvents.erase((*_core).CheckedEvents.begin()); // Удаляем первый еэлемент
 					Current_sensivity.erase(Current_sensivity.begin(), Current_sensivity.begin() + count_word_in_sensiv);    // $Удаляем $одну $причину
-					(*_core).Sensivity_List.erase((*_core).Sensivity_List.begin());											// $Удаляем $одну $причину
+					(*_core).Sensivity_List.erase((*_core).Sensivity_List.begin());											 // $Удаляем $одну $причину
 				}
 			}
-			if (Settings::CoreDebug)
-				Debug::Log("Processing causality... ");
+		if (Settings::CoreDebug) Debug::Log("Processing causality... ");
 	}
-	void CausalityCore::Start()
-	{
-		//union d { int f = 5; };
+	void CausalityCore::Start() {
 		Process = std::thread(CausalitySolution, &DelayCPU, this);
-		Debug::Log("-> The causality core is started!");
-	}
-
+		Debug::Log("-> The causality core is started!"); }
 	void CausalityCore::NewEvent(Consequence event) {
 		Debug::Log("CausalityCore::NewEvent = " + std::string(ToString(event.action.type)) + " : " + event.name, Info);
-		UncheckedEvents.push_back(event);
-		// + "\n\tBad = " + std::to_string(event.Bad)
-	}
+		UncheckedEvents.push_back(event); }
 }

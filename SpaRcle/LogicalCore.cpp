@@ -35,21 +35,16 @@ namespace SpaRcle {
 		RealityCore& real = *core._reality;
 		CausalityCore& causal = *core._causality;
 
-		while (true)
+		while (Settings::IsActive)
 		{
-			if (!Settings::IsActive) break;
-
 			try {
-				// && (*_core).core->_causality->CheckedEvents.size() == 0
 				if (causal.CheckedEvents.size() <= Settings::Size_SCP * 2 + 1 && causal.UncheckedEvents.size() == 0 && core.Events.size() == 0) {
 					if ((*_core).Causes.size() > 0) {
 						LogicalCore::CauseReputation((*_core).Causes[0]); // Get first element  //ERROR
 						(*_core).Causes.erase((*_core).Causes.begin()); // Удаляем элемент в самом начале
 					}
 				}
-				else {
-					Sleep(*delay);
-				}
+				else Sleep(*delay);
 			}
 			catch (...) {
 				Debug::Log("LogicalSolution : An exception has ocurred!", Error);

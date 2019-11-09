@@ -30,6 +30,12 @@ namespace SpaRcle {
 		sp.setPosition(NormalizePos(sp.getPosition()));
 		sp.setScale(NormalizeScale(sp.getScale()));
 		return sp; }
+	sf::Text* Window::SetText(sf::Text* text, sf::Font& font, unsigned int size, sf::Color color) {
+		(*text).setFillColor(color); (*text).setFont(font); (*text).setCharacterSize(size);
+		return text; }
+	sf::Text* Window::SetText(sf::Text* text, std::string str, sf::Font& font, unsigned int size, sf::Color color) {
+		(*text).setFillColor(color); (*text).setFont(font); (*text).setCharacterSize(size); (*text).setString(str);
+		return text; }
 	sf::RectangleShape Window::NormalizeRect(sf::RectangleShape sp, float modifer) {
 		sp.setPosition(NormalizePos(sp.getPosition()));
 		sp.setScale(NormalizeScale(sp.getScale(), modifer));
@@ -38,21 +44,21 @@ namespace SpaRcle {
 	void Window::AddAllElements()
 	{
 		AddRect("BG", sf::Vector2f(0, 0), sf::Vector2f(10000, 10000), sf::Color(155, 155, 155));
+
 		AddButton("Hello", sf::Vector2f(25, 890), sf::Vector2f(80, 20), "  [Hello Monika]", 3, [=](Window& win, Button*button) {
 				win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)));
 				win.core->_causality->NewEvent(Consequence(Sound("monika", 10, 15)));
 			});
-
 		AddButton("Hello1", sf::Vector2f(25, 960), sf::Vector2f(80, 20), "  [How are you]", 3, [=](Window& win, Button* button) {
 			win.core->_causality->NewEvent(Consequence(Sound("how", 10, 15)));
 			win.core->_causality->NewEvent(Consequence(Sound("are", 10, 15)));
 			win.core->_causality->NewEvent(Consequence(Sound("you", 10, 15)));
 			});
-
 		AddButton("Skip", sf::Vector2f(25, 1030), sf::Vector2f(80, 20), "    	[Skip]", 3, [=](Window& win, Button* button) {
 				win.core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				//win.core->_causality->NewEvent(Consequence(Settings::EmptyName));
 			}, 1);
+
 		AddCheckBox("test", sf::Vector2f(555, 830), sf::Vector2f(20, 20), "2134254354", 3, [=](Window& win, Button* button) {
 				CheckBox* box = static_cast<CheckBox*>(&(*button));
 				(*box).IsChecked = !(*box).IsChecked;
@@ -62,6 +68,27 @@ namespace SpaRcle {
 					(*box).notActive = (*box)._default;
 				//Debug::Log(static_cast<CheckBox*>(&(*button))->data);
 			});
+		
+		{AddInfoPanel("panel", new InfoPanel(sf::Vector2f(25, 30), sf::Vector2f(300, 600), 3, std::vector<sf::Text*> {
+			SetText(new sf::Text(), "		[DEBUG]", defaultFont, 30, sf::Color(255, 155, 255)), // LOGO
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(0, 255, 255)), // logs
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(255, 255, 0)), // warns
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(255, 0, 0)), // errs
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(255, 0, 255)), //info 
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(0, 255, 0)), // mind
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(255, 255, 125)), // module
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(0, 0, 255)), // sys
+		},
+			std::vector<std::function<void(Window & win, sf::Text & text)>> {
+				[=](Window& win, sf::Text& text) {},
+					[=](Window& win, sf::Text& text) { text.setString("[Logs] : " + std::to_string(Debug::Logs)); },
+					[=](Window& win, sf::Text& text) { text.setString("[Warnings] : " + std::to_string(Debug::Warnings)); },
+					[=](Window& win, sf::Text& text) { text.setString("[Errors] : " + std::to_string(Debug::Errors)); },
+					[=](Window& win, sf::Text& text) { text.setString("[Info] : " + std::to_string(Debug::Info)); },
+					[=](Window& win, sf::Text& text) { text.setString("[Mind] : " + std::to_string(Debug::Mind)); },
+					[=](Window& win, sf::Text& text) { text.setString("[Module] : " + std::to_string(Debug::Module)); },
+					[=](Window& win, sf::Text& text) { text.setString("[System] : " + std::to_string(Debug::System)); },
+			})); }
 	}
 
 	void Window::AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context, float scale, GAction act, short max_delay)
@@ -124,13 +151,14 @@ namespace SpaRcle {
 	void Window::AddLClickEvent(std::string key, GAction event) {
 
 	}
-	void Window::AddTable(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale) {
-
+	void Window::AddInfoPanel(std::string key, InfoPanel* panel) {
+		InfoPanels.insert(std::pair<std::string, InfoPanel*>(key, panel));
 	}
-
+	
 	Window::Window() {
 		Debug::Log("Creating window...", DType::Info);
 
+		LMouse = false;
 		core = NULL;
 		defaultTex.loadFromFile("D:\\SpaRcle\\SpaRcle\\Resources\\default.jpg");
 		defaultFont.loadFromFile(Settings::Resources + "\\arial.ttf"); //calibri.ttf a_AlternaNr.ttf
@@ -156,7 +184,9 @@ namespace SpaRcle {
 			typename GRects::iterator it_rects;
 			typename GSprites::iterator it_sprites;
 			typename std::map<std::string, Button*>::iterator it_buttons;
+			typename std::map<std::string, InfoPanel*>::iterator it_panels;
 			sf::RectangleShape rect;
+			InfoPanel* panel = NULL;
 			sf::Sprite sprite;
 
 			while (window.isOpen()) {
@@ -224,6 +254,18 @@ namespace SpaRcle {
 					it_buttons++;
 				}
 
+
+				it_panels = (wn.InfoPanels.begin());
+				for (size_t t = 0; t < wn.InfoPanels.size(); t++) {
+
+					window.draw(NormalizeRect(*it_panels->second->border));
+					window.draw(NormalizeRect(*it_panels->second->panel));
+					for(auto & a: it_panels->second->texts)
+						window.draw(NormalizeText(*a));
+					it_buttons++;
+				}
+
+
 				it_sprites = (wn.Sprites.begin());
 				for (size_t t = 0; t < wn.Sprites.size(); t++) {
 					sprite = *it_sprites->second;
@@ -246,7 +288,8 @@ namespace SpaRcle {
 			auto& wn = *Window::Get();
 
 			typename MouseActions::iterator it_mouse;
-			sf::RectangleShape rect;
+			typename std::map<std::string, InfoPanel*>::iterator it_panels;
+			sf::RectangleShape rect; InfoPanel* panel = NULL;
 
 			while (wn.IsActive) {
 				Sleep(10);
@@ -263,6 +306,13 @@ namespace SpaRcle {
 
 					it_mouse->second(wn, rect, it_mouse->first);
 					it_mouse++;
+				}
+
+				it_panels = (wn.InfoPanels.begin());
+				for (size_t t = 0; t < wn.InfoPanels.size(); t++) {
+					panel = it_panels->second;
+					for(size_t tt = 0; tt < (*panel).texts.size(); tt++)
+						(*panel).funcs[tt](wn, *(*panel).texts[tt]);
 				}
 			}
 			Debug::Log("Stopping window logic...", Info);
@@ -283,6 +333,7 @@ namespace SpaRcle {
 		return wind;
 	}
 	void Window::SetCore(CentralCore* core) { this->core = core; }
+
 	Button::Button(sf::Vector2f pos, sf::Vector2f size, std::string text, float scale, short max_delay)
 	{
 		this->max_delay = max_delay;
@@ -321,9 +372,7 @@ namespace SpaRcle {
 		this->border->setSize(size);
 		this->border->setPosition(pos.x, pos.y);
 	}
-	Button::Button() {
-
-	}
+	Button::Button() { }
 	Button::~Button() {
 		delete this->active;
 		delete this->border;
@@ -367,6 +416,26 @@ namespace SpaRcle {
 		this->border->setPosition(pos.x, pos.y);
 
 		IsChecked = false;
+	}
+	InfoPanel::InfoPanel(sf::Vector2f pos, sf::Vector2f size, float scale, std::vector<sf::Text*> texts, std::vector < std::function<void(Window& win, sf::Text& text)>> funcs)
+	{
+		this->border = new sf::RectangleShape();
+		this->panel = new sf::RectangleShape();
+		this->scale = scale;
+
+		this->panel->setFillColor(sf::Color(100, 100, 100));
+		this->panel->setSize(sf::Vector2f(size.x - 8.f, size.y - 8.f));
+		this->panel->setPosition(sf::Vector2f(pos.x + 4.f, pos.y + 4.f));
+
+		for (size_t t = 0; t < texts.size(); t++) {
+			texts[t]->setPosition(texts[t]->getPosition() + sf::Vector2f(10, 35 * t) + pos);
+		}
+		this->texts = texts;
+		this->funcs = funcs;
+
+		this->border->setFillColor(sf::Color(50, 50, 50));
+		this->border->setSize(size);
+		this->border->setPosition(pos.x, pos.y);
 	}
 }
 // refactoring

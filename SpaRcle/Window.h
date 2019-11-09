@@ -9,7 +9,10 @@
 #include <thread>
 #include <functional>
 
+
 namespace SpaRcle {
+	class Window;
+
 	struct Button{
 		Button(sf::Vector2f pos, sf::Vector2f size, std::string text, float scale, short max_delay = 20);
 		Button();
@@ -29,7 +32,14 @@ namespace SpaRcle {
 		sf::RectangleShape* _checked;
 		sf::RectangleShape* _default;
 	};
-	class Window;
+	struct InfoPanel {
+		InfoPanel(sf::Vector2f pos, sf::Vector2f size, float scale, std::vector<sf::Text*> texts, std::vector < std::function<void(Window& win, sf::Text& text)>> funcs);
+		sf::RectangleShape* border, * panel;
+		std::vector<sf::Text*> texts;
+		std::vector < std::function<void(Window& win, sf::Text& text)>> funcs;
+		float scale;
+	};
+
 	
 
 	typedef std::map<std::string, sf::Sprite*> GSprites;
@@ -55,6 +65,9 @@ namespace SpaRcle {
 		static sf::RectangleShape NormalizeRect(sf::RectangleShape sp, float modifer = 1);
 		static sf::Text NormalizeText(sf::Text sp);
 
+		static sf::Text* SetText(sf::Text* text, sf::Font& font, unsigned int size, sf::Color color);
+		static sf::Text* SetText(sf::Text* text, std::string str, sf::Font& font, unsigned int size, sf::Color color);
+
 		sf::Vector2i MousePos;
 		CentralCore* core;
 		bool IsActive;
@@ -68,7 +81,8 @@ namespace SpaRcle {
 		void AddRect(std::string key, sf::Vector2f pos, sf::Vector2f size, sf::Color color = sf::Color(100, 100, 100));
 		void AddTextEntry(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale = 1);
 		void AddLClickEvent(std::string key, GAction event);
-		void AddTable(std::string key, sf::Vector2f pos, sf::Vector2f size, float scale = 1);
+		void AddInfoPanel(std::string key, InfoPanel* panel);
+		
 
 		Window();
 		~Window();
@@ -80,7 +94,7 @@ namespace SpaRcle {
 		GRects Rectangles;
 		GSprites Sprites;
 		std::map<std::string, Button*> Buttons;
-		//std::map<std::string, CheckBox*> CkeckBoxes;
+		std::map<std::string, InfoPanel*> InfoPanels;
 		std::map<std::string, GAction> Actions;
 		MouseActions Mouses;
 		GRects MouseRects;

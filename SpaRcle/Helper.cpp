@@ -46,12 +46,9 @@ namespace SpaRcle {
 		default: Debug::Log("TransliterationEN : unknown char! \"" + std::string(1, ch) + "\"", Error); return "[ERROR]";
 		}
 	}
-	std::string Helper::ToUpper(std::string s)
-	{
-		for (auto& a : s)
-			a= toupper(a);
-		return s;
-	}
+	std::string Helper::ToUpper(std::string s) {
+		for (auto& a : s) a= toupper(a);
+		return s; }
 	std::string Helper::Transliteration(std::string line, bool inRus)
 	{
 		std::string en;
@@ -321,68 +318,6 @@ namespace SpaRcle {
 		}
 		return Sensiv; // TODO : ¬озможно следует доделать, ну или обратить внимание в будущем.
 	}
-	/*
-	bool SpaRcle::Synapse::SummSensivity(std::string& left, std::string& right, bool check) // std::string
-	{
-		if (right.size() > left.size())
-		{
-			//return (left + right.substr(left.size())); //TODO
-			left = left + right.substr(left.size());
-			return true;
-		}
-		else if (left.size() > right.size())
-		{
-
-		}
-
-		if (check) {
-			//if (left.size() == right.size()) {
-				//size_t p = 0;
-				//for (size_t t = 0; t < left.size(); t++)
-				//	if (left[t] == right[t])
-				//		p++;
-
-				//Debug::Log("=========================================================", Error);
-				//Debug::Log(100.f / left.size() * p, Error);
-
-				//if (100.f / left.size() * p >= 90)
-				//	return true;
-				//else
-				//	return false;
-			//}
-			//else {}
-		}
-
-		return true;
-	}
-	void Synapse::SummSensivity(Consequence& left, size_t index, std::string& right)
-	{
-		auto& a = left.PerhapsWill[index].get<1>();
-		if (SummSensivity(a, right, true))
-		{
-			//if (a.size() == right.size())
-			//	if (GetPercent(a, right) < 75)
-			//	{
-			//		left.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(left.PerhapsWill[index].get<0>(), right,
-			//			left.PerhapsWill[index].get<2>(), left.PerhapsWill[index].get<3>()));
-			//	}
-			//if (count_word_in_sensiv == 1) {
-			//	if (left.name[0] == right[right.size() - 1]) {
-			//		for (size_t t = 0; t < a.size(); t++) {
-			//			//if (a[t] != right[t]) a[t] = '*';
-			//		} } }
-		}
-
-		
-			//ѕортит синапсы, добавл€€ в их имена чувствительность, котора€ была удалена в новых вурси€х из синапсов
-		
-	///\bug if (!SummSensivity(left.Synapses[index].get<0>(), right, true)) 
-	//{
-		//left.Synapses.push_back(boost::tuple<std::string, std::string, double>(left.Synapses[index].get<0>(), right,
-		//	left.Synapses[index].get<2>()));
-	//}
-	}
-	*/
 	std::string SpaRcle::Synapse::ClearSensivity(std::string& sensiv)
 	{
 		std::string clean;

@@ -19,6 +19,7 @@ namespace SpaRcle {
 		///////////////////////////////
 		static bool CoreDebug; // Отладка работы ядер
 		static KeyboardLayout Layout;
+		static bool CentralCoreDebug;
 		static bool EventsProcessigDebug; // Отладка обработки проверенных событий
 		static const int SaveNumbers;
 		static const size_t Size_SCP; /* Synapse & Cause & Perhaps | Min = 5 | Интеллект <=> Производительность */

@@ -17,8 +17,8 @@ namespace SpaRcle {
 
 	Action::~Action()
 	{
-		sound.~Sound();
-		visual.~Visual(); }
+		this->sound.~Sound();
+		this->visual.~Visual(); }
 
 	std::string Action::GetSaveData(Action * action)
 	{

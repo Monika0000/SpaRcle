@@ -7,6 +7,14 @@
 #include <stdio.h>
 
 namespace SpaRcle {
+	unsigned int Debug::Logs = 0;
+	unsigned int Debug::Errors = 0;
+	unsigned int Debug::Warnings = 0;
+	unsigned int Debug::Info = 0;
+	unsigned int Debug::Mind = 0;
+	unsigned int Debug::System = 0;
+	unsigned int Debug::Module = 0;
+
 	Debug::Debug()
 	{
 	}
@@ -28,48 +36,55 @@ namespace SpaRcle {
 	std::thread Debug::Process;
 
 	void Debug::DebuggerSolution() {
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		while (true) {
 			if (!IsStart) { break; }
 			try {
 				if (!Settings::IsActive && Debug::Messages.size() == 0) { continue; }
 
 				if (Messages.size() > 0) {
-					HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 					std::string pref;
 					switch (Messages[0].get<2>())//type
 					{
 					case SpaRcle::Info:
+						Debug::Info++;
 						pref = "[Info] ";
 						if (Messages[0].get<3>() == Black)
 							Messages[0].get<3>() = ConsoleColor::Magenta;
 						break;
 					case SpaRcle::Log:
 						pref = "[Log] ";
+						Debug::Logs++;
 						if (Messages[0].get<3>() == Black)
 							Messages[0].get<3>() = ConsoleColor::Cyan;
 						break;
 					case SpaRcle::Warning:
 						pref = "[Warning] ";
+						Debug::Warnings++;
 						if (Messages[0].get<3>() == Black)
 							Messages[0].get<3>() = ConsoleColor::Yellow;
 						break;
 					case SpaRcle::Error:
+						Debug::Errors++;
 						pref = "[Error] ";
 						if (Messages[0].get<3>() == Black)
 							Messages[0].get<3>() = ConsoleColor::Red;
 						break;
 					case SpaRcle::System:
+						Debug::System++;
 						pref = "[System] ";
 						if (Messages[0].get<3>() == Black)
 							Messages[0].get<3>() = ConsoleColor::Blue;
 						break;
 					case SpaRcle::Mind:
+						Debug::Mind++;
 						pref = "[Mind] ";
 						if (Messages[0].get<3>() == Black)
 							Messages[0].get<3>() = ConsoleColor::Green;
 						break;
 					case SpaRcle::Module:
+						Debug::Module++;
 						pref = "[Module] ";
 						if (Messages[0].get<3>() == Black)
 							Messages[0].get<3>() = ConsoleColor::Brown;
@@ -86,6 +101,7 @@ namespace SpaRcle {
 					else std::cout << Messages[0].get<0>();
 					
 					Messages.erase(Messages.begin());
+					pref.~basic_string();
 				}
 			}
 			catch (...) { std::cout << "[Error] Debug::Log : An exception has occured!" << std::endl; }

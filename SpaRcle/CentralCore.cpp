@@ -193,10 +193,9 @@ namespace SpaRcle {
 		CentralCore& core = *_core;
 		RealityCore& real = *core._reality;
 		CausalityCore& causal = *core._causality;
-		size_t timer = 0, size_ev = 0, deep = 0;
+		size_t size_ev = 0, deep = 0;
 
-		while (true) {
-			if (!Settings::IsActive) break;
+		while (Settings::IsActive) {
 			if(core.Events.size() == 0) Sleep(*DelayCPU);
 
 			try {
@@ -270,7 +269,7 @@ namespace SpaRcle {
 
 	void CentralCore::AddSE(std::string event_name, bool IDoIt)
 	{
-		if (true)
+		if (Settings::CentralCoreDebug)
 			if (IDoIt)
 				Debug::Log("CentralCore::AddSE : " + event_name + " ~ " + this->SE_With_MyActions + " (SELF)");
 			else
@@ -282,10 +281,10 @@ namespace SpaRcle {
 		}
 		else {
 			if (this->SE_With_MyActions.size() >= SpaRcle::max_size_SEWMA * SpaRcle::count_word_in_sensiv)
-				for (size_t t = 0; t < SpaRcle::count_word_in_sensiv; t++)
+				for (short t = 0; t < SpaRcle::count_word_in_sensiv; t++)
 					this->SE_With_MyActions.erase(this->SE_With_MyActions.begin() + t);
 
-			if (IDoIt) for (size_t i = 0; i < event_name.size(); i++) event_name[i] = toupper(event_name[i]);
+			if (IDoIt) for (short i = 0; i < event_name.size(); i++) event_name[i] = toupper(event_name[i]);
 			/// \see %Определяем %принадлежность %этого %события %к %нам (!сделали !его !мы !или !нет)
 
 			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name);
@@ -303,7 +302,8 @@ namespace SpaRcle {
 	void CentralCore::NewEvent(Consequence event, std::string Situation)
 	{
 		Events.push_back(boost::tuple<Consequence, std::string>(event, Situation));
-		//Debug::Log(event.name + " - 123");
+		event.~Consequence();
+		Situation.~basic_string();
 	}
 	void CentralCore::Start()
 	{

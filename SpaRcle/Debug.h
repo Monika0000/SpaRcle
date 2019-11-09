@@ -41,6 +41,13 @@ namespace SpaRcle {
 		static void StartDebugger();
 		static void StopDebugger();
 
+		static unsigned int Errors;
+		static unsigned int Warnings;
+		static unsigned int Info;
+		static unsigned int Logs;
+		static unsigned int Mind;
+		static unsigned int System;
+		static unsigned int Module;
 	private :
 		static void DebuggerSolution();
 

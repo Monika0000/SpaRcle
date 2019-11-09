@@ -52,9 +52,7 @@ namespace SpaRcle {
 			}
 		}
 
-		while (true)
-		{
-			if (!Settings::IsActive) break;
+		while (Settings::IsActive) {
 			Sleep(*delay);
 
 			if (Settings::isMinding)

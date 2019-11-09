@@ -23,5 +23,6 @@ namespace SpaRcle {
 
 	Sound::~Sound()
 	{
+		this->text.~basic_string();
 	}
 }

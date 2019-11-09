@@ -13,4 +13,5 @@ namespace SpaRcle {
 		min = t->tm_min;
 		sec = t->tm_sec;
 	}
+	DataTime::~DataTime() {  }
 }

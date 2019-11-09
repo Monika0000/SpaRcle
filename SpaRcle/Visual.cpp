@@ -17,5 +17,6 @@ namespace SpaRcle {
 		Visual(""); }
 	Visual::~Visual()
 	{
+		this->tag.~basic_string();
 	}
 }

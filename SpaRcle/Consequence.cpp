@@ -98,11 +98,11 @@ namespace SpaRcle {
 
 		std::ifstream fin;
 		try { fin.open(path); }
-		catch (...) { Debug::Log("Consequence::Load : Openning failed! \n	" + path, Error); }
+		catch (...) { Debug::Log("Consequence::Load (1) : Openning failed! \n	" + path, Error); }
 
 		if (!fin.is_open()) {
 			if (notFoundIsError)
-				Debug::Log("SpaRcle::Consequence::Load : Loading failed! \n	" + path, Error);
+				Debug::Log("SpaRcle::Consequence::Load (2) : Loading failed! \n	" + path, Error);
 			return false;
 		}
 
@@ -215,7 +215,7 @@ namespace SpaRcle {
 						std::cout << "\n\t" + path << std::endl;
 			}
 			catch (...) {
-				Debug::Log("Consequence::Load : Loading failed! \n\t" + path, Error);
+				Debug::Log("Consequence::Load (3) : Loading failed! \n\t" + path, Error);
 				Settings::IsActive = false;
 				fin.close();
 				return false;
@@ -277,7 +277,14 @@ namespace SpaRcle {
 		this->Bad = Bad;
 		this->EventData = DataTime();
 	}
-	Consequence::~Consequence() { }
+	Consequence::~Consequence() {
+		this->Causes.~vector();
+		this->PerhapsWill.~vector();
+		this->Synapses.~vector();
+		this->action.~Action();
+		this->EventData.~DataTime();
+		this->name.~basic_string();
+	}
 	
 	/*
 	const Consequence operator+(Consequence& left, Consequence& right)
