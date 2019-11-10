@@ -10,6 +10,9 @@ namespace SpaRcle {
 	struct Consequence
 	{
 	public:
+		static bool isWrite;
+		static bool isRead;
+
 		std::string name;
 		int meetings;
 		double Bad = 0, Good = 0;
@@ -26,8 +29,8 @@ namespace SpaRcle {
 		static bool Save(Consequence* conseq, const bool Diagnostic = false);
 		bool Save(const bool Diagnostic = false);
 
-		bool Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic);
-		bool Load(std::string name, AType atype);
+		char Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block = "?");
+		char Load(std::string name, AType atype, std::string Block = "?");
 
 		Consequence();
 		Consequence(std::string name);

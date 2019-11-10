@@ -18,6 +18,8 @@ namespace SpaRcle {
 
 		static std::vector<std::string> DecomposeConsequence(Consequence& conseq);
 
+		short CoreLoad;
+
 		CentralCore* core;
 		int maxTasks = 8;
 		std::vector<Task> Tasks; // size 8

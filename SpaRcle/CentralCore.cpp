@@ -41,34 +41,71 @@ namespace SpaRcle {
 	Deep:
 		if (syn[0] == 'S') {
 			Consequence con;
-			if (con.Load(syn.substr(2), AType::Speech, false, false)) {
+			if (con.Load(syn.substr(2), AType::Speech, false, false, "DFS")) {
 				real.DoAction(con.action);
 				real.core->AddSE(con.name, true);
 
 				if (con.Synapses.size() != 0) {
-					std::string sens_log; size_t index = 0; double max = 0;
+					std::string sens_log; size_t index = 0; double max = 0; 
+					std::vector<short> super_indx; bool super = false; //float max = 0;
 
 					for (size_t t = 0; t < con.Synapses.size(); t++) {
-						size_t idx_2 = 0; double perc = 0; auto& s_au_2 = con.Synapses[t].get<0>();
+						size_t idx_2 = 0; //double perc = 0; 
+						auto& s_au_2 = con.Synapses[t].get<0>();
 						for (size_t tt = 0; tt < con.PerhapsWill.size(); tt++)
 							if (con.PerhapsWill[tt].get<0>() == s_au_2) {
 								/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
 								double per = Synapse::SimilarityPercentage(con.PerhapsWill[tt].get<1>(), core.SE_With_MyActions, true, true);
-								if (per > perc) { perc = per; idx_2 = tt; }
+								if (per > max)//perc
+								{ 
+									if (super) {
+										super_indx.clear(); super = false; }
+									//perc = per; idx_2 = tt; 
+									max = per; idx_2 = tt; 
+									Debug::Log("DFS : Synapse ["+con.Synapses[t].get<0>()+"] \"" + con.PerhapsWill[tt].get<0>() + "\" = "+std::to_string(per), Module);
+								}
+								else if(per == max) {
+									Debug::Log("DFS : super variant = "+ con.PerhapsWill[tt].get<0>() + " ["+ std::to_string(per) +"]", Module);
+									super = true;
+								}
 							}
 
-						if (t == 0) max = perc;
-						else if (perc >= max) { index = t; max = perc; }
+						//if (t == 0) max = perc;
+						//else if (perc >= max) { index = t; max = perc; }
 					}
-					Debug::Log("DFS : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " +
-						con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
-					if (max > 58) { // 76
-						syn = con.Synapses[index].get<0>();
-						dp++;
-						if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
-						else goto Deep;
+
+					if (super) {
+						short ind = 0; float meets = 0;
+						for (short i = 0; i < (short)super_indx.size(); i++) {
+							if (con.PerhapsWill[super_indx[i]].get<3>() > meets) {
+								meets = con.PerhapsWill[super_indx[i]].get<3>();
+								ind = i;
+							}
+						}
+						Debug::Log("DFS finaly : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tSuper result : " +
+							con.PerhapsWill[ind].get<0>() + "; Max = " + std::to_string(max), Module);
+						//TODODODODODODODODODODODODODOODODOODODODODOODODOODOODOOD
+						if (max > 58) { // 76
+							syn = con.PerhapsWill[ind].get<0>();
+							dp++;
+							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
+							else goto Deep;
+						}
+					}
+					else {
+						Debug::Log("DFS finaly : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " +
+							con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
+
+						if (max > 58) { // 76
+							syn = con.Synapses[index].get<0>();
+							dp++;
+							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
+							else goto Deep;
+						}
 					}
 				}
+				else
+					Debug::Log("DFS : event \"" + con.name + "\" are logic end.", Module);
 			}
 			else
 				Debug::Log("DSF::DoAction : Failed! \n\t  Name : \"" + con.name + "\"\n\t  Type : "
@@ -103,14 +140,15 @@ namespace SpaRcle {
 
 				if (percent != 0) {
 					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);
-					if(percent == 100){
+					if (percent == 100) {
 						Debug::Log("DEOS : Super variant = " + event.PerhapsWill[idx].get<0>() + "; Meets = " + std::to_string(event.PerhapsWill[idx].get<3>()), Module);
-						find = true; 
+						find = true;
 						if (event.PerhapsWill[idx].get<3>() > meets) {
 							meets = event.PerhapsWill[idx].get<3>();
-							deepModeIndex = index; }
+							deepModeIndex = index;
+						}
 						if (index > 0) { index--; goto Repeat; }
-						else 
+						else
 							DoFindSynapse(event, deepModeIndex, real, core);
 					}
 					else if (percent >= PeriodicSix + 10) { /// \bug +10
@@ -121,14 +159,14 @@ namespace SpaRcle {
 					else if (index > 0) { index--; goto Repeat; }/// $Если $не $подходит
 				}
 				else { ///\to NOT FOUND SOLUTION
-					Debug::Log("DEOS : Not found solution = \"" + event.name + "\" at synapse \"" + s_au + "\" index="+std::to_string(index), Module);
+					Debug::Log("DEOS : Not found solution = \"" + event.name + "\" at synapse \"" + s_au + "\" index=" + std::to_string(index), Module);
 					if (index > 0) { index--; goto Repeat; }
 				}
 			}
+
 			return find;
 		}
-		else
-			return false;
+		else return false;
 	}
 
 	void SpaRcle::CentralCore::ProcessingEvent(Consequence& event, std::string Situation, CentralCore& core) {
@@ -194,8 +232,14 @@ namespace SpaRcle {
 		RealityCore& real = *core._reality;
 		CausalityCore& causal = *core._causality;
 		size_t size_ev = 0, deep = 0;
+		char timer = 0; short load = 0;
 
 		while (Settings::IsActive) {
+			if (timer >= 100) {
+				timer = 0; _core->CoreLoad = load; load = 0;
+			}
+			else timer++;
+
 			if(core.Events.size() == 0) Sleep(*DelayCPU);
 
 			try {
@@ -204,6 +248,7 @@ namespace SpaRcle {
 
 				if (causal.UncheckedEvents.size() == 0) {
 					if (core.Events.size() > 1) {
+						load++;
 					Ret:
 						Consequence& conseq = core.Events[deep].get<0>();
 						(*_core).AddSE(conseq.name, false); // Петля
@@ -246,6 +291,7 @@ namespace SpaRcle {
 						}
 					}
 					else if (core.Events.size() == 1) {
+						load++;
 						Consequence& conseq = core.Events[0].get<0>();
 						if (conseq.name == Settings::EmptyName) {
 							(*_core).AddSE(conseq.name, false);

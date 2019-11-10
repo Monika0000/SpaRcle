@@ -18,10 +18,17 @@
 namespace SpaRcle {
 	class Synapse {
 	public:
+		static inline double Summ(double& l, double& r) {
+			double d = (l + r) / Div;
+			if (d > 99999) d = 99999;
+			if (d < -99999) d = -99999;
+			return d; 
+		}
 		static inline void SummHpSyns(boost::tuple<std::string, double>& left, boost::tuple<std::string, double>& right) { 
-			left.get<1>() = (left.get<1>() + right.get<1>()) / Div; }
+			left.get<1>() = Summ(left.get<1>(), right.get<1>()); }
 		static inline void SummHpSyns(boost::tuple<std::string, double>& left, double right) {
-			left.get<1>() = (left.get<1>() + right) / Div; }
+			left.get<1>() = Summ(left.get<1>(), right);
+		}
 		static std::string ClearSensivity(std::string& sensiv);
 
 		///!Depend !of !size !sensivity
@@ -38,7 +45,8 @@ namespace SpaRcle {
 					percent += trueVal;
 				else if (modifer != -1)
 					if (first[size - t - 1] == Settings::TrueSymbol || second[size - t - 1] == Settings::TrueSymbol)
-						percent += trueVal / (4 + modifer);
+						//percent += trueVal / (4 + modifer);
+						percent += trueVal / (modifer + 4);
 			}
 			return percent;
 		}
@@ -134,7 +142,8 @@ namespace SpaRcle {
 					left.Causes.push_back(right.Causes[i]);
 				else {
 					left.Causes[indx].get<1>() = (left.Causes[indx].get<1>() + right.Causes[i].get<1>()) / 2; // Суммируем количество встреч данного события
-					left.Causes[indx].get<2>() = (left.Causes[indx].get<2>() + right.Causes[i].get<2>()) / Div; /* Суммируем полезность */
+					//left.Causes[indx].get<2>() = (left.Causes[indx].get<2>() + right.Causes[i].get<2>()) / Div; /* Суммируем полезность */
+					left.Causes[indx].get<2>() = Synapse::Summ(left.Causes[indx].get<2>(), right.Causes[i].get<2>()); /* Суммируем полезность */
 				}
 			}
 
@@ -148,7 +157,8 @@ namespace SpaRcle {
 						if (right.PerhapsWill[i].get<0>() == left.PerhapsWill[p].get<0>())
 							if (right.PerhapsWill[i].get<1>() == left.PerhapsWill[p].get<1>())
 							{
-								left.PerhapsWill[p].get<2>() = (left.PerhapsWill[p].get<2>() + right.PerhapsWill[i].get<2>()) / Div; // Суммируем полезность 
+								//left.PerhapsWill[p].get<2>() = (left.PerhapsWill[p].get<2>() + right.PerhapsWill[i].get<2>()) / Div; // Суммируем полезность 
+								left.PerhapsWill[p].get<2>() = Synapse::Summ(left.PerhapsWill[p].get<2>(), right.PerhapsWill[i].get<2>()); // Суммируем полезность 
 								left.PerhapsWill[p].get<3>()++;
 								index = p;
 								f = true;
@@ -382,14 +392,19 @@ namespace SpaRcle {
 
 		return false;
 	};
-	inline std::string ReadUpToChar(std::string line, char ch, int& num)
+
+	// Max 7 elements!!!!
+	inline std::string ReadUpToChar(std::string line, char ch, short& num, short max = 80)
 	{
 		std::string result;
-		for (int i = 0; i < (int)line.size(); i++) {
-			if (line[i] != ch)
-				result += line[i];
+		for (char i = 0; i < (char)line.size(); i++) {
+			if (line[i] == '.') line[i] = ',';
+			if (line[i] != ch) {
+				if (i < max) { result += line[i]; }
+			}
 			else {
 				num = i + 1;
+				if (result[result.size() - 1] == '.')result.resize(result.size() - 1);
 				return result;
 			}
 		}

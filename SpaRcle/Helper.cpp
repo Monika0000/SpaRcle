@@ -267,7 +267,8 @@ namespace SpaRcle {
 			}
 		}
 		if (max > 90) {
-			con.PerhapsWill[index].get<2>() = (con.PerhapsWill[index].get<2>() + hp) / 2;
+			//con.PerhapsWill[index].get<2>() = (con.PerhapsWill[index].get<2>() + hp) / 2;
+			con.PerhapsWill[index].get<2>() = Synapse::Summ(con.PerhapsWill[index].get<2>(), hp);
 			con.PerhapsWill[index].get<3>()++; // Increment
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : summ perhaps will \"" + name + "\" to conseq \"" + con.name +
 				"\"; perc:"+std::to_string(max) + "; sens:"+sens + "="+ con.PerhapsWill[index].get<1>()); }

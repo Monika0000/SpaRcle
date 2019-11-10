@@ -13,6 +13,23 @@
 namespace SpaRcle {
 	class Window;
 
+	struct Monitor {
+	public:
+		Monitor(Window & win);
+
+		~Monitor();
+		short memory_size;
+		sf::Vector2f pos;
+		short size;
+
+		void Resize();
+
+		std::vector<std::vector<short>> poses;
+		std::vector<sf::VertexArray> lines; 
+		std::vector<sf::Color> colors;
+	private:
+		Window& win;
+	};
 	struct Button{
 		Button(sf::Vector2f pos, sf::Vector2f size, std::string text, float scale, short max_delay = 20);
 		Button();
@@ -89,6 +106,7 @@ namespace SpaRcle {
 		static Window* Get();
 		void SetCore(CentralCore* core);
 
+		Monitor* monitor;
 		GTexts Texts;
 		GCircles Circles;
 		GRects Rectangles;

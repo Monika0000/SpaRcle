@@ -15,6 +15,8 @@ namespace SpaRcle
 		CausalityCore(int cpuSpeed = 1500);
 		~CausalityCore();
 
+		short CoreLoad;
+
 		//int SensitivityInhibitor = 10;
 		CentralCore* core;
 		std::vector<Consequence> UncheckedEvents = {};
@@ -24,7 +26,7 @@ namespace SpaRcle
 		std::string Current_sensivity;
 
 		void Start();
-		void NewEvent(Consequence event);
+		void NewEvent(Consequence event, bool debug = true);
 
 		bool static CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, const bool Diagnostic = false);
 	private:

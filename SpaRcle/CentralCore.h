@@ -25,6 +25,8 @@ namespace SpaRcle {
 		CentralCore(int cpuSpeed = 1500);
 		~CentralCore();		
 
+		short CoreLoad;
+
 		TaskTree Tree;
 		std::vector<boost::tuple<Consequence, std::string>> Events;
 

@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "Settings.h"
 #include <Windows.h>
+#include <random>
 
 namespace SpaRcle {
 	sf::Vector2u Window::DisplaySize;
@@ -13,8 +14,10 @@ namespace SpaRcle {
 
 	sf::Vector2f Window::NormalizePos(sf::Vector2f pos, float modifer) {
 		return sf::Vector2f(
-			(std::sqrt(CurrentSize.x / 2) + pos.x - 40) * (float(CurrentSize.x) / float(Window::DisplaySize.x)),
-			(std::sqrt(CurrentSize.y / 2) + pos.y - 40) * (float(CurrentSize.y) / float(Window::DisplaySize.y))); }
+			(std::sqrt(CurrentSize.x / 2) + pos.x - 40.f) * 
+				(double (CurrentSize.x) / double(Window::DisplaySize.x)),
+			(std::sqrt(CurrentSize.y / 2) + pos.y - 40.f) * 
+				(double(CurrentSize.y) / double(Window::DisplaySize.y))); }
 	sf::Vector2f Window::NormalizeScale(sf::Vector2f scale, float modifer) {
 		return sf::Vector2f(
 			 modifer * (float(CurrentSize.x) / float(Window::DisplaySize.x)),
@@ -43,8 +46,18 @@ namespace SpaRcle {
 
 	void Window::AddAllElements()
 	{
+		monitor = new Monitor(*this);
+
 		AddRect("BG", sf::Vector2f(0, 0), sf::Vector2f(10000, 10000), sf::Color(155, 155, 155));
 
+		AddButton("Spam", sf::Vector2f(25, 820), sf::Vector2f(80, 20), "    	[Spam]", 3, [=](Window& win, Button* button) {
+			win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)),false);
+			win.core->_causality->NewEvent(Consequence(Sound("monika", 10, 15)), false);
+			win.core->_causality->NewEvent(Consequence(Sound("kak", 10, 15)), false);
+			win.core->_causality->NewEvent(Consequence(Sound("dele", 10, 15)), false);
+			win.core->_causality->NewEvent(Consequence(Sound("baka", 10, 15)), false);
+			win.core->_causality->NewEvent(Consequence(Sound("desu", 10, 15)), false);
+			}, 0);
 		AddButton("Hello", sf::Vector2f(25, 890), sf::Vector2f(80, 20), "  [Hello Monika]", 3, [=](Window& win, Button*button) {
 				win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)));
 				win.core->_causality->NewEvent(Consequence(Sound("monika", 10, 15)));
@@ -56,7 +69,6 @@ namespace SpaRcle {
 			});
 		AddButton("Skip", sf::Vector2f(25, 1030), sf::Vector2f(80, 20), "    	[Skip]", 3, [=](Window& win, Button* button) {
 				win.core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
-				//win.core->_causality->NewEvent(Consequence(Settings::EmptyName));
 			}, 1);
 
 		AddCheckBox("test", sf::Vector2f(555, 830), sf::Vector2f(20, 20), "2134254354", 3, [=](Window& win, Button* button) {
@@ -151,13 +163,12 @@ namespace SpaRcle {
 	void Window::AddLClickEvent(std::string key, GAction event) {
 
 	}
-	void Window::AddInfoPanel(std::string key, InfoPanel* panel) {
-		InfoPanels.insert(std::pair<std::string, InfoPanel*>(key, panel));
-	}
+	void Window::AddInfoPanel(std::string key, InfoPanel* panel) { InfoPanels.insert(std::pair<std::string, InfoPanel*>(key, panel)); }
 	
 	Window::Window() {
 		Debug::Log("Creating window...", DType::Info);
 
+		monitor = NULL;
 		LMouse = false;
 		core = NULL;
 		defaultTex.loadFromFile("D:\\SpaRcle\\SpaRcle\\Resources\\default.jpg");
@@ -208,21 +219,21 @@ namespace SpaRcle {
 						window.close();
 					case sf::Event::Resized:
 					{
-						double w = static_cast<double>(event.size.width);
-						double h = static_cast<double>(event.size.height);
-						wn.CurrentSize = sf::Vector2u(w, h);
+						float w = static_cast<float>(event.size.width);
+						float h = static_cast<float>(event.size.height);
+						wn.CurrentSize = sf::Vector2u(size_t(w), size_t(h));
 						window.setView(sf::View(
-							sf::Vector2f(w / 2.0, h / 2.0),
+							sf::Vector2f(w / 2.0f, h / 2.0f),
 							sf::Vector2f(w, h)));
 						break;
 					}
 					default:
 						break;
 					}
+					//if (wn.monitor != NULL) wn.monitor->Resize();
 				}
 
 				window.clear();
-
 
 				it_texts = (wn.Texts.begin());
 				for (size_t t = 0; t < wn.Texts.size(); t++) {
@@ -230,13 +241,11 @@ namespace SpaRcle {
 					it_texts++;
 				}
 
-
 				it_rects = (wn.Rectangles.begin());
 				for (size_t t = 0; t < wn.Rectangles.size(); t++) {
 					window.draw(NormalizeRect(*it_rects->second));
 					it_rects++;
 				}
-
 
 				it_buttons = (wn.Buttons.begin());
 				for (size_t t = 0; t < wn.Buttons.size(); t++) {
@@ -254,7 +263,6 @@ namespace SpaRcle {
 					it_buttons++;
 				}
 
-
 				it_panels = (wn.InfoPanels.begin());
 				for (size_t t = 0; t < wn.InfoPanels.size(); t++) {
 
@@ -264,7 +272,6 @@ namespace SpaRcle {
 						window.draw(NormalizeText(*a));
 					it_buttons++;
 				}
-
 
 				it_sprites = (wn.Sprites.begin());
 				for (size_t t = 0; t < wn.Sprites.size(); t++) {
@@ -277,6 +284,10 @@ namespace SpaRcle {
 					it_sprites++;
 				}
 
+				if (wn.monitor != NULL) {
+					for(auto&a : wn.monitor->lines)
+						window.draw(a);
+				}
 
 				window.display();
 			}
@@ -290,6 +301,8 @@ namespace SpaRcle {
 			typename MouseActions::iterator it_mouse;
 			typename std::map<std::string, InfoPanel*>::iterator it_panels;
 			sf::RectangleShape rect; InfoPanel* panel = NULL;
+			Monitor& m = *wn.monitor;
+			//char timer = 0;
 
 			while (wn.IsActive) {
 				Sleep(10);
@@ -302,7 +315,7 @@ namespace SpaRcle {
 					if ((*wn.Buttons[it_mouse->first]).L_clicked > 0) {
 						(*wn.Buttons[it_mouse->first]).L_clicked--;
 					}
-					rect.setSize(sf::Vector2f(rect.getSize().x* rect.getScale().x, rect.getSize().y* rect.getScale().y));
+					rect.setSize(sf::Vector2f(rect.getSize().x * rect.getScale().x, rect.getSize().y * rect.getScale().y));
 
 					it_mouse->second(wn, rect, it_mouse->first);
 					it_mouse++;
@@ -311,9 +324,28 @@ namespace SpaRcle {
 				it_panels = (wn.InfoPanels.begin());
 				for (size_t t = 0; t < wn.InfoPanels.size(); t++) {
 					panel = it_panels->second;
-					for(size_t tt = 0; tt < (*panel).texts.size(); tt++)
+					for (size_t tt = 0; tt < (*panel).texts.size(); tt++)
 						(*panel).funcs[tt](wn, *(*panel).texts[tt]);
 				}
+
+				//if (timer >= 5) {
+				//	timer = 0;
+					for (char c = 0; c < m.poses.size(); c++) {
+						m.poses[c].erase(m.poses[c].begin());
+
+						m.lines[c][0].position = Window::NormalizePos(m.pos);
+						for (short i = 1; i < m.memory_size; i += 2) {
+							m.lines[c][i].position = Window::NormalizePos(m.pos + sf::Vector2f(float(i * m.size), float(-m.poses[c][i])));
+							//if(i == 1) m.lines[c][i].position += sf::Vector2f(0, )
+							m.lines[c][i + 1].position = m.lines[c][i].position;
+						}
+					}
+
+					m.poses[0].push_back((*wn.core->_logic).CoreLoad);
+					m.poses[1].push_back((*wn.core->_causality).CoreLoad);
+					m.poses[2].push_back((*wn.core).CoreLoad);
+					m.poses[3].push_back((*wn.core->_causality).CoreLoad);
+				//}else timer++;
 			}
 			Debug::Log("Stopping window logic...", Info);
 		});
@@ -372,7 +404,18 @@ namespace SpaRcle {
 		this->border->setSize(size);
 		this->border->setPosition(pos.x, pos.y);
 	}
-	Button::Button() { }
+	Button::Button() {
+		this->max_delay = 0;
+		this->IsActive = false;
+		this->delay = 0; // Important!!!!
+		this->L_clicked = 0;
+		this->scale = 0;
+		this->active = new sf::RectangleShape();
+		this->notActive = new sf::RectangleShape();
+		this->border = new sf::RectangleShape();
+		this->click = new sf::RectangleShape();
+		this->text = new sf::Text();;
+	}
 	Button::~Button() {
 		delete this->active;
 		delete this->border;
@@ -427,8 +470,8 @@ namespace SpaRcle {
 		this->panel->setSize(sf::Vector2f(size.x - 8.f, size.y - 8.f));
 		this->panel->setPosition(sf::Vector2f(pos.x + 4.f, pos.y + 4.f));
 
-		for (size_t t = 0; t < texts.size(); t++) {
-			texts[t]->setPosition(texts[t]->getPosition() + sf::Vector2f(10, 35 * t) + pos);
+		for (short t = 0; t < (short)texts.size(); t++) {
+			texts[t]->setPosition(texts[t]->getPosition() + sf::Vector2f(10, 35 * float(t)) + pos);
 		}
 		this->texts = texts;
 		this->funcs = funcs;
@@ -436,6 +479,49 @@ namespace SpaRcle {
 		this->border->setFillColor(sf::Color(50, 50, 50));
 		this->border->setSize(size);
 		this->border->setPosition(pos.x, pos.y);
+	}
+	Monitor::Monitor(Window& win) : win{win} {
+		pos = sf::Vector2f(400, 550);
+		memory_size = 30;
+		lines = std::vector<sf::VertexArray>{ 
+			sf::VertexArray(sf::Lines, memory_size + 1),
+			sf::VertexArray(sf::Lines, memory_size + 1),
+			sf::VertexArray(sf::Lines, memory_size + 1),
+			sf::VertexArray(sf::Lines, memory_size + 1),
+		};
+		colors = std::vector<sf::Color>{
+			sf::Color(255, 0,0),
+			sf::Color(0, 255,0),
+			sf::Color(0, 255,255),
+			sf::Color(0, 0,255),
+		};
+		size = 40;
+
+		poses.resize(lines.size());
+
+		for (short i = 0; i < (short)lines.size(); i++)
+		{
+			poses[i].resize(memory_size);
+
+			for (short s = 0; s < memory_size; s++)
+				lines[i][s].color = colors[i];
+		}
+		Debug::Log("Window::Monitor : creating is sucuessful!", System);
+	}
+	Monitor::~Monitor()
+	{
+	}
+	void Monitor::Resize()
+	{
+		for (short t = 3; t< (short)lines.size();t++)
+		{
+				lines[t][0].position = Window::NormalizePos(pos);
+
+				for (short i = 1; i < memory_size; i += 2) {
+					lines[t][i].position = Window::NormalizePos(pos + sf::Vector2f(i * size, float(rand() % 120 + 1)));
+					lines[t][i + 1].position = lines[t][i].position;
+				}
+		}
 	}
 }
 // refactoring

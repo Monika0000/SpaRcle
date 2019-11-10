@@ -56,7 +56,7 @@ namespace SpaRcle {
 
 	bool Action::ApplyLine(std::string line)
 	{
-		int n;
+		short n;
 		std::string pref = ReadUpToChar(line, ':', n);
 		std::string post = line.substr(n);
 		SWITCH(pref)
@@ -64,7 +64,7 @@ namespace SpaRcle {
 	///^SOUND
 			CASE("sd") :{ sound.text = post; break; }
 			CASE("pr") :{
-				int n2; std::string t = ReadUpToChar(post, ';', n2);
+				short n2; std::string t = ReadUpToChar(post, ';', n2);
 				sound.tone = std::stof(t);
 				sound.volime = std::stof(post.substr(n2));
 				break; }

@@ -9,8 +9,15 @@
 #include <direct.h>
 
 namespace SpaRcle {
+	bool Consequence::isWrite = false;
+	bool Consequence::isRead = false;
+
+	static std::ofstream fout;
 	bool Consequence::Save(Consequence* conseq, const bool Diagnostic)
 	{
+	ret: if (isWrite) { Debug::Log("Consequence::Save : file already use!", Warning); Sleep(1); goto ret; }
+		isWrite = true;
+
 		std::string p;
 		if (!Diagnostic)
 			p = Settings::Logic; // path to logic
@@ -26,28 +33,21 @@ namespace SpaRcle {
 			p += "\\debug_" + conseq->name + Settings::exp_conseq; // set file name
 
 		try {
-			std::ofstream fout;
-
 			fout.open(p);
 
 			if (!fout.is_open()) {
 				Debug::Log("Consequence::Save = Cant't saving file! \n\tPath : " + p);
+				isWrite = false;
 				return false;
 			}
 
-			//double bad = Round((*conseq).Bad);
-			//std::cout << (*conseq).Bad << std::endl;
-			//std::cout << bad << std::endl;
-			//std::cout << Round((*conseq).Bad) << std::endl;
-			//std::cout << std::to_string(bad) << std::endl;
 			std::string bad = Helper::Remove(std::to_string((*conseq).Bad), Settings::SaveNumbers);
 			if (bad[bad.size() - 1] == ',') bad.resize(bad.size() - 2);
 
 			std::string good = Helper::Remove(std::to_string((*conseq).Good), Settings::SaveNumbers);
 			if (good[good.size() - 1] == ',') good.resize(good.size() - 2);
 
-			fout << "h:" << bad << ";" << good << std::endl;
-			fout << "m:" << (*conseq).meetings << std::endl;
+			fout << "h:" << bad << ";" << good << std::endl << "m:" << (*conseq).meetings << std::endl;
 
 			if ((*conseq).Causes.size() > 0)
 			{
@@ -75,21 +75,25 @@ namespace SpaRcle {
 
 			fout << conseq->action.GetSaveData();
 			fout.close();
+			isWrite = false;
 			return true;
 		}
 		catch (...) {
 			Debug::Log("SpaRcle::Consequence::Save : An exception has occured!", Error);
+			isWrite = false;
 			return false;
 		}
 	}
 	bool Consequence::Save(const bool Diagnostic) { return Save(this, Diagnostic); }
 
-	bool SpaRcle::Consequence::Load(std::string name, AType atype)
+	char SpaRcle::Consequence::Load(std::string name, AType atype, std::string Block)
 	{
-		return this->Load(name, atype, true, false);
+		return this->Load(name, atype, true, false, "Load_" + Block);
 	}
-	bool Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic)
+	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block)
 	{
+	ret: if (isRead) { Debug::Log("Consequence::Load : file already use!", Warning); Sleep(1); goto ret; }
+		isRead = true;
 		std::string path;
 		if (!Diagnostic)
 			path = Settings::Logic + "\\" + ToString(atype) + "\\" + name + Settings::exp_conseq;
@@ -98,22 +102,23 @@ namespace SpaRcle {
 
 		std::ifstream fin;
 		try { fin.open(path); }
-		catch (...) { Debug::Log("Consequence::Load (1) : Openning failed! \n	" + path, Error); }
+		catch (...) { Debug::Log("Consequence::Load (1) [" + Block + "] : Openning failed! \n	" + path, Error); return -1; isRead = false; }
 
 		if (!fin.is_open()) {
 			if (notFoundIsError)
-				Debug::Log("SpaRcle::Consequence::Load (2) : Loading failed! \n	" + path, Error);
-			return false;
+			Debug::Log("SpaRcle::Consequence::Load (2) [" + Block + "] : File is not exists! \n	" + path, Error);
+			isRead = false;
+			return 0;
 		}
-
+		short n = 0, n2 = 0, number = 0;
 		bool findType = false;
 		this->name = name;
 		while (!fin.eof()) {
 			try {
 				std::string line;
-				std::getline(fin, line);
+				std::getline(fin, line); number++;
 				if (!findType) {
-					int n;
+					//int n;
 					std::string pref = ReadUpToChar(line, ':', n);
 					std::string post = line.substr(n);
 
@@ -125,11 +130,11 @@ namespace SpaRcle {
 							break;
 						}
 						CASE("cas") : {
-							size_t leng = std::atoi(post.c_str());
-							for (size_t i = 0; i < leng; i++)
+							short leng = std::atoi(post.c_str());
+							for (short i = 0; i < leng; i++)
 							{
 								boost::tuple<std::string, int, double> t;
-								std::string l; int n2;
+								std::string l;// int n2;
 								std::getline(fin, l);
 
 								t.get<0>() = ReadUpToChar(l, ';', n2);
@@ -139,6 +144,8 @@ namespace SpaRcle {
 								l = l.substr(n2);
 								t.get<2>() = std::stod(l);
 								Causes.push_back(t);
+
+								number++;
 							}
 							break;
 						}
@@ -147,17 +154,19 @@ namespace SpaRcle {
 							for (size_t i = 0; i < leng; i++)
 							{
 								boost::tuple<std::string, std::string, double, int> t;
-								std::string l; int n2;
+								std::string l;// int n2;
 
 								std::getline(fin, l);
 								t.get<0>() = ReadUpToChar(l, ';', n2);
 								l = l.substr(n2);
 								t.get<1>() = ReadUpToChar(l, ';', n2);
 								l = l.substr(n2);
-								t.get<2>() = std::stof(ReadUpToChar(l, ';', n2));
+								t.get<2>() = std::stof(ReadUpToChar(l, ';', n2, 8));
 								l = l.substr(n2);
 								t.get<3>() = std::atoi(l.c_str());
 								PerhapsWill.push_back(t);
+
+								number++;
 							}
 							break;
 						}
@@ -165,23 +174,21 @@ namespace SpaRcle {
 							size_t leng = std::atoi(post.c_str());
 							for (size_t i = 0; i < leng; i++)
 							{
-								//boost::tuple<std::string, std::string, double> t;
 								boost::tuple<std::string, double> t;
-								std::string l; int n2;
+								std::string l; //int n2;
 
 								std::getline(fin, l);
 								t.get<0>() = ReadUpToChar(l, ';', n2);
 								l = l.substr(n2);
-								//t.get<1>() = ReadUpToChar(l, ';', n2);
-								//l = l.substr(n2);
-								//t.get<2>() = std::stof(post.c_str());
 								t.get<1>() = std::stof(post.c_str());
 								Synapses.push_back(t);
+
+								number++;
 							}
 							break;
 						}
 						CASE("h") :{
-							int n2;
+							//int n2;
 							std::string bad = ReadUpToChar(post, ';', n2);
 
 							Bad = std::stof(bad);
@@ -215,14 +222,15 @@ namespace SpaRcle {
 						std::cout << "\n\t" + path << std::endl;
 			}
 			catch (...) {
-				Debug::Log("Consequence::Load (3) : Loading failed! \n\t" + path, Error);
+				Debug::Log("Consequence::Load (3) ["+Block+"] {"+std::to_string(number)+"} : Loading failed! \n\t" + path , Error);
 				Settings::IsActive = false;
 				fin.close();
-				return false;
+				isRead = false;
+				return -1;
 			}
 		}
 		fin.close();
-
+		isRead = false;
 		return true;
 	}
 
@@ -240,7 +248,7 @@ namespace SpaRcle {
 	}
 	Consequence::Consequence(std::string name, AType atype)
 	{
-		Load(name, atype);
+		Load(name, atype,"Constructor");
 	}
 	Consequence::Consequence(Sound speech, bool self)
 	{
@@ -285,38 +293,4 @@ namespace SpaRcle {
 		this->EventData.~DataTime();
 		this->name.~basic_string();
 	}
-	
-	/*
-	const Consequence operator+(Consequence& left, Consequence& right)
-	{
-		for (auto& a : right.PerhapsWill)
-			Debug::Log(a.get<0>(), Error);
-
-		// INFO : ѕриоритет идет следущим образом : TODO преписать описание!!!!!!!!!!!!
-		//		  Action = right
-		//		  DataTime = right
-		//		  PerhapsWill<Sensiv> = left + right
-		//		  Synapses<Sensiv> = left + right
-		//
-
-		Consequence result; //double div = 1.5f;
-
-		result.action = left.action;
-		if (!Helper::SummActionConseq(result, right))
-			return left;
-
-		result.name = left.name; // берем им€ левого элемента (без разницы, они идентичны, в противном случае - ошибка выше)
-		result.Bad = (left.Bad + right.Bad) / Div;
-		result.Good = (left.Good + right.Good) / Div;
-		result.EventData = left.EventData; // INFO: possible BUG
-		result.meetings = left.meetings + right.meetings;
-
-
-
-		Helper::SimpleSummConseq(result, right);
-
-
-		return result;
-	}
-	*/
 }

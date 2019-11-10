@@ -14,7 +14,7 @@ namespace SpaRcle {
 	LogicalCore::LogicalCore(int cpuSpeed)
 	{
 		core = NULL;
-
+		CoreLoad = 0;
 		DelayCPU = cpuSpeed;
 
 		Tasks.resize(0);
@@ -34,12 +34,19 @@ namespace SpaRcle {
 		CentralCore& core = *(*_core).core;
 		RealityCore& real = *core._reality;
 		CausalityCore& causal = *core._causality;
+		char timer = 0, load = 0;
 
 		while (Settings::IsActive)
 		{
+			if (timer >= 100) {
+				timer = 0; _core->CoreLoad = load; load = 0;
+			}
+			else timer++;
+
 			try {
 				if (causal.CheckedEvents.size() <= Settings::Size_SCP * 2 + 1 && causal.UncheckedEvents.size() == 0 && core.Events.size() == 0) {
 					if ((*_core).Causes.size() > 0) {
+						load++;
 						LogicalCore::CauseReputation((*_core).Causes[0]); // Get first element  //ERROR
 						(*_core).Causes.erase((*_core).Causes.begin()); // Удаляем элемент в самом начале
 					}
@@ -142,7 +149,7 @@ namespace SpaRcle {
 				int last_index = size - 1 - i; // Перечисление с конца массива в начало (инверсия). Ибо массив отсортирован от меньшего к большему
 				AType t = ToAType(Cause.get<0>()[last_index][0]);
 				if (t != Undefined) { // Error
-					if (!loaded.Load(Cause.get<0>()[last_index].substr(2), t, true, Diagnostic))
+					if (!loaded.Load(Cause.get<0>()[last_index].substr(2), t, true, Diagnostic, "Logic"))
 						if (Diagnostic) return false;
 						else continue; }
 				else { Debug::Log("LogicalCore::CauseReputation : Unknown type! \"" + Cause.get<0>()[last_index] + "\"", Warning); continue; }
@@ -244,7 +251,7 @@ namespace SpaRcle {
 			//opposite.Load(Diagnostic, false);
 
 			//continue;
-			if (opposite.Load(cause.substr(2), Helper::GetConseqType(cause), true, Diagnostic)) {
+			if (opposite.Load(cause.substr(2), Helper::GetConseqType(cause), true, Diagnostic, "Oppos")) {
 				//std::cout << event.name << std::endl;
 				std::string name;
 				name += ToString(event.action.type)[0];
