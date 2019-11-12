@@ -14,6 +14,7 @@
 namespace SpaRcle {
 	CentralCore::CentralCore(int cpuSpeed)
 	{
+		this->CoreLoad = 0;
 		_reality = NULL;
 		_causality = NULL;
 		_logic = NULL;
@@ -61,16 +62,18 @@ namespace SpaRcle {
 									if (super) {
 										super_indx.clear(); super = false; }
 									//perc = per; idx_2 = tt; 
-									max = per; idx_2 = tt; 
-									Debug::Log("DFS : Synapse ["+con.Synapses[t].get<0>()+"] \"" + con.PerhapsWill[tt].get<0>() + "\" = "+std::to_string(per), Module);
+									max = per; idx_2 = tt;
+									index = idx_2;
+									Debug::Log("DFS : Synapse ["+con.Synapses[t].get<0>()+"] = "+std::to_string(per) + //\"" + con.PerhapsWill[tt].get<0>() + "\"
+										" {"+ con.PerhapsWill[tt].get<1>() +"}", Module);
 								}
 								else if(per == max) {
-									Debug::Log("DFS : super variant = "+ con.PerhapsWill[tt].get<0>() + " ["+ std::to_string(per) +"]", Module);
+									Debug::Log("DFS : super variant = "+ con.PerhapsWill[tt].get<0>() + " ["+ std::to_string(per) +"] {"+ con.PerhapsWill[tt].get<1>() +"}", Module);
 									super = true;
 								}
 							}
 
-						//if (t == 0) max = perc;
+						//if (t == 0) {}// max = perc;
 						//else if (perc >= max) { index = t; max = perc; }
 					}
 
@@ -94,10 +97,11 @@ namespace SpaRcle {
 					}
 					else {
 						Debug::Log("DFS finaly : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " +
-							con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
+							//con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
+							con.PerhapsWill[index].get<0>() + "; Max = " + std::to_string(max), Module);
 
 						if (max > 58) { // 76
-							syn = con.Synapses[index].get<0>();
+							syn = con.PerhapsWill[index].get<0>();
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
 							else goto Deep;
@@ -330,10 +334,11 @@ namespace SpaRcle {
 				for (short t = 0; t < SpaRcle::count_word_in_sensiv; t++)
 					this->SE_With_MyActions.erase(this->SE_With_MyActions.begin() + t);
 
-			if (IDoIt) for (short i = 0; i < event_name.size(); i++) event_name[i] = toupper(event_name[i]);
+			//if (IDoIt) for (short i = 0; i < event_name.size(); i++) event_name[i] = toupper(event_name[i]);
 			/// \see %Определяем %принадлежность %этого %события %к %нам (!сделали !его !мы !или !нет)
 
-			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name);
+			//this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name, false);
+			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name, IDoIt);
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

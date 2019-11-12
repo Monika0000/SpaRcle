@@ -303,7 +303,8 @@ namespace SpaRcle {
 						}
 
 						std::string Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
-						Situation += Synapse::GetSensivityOfName(event.name);
+						//Situation += Synapse::GetSensivityOfName(event.name, false);
+						Situation += Synapse::GetSensivityOfName(event.name, event.self);
 						Situation = Synapse::ClearSensivity(Situation);
 						if (!event.self) C_ref.NewEvent(event, Situation);
 
@@ -323,8 +324,14 @@ namespace SpaRcle {
 				if (event.name != Settings::EmptyName && found >= 0) {
 					event.Save();
 
-					if (!event.self) Current_sensivity += Synapse::GetSensivityOfName(event.name);  // System
-					else Current_sensivity += Helper::ToUpper(Synapse::GetSensivityOfName(event.name));  // System
+					//if (!event.self) 
+					//	Current_sensivity += Synapse::GetSensivityOfName(event.name, false);  // System
+					//else{
+						//Current_sensivity += Helper::ToUpper(Synapse::GetSensivityOfName(event.name, false));  // System
+						Current_sensivity += Synapse::GetSensivityOfName(event.name, event.self);  // System
+						if(event.self)
+							Debug::Log("CausalityCore : self event \"" + event.name + "\" [" + Current_sensivity + "]");
+					//}
 
 					(*_core).Sensivity_List.push_back(Current_sensivity); // System
 				}

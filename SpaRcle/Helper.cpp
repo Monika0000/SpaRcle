@@ -252,6 +252,8 @@ namespace SpaRcle {
 
 	void Synapse::FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp) // 1 - name, 2 - sensiv
 	{
+		if (con.self)
+			Debug::Log("Synapse::FindAndSummSensiv : Self event \"" + con.name + "\" ["+sens+"]");
 		if (sens.size() < 2) {
 			Debug::Log("Synapse::FindAndSummSensiv : sens.size() < 2! \n\tConq : "+con.name + "\n\tName : " + name + "\n\tSens : " + sens, Warning);
 			return; }
@@ -311,7 +313,7 @@ namespace SpaRcle {
 		for (int i = 0; i <= to_index; i++) {
 			if (s[i].name != Settings::EmptyName) {
 				if (s[i].name[0] != '.') {
-					Sensiv += Synapse::GetSensivityOfName(s[i].name);
+					Sensiv += Synapse::GetSensivityOfName(s[i].name, s[i].self);
 				}
 			}
 			else

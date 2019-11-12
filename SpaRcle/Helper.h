@@ -53,7 +53,7 @@ namespace SpaRcle {
 		static void FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp);
 		static std::string GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
-		inline static std::string GetSensivityOfName(std::string name) {
+		inline static std::string GetSensivityOfName(std::string name, bool self) {
 			if (name.size() > 2)
 				if (name[1] == '/') name = name.substr(2);
 			if (count_word_in_sensiv == 1) { name.resize(1); return name; }
@@ -66,9 +66,11 @@ namespace SpaRcle {
 					newName += Settings::TrueSymbol;
 					//newName = "ff";
 				}
-				else
-				{
-					newName += name[0]; newName += name[name.size() - 1];
+				else { newName += name[0]; newName += name[name.size() - 1]; }
+
+				if (self) {
+					for (unsigned char c = 0; c < name.size(); c++) newName[c] = toupper(newName[c]); // Принадлежность события к программе
+					Debug::Log("GetSensivityOfName : name = " + name + "; sens = " + newName);
 				}
 				return newName;
 			}

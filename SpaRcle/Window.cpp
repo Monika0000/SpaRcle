@@ -50,6 +50,16 @@ namespace SpaRcle {
 
 		AddRect("BG", sf::Vector2f(0, 0), sf::Vector2f(10000, 10000), sf::Color(155, 155, 155));
 
+		AddButton("plus2", sf::Vector2f(25, 680), sf::Vector2f(80, 20), "		[3 + 4]", 3, [=](Window& win, Button* button) {
+			win.core->_causality->NewEvent(Consequence(Sound("bhree", 10, 15)));
+			win.core->_causality->NewEvent(Consequence(Sound("plus", 10, 15)));
+			win.core->_causality->NewEvent(Consequence(Sound("four", 10, 15)));
+			});
+		AddButton("plus", sf::Vector2f(25, 750), sf::Vector2f(80, 20), "		[2 + 2]", 3, [=](Window& win, Button* button) {
+			win.core->_causality->NewEvent(Consequence(Sound("two", 10, 15)));
+			win.core->_causality->NewEvent(Consequence(Sound("plus", 10, 15)));
+			win.core->_causality->NewEvent(Consequence(Sound("two", 10, 15)));
+			});
 		AddButton("Spam", sf::Vector2f(25, 820), sf::Vector2f(80, 20), "    	[Spam]", 3, [=](Window& win, Button* button) {
 			win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)),false);
 			win.core->_causality->NewEvent(Consequence(Sound("monika", 10, 15)), false);

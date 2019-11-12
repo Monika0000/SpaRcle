@@ -57,7 +57,7 @@ namespace SpaRcle {
 
 			if (Settings::isMinding)
 				if (r_timer >= 500 / (*delay)) {
-					causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+					//causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 					r_timer = 0;
 				}
 				else r_timer++;
