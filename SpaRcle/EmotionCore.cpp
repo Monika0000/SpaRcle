@@ -7,19 +7,14 @@
 #include <Windows.h>
 
 namespace SpaRcle {
-	EmotionCore::EmotionCore(int cpuSpeed)
-	{
+	EmotionCore::EmotionCore(int cpuSpeed) {
 		this->core = NULL;
 		DelayCPU = cpuSpeed;
-		Debug::Log("-> Creating the emotion core are successful!");
-	}
+		Debug::Log("-> Creating the emotion core are successful!"); }
 
-	EmotionCore::~EmotionCore()
-	{
-		if (Process.joinable())
-			Process.detach();
-		Debug::Log("-> The emotion core has completed it's work!", Info);
-	}
+	EmotionCore::~EmotionCore() {
+		if (Process.joinable()) Process.detach();
+		Debug::Log("-> The emotion core has completed it's work!", Info); }
 
 	inline void Paradigm_Emotion(double& Bad, double &Good, Sound& s) {
 		/* ============= [ Begin Paradigm ] ============= */
@@ -64,15 +59,11 @@ namespace SpaRcle {
 		while (true){
 			if (!Settings::IsActive) break;
 			Sleep(*delay);
-			if (Settings::CoreDebug)
-				Debug::Log("Processing emotion...");
+			if (Settings::CoreDebug) Debug::Log("Processing emotion...");
 		}
 	}
 	
-	void EmotionCore::Start()
-	{
+	void EmotionCore::Start() {
 		Process = std::thread(EmotionSolution, &DelayCPU, this);
-		//union d { int f = 5; };
-		Debug::Log("-> The emotion core is started!");
-	}
+		Debug::Log("-> The emotion core is started!"); }
 }

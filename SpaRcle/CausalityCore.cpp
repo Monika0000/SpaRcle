@@ -272,13 +272,8 @@ namespace SpaRcle {
 		}
 
 		while (Settings::IsActive) {
-			if (timer >= 100) {
-				timer = 0; 
-				_core->CoreLoad = load_1; load_1 = 0; 
-				//Debug::Log(_core->CoreLoad);
-			}
-			else
-				timer++;
+			if (timer >= 100) { timer = 0; _core->CoreLoad = load_1; load_1 = 0; }
+			else timer++;
 
 			if ((*_core).UncheckedEvents.size() == 0) Sleep(*delay);
 
@@ -345,9 +340,7 @@ namespace SpaRcle {
 
 			/* Пост-процессинг. Здесь мы объединям некоторую информацию и проводим синапсы между нейронами. */
 
-			if ((*_core).CheckedEvents.size() > ((Settings::Size_SCP * 2) + 1))
-			{
-				//load_2++;
+			if ((*_core).CheckedEvents.size() > ((Settings::Size_SCP * 2) + 1)) {
 				Consequence& conq = (*_core).CheckedEvents[Settings::Size_SCP]; // 6-ый element
 
 				if (conq.name != Settings::EmptyName) {
@@ -394,7 +387,6 @@ namespace SpaRcle {
 		Process = std::thread(CausalitySolution, &DelayCPU, this);
 		Debug::Log("-> The causality core is started!"); }
 	void CausalityCore::NewEvent(Consequence event, bool debug) {
-		if(debug)
-			Debug::Log("CausalityCore::NewEvent = " + std::string(ToString(event.action.type)) + " : " + event.name, Info);
+		if(debug) Debug::Log("CausalityCore::NewEvent = " + std::string(ToString(event.action.type)) + " : " + event.name, Info);
 		UncheckedEvents.push_back(event); }
 }

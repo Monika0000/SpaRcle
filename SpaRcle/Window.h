@@ -41,13 +41,22 @@ namespace SpaRcle {
 		float scale;
 		short delay;
 		short max_delay;
-		int L_clicked;
+		char L_clicked;
+		char no_clicked;
 	};
+	
 	struct CheckBox : public Button {
 		CheckBox(sf::Vector2f pos, sf::Vector2f size, float scale, short max_delay = 20);
+		CheckBox();
 		bool IsChecked;
 		sf::RectangleShape* _checked;
 		sf::RectangleShape* _default;
+	};
+
+	struct TextEntry : public CheckBox {
+		TextEntry(sf::Vector2f pos, sf::Vector2f size, float scale, std::string defText);
+		std::string defultText;
+		sf::Font font;
 	};
 	struct InfoPanel {
 		InfoPanel(sf::Vector2f pos, sf::Vector2f size, float scale, std::vector<sf::Text*> texts, std::vector < std::function<void(Window& win, sf::Text& text)>> funcs);
@@ -92,6 +101,7 @@ namespace SpaRcle {
 
 		void AddAllElements();
 		void AddButton(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context = "", float scale = 1, GAction act = [=](Window&win, Button*button) {}, short max_delay= 20);
+		void AddTextEntry(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context = "", float scale = 1, GAction act = [=](Window&win, Button*button) {}, short max_delay= 20);
 		void AddCheckBox(std::string name, sf::Vector2f pos, sf::Vector2f size, std::string context = "", float scale = 1, GAction act = [=](Window&win, Button* button) {}, short max_delay= 20);
 		void AddMouseEvent(std::string key);
 		void AddEvent(std::string key, GAction act);

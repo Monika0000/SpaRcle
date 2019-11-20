@@ -38,20 +38,15 @@ namespace SpaRcle {
 		PathsIsSet = true;
 	}
 
-	void Settings::SetPaths(std::string proj, std::string sys, std::string res, std::string mem, std::string logic)
-	{
+	void Settings::SetPaths(std::string proj, std::string sys, std::string res, std::string mem, std::string logic) {
 		PathPj = proj;
 		SysDir = sys;
 		Resources = res;
 		Memory = mem;
 		Logic = logic;
-		PathsIsSet = true;
-	}
+		PathsIsSet = true; }
 
-
-
-	bool Settings::Diagnostic()
-	{
+	bool Settings::Diagnostic() {
 		std::string temp = "%temp%\\";
 
 		boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string> _Cause(

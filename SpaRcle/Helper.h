@@ -22,13 +22,9 @@ namespace SpaRcle {
 			double d = (l + r) / Div;
 			if (d > 99999) d = 99999;
 			if (d < -99999) d = -99999;
-			return d; 
-		}
-		static inline void SummHpSyns(boost::tuple<std::string, double>& left, boost::tuple<std::string, double>& right) { 
-			left.get<1>() = Summ(left.get<1>(), right.get<1>()); }
-		static inline void SummHpSyns(boost::tuple<std::string, double>& left, double right) {
-			left.get<1>() = Summ(left.get<1>(), right);
-		}
+			return d; }
+		static inline void SummHpSyns(boost::tuple<std::string, double>& left, boost::tuple<std::string, double>& right) { left.get<1>() = Summ(left.get<1>(), right.get<1>()); }
+		static inline void SummHpSyns(boost::tuple<std::string, double>& left, double right) { left.get<1>() = Summ(left.get<1>(), right); }
 		static std::string ClearSensivity(std::string& sensiv);
 
 		///!Depend !of !size !sensivity
@@ -60,26 +56,19 @@ namespace SpaRcle {
 			else if (count_word_in_sensiv == 2) {
 				std::string newName;
 				if (name.size() < 2) {
-					//Debug::Log("Helper::GetSensivityOfName : size of name < 2! \n\tName : " + name, Error);
 					newName += name[0];
-					//newName += Settings::TrueSymbol;
-					newName += Settings::TrueSymbol;
-					//newName = "ff";
-				}
+					newName += Settings::TrueSymbol; }
 				else { newName += name[0]; newName += name[name.size() - 1]; }
 
-				if (self) {
+				if (self)
 					for (unsigned char c = 0; c < name.size(); c++) newName[c] = toupper(newName[c]); // ѕринадлежность событи€ к программе
-					Debug::Log("GetSensivityOfName : name = " + name + "; sens = " + newName);
-				}
+					//Debug::Log("GetSensivityOfName : name = " + name + "; sens = " + newName);
 				return newName;
 			}
 			else {
 				Debug::Log("Helper::GetSensivityOfName : unknow variant!", Error);
 				return "[ERROR]";
 			}
-			//if (name.size() > SpaRcle::count_word_in_sensiv)
-			//	name.resize(SpaRcle::count_word_in_sensiv);
 		}
 		static double SimilarityPercentage(std::string first, std::string second, bool lenght = false, bool normalize = false);
 		///!Depend !of !size !sensivity
@@ -92,7 +81,6 @@ namespace SpaRcle {
 		static int FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index = 0);
 	};
 
-
 	class Helper {
 	public : 
 		static std::string Transliteration(std::string line, bool inRus = false);
@@ -104,15 +92,10 @@ namespace SpaRcle {
 			HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 			DWORD id = GetThreadId(hStdOut);
 
-			switch (LOWORD(GetKeyboardLayout(id)))
-			{
-			case 0x409:
-				return KeyboardLayout::EN;
-			case 0x419:
-				return KeyboardLayout::RU;
-			default:
-				return KeyboardLayout::UNKNOWN;
-			}
+			switch (LOWORD(GetKeyboardLayout(id))) {
+			case 0x409: return KeyboardLayout::EN;
+			case 0x419: return KeyboardLayout::RU;
+			default: return KeyboardLayout::UNKNOWN; }
 		}
 		static std::wstring s2ws(const std::string& s)
 		{
@@ -224,13 +207,10 @@ namespace SpaRcle {
 			return -1;
 		}
 
-		template<typename T> inline static void Sort(std::vector<int>& keys, std::vector<T>& data)
-		{
+		template<typename T> inline static void Sort(std::vector<int>& keys, std::vector<T>& data) {
 			if (keys.size() != data.size()) {
 				Debug::Log("Helper::Sort = ERROR : Sizes differ! \n\tKeys size : " + std::to_string(keys.size()) + "\n\tData size : " + std::to_string(data.size()), Error);
-				return;
-			}
-
+				return; }
 			int temp;
 
 			for (size_t i = 0; i < keys.size() - 1; i++) {
@@ -249,33 +229,26 @@ namespace SpaRcle {
 				}
 			}
 		}
-		template<typename T> inline static void SelectionSort(std::vector<int>& keys, std::vector<T>& data)
-		{
+		template<typename T> inline static void SelectionSort(std::vector<int>& keys, std::vector<T>& data) {
 			if (keys.size() != data.size()) {
 				Debug::Log("Helper::SelectionSort = ERROR : Sizes differ! \n\tKeys size : " + std::to_string(keys.size()) + "\n\tData size : " + std::to_string(data.size()), Error);
-				return;
-			}
+				return; }
 
-			if (keys.size() == 0 && data.size() == 0)
-			{
+			if (keys.size() == 0 && data.size() == 0) {
 				Debug::Log("Helper::SelectionSort = ERROR : Sizes equal zero! \n\tKeys size : " + std::to_string(keys.size()) + "\n\tData size : " + std::to_string(data.size()), Error);
-				return;
-			}
+				return; }
 
-			for (size_t startIndex = 0; startIndex < keys.size() - 1; ++startIndex)
-			{
+			for (size_t startIndex = 0; startIndex < keys.size() - 1; ++startIndex) {
 				// ¬ переменной smallestIndex хранитс€ индекс наименьшего значени€, которое мы нашли в этой итерации
 				// Ќачинаем с того, что наименьший элемент в этой итерации - это первый элемент (индекс 0)
 				int smallestIndex = startIndex;
 
 				// «атем ищем элемент поменьше в остальной части массива
-				for (size_t currentIndex = startIndex + 1; currentIndex < keys.size(); ++currentIndex)
-				{
+				for (size_t currentIndex = startIndex + 1; currentIndex < keys.size(); ++currentIndex) {
 					// ≈сли мы нашли элемент, который меньше нашего наименьшего элемента,
 					if (keys[currentIndex] < keys[smallestIndex])
 						// то запоминаем его
-						smallestIndex = currentIndex;
-				}
+						smallestIndex = currentIndex; }
 
 				// smallestIndex теперь наименьший элемент 
 						// ћен€ем местами наше начальное наименьшее число с тем, которое мы обнаружили
@@ -284,21 +257,18 @@ namespace SpaRcle {
 			}
 		}
 		inline static void SelectionSort(std::vector<boost::tuples::tuple<std::string, double>>& Synapses) {//, std::string
-			for (size_t startIndex = 0; startIndex < Synapses.size() - 1; ++startIndex)
-			{
+			for (size_t startIndex = 0; startIndex < Synapses.size() - 1; ++startIndex) {
 				// ¬ переменной smallestIndex хранитс€ индекс наименьшего значени€, которое мы нашли в этой итерации
 				// Ќачинаем с того, что наименьший элемент в этой итерации - это первый элемент (индекс 0)
 				int smallestIndex = startIndex;
 
 				// «атем ищем элемент поменьше в остальной части массива
-				for (size_t currentIndex = startIndex + 1; currentIndex < Synapses.size(); ++currentIndex)
-				{
+				for (size_t currentIndex = startIndex + 1; currentIndex < Synapses.size(); ++currentIndex) {
 					// ≈сли мы нашли элемент, который меньше нашего наименьшего элемента,
 					//if (Synapses[currentIndex].get<2>() < Synapses[smallestIndex].get<2>())
 					if (Synapses[currentIndex].get<1>() < Synapses[smallestIndex].get<1>())
 						// то запоминаем его
-						smallestIndex = currentIndex;
-				}
+						smallestIndex = currentIndex; }
 
 				// smallestIndex теперь наименьший элемент 
 						// ћен€ем местами наше начальное наименьшее число с тем, которое мы обнаружили
@@ -307,8 +277,7 @@ namespace SpaRcle {
 		}
 		inline static void SelectionSort(std::vector<boost::tuples::tuple<std::string, int, double>>& Causes, bool warning = true) { // Sort to meetings
 			if (Causes.size() >= 3)
-				for (size_t startIndex = 0; startIndex < Causes.size() - 1; ++startIndex)
-				{
+				for (size_t startIndex = 0; startIndex < Causes.size() - 1; ++startIndex) {
 					int smallestIndex = startIndex;
 
 					for (size_t currentIndex = startIndex + 1; currentIndex < Causes.size(); ++currentIndex)
@@ -317,28 +286,13 @@ namespace SpaRcle {
 
 					std::swap(Causes[startIndex], Causes[smallestIndex]);
 				}
-			else if (warning)
-				Debug::Log("SelectionSort (Causes) : size < 3!", Warning);
+			else if (warning) Debug::Log("SelectionSort (Causes) : size < 3!", Warning);
 		}
 
 		inline static AType GetConseqType(std::string conseq) {
-			//std::string head = Helper::Remove(conseq, 2);
-			
 			AType a = ToAType(conseq[0]);
-			if (a == AType::Undefined)
-				Debug::Log("GetConseqType : Unknown type! Name : " + conseq, Error);
-
-			//SWITCH(head) {
-			//	CASE("S/") :{
-			//		return AType::Speech;
-			//	}
-			//DEFAULT: {
-			///	return AType::Undefined;
-			//	}
-			//}
-
-			return a;
-		}
+			if (a == AType::Undefined) Debug::Log("GetConseqType : Unknown type! Name : " + conseq, Error);
+			return a; }
 
 		template<typename T> inline static bool SelectionSort(std::vector<int>& keys, std::vector<T>& data_1, std::vector<T>& data_2)
 		{
@@ -355,20 +309,17 @@ namespace SpaRcle {
 				return false;
 			}
 
-			for (size_t startIndex = 0; startIndex < keys.size() - 1; ++startIndex)
-			{
+			for (size_t startIndex = 0; startIndex < keys.size() - 1; ++startIndex) {
 				// ¬ переменной smallestIndex хранитс€ индекс наименьшего значени€, которое мы нашли в этой итерации
 				// Ќачинаем с того, что наименьший элемент в этой итерации - это первый элемент (индекс 0)
 				int smallestIndex = startIndex;
 
 				// «атем ищем элемент поменьше в остальной части массива
-				for (size_t currentIndex = startIndex + 1; currentIndex < keys.size(); ++currentIndex)
-				{
+				for (size_t currentIndex = startIndex + 1; currentIndex < keys.size(); ++currentIndex) {
 					// ≈сли мы нашли элемент, который меньше нашего наименьшего элемента,
 					if (keys[currentIndex] < keys[smallestIndex])
 						// то запоминаем его
-						smallestIndex = currentIndex;
-				}
+						smallestIndex = currentIndex; }
 
 				// smallestIndex теперь наименьший элемент 
 						// ћен€ем местами наше начальное наименьшее число с тем, которое мы обнаружили
@@ -387,17 +338,11 @@ namespace SpaRcle {
 		static bool Load(std::string name, std::vector<std::string>& data, bool Delete = false);
 	};
 
-	template <typename T> const bool Contains(std::vector<T>& Vec, const T& Element)
-	{
-		if (std::find(Vec.begin(), Vec.end(), Element) != Vec.end())
-			return true;
+	template <typename T> const bool Contains(std::vector<T>& Vec, const T& Element) {
+		if (std::find(Vec.begin(), Vec.end(), Element) != Vec.end()) return true;
+		return false; };
 
-		return false;
-	};
-
-	// Max 7 elements!!!!
-	inline std::string ReadUpToChar(std::string line, char ch, short& num, short max = 80)
-	{
+	inline std::string ReadUpToChar(std::string line, char ch, short& num, short max = 80) /* Max 7 elements!!!! */ {
 		std::string result;
 		for (char i = 0; i < (char)line.size(); i++) {
 			if (line[i] == '.') line[i] = ',';
@@ -413,16 +358,9 @@ namespace SpaRcle {
 
 		return result;
 	}
-	template<typename T> inline std::vector<T> Remove(std::vector<T> arr, size_t index)
-	{
-		if (index > arr.size())
-			Debug::Log("SpaRcle::Remove : Index > Array.Size()!", Warning);
-		else
-			arr.resize(index);
-		return arr;
-	}
-	inline double Round(double x) {
-		return ((x * 100) / 100);
-		//return floor(x * 100) / 100;
-	}
+	template<typename T> inline std::vector<T> Remove(std::vector<T> arr, size_t index) {
+		if (index > arr.size()) Debug::Log("SpaRcle::Remove : Index > Array.Size()!", Warning);
+		else arr.resize(index);
+		return arr; }
+	inline double Round(double x) { return ((x * 100) / 100); /*return floor(x * 100) / 100;*/ }
 }

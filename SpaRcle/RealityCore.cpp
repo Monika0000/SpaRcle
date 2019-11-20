@@ -57,42 +57,28 @@ namespace SpaRcle {
 
 			if (Settings::isMinding)
 				if (r_timer >= 500 / (*delay)) {
-					//causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+					///\see causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName)); 
 					r_timer = 0;
 				}
 				else r_timer++;
-			//std::string s = Helper::format() << count;
-			//rcore->core->_causality->NewEvent(Consequence("TestEvent " + s, Action()));
-			if (Settings::CoreDebug)
-				Debug::Log("Processing reality...");
-
+			if (Settings::CoreDebug) Debug::Log("Processing reality...");
 		}
 	}
-	void RealityCore::Start()
-	{
+	void RealityCore::Start() {
 		Process = std::thread(RealitySolution, &DelayCPU, this);
-		//union d { int f = 5; };
-		Debug::Log("-> The reality core is started!");
-	}
+		Debug::Log("-> The reality core is started!"); }
 
-	void RealityCore::DoAction(Action& action, std::string helpName)
-	{
-		switch (action.type)
-		{
+	void RealityCore::DoAction(Action& action, std::string helpName) {
+		switch (action.type) {
 		case AType::Speech : {
 			Sound s = action;
-			//Sound s = action.GetSound();
-			//action.Get(action.type, &s);
-
 			Debug::Log(s.text, DType::Mind);
 			this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
-			break;
-			}
+			break; }
 		default:
 			Debug::Log("RealityCore::DoAction : Unknown type! \n\tType : " + std::string(ToString(action.type))
 				+ "\n\tConseq name : " + helpName
 				,Error);
-			break;
-		}
+			break; }
 	}
 }

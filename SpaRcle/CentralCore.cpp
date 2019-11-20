@@ -57,14 +57,11 @@ namespace SpaRcle {
 							if (con.PerhapsWill[tt].get<0>() == s_au_2) {
 								/// \see Ќормализуем длину чувствительностей и сравниваем их между собой.
 								double per = Synapse::SimilarityPercentage(con.PerhapsWill[tt].get<1>(), core.SE_With_MyActions, true, true);
-								if (per > max)//perc
-								{ 
-									if (super) {
-										super_indx.clear(); super = false; }
-									//perc = per; idx_2 = tt; 
+								if (per > max) { 
+									if (super) { super_indx.clear(); super = false; }
 									max = per; idx_2 = tt;
 									index = idx_2;
-									Debug::Log("DFS : Synapse ["+con.Synapses[t].get<0>()+"] = "+std::to_string(per) + //\"" + con.PerhapsWill[tt].get<0>() + "\"
+									Debug::Log("DFS : Synapse ["+con.Synapses[t].get<0>()+"] = "+std::to_string(per) + 
 										" {"+ con.PerhapsWill[tt].get<1>() +"}", Module);
 								}
 								else if(per == max) {
@@ -72,9 +69,6 @@ namespace SpaRcle {
 									super = true;
 								}
 							}
-
-						//if (t == 0) {}// max = perc;
-						//else if (perc >= max) { index = t; max = perc; }
 					}
 
 					if (super) {
@@ -127,10 +121,8 @@ namespace SpaRcle {
 			int meets = -1, deepModeIndex = -1;
 			/// ƒобавить возможность крайностей - когда мы совершенно не знаем ответа, но нам нужно что-то сказать,
 			/// и у нас есть варианты (хоть и не самые подход€щие(но не плохие)) ты мы будем пытатьс€ их выполнить
-
 		Repeat:
-			if (event.Synapses[index].get<1>() > 0)
-			{
+			if (event.Synapses[index].get<1>() > 0)	{
 				/// \see »щем самый схожий синапс
 				size_t idx = 0; double percent = 0; auto& s_au = event.Synapses[index].get<0>();
 				for (size_t t = 0; t < event.PerhapsWill.size(); t++) {
@@ -152,8 +144,7 @@ namespace SpaRcle {
 							deepModeIndex = index;
 						}
 						if (index > 0) { index--; goto Repeat; }
-						else
-							DoFindSynapse(event, deepModeIndex, real, core);
+						else DoFindSynapse(event, deepModeIndex, real, core);
 					}
 					else if (percent >= PeriodicSix + 10) { /// \bug +10
 						DoFindSynapse(event, index, real, core);
@@ -176,15 +167,12 @@ namespace SpaRcle {
 	void SpaRcle::CentralCore::ProcessingEvent(Consequence& event, std::string Situation, CentralCore& core) {
 		// TODO : “ребуетс€ калибровка порогов чувствительности.
 		if (event.Bad > event.Good && event.Bad > 3) { // ѕытаемс€ выкрутитьс€ из ситуации с наименьшим ущербом
-			Debug::Log("CentralCore : " + event.name + " is Bad"); /* Debuging */
+			Debug::Log("CentralCore : " + event.name + " is Bad! \n\tBad : " + std::to_string(event.Bad) + "\n\tGood : " + std::to_string(event.Good)); 
 			bool find = DoEventOfSynapse(event, Situation, core); // ≈сли имеетс€ хоть какое-то решение
 
 			if (!find) // ≈сли все совсем печально...
 			{
-				Debug::Log("CentralCore : я не знаю, что мне делать!", Mind);
-				// ј..Ё.. ј что мне делать?
-				// TODO : current work!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				// ѕытаемс€ придумать решение...
+				Debug::Log("CentralCore : Find opposite...", Mind);
 
 				Consequence opposite; bool seccues = false;
 				if (LogicalCore::GetOpposite(opposite, event))
@@ -197,11 +185,13 @@ namespace SpaRcle {
 				}
 
 				if (!seccues) {
-					Debug::Log("CentralCore : ¬се совсем плохо!", Mind);
+					Debug::Log("CentralCore : opposite is not found!", Mind);
 				}
 				else {
 					Debug::Log("Opposite : " + opposite.name, Mind);
 				}
+
+				opposite.~Consequence();
 
 				/*  ƒл€ начала ищем противоположности этого следстви€.
 					≈сли не выходит, идем ва-банк и пробуем повторить плохое действие, с некоторыми изменени€ми...
@@ -210,11 +200,15 @@ namespace SpaRcle {
 					и у нас отча€ние, потому, нам ничего не остаетс€, как бить в ответ, то-есть, повторить плохое действие.
 				*/
 			}
+			else
+			{
+				Debug::Log("ProcessingEvent : solution is found.", Info);
+				return;
+			}
 		}
 		// ≈сли плохо 
 		else if (event.Good > event.Bad && event.Good > 5) {
 			Debug::Log("CentralCore : " + event.name + " is Good"); /* Debuging */
-			// (OLD) ќ даааа с*ка как хорошо-то! (наслаждаемс€ и возможно еще раз повтор€ем)
 			DoEventOfSynapse(event, Situation, core);
 		}
 		// ≈сли хорошо
@@ -225,12 +219,9 @@ namespace SpaRcle {
 			(*core._reality).DoAction(event.action); // Trying to repeat
 		}
 		// ≈сли не пон€ли
-
-		//core.Events.erase(core.Events.begin());
 	}
 
-	void CentralSolution(int* DelayCPU, CentralCore* _core)
-	{
+	void CentralSolution(int* DelayCPU, CentralCore* _core) {
 		Sleep(100);
 		CentralCore& core = *_core;
 		RealityCore& real = *core._reality;
@@ -239,9 +230,7 @@ namespace SpaRcle {
 		char timer = 0; short load = 0;
 
 		while (Settings::IsActive) {
-			if (timer >= 100) {
-				timer = 0; _core->CoreLoad = load; load = 0;
-			}
+			if (timer >= 100) { timer = 0; _core->CoreLoad = load; load = 0; }
 			else timer++;
 
 			if(core.Events.size() == 0) Sleep(*DelayCPU);
@@ -297,9 +286,8 @@ namespace SpaRcle {
 					else if (core.Events.size() == 1) {
 						load++;
 						Consequence& conseq = core.Events[0].get<0>();
-						if (conseq.name == Settings::EmptyName) {
+						if (conseq.name == Settings::EmptyName)
 							(*_core).AddSE(conseq.name, false);
-						}
 						else {
 							Debug::Log("CentralCore : only (" + core.Events[0].get<1>() + "): " + conseq.name);
 							CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core); }
@@ -312,19 +300,15 @@ namespace SpaRcle {
 					"\n\tDeep : " + std::to_string(deep), Error);
 				break;
 			}
-			if (Settings::CoreDebug)
-				Debug::Log("Processing core...");
+			if (Settings::CoreDebug) Debug::Log("Processing core...");
 		}
 	}
 
-	void CentralCore::AddSE(std::string event_name, bool IDoIt)
-	{
+	void CentralCore::AddSE(std::string event_name, bool IDoIt) {
 		if (Settings::CentralCoreDebug)
-			if (IDoIt)
-				Debug::Log("CentralCore::AddSE : " + event_name + " ~ " + this->SE_With_MyActions + " (SELF)");
-			else
-				Debug::Log("CentralCore::AddSE : " + event_name + " ~ " + this->SE_With_MyActions);
-		//Debug::Log(this->SE_With_MyActions.size());
+			if (IDoIt) Debug::Log("CentralCore::AddSE : " + event_name + " ~ " + this->SE_With_MyActions + " (SELF)");
+			else Debug::Log("CentralCore::AddSE : " + event_name + " ~ " + this->SE_With_MyActions);
+		
 		if (event_name == Settings::EmptyName) {
 			if (this->SE_With_MyActions.size() > 0)
 				this->SE_With_MyActions.erase(this->SE_With_MyActions.begin(), this->SE_With_MyActions.begin() + count_word_in_sensiv);
@@ -337,17 +321,7 @@ namespace SpaRcle {
 			//if (IDoIt) for (short i = 0; i < event_name.size(); i++) event_name[i] = toupper(event_name[i]);
 			/// \see %ќпредел€ем %принадлежность %этого %событи€ %к %нам (!сделали !его !мы !или !нет)
 
-			//this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name, false);
 			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name, IDoIt);
-
-			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-			//this->_causality->Current_sensivity.erase(this->_causality->Current_sensivity.begin(), this->_causality->Current_sensivity.begin() + count_word_in_sensiv);
-			//this->_causality->Current_sensivity += Synapse::GetSensivityOfName(event_name);
-
-			//this->_causality->Sensivity_List.erase(this->_causality->Sensivity_List.begin());
-			//this->_causality->Sensivity_List.push_back(this->_causality->Current_sensivity);
 		}
 	}
 	void CentralCore::NewEvent(Consequence event, std::string Situation)

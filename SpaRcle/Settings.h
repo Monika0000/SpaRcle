@@ -3,11 +3,8 @@
 #include <string>
 
 namespace SpaRcle {
-	enum KeyboardLayout {
-		EN, RU, UNKNOWN
-	};
-	class Settings
-	{
+	enum KeyboardLayout { EN, RU, UNKNOWN };
+	class Settings {
 	public:
 		static std::string PathPj;
 		// PathProject += ------------->

@@ -4,9 +4,7 @@
 #include <tchar.h>
 
 namespace SpaRcle {
-	std::string Helper::TransliterationEN(char ch)
-	{
-
+	std::string Helper::TransliterationEN(char ch) {
 		ch = std::tolower(ch);
 		switch (ch) {
 		case ' ': return " ";
@@ -46,9 +44,7 @@ namespace SpaRcle {
 		default: Debug::Log("TransliterationEN : unknown char! \"" + std::string(1, ch) + "\"", Error); return "[ERROR]";
 		}
 	}
-	std::string Helper::ToUpper(std::string s) {
-		for (auto& a : s) a= toupper(a);
-		return s; }
+	std::string Helper::ToUpper(std::string s) { for (auto& a : s) a= toupper(a); return s; }
 	std::string Helper::Transliteration(std::string line, bool inRus)
 	{
 		std::string en;
@@ -74,8 +70,7 @@ namespace SpaRcle {
 
 		return arr;
 	}
-	std::string Helper::NumberToWord(int number)
-	{
+	std::string Helper::NumberToWord(int number) {
 		switch (number) {
 		case 0: return "zero";
 		case 1: return "one";
@@ -91,14 +86,10 @@ namespace SpaRcle {
 		case 11: return "xxx";
 		case 12: return "mmm";
 
-		default:
-			Debug::Log("Helper::NumberToWord : ERROR!", Error);
-			break;
-		}
+		default: Debug::Log("Helper::NumberToWord : ERROR!", Error); break; }
 		return "[ERROR]";
 	}
-	std::string Helper::Remove(std::string text, int index)
-	{
+	std::string Helper::Remove(std::string text, int index) {
 		if ((size_t)index >= text.size())
 			index = text.size();
 		std::string str;
@@ -106,8 +97,7 @@ namespace SpaRcle {
 			str += text[i];
 		return str;
 	}
-	bool Helper::DirExists(std::string dir)
-	{
+	bool Helper::DirExists(std::string dir) {
 		std::wstring stemp = s2ws(dir);
 
 		DWORD flag = GetFileAttributes(stemp.c_str());
@@ -117,76 +107,57 @@ namespace SpaRcle {
 		}
 		if (!(flag & FILE_ATTRIBUTE_DIRECTORY))
 			return false;
-		return true;
-
-	}
+		return true; }
 
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
-	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name)
-	{
+	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name) {
 		for (size_t i = 0; i < s.size(); i++)
 			if (s[i].get<0>() == name)
 				return i; // Found!
 		return -1; // Not found!
 	}
-	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, double>>& s, std::string name)
-	{
+	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, double>>& s, std::string name) {
 		for (size_t i = 0; i < s.size(); i++)
 			if (s[i].get<0>() == name)
 				return i; // Found!
 		return -1; // Not found!
-	} //std::string,
-	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, std::string, double, int>>& s, std::string name)
-	{
+	} 
+	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, std::string, double, int>>& s, std::string name) {
 		for (size_t i = 0; i < s.size(); i++)
 			if (s[i].get<0>() == name)
 				return i; // Found!
 		return -1; // Not found!
 	}
 
-	int Synapse::FindGoodSynapse(std::vector<boost::tuple<std::string, int, double>>& s)
-	{
-		if (s.size() == 0)
-			return -1;
-
-		int point = 0;
-		double value = 0;
+	int Synapse::FindGoodSynapse(std::vector<boost::tuple<std::string, int, double>>& s) {
+		if (s.size() == 0) return -1;
+		int point = 0; double value = 0;
 
 		for (size_t i = 0; i < s.size(); i++)
-			if (s[i].get<2>() > value)
-			{
+			if (s[i].get<2>() > value) {
 				value = s[i].get<2>();
-				point = i;
-			}
+				point = i; }
 
-		return point;
-	}
-	int Synapse::FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index)
-	{
+		return point; }
+	int Synapse::FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index) {
 		if (s.size() == 0) return -1;
 		if (s.size() - 1 < from_index) {
 			Debug::Log("Helper::FindGoodSynapse : from_index > size!", Warning);
-			return -1;
-		}
+			return -1; }
 
-		int point = 0;
-		double value = 0;
+		int point = 0; double value = 0;
 
 		for (size_t i = from_index; i < s.size(); i++)
-			if (s[i].get<2>() > value)
-			{
+			if (s[i].get<2>() > value) {
 				value = s[i].get<2>();
-				point = i;
-			}
+				point = i; }
 
-		return point;
-	}
+		return point; }
 
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
-	bool SpaRcle::System::Save(std::string name, std::string data, std::string additionalPath)
-	{
+	bool SpaRcle::System::Save(std::string name, std::string data, std::string additionalPath) {
 		std::ofstream fout;
 
 		std::string p = Settings::SysDir; // path to system
@@ -198,62 +169,39 @@ namespace SpaRcle {
 
 		try {
 			fout.open(p);
-
-			if (!fout.is_open())
-				return false;
-
+			if (!fout.is_open()) return false;
 			fout << data;
-
 			fout.close();
-
-			return true;
-		}
-		catch (...) {
-			Debug::Log("SpaRcle::System::Save : An exception has occured! \n\tPath : " + p, Error);
-			return false;
-		}
+			return true; }
+		catch (...) { Debug::Log("SpaRcle::System::Save : An exception has occured! \n\tPath : " + p, Error); return false; }
 	}
-	bool SpaRcle::System::Load(std::string name, std::vector<std::string>& data, bool Delete)
-	{
+	bool SpaRcle::System::Load(std::string name, std::vector<std::string>& data, bool Delete) {
 		std::string p = Settings::SysDir + "\\" + name; // path to system file
 		try {
 			std::ifstream fin; fin.open(p);
 
 			if (!fin.is_open()) {
 				Debug::Log("SpaRcle::System::Load : Loading failed! \n\tPath :" + p, Error);
-				return false;
-			}
+				return false; }
 
 			while (!fin.eof()) {
 				std::string line;
 				std::getline(fin, line);
-				//std::cout << line << std::endl;
-				if (line == "" || line == " ")
-				{
-				}
-				else
-					data.push_back(line);
+				if (line == "" || line == " ") { }
+				else data.push_back(line);
 			}
 
 			fin.close();
-
-			if (Delete)
-				remove(p.c_str());
-
+			if (Delete) remove(p.c_str());
 			return true;
 		}
-		catch (...) {
-			Debug::Log("SpaRcle::System::Load : An exception has occured! \n\tPath : " + p, Error);
-			return false;
-		}
+		catch (...) { Debug::Log("SpaRcle::System::Load : An exception has occured! \n\tPath : " + p, Error); return false; }
 	}
 
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
-	void Synapse::FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp) // 1 - name, 2 - sensiv
-	{
-		if (con.self)
-			Debug::Log("Synapse::FindAndSummSensiv : Self event \"" + con.name + "\" ["+sens+"]");
+	void Synapse::FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp) /* 1 - name, 2 - sensiv */ {
+		if (con.self) Debug::Log("Synapse::FindAndSummSensiv : Self event \"" + con.name + "\" ["+sens+"]");
 		if (sens.size() < 2) {
 			Debug::Log("Synapse::FindAndSummSensiv : sens.size() < 2! \n\tConq : "+con.name + "\n\tName : " + name + "\n\tSens : " + sens, Warning);
 			return; }
@@ -278,8 +226,7 @@ namespace SpaRcle {
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : add perhaps will \""+name+"\" to conseq \""+con.name + "\"");
 			con.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(name, sens, hp, 1)); }
 	}
-	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s)
-	{
+	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s) {
 		std::string Sensiv;
 		for (auto& a : s) {
 			if (a.get<0>() != Settings::EmptyName) {
@@ -290,12 +237,13 @@ namespace SpaRcle {
 						else
 							Sensiv += a.get<0>()[0]; //[0]
 					}
-					else
-					{
+					else {
 						if (a.get<0>()[1] == '/') 
-						{ Sensiv += a.get<0>()[2]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }// [2]
-						else 
-						{ Sensiv += a.get<0>()[0]; Sensiv += a.get<0>()[a.get<0>().size() - 1]; }//[0]
+							Sensiv += a.get<0>()[2]; // [2]
+						else					  
+							Sensiv += a.get<0>()[0]; //[0]
+
+						Sensiv += a.get<0>()[a.get<0>().size() - 1];
 					}
 			}
 			else
@@ -303,35 +251,26 @@ namespace SpaRcle {
 		}
 		return Sensiv; // TODO : Возможно следует доделать, ну или обратить внимание в будущем.
 	}
-	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<Consequence>& s, int to_index)
-	{
+	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<Consequence>& s, int to_index) {
 		std::string Sensiv;
-
-		if (to_index == -1)
-			to_index = s.size() - 1;
+		if (to_index == -1) to_index = s.size() - 1;
 
 		for (int i = 0; i <= to_index; i++) {
 			if (s[i].name != Settings::EmptyName) {
-				if (s[i].name[0] != '.') {
+				if (s[i].name[0] != '.')
 					Sensiv += Synapse::GetSensivityOfName(s[i].name, s[i].self);
-				}
 			}
-			else
-				Sensiv += ".";//std::string(count_word_in_sensiv, '.');
+			else Sensiv += ".";//std::string(count_word_in_sensiv, '.');
 		}
 		return Sensiv; // TODO : Возможно следует доделать, ну или обратить внимание в будущем.
 	}
-	std::string SpaRcle::Synapse::ClearSensivity(std::string& sensiv)
-	{
+	std::string SpaRcle::Synapse::ClearSensivity(std::string& sensiv) {
 		std::string clean;
-		for (auto& a : sensiv)
-			if (a != '.')
-				clean += a;
+		for (auto& a : sensiv) if (a != '.') clean += a;
+		return clean; }
+	double SpaRcle::Synapse::SimilarityPercentage(std::string first, std::string second, bool lenght, bool normalize) {
+		///\todo clear code!!!
 
-		return clean;
-	}
-	double SpaRcle::Synapse::SimilarityPercentage(std::string first, std::string second, bool lenght, bool normalize)
-	{
 		//TODO : при hm hmh схожесть 0!!!!!!
 		//Debug::Log(std::to_string(first.size()) + "_" + std::to_string(second.size()));
 		//Debug::Log(first + "_" + second);
