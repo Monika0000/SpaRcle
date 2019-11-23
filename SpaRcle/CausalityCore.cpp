@@ -9,6 +9,7 @@
 #include "Debug.h"
 #include "Helper.h"
 #include "Settings.h"
+#include "Memory.h"
 
 namespace SpaRcle {
 	CausalityCore::CausalityCore(int cpuSpeed)
@@ -174,7 +175,7 @@ namespace SpaRcle {
 		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
 #pragma endregion 
 
-		if (true) {
+		if (false) {
 			if (false) {
 				double tone = 8, volime = 13;
 				for (size_t t = 0; t < 3; t++)
@@ -270,6 +271,8 @@ namespace SpaRcle {
 			for (size_t tt = 0; tt < 10; tt++)
 				(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 		}
+
+		Memory::GetMemory()->LoadStaticMemory();
 
 		while (Settings::IsActive) {
 			if (timer >= 100) { timer = 0; _core->CoreLoad = load_1; load_1 = 0; }

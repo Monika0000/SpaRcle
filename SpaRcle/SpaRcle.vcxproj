@@ -176,6 +176,7 @@
     <ClInclude Include="GetKeyCode.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="LogicalCore.h" />
+    <ClInclude Include="Memory.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RealityCore.h" />
     <ClInclude Include="resource.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="EmotionCore.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="LogicalCore.cpp" />
+    <ClCompile Include="Memory.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

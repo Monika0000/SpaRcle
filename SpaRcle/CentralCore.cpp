@@ -6,23 +6,25 @@
 #include "Helper.h"
 #include <iostream>
 #include "Settings.h"
+#include "Memory.h"
 
 #include <thread> 
 #include <future>
 #include <chrono>
 
 namespace SpaRcle {
-	CentralCore::CentralCore(int cpuSpeed)
-	{
+	CentralCore::CentralCore(int cpuSpeed) {
 		this->CoreLoad = 0;
 		_reality = NULL;
 		_causality = NULL;
 		_logic = NULL;
 
+		Memory::GetMemory()->InitMemory(this);
+
 		Tree = TaskTree();
 		Tree.Branches.push_back(Branch());
 		Tree.Branches[0].Tasks.push_back(Task());
-		Tree.Branches[0].Tasks[0].result = Consequence("Life", Action());
+		Tree.Branches[0].Tasks[0].result = Consequence("Life", Action(Sound()));
 
 		DelayCPU = cpuSpeed;
 		Debug::Log("-> Creating the central core are successful!");
@@ -175,8 +177,7 @@ namespace SpaRcle {
 				Debug::Log("CentralCore : Find opposite...", Mind);
 
 				Consequence opposite; bool seccues = false;
-				if (LogicalCore::GetOpposite(opposite, event))
-				{
+				if (LogicalCore::GetOpposite(opposite, event)) {
 					std::string ev_name = event.name;
 					std::string op_name = opposite.name;
 
@@ -186,9 +187,12 @@ namespace SpaRcle {
 
 				if (!seccues) {
 					Debug::Log("CentralCore : opposite is not found!", Mind);
+
 				}
 				else {
 					Debug::Log("Opposite : " + opposite.name, Mind);
+					//TODO
+
 				}
 
 				opposite.~Consequence();
@@ -200,16 +204,14 @@ namespace SpaRcle {
 					и у нас отчаяние, потому, нам ничего не остается, как бить в ответ, то-есть, повторить плохое действие.
 				*/
 			}
-			else
-			{
+			else {
 				Debug::Log("ProcessingEvent : solution is found.", Info);
-				return;
-			}
+				return; /* Ничего не делаем, тк в DEOS уже все выполнилось*/ }
 		}
 		// Если плохо 
 		else if (event.Good > event.Bad && event.Good > 5) {
 			Debug::Log("CentralCore : " + event.name + " is Good"); /* Debuging */
-			DoEventOfSynapse(event, Situation, core);
+			DoEventOfSynapse(event, Situation, core); // Ищем продолжение
 		}
 		// Если хорошо
 		else

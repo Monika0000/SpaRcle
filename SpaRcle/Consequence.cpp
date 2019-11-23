@@ -92,7 +92,7 @@ namespace SpaRcle {
 	}
 	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block)
 	{
-	ret: if (isRead) { Debug::Log("Consequence::Load : file already use!", Warning); Sleep(1); goto ret; }
+	//ret: if (isRead) { Debug::Log("Consequence::Load : file already use!", Warning); Sleep(1); goto ret; }
 		isRead = true;
 		std::string path;
 		if (!Diagnostic)

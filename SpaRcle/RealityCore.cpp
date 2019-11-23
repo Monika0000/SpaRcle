@@ -72,8 +72,9 @@ namespace SpaRcle {
 		switch (action.type) {
 		case AType::Speech : {
 			Sound s = action;
-			Debug::Log(s.text, DType::Mind);
+			Debug::Log("|RDA| => " + s.text, DType::Mind);
 			this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
+			s.~Sound();
 			break; }
 		default:
 			Debug::Log("RealityCore::DoAction : Unknown type! \n\tType : " + std::string(ToString(action.type))

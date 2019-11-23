@@ -123,6 +123,9 @@
     <ClInclude Include="Window.h">
       <Filter>Файлы заголовков\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Файлы заголовков\Utilites</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -181,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Исходные файлы\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Исходные файлы\Utilites</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
