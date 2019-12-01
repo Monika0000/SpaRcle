@@ -15,6 +15,7 @@
 #include "Settings.h"
 #include <string>
 #include <thread>
+#include "Memory.h"
 #include <stdexcept>
 using namespace SpaRcle;
 
@@ -67,11 +68,11 @@ int main(int argc, char** argv)
 		//Sleep(225552);
 
 		//////////////////////////////
-		_core = new CentralCore(5);
-		_causality = new CausalityCore(5);
-		_logic = new LogicalCore(5);
-		_reality = new RealityCore(100);
-		_emotion = new EmotionCore(1500);
+		_core = new CentralCore(150);
+		_causality = new CausalityCore(150);
+		_logic = new LogicalCore(150);
+		_reality = new RealityCore(150);
+		_emotion = new EmotionCore(150);
 #pragma endregion
 
 	#pragma region [======== Init ========]
@@ -125,6 +126,7 @@ int main(int argc, char** argv)
 		Destruct();
 		delete Window::Get();
 		Display::Deactive();
+		delete Memory::GetMemory();
 		Sleep(2000);
 
 		Debug::StopDebugger();

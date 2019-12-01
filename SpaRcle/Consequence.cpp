@@ -4,6 +4,7 @@
 #include <string>
 #include "Consequence.h"
 #include "Settings.h"
+#include "Memory.h"
 #include "Debug.h"
 #include "Helper.h"
 #include <direct.h>
@@ -15,7 +16,7 @@ namespace SpaRcle {
 	static std::ofstream fout;
 	bool Consequence::Save(Consequence* conseq, const bool Diagnostic)
 	{
-	ret: if (isWrite) { Debug::Log("Consequence::Save : file already use!", Warning); Sleep(1); goto ret; }
+	ret: if (isWrite) { Debug::Log("Consequence::Save : file already use! ["+conseq->name+"]", Warning); Sleep(1); goto ret; }
 		isWrite = true;
 
 		std::string p;
@@ -79,20 +80,24 @@ namespace SpaRcle {
 			return true;
 		}
 		catch (...) {
-			Debug::Log("SpaRcle::Consequence::Save : An exception has occured!", Error);
+			Debug::Log("SpaRcle::Consequence::Save : An exception has occured! ["+conseq->name+"]", Error);
 			isWrite = false;
 			return false;
 		}
 	}
 	bool Consequence::Save(const bool Diagnostic) { return Save(this, Diagnostic); }
 
-	char SpaRcle::Consequence::Load(std::string name, AType atype, std::string Block)
-	{
-		return this->Load(name, atype, true, false, "Load_" + Block);
-	}
-	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block)
-	{
+	char SpaRcle::Consequence::Load(std::string name, AType atype, std::string Block) {
+		return this->Load(name, atype, true, false, "Load_" + Block); }
+	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block) {
 	//ret: if (isRead) { Debug::Log("Consequence::Load : file already use!", Warning); Sleep(1); goto ret; }
+		//if (Settings::isUseMemory) {
+		//	auto* a = Memory::GetMemory()->GetFragment(name, atype);
+		//	if (a != NULL) {
+		//		Set(*a); }
+		//}
+
+
 		isRead = true;
 		std::string path;
 		if (!Diagnostic)
@@ -110,9 +115,19 @@ namespace SpaRcle {
 			isRead = false;
 			return 0;
 		}
-		short n = 0, n2 = 0, number = 0;
+		short n = 0, n2 = 0, number = 0, leng = 0;
 		bool findType = false;
 		this->name = name;
+
+		boost::tuple<std::string, std::string, double, int> t_prw;
+		std::string l_prw;// int n2;
+
+		boost::tuple<std::string, int, double> t_cas;
+		std::string l_cas;// int n2;
+
+		boost::tuple<std::string, double> t_syn;
+		std::string l_syn; //int n2;
+
 		while (!fin.eof()) {
 			try {
 				std::string line;
@@ -130,58 +145,50 @@ namespace SpaRcle {
 							break;
 						}
 						CASE("cas") : {
-							short leng = std::atoi(post.c_str());
+							leng = std::atoi(post.c_str());
 							for (short i = 0; i < leng; i++)
 							{
-								boost::tuple<std::string, int, double> t;
-								std::string l;// int n2;
-								std::getline(fin, l);
+								std::getline(fin, l_cas);
 
-								t.get<0>() = ReadUpToChar(l, ';', n2);
-								l = l.substr(n2);
+								t_cas.get<0>() = ReadUpToChar(l_cas, ';', n2);
+								l_cas = l_cas.substr(n2);
 
-								t.get<1>() = std::atoi(ReadUpToChar(l, ';', n2).c_str());
-								l = l.substr(n2);
-								t.get<2>() = std::stod(l);
-								Causes.push_back(t);
+								t_cas.get<1>() = std::atoi(ReadUpToChar(l_cas, ';', n2).c_str());
+								l_cas = l_cas.substr(n2);
+								t_cas.get<2>() = std::stod(l_cas);
+								Causes.push_back(t_cas);
 
 								number++;
 							}
 							break;
 						}
 						CASE("prw") : {
-							size_t leng = std::atoi(post.c_str());
-							for (size_t i = 0; i < leng; i++)
+							leng = std::atoi(post.c_str());
+							for (short i = 0; i < leng; i++)
 							{
-								boost::tuple<std::string, std::string, double, int> t;
-								std::string l;// int n2;
-
-								std::getline(fin, l);
-								t.get<0>() = ReadUpToChar(l, ';', n2);
-								l = l.substr(n2);
-								t.get<1>() = ReadUpToChar(l, ';', n2);
-								l = l.substr(n2);
-								t.get<2>() = std::stof(ReadUpToChar(l, ';', n2, 8));
-								l = l.substr(n2);
-								t.get<3>() = std::atoi(l.c_str());
-								PerhapsWill.push_back(t);
+								std::getline(fin, l_prw);
+								t_prw.get<0>() = ReadUpToChar(l_prw, ';', n2);
+								l_prw = l_prw.substr(n2);
+								t_prw.get<1>() = ReadUpToChar(l_prw, ';', n2);
+								l_prw = l_prw.substr(n2);
+								t_prw.get<2>() = std::stof(ReadUpToChar(l_prw, ';', n2, 8));
+								l_prw = l_prw.substr(n2);
+								t_prw.get<3>() = std::atoi(l_prw.c_str());
+								PerhapsWill.push_back(t_prw);
 
 								number++;
 							}
 							break;
 						}
 						CASE("syn") : {
-							size_t leng = std::atoi(post.c_str());
-							for (size_t i = 0; i < leng; i++)
+							leng = std::atoi(post.c_str());
+							for (short i = 0; i < leng; i++)
 							{
-								boost::tuple<std::string, double> t;
-								std::string l; //int n2;
-
-								std::getline(fin, l);
-								t.get<0>() = ReadUpToChar(l, ';', n2);
-								l = l.substr(n2);
-								t.get<1>() = std::stof(post.c_str());
-								Synapses.push_back(t);
+								std::getline(fin, l_syn);
+								t_syn.get<0>() = ReadUpToChar(l_syn, ';', n2);
+								//l_syn = l_syn.substr(n2);
+								t_syn.get<1>() = std::stof(post.c_str());
+								Synapses.push_back(t_syn);
 
 								number++;
 							}
@@ -193,6 +200,8 @@ namespace SpaRcle {
 
 							Bad = std::stof(bad);
 							Good = std::stof(post.substr(n2));
+							bad.clear();
+							bad.~basic_string();
 							break;
 						}
 
@@ -204,7 +213,8 @@ namespace SpaRcle {
 							else
 								Debug::Log("SpaRcle::Consequence::Load::CASE(t) = WARNING : Unknown type! \n\tPath : " + path +
 									"\n\tLine : " + line +
-									"\n\tSymbol : " + post, Warning);
+									"\n\tSymbol : " + post +
+									"\n\tNumber : " + std::to_string(number), Warning);
 							//std::cout << "SWITCH::CASE : t" << std::endl;
 							findType = true;
 							break;
@@ -213,7 +223,8 @@ namespace SpaRcle {
 					DEFAULT:
 						Debug::Log("SpaRcle::Consequence::Load::SWITCH = WARNING : Uncorrect char! \n\tPath : " + path +
 							"\n\tLine : " + line +
-							"\n\tSymbol : " + pref, Warning);
+							"\n\tSymbol : " + pref +
+							"\n\tNumber : " + std::to_string(number), Warning);
 						break;
 					}
 				}
@@ -231,66 +242,80 @@ namespace SpaRcle {
 		}
 		fin.close();
 		isRead = false;
+
 		return true;
 	}
 
 	Consequence::Consequence() {
+		this->Bad = 0; this->Good = 0;
 		meetings = 1;
 		EventData = DataTime();
-		action = Action();
-	}
-	Consequence::Consequence(std::string name)
-	{
+		action = Action(); }
+	//Consequence::Consequence(const Consequence& con) : meetings(con.meetings), action(con.action), Causes(con.Causes), PerhapsWill(con.PerhapsWill), 
+	//	Synapses(con.Synapses), Bad(con.Bad), Good(con.Good), self(con.self), name(con.name), EventData(con.EventData) { }
+	void Consequence::Set(const Consequence& con) {
+		meetings = con.meetings; 
+		action = con.action; 
+		Causes = con.Causes;
+		PerhapsWill = con.PerhapsWill;
+		Synapses = con.Synapses;
+		Bad = con.Bad;
+		Good = con.Good;
+		self = con.self;
+		name = con.name;
+		EventData = con.EventData; }
+	Consequence::Consequence(std::string name) {
+		this->Bad = 0; this->Good = 0;
 		this->name = name;
 		this->action = Action();
 		this->EventData = DataTime();
-		this->meetings = 1;
-	}
-	Consequence::Consequence(std::string name, AType atype)
-	{
-		Load(name, atype,"Constructor");
-	}
-	Consequence::Consequence(Sound speech, bool self)
-	{
+		this->meetings = 1; }
+	Consequence::Consequence(std::string name, AType atype) { Load(name, atype,"Constructor"); }
+	Consequence::Consequence(Sound speech, bool self, float hp) {
+		this->Bad = -hp;
+		this->Good = hp;
+
 		this->self = self;
 		this->name = speech.text;
 		this->meetings = 1;
 		this->EventData = DataTime();
-		this->action = Action(speech);
-	}
-	Consequence::Consequence(Visual visual)
-	{
+		this->action = Action(speech); }
+	Consequence::Consequence(Visual visual) {
+		this->Bad = 0; this->Good = 0;
 		this->name = visual.tag;
 		this->meetings = 1;
 		this->EventData = DataTime();
-		this->action = Action(visual);
-	}
+		this->action = Action(visual); }
 	Consequence::Consequence(std::string name, Action action) {
+		this->Bad = 0; this->Good = 0;
 		this->name = name;
 		this->action = action;
 		this->EventData = DataTime();
-		this->meetings = 1;
-	}
+		this->meetings = 1; }
 	Consequence::Consequence(std::string name, Action action, int meets) {
+		this->Bad = 0; this->Good = 0;
 		this->name = name;
 		this->action = action;
 		this->meetings = meets;
-		this->EventData = DataTime();
-	}
+		this->EventData = DataTime(); }
 	Consequence::Consequence(std::string name, Action action, int meets, double Bad, double Good) {
 		this->name = name;
 		this->action = action;
 		this->meetings = meets;
 		this->Good = Good;
 		this->Bad = Bad;
-		this->EventData = DataTime();
-	}
+		this->EventData = DataTime(); }
 	Consequence::~Consequence() {
+		this->Causes.clear();
 		this->Causes.~vector();
+
+		this->PerhapsWill.clear();
 		this->PerhapsWill.~vector();
+
+		this->Synapses.clear();
 		this->Synapses.~vector();
+
 		this->action.~Action();
 		this->EventData.~DataTime();
-		this->name.~basic_string();
-	}
+		this->name.~basic_string(); }
 }

@@ -28,15 +28,17 @@ namespace SpaRcle {
 		short CoreLoad;
 
 		TaskTree Tree;
-		std::vector<boost::tuple<Consequence, std::string>> Events;
+		//std::vector<boost::tuple<Consequence, std::string>> Events;
+		std::vector<Consequence> Events_conq;
+		std::vector<std::string> Events_sens;
 
 		std::string SE_With_MyActions; // Sensivity events with my actions
 		void AddSE(std::string event_name, bool IDoIt);
 		//void AddSE();
 
-		void NewEvent(Consequence event, std::string Situation);
+		void NewEvent(Consequence& event, std::string& Situation);
 
-		static void ProcessingEvent(Consequence& conseq, std::string Situation, CentralCore& core);
+		static void ProcessingEvent(Consequence& conseq, std::string& Situation, CentralCore& core);
 
 		void Start();
 		void ConnectReality(RealityCore* core);

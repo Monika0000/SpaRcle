@@ -31,6 +31,7 @@ namespace SpaRcle {
 	void Debug::DebuggerSolution() {
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		while (true) {
+			if (Messages.size() == 0)Sleep(20);
 			if (!IsStart) { break; }
 			try {
 				if (!Settings::IsActive && Debug::Messages.size() == 0) { continue; }

@@ -8,7 +8,7 @@
 namespace SpaRcle {
 	enum DType { Info = 1, Log = 2, Warning = 3, Error = 4, System = 5, Mind = 6, Module = 7 };
 
-	enum DClass { Central, Logic, Causality, Reality, Emotion };
+	enum DClass { D_Central, D_Logic, D_Causality, D_Reality, D_Emotion };
 
 	enum ConsoleColor {
 		Black = 0,

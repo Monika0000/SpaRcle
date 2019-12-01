@@ -8,10 +8,14 @@
 
 namespace SpaRcle {
 	EmotionCore::EmotionCore(int cpuSpeed) {
+		this->events = std::vector<Consequence>();
+		this->sensivs = std::vector<std::string>();
+		this->current_em = Emotion();
+		this->MindActivity = 0;
+		this->IsSleep = false;
 		this->core = NULL;
 		DelayCPU = cpuSpeed;
 		Debug::Log("-> Creating the emotion core are successful!"); }
-
 	EmotionCore::~EmotionCore() {
 		if (Process.joinable()) Process.detach();
 		Debug::Log("-> The emotion core has completed it's work!", Info); }
@@ -33,37 +37,68 @@ namespace SpaRcle {
 		/* ============== [ End Paradigm ] ============== */
 	}
 
-	boost::tuple<double, double> EmotionCore::EmotionHelpfulness(Action & act)
+	void EmotionCore::EmotionHelpfulness(Action & act, double& bad, double& good)
 	{
-		boost::tuple<double, double> hp(0, 0);
+		//boost::tuple<double, double> hp(0, 0);
 
 		switch (act.type)
 		{
 		case AType::Speech: {
 			Sound s = act;
-			Paradigm_Emotion(hp.get<0>(),hp.get<1>(), s); // Using emotional paradigm
+			Paradigm_Emotion(bad, good, s); // Using emotional paradigm
 			break; }
 		case AType::VisualData: {
 			Visual v = act;
-			hp.get<1>() = 10;
+			//hp.get<1>() = 10;
+			good = 10;
 			/// \TODO Add method mathing helpfulness in visual data
 			break; }
 		default:
 			Debug::Log("EmotionCore::EmotionHelpfulness = ERROR : unknown token \"" + std::string(ToString(act.type)) + "\"", Error);
 			break; }
 
-		return hp;
+		//return hp;
 	}
 
 	void EmotionSolution(int* delay, EmotionCore* core) {
-		while (true){
-			if (!Settings::IsActive) break;
-			Sleep(*delay);
-			if (Settings::CoreDebug) Debug::Log("Processing emotion...");
+		double max_sim = 0, mem = 0; std::vector<short> indexs = std::vector<short>();
+
+		Debug::Log("-> The emotion core is started!");
+		while (Settings::IsActive){
+			if(core->events.size() == 0) Sleep(*delay);
+			else {
+				if (Settings::CoreDebug) Debug::Log("Processing emotion...");
+
+				Consequence& conq = core->events[0];
+				std::string& sens = core->sensivs[0];
+
+				for (short s = 0; s < conq.PerhapsWill.size(); s++) {
+					mem = Synapse::SimilarityPercentage(conq.PerhapsWill[s].get<1>(), sens);
+					if (mem > max_sim) { max_sim = mem; indexs.clear(); indexs.push_back(s); }
+					else if(mem == max_sim) {
+						indexs.push_back(s);
+					}
+				}
+
+				if (indexs.size() > 0) {
+					std::string debug = "EmotionCore : ["+conq.name+"] possible events => ";
+
+					for (auto& a : indexs)
+						debug += "\n\t" + conq.PerhapsWill[a].get<0>() + " [" + conq.PerhapsWill[a].get<1>() + "] {"+std::to_string(max_sim)+"}";
+
+					Debug::Log(debug, Info);
+
+					indexs.clear();
+				}
+				//if (core->events.size() > 0) {
+				core->events.erase(core->events.begin()); core->sensivs.erase(core->sensivs.begin()); //}
+			}
 		}
 	}
 	
-	void EmotionCore::Start() {
-		Process = std::thread(EmotionSolution, &DelayCPU, this);
-		Debug::Log("-> The emotion core is started!"); }
+	void EmotionCore::Start() { Process = std::thread(EmotionSolution, &DelayCPU, this); }
+	void EmotionCore::AddEvent(Consequence& conq, std::string& sens) { this->events.push_back(conq); this->sensivs.push_back(sens); }
+
+	Emotion::Emotion() { }
+	Emotion::~Emotion() { }
 }

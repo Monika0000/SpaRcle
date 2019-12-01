@@ -46,10 +46,10 @@ namespace SpaRcle {
 			}
 			return percent;
 		}
-		static void FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp);
+		static void FindAndSummSensiv(Consequence& con, std::string& name, std::string& sens, double hp);
 		static std::string GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
-		inline static std::string GetSensivityOfName(std::string name, bool self) {
+		inline static std::string GetSensivityOfName(std::string& name, bool self) {
 			if (name.size() > 2)
 				if (name[1] == '/') name = name.substr(2);
 			if (count_word_in_sensiv == 1) { name.resize(1); return name; }
@@ -83,8 +83,8 @@ namespace SpaRcle {
 
 	class Helper {
 	public : 
-		static std::string Transliteration(std::string line, bool inRus = false);
-		static std::string TransliterationEN(char ch);
+		static std::string Transliteration(std::string line, bool inRus = false, bool errors = true);
+		static std::string TransliterationEN(char ch, bool errors = true);
 
 		static std::string ToUpper(std::string s);
 
@@ -193,13 +193,13 @@ namespace SpaRcle {
 			return true;
 		}
 
-		inline static int IndexOfCause(std::vector<boost::tuple<std::string, int, double>>& Causes, std::string name){
+		inline static int IndexOfCause(std::vector<boost::tuple<std::string, int, double>>& Causes, std::string& name){
 			for (size_t t = 0; t < Causes.size(); t++) 
 				if (Causes[t].get<0>() == name)
 					return (int)t;
 			return -1;
 		}
-		inline static int IndexOfPerhapsWill(std::vector<boost::tuple<std::string, std::string, double, int>> Perhaps, std::string name)
+		inline static int IndexOfPerhapsWill(std::vector<boost::tuple<std::string, std::string, double, int>>& Perhaps, std::string& name)
 		{
 			for (size_t t = 0; t < Perhaps.size(); t++)
 				if (Perhaps[t].get<0>() == name)
@@ -289,7 +289,7 @@ namespace SpaRcle {
 			else if (warning) Debug::Log("SelectionSort (Causes) : size < 3!", Warning);
 		}
 
-		inline static AType GetConseqType(std::string conseq) {
+		inline static AType GetConseqType(std::string& conseq) {
 			AType a = ToAType(conseq[0]);
 			if (a == AType::Undefined) Debug::Log("GetConseqType : Unknown type! Name : " + conseq, Error);
 			return a; }

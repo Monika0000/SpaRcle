@@ -16,7 +16,7 @@ namespace SpaRcle {
 		CoreLoad = 0;
 		DelayCPU = cpuSpeed;
 
-		Tasks.resize(0);
+		Tasks = std::vector<Task>(); Tasks.resize(0);
 
 		Debug::Log("-> Creating the logical core are successful!"); }
 	LogicalCore::~LogicalCore() {
@@ -30,13 +30,20 @@ namespace SpaRcle {
 		CausalityCore& causal = *core._causality;
 		char timer = 0, load = 0;
 
+		Debug::Log("-> The logical core is started!");
+		size_t& check_ev_size= causal.size_check_ev, uncheck_ev_size=causal.size_unchk_ev;
+
 		while (Settings::IsActive) {
 			if (timer >= 100) { timer = 0; _core->CoreLoad = load; load = 0; } else timer++;
 			try {
-				if (causal.CheckedEvents.size() <= Settings::Size_SCP * 2 + 1 && causal.UncheckedEvents.size() == 0 && core.Events.size() == 0) {
+				if (check_ev_size <= Settings::Size_SCP * 2 + 1 && uncheck_ev_size == 0 && core.Events_sens.size() == 0) {
 					if ((*_core).Causes.size() > 0) {
 						load++;
 						LogicalCore::CauseReputation((*_core).Causes[0]); ///\see Get first element
+
+						_core->Causes[0].get<0>().clear();
+						_core->Causes[0].get<1>().clear();
+						_core->Causes[0].get<2>().clear();
 						(*_core).Causes.erase((*_core).Causes.begin());   /// Delete first element
 					}
 				}
@@ -46,10 +53,7 @@ namespace SpaRcle {
 			if (Settings::CoreDebug) Debug::Log("Processing logical... ");
 		}
 	}
-	void LogicalCore::Start() {
-		Process = std::thread(LogicalSolution, &DelayCPU, this);
-		//union d { int f = 5; };
-		Debug::Log("-> The logical core is started!"); }
+	void LogicalCore::Start() { Process = std::thread(LogicalSolution, &DelayCPU, this); /*union d { int f = 5; };*/ }
 
 	void LogicalCore::DoIt(Task task) {
 		bool has = false;
@@ -71,12 +75,12 @@ namespace SpaRcle {
 		}
 	}
 	void LogicalCore::EditCauses(std::vector<std::string>& Causes, std::vector<int>& Meets, std::vector<std::string> Sensivitys, Consequence& conq) {
-		std::string name;
-		name += ToString(conq.action.type)[0];
-		name += "/"; 
-		name += conq.name;
+		std::string name = std::string(1, ToString(conq.action.type)[0]) + "/" + conq.name;
 		this->Causes.push_back(boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string>
 			(Causes, Meets, Sensivitys, conq.GetSummHP(), name)); // Добавляем элемент в конец
+		name.~basic_string();
+		Sensivitys.clear();
+		Sensivitys.~vector();
 	}
 	std::vector<std::string> LogicalCore::DecomposeConsequence(Consequence& conseq) {
 		/*
@@ -110,7 +114,7 @@ namespace SpaRcle {
 		std::string>& Cause, const bool Diagnostic) /* CauseReputation */ {
 		//// Здесь все вроде бы готово. Тестирование прошло более менее стабильно.
 		if (Cause.get<0>().size() == 0 && Cause.get<1>().size() == 0 && Cause.get<2>().size() == 0) {
-			Debug::Log("LogicalCore::CauseReputation : Size causes equal zero...", Info);
+			if(Settings::CauseReputationDebug) Debug::Log("LogicalCore::CauseReputation : Size causes equal zero...", Info);
 			return false; }
 
 		if (!Helper::SelectionSort(Cause.get<1>(), Cause.get<0>(), Cause.get<2>())) { // Sorting...

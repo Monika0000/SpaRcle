@@ -16,6 +16,7 @@ namespace SpaRcle {
 	KeyboardLayout Settings::Layout = UNKNOWN;
 	bool Settings::EventsProcessigDebug = false;
 	bool Settings::CentralCoreDebug = false;
+	bool Settings::CauseReputationDebug = false; 
 	const int Settings::SaveNumbers = 5;
 	const size_t Settings::Size_SCP = 5;
 	std::string Settings::version = "0.1_alpha_sparcle";
@@ -23,20 +24,19 @@ namespace SpaRcle {
 	const char Settings::TrueSymbol = '_';
 	bool Settings::IsActive = false;
 	bool Settings::isMinding = true;
+	bool Settings::isUseMemory = false;
 	////////////////////////////
 	std::string Settings::exp_conseq = ".cnq"; // .cnq
 	std::string Settings::exp_action = ".act";
 
-	void Settings::SetDefaultPaths(std::string project)
-	{
+	void Settings::SetDefaultPaths(std::string project) {
 		Layout = Helper::GetLayout();
 		PathPj = project;
 		SysDir = PathPj + "\\System";
 		Resources = PathPj + "\\Resources";
 		Memory = PathPj + "\\Memory";
 		Logic = PathPj + "\\Logic";
-		PathsIsSet = true;
-	}
+		PathsIsSet = true; }
 
 	void Settings::SetPaths(std::string proj, std::string sys, std::string res, std::string mem, std::string logic) {
 		PathPj = proj;

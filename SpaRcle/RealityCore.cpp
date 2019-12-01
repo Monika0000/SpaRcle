@@ -52,6 +52,8 @@ namespace SpaRcle {
 			}
 		}
 
+		Debug::Log("-> The reality core is started!");
+
 		while (Settings::IsActive) {
 			Sleep(*delay);
 
@@ -64,9 +66,7 @@ namespace SpaRcle {
 			if (Settings::CoreDebug) Debug::Log("Processing reality...");
 		}
 	}
-	void RealityCore::Start() {
-		Process = std::thread(RealitySolution, &DelayCPU, this);
-		Debug::Log("-> The reality core is started!"); }
+	void RealityCore::Start() { Process = std::thread(RealitySolution, &DelayCPU, this); }
 
 	void RealityCore::DoAction(Action& action, std::string helpName) {
 		switch (action.type) {

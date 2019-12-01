@@ -113,6 +113,7 @@ namespace SpaRcle {
 		}
 		else
 			Debug::Log("DFS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(_index), Error);
+		return false;
 	}
 	bool DoEventOfSynapse(Consequence& event, std::string& Situation, CentralCore& core) {
 		RealityCore& real = (*core._reality);
@@ -166,7 +167,7 @@ namespace SpaRcle {
 		else return false;
 	}
 
-	void SpaRcle::CentralCore::ProcessingEvent(Consequence& event, std::string Situation, CentralCore& core) {
+	void SpaRcle::CentralCore::ProcessingEvent(Consequence& event, std::string& Situation, CentralCore& core) {
 		// TODO : Требуется калибровка порогов чувствительности.
 		if (event.Bad > event.Good && event.Bad > 3) { // Пытаемся выкрутиться из ситуации с наименьшим ущербом
 			Debug::Log("CentralCore : " + event.name + " is Bad! \n\tBad : " + std::to_string(event.Bad) + "\n\tGood : " + std::to_string(event.Good)); 
@@ -224,6 +225,7 @@ namespace SpaRcle {
 	}
 
 	void CentralSolution(int* DelayCPU, CentralCore* _core) {
+	Restarting:
 		Sleep(100);
 		CentralCore& core = *_core;
 		RealityCore& real = *core._reality;
@@ -231,76 +233,103 @@ namespace SpaRcle {
 		size_t size_ev = 0, deep = 0;
 		char timer = 0; short load = 0;
 
+		Debug::Log("-> The central core is started!");
+
 		while (Settings::IsActive) {
 			if (timer >= 100) { timer = 0; _core->CoreLoad = load; load = 0; }
 			else timer++;
 
-			if(core.Events.size() == 0) Sleep(*DelayCPU);
+			if (core.Events_sens.size() == 0) Sleep(*DelayCPU);
+			else try {
+				//core._logic->DoIt(core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks[
+				//	core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks.size() - 1]);
 
-			try {
-				core._logic->DoIt(core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks[
-					core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks.size() - 1]);
-
-				if (causal.UncheckedEvents.size() == 0) {
-					if (core.Events.size() > 1) {
+				if (causal.size_unchk_ev == 0) {
+					//if (core.Events.size() > 1) {
 						load++;
 					Ret:
-						Consequence& conseq = core.Events[deep].get<0>();
+						//Consequence& conseq = core.Events[deep].get<0>();
+						Consequence& conseq = core.Events_conq[deep];
 						(*_core).AddSE(conseq.name, false); // Петля
 
 						if (conseq.name == Settings::EmptyName) {
-							if (core.Events.size() > deep + 1) {
-								deep++; goto Ret; }
+							if (core.Events_sens.size() > deep + 1) {
+								deep++; goto Ret;
+							}
 							else {
-								for (size_t t = deep; t > 0; t--)
-									core.Events.erase(core.Events.end() - t);
-								core.Events.erase(core.Events.begin());
-								deep = 0; }
+								core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
+								core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
+
+								core.Events_sens.erase(core.Events_sens.begin());
+								core.Events_conq.erase(core.Events_conq.begin());
+
+								deep = 0;
+							}
 						}
 						else {
-							std::string sit = core.Events[deep].get<1>();
+							//std::string sit = core.Events[deep].get<1>();
+							std::string& sit = core.Events_sens[deep];
 
-							if (core.Events.size() > deep + 1) {
-								if (conseq.EventData.sec + 5 >= core.Events[deep + 1].get<0>().EventData.sec) {
-									deep++; goto Ret; }
+							if (core.Events_sens.size() > deep + 1) {
+								//if (conseq.EventData.sec + 5 >= core.Events[deep + 1].get<0>().EventData.sec) {
+								if (conseq.EventData.sec + 5 >= core.Events_conq[deep + 1].EventData.sec) {
+									deep++; goto Ret;
+								}
 								else {
 									Debug::Log("CentralCore : While - Logical loop. \n\tEvents : "
-										+ std::to_string(core.Events.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
+										//+ std::to_string(core.Events.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
+										+ std::to_string(core.Events_sens.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
 
-									if (core.Events.size() != 0) {
-										for (size_t t = deep; t > 0; t--)
-											core.Events.erase(core.Events.end() - t);
-										core.Events.erase(core.Events.begin()); }
+									if (core.Events_sens.size() != 0) {
+										core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
+										core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
+
+										core.Events_sens.erase(core.Events_sens.begin());
+										core.Events_conq.erase(core.Events_conq.begin());
+									}
 									deep = 0;
 								}
 							}
 							else {
 								Debug::Log("CentralCore : multi (" + sit + "): " + conseq.name);
-								CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core);
-								if (core.Events.size() != 0) {
-									for (size_t t = deep; t > 0; t--)
-										core.Events.erase(core.Events.end() - t);
-									core.Events.erase(core.Events.begin()); }
+								//CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core);
+								CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
+								if (core.Events_sens.size() != 0) {
+									//for (size_t t = deep; t > 0; t--)
+									//	core.Events.erase(core.Events.end() - t);
+
+									core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
+									core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
+
+									core.Events_sens.erase(core.Events_sens.begin());
+									core.Events_conq.erase(core.Events_conq.begin());
+								}
 								deep = 0;
 							}
 						}
 					}
-					else if (core.Events.size() == 1) {
-						load++;
-						Consequence& conseq = core.Events[0].get<0>();
-						if (conseq.name == Settings::EmptyName)
-							(*_core).AddSE(conseq.name, false);
-						else {
-							Debug::Log("CentralCore : only (" + core.Events[0].get<1>() + "): " + conseq.name);
-							CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core); }
-						core.Events.erase(core.Events.begin());
+				else if (core.Events_sens.size() == 1) {
+					load++;
+					Consequence& conseq = core.Events_conq[0];
+					if (conseq.name == Settings::EmptyName)
+						(*_core).AddSE(conseq.name, false);
+					else {
+						Debug::Log("CentralCore : only (" + core.Events_sens[0]+ "): " + conseq.name);
+						CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
 					}
+					core.Events_sens.erase(core.Events_sens.begin());
+					core.Events_conq.erase(core.Events_conq.begin());
+					//}
 				}
 			}
 			catch (...) {
-				Debug::Log("CentralCore : An exception has occured! \n\tEvents : " + std::to_string(core.Events.size()) +
+				Debug::Log("CentralCore : An exception has occured! \n\tEvents : " + std::to_string(core.Events_sens.size()) +
 					"\n\tDeep : " + std::to_string(deep), Error);
-				break;
+				Sleep(500);
+				Debug::Log("-> The central core is stopped!");
+				Sleep(1000);
+				Debug::Log("CentralCore : Restarting...", System);
+				goto Restarting;
 			}
 			if (Settings::CoreDebug) Debug::Log("Processing core...");
 		}
@@ -326,14 +355,15 @@ namespace SpaRcle {
 			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name, IDoIt);
 		}
 	}
-	void CentralCore::NewEvent(Consequence event, std::string Situation)
+	void CentralCore::NewEvent(Consequence& event, std::string& Situation)
 	{
-		Events.push_back(boost::tuple<Consequence, std::string>(event, Situation));
-		event.~Consequence();
-		Situation.~basic_string();
+		//Events.push_back(boost::tuple<Consequence, std::string>(event, Situation));
+		Events_conq.push_back(event);
+		Events_sens.push_back(Situation);
+		//event.~Consequence();
+		//Situation.~basic_string();
 	}
-	void CentralCore::Start()
-	{
+	void CentralCore::Start() {
 		if (!Settings::PathsIsSet) {
 			Debug::Log("CentralCore::Start = WARNING : Paths is not set! Setting to default...");
 			TCHAR cwd[100];
@@ -345,7 +375,6 @@ namespace SpaRcle {
 		Process = std::thread(CentralSolution, &DelayCPU, this);
 		//std::packaged_task<void(int &)> task{ CentralSolution };
 		//Process = std::thread { std::move(CentralSolution), std::ref(DelayCPU) };
-		Debug::Log("-> The central core is started!");
 	}
 
 	void CentralCore::ConnectReality(RealityCore* core) { _reality = core; _reality->core = this; }

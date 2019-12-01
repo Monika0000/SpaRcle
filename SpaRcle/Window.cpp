@@ -276,14 +276,12 @@ namespace SpaRcle {
 				it_texts = (wn.Texts.begin());
 				for (size_t t = 0; t < wn.Texts.size(); t++) {
 					window.draw(NormalizeText(*it_texts->second));
-					it_texts++;
-				}
+					it_texts++; }
 
 				it_rects = (wn.Rectangles.begin());
 				for (size_t t = 0; t < wn.Rectangles.size(); t++) {
 					window.draw(NormalizeRect(*it_rects->second));
-					it_rects++;
-				}
+					it_rects++; }
 
 				it_buttons = (wn.Buttons.begin());
 				for (size_t t = 0; t < wn.Buttons.size(); t++) {
@@ -298,8 +296,7 @@ namespace SpaRcle {
 						window.draw(NormalizeRect(*it_buttons->second->click, it_buttons->second->scale));
 
 					window.draw(NormalizeText(*it_buttons->second->text));
-					it_buttons++;
-				}
+					it_buttons++; }
 
 				it_panels = (wn.InfoPanels.begin());
 				for (size_t t = 0; t < wn.InfoPanels.size(); t++) {
@@ -308,8 +305,7 @@ namespace SpaRcle {
 					window.draw(NormalizeRect(*it_panels->second->panel));
 					for(auto & a: it_panels->second->texts)
 						window.draw(NormalizeText(*a));
-					it_buttons++;
-				}
+					it_buttons++; }
 
 				it_sprites = (wn.Sprites.begin());
 				for (size_t t = 0; t < wn.Sprites.size(); t++) {
@@ -319,14 +315,13 @@ namespace SpaRcle {
 
 					sprite.scale((float(wn.CurrentSize.x) / float(Window::DisplaySize.x)), (float(wn.CurrentSize.y) / float(Window::DisplaySize.y)));
 					window.draw(sprite);
-					it_sprites++;
-				}
+					it_sprites++; }
 
 				if (wn.monitor != NULL) { for(auto&a : wn.monitor->lines) window.draw(a); }
 
 				window.display();
 			}
-			Debug::Log("Stopping window graphics...", Info);
+			Debug::Log("-> Stopping window graphics...", Info);
 			wn.IsActive = false;
 			Settings::IsActive = false;
 		});
@@ -373,9 +368,9 @@ namespace SpaRcle {
 				m.poses[0].push_back((*wn.core->_logic).CoreLoad);
 				m.poses[1].push_back((*wn.core->_causality).CoreLoad);
 				m.poses[2].push_back((*wn.core).CoreLoad);
-				m.poses[3].push_back((*wn.core->_causality).CoreLoad);
+				//m.poses[3].push_back(0);
 			}
-			Debug::Log("Stopping window logic...", Info);
+			Debug::Log("-> Stopping window logic...", Info);
 		});
 		Debug::Log("Window is created!", DType::Info);
 	}
@@ -432,7 +427,8 @@ namespace SpaRcle {
 		this->notActive = new sf::RectangleShape();
 		this->border = new sf::RectangleShape();
 		this->click = new sf::RectangleShape();
-		this->text = new sf::Text();;
+		this->text = new sf::Text();
+		this->no_clicked = 0;
 	}
 	Button::~Button() {
 		delete this->active;
@@ -505,13 +501,13 @@ namespace SpaRcle {
 			sf::VertexArray(sf::Lines, memory_size + 1),
 			sf::VertexArray(sf::Lines, memory_size + 1),
 			sf::VertexArray(sf::Lines, memory_size + 1),
-			sf::VertexArray(sf::Lines, memory_size + 1),
+			//sf::VertexArray(sf::Lines, memory_size + 1),
 		};
 		colors = std::vector<sf::Color>{
 			sf::Color(255, 0,0),
 			sf::Color(0, 255,0),
 			sf::Color(0, 255,255),
-			sf::Color(0, 0,255),
+			//sf::Color(0, 0,255),
 		};
 		size = 40;
 

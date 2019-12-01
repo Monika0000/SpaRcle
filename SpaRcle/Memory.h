@@ -1,12 +1,17 @@
 #pragma once
 #include "Helper.h"
 #include "Consequence.h"
+#include <map>
 
 namespace SpaRcle {
 	class CentralCore;
 
 	class Memory
 	{
+	private:
+		std::map<std::string, Consequence*> conq_speech;
+		std::map<std::string, Consequence*> conq_visual;
+		std::map<std::string, Consequence*>::iterator iterator;
 	protected:
 		std::string st_mem_path;
 		bool isInit;
@@ -16,6 +21,7 @@ namespace SpaRcle {
 		Memory();
 		~Memory();
 
+		Consequence* GetFragment(std::string name, AType type); 
 		void LoadStaticMemory();
 		void InitMemory(CentralCore* core);
 		static Memory* GetMemory();

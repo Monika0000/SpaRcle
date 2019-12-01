@@ -4,7 +4,7 @@
 #include <tchar.h>
 
 namespace SpaRcle {
-	std::string Helper::TransliterationEN(char ch) {
+	std::string Helper::TransliterationEN(char ch, bool errors) {
 		ch = std::tolower(ch);
 		switch (ch) {
 		case ' ': return " ";
@@ -41,15 +41,21 @@ namespace SpaRcle {
 		case 'ý': return "eh";
 		case 'þ': return "ju";
 		case 'ÿ': return "ja";
-		default: Debug::Log("TransliterationEN : unknown char! \"" + std::string(1, ch) + "\"", Error); return "[ERROR]";
+		default:
+			if (errors)
+			{
+				Debug::Log("TransliterationEN : unknown char! \"" + std::string(1, ch) + "\"", Error); return "[ERROR]";
+			}
+			else
+				return std::string(1, ch);
 		}
 	}
 	std::string Helper::ToUpper(std::string s) { for (auto& a : s) a= toupper(a); return s; }
-	std::string Helper::Transliteration(std::string line, bool inRus)
+	std::string Helper::Transliteration(std::string line, bool inRus,bool errors)
 	{
 		std::string en;
 		for (auto& c: line) {
-			en += TransliterationEN(c);
+			en += TransliterationEN(c, errors);
 		}
 		//for (int i = 0; i < en.size(); i++)
 		//	en[i] = tolower(en[i]);
@@ -95,8 +101,7 @@ namespace SpaRcle {
 		std::string str;
 		for (int i = 0; i < index; i++)
 			str += text[i];
-		return str;
-	}
+		return str; }
 	bool Helper::DirExists(std::string dir) {
 		std::wstring stemp = s2ws(dir);
 
@@ -181,7 +186,7 @@ namespace SpaRcle {
 			std::ifstream fin; fin.open(p);
 
 			if (!fin.is_open()) {
-				Debug::Log("SpaRcle::System::Load : Loading failed! \n\tPath :" + p, Error);
+				Debug::Log("SpaRcle::System::Load : Loading failed! \n\tPath : " + p, Error);
 				return false; }
 
 			while (!fin.eof()) {
@@ -200,7 +205,7 @@ namespace SpaRcle {
 
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
-	void Synapse::FindAndSummSensiv(Consequence& con, std::string name, std::string sens, double hp) /* 1 - name, 2 - sensiv */ {
+	void Synapse::FindAndSummSensiv(Consequence& con, std::string& name, std::string& sens, double hp) /* 1 - name, 2 - sensiv */ {
 		if (con.self) Debug::Log("Synapse::FindAndSummSensiv : Self event \"" + con.name + "\" ["+sens+"]");
 		if (sens.size() < 2) {
 			Debug::Log("Synapse::FindAndSummSensiv : sens.size() < 2! \n\tConq : "+con.name + "\n\tName : " + name + "\n\tSens : " + sens, Warning);
@@ -211,9 +216,7 @@ namespace SpaRcle {
 			if (con.PerhapsWill[t].get<0>() == name) {
 				std::string p = con.PerhapsWill[t].get<1>();
 				double var = GetPercent(sens, p);
-				if (var > max) {
-					index = t; max = var;
-				}
+				if (var > max) { index = t; max = var; }
 			}
 		}
 		if (max > 90) {

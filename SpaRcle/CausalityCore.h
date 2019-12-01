@@ -17,6 +17,9 @@ namespace SpaRcle
 
 		short CoreLoad;
 
+		size_t size_unchk_ev = 0;
+		size_t size_check_ev = 0;
+
 		//int SensitivityInhibitor = 10;
 		CentralCore* core;
 		std::vector<Consequence> UncheckedEvents = {};

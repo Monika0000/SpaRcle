@@ -32,10 +32,13 @@ namespace SpaRcle {
 		char Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block = "?");
 		char Load(std::string name, AType atype, std::string Block = "?");
 
+		void Set(const Consequence& con);
+
 		Consequence();
+		//Consequence(const Consequence &con);
 		Consequence(std::string name);
 		Consequence(std::string name, AType atype);
-		Consequence(Sound speech, bool self = false);
+		Consequence(Sound speech, bool self = false, float hp = 0);
 		Consequence(Visual visual);
 		Consequence(std::string name, Action action);
 		Consequence(std::string name, Action action, int meets);
