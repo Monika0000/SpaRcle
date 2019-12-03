@@ -222,7 +222,7 @@ namespace SpaRcle {
 
 		int iWidth = GetSystemMetrics(SM_CXSCREEN);  // разрешение экрана по горизонтали
 		int iHeight = GetSystemMetrics(SM_CYSCREEN); // разрешение экрана по вертикали
-		DisplaySize = sf::Vector2u(iWidth, iHeight); //  - 23
+		DisplaySize = sf::Vector2u(1980, 1080);//sf::Vector2u(iWidth, iHeight + 160); //  - 23
 		CurrentSize = sf::Vector2u(854, 480);
 
 		G_proc = std::thread([]() {

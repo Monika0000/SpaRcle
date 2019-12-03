@@ -11,7 +11,7 @@
 #include <windows.h>
 #include <rpcndr.h>
 #include <ctime>
-#include <boost/tuple/tuple.hpp>
+//#include <boost/tuple/tuple.hpp>
 #include <direct.h>
 #include "Settings.h"
 
@@ -23,8 +23,8 @@ namespace SpaRcle {
 			if (d > 99999) d = 99999;
 			if (d < -99999) d = -99999;
 			return d; }
-		static inline void SummHpSyns(boost::tuple<std::string, double>& left, boost::tuple<std::string, double>& right) { left.get<1>() = Summ(left.get<1>(), right.get<1>()); }
-		static inline void SummHpSyns(boost::tuple<std::string, double>& left, double right) { left.get<1>() = Summ(left.get<1>(), right); }
+		static inline void SummHpSyns(std::tuple<std::string, double>& left, std::tuple<std::string, double>& right) { std::get<1>(left) = Summ(std::get<1>(left), std::get<1>(right)); }
+		static inline void SummHpSyns(std::tuple<std::string, double>& left, double right) { std::get<1>(left) = Summ(std::get<1>(left), right); }
 		static std::string ClearSensivity(std::string& sensiv);
 
 		///!Depend !of !size !sensivity
@@ -47,7 +47,7 @@ namespace SpaRcle {
 			return percent;
 		}
 		static void FindAndSummSensiv(Consequence& con, std::string& name, std::string& sens, double hp);
-		static std::string GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s);
+		static std::string GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
 		inline static std::string GetSensivityOfName(std::string& name, bool self) {
 			if (name.size() > 2)
@@ -73,12 +73,12 @@ namespace SpaRcle {
 		static double SimilarityPercentage(std::string first, std::string second, bool lenght = false, bool normalize = false);
 		///!Depend !of !size !sensivity
 
-		static int IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name);
-		static int IndexOfSynapse(std::vector<boost::tuple<std::string, double>>& s, std::string name); //std::string,
-		static int IndexOfSynapse(std::vector<boost::tuple<std::string, std::string, double, int>>& s, std::string name);
+		static int IndexOfSynapse(std::vector<std::tuple<std::string, int, double>>& s, std::string name);
+		static int IndexOfSynapse(std::vector<std::tuple<std::string, double>>& s, std::string name); //std::string,
+		static int IndexOfSynapse(std::vector<std::tuple<std::string, std::string, double, int>>& s, std::string name);
 
-		static int FindGoodSynapse(std::vector<boost::tuple<std::string, int, double>>& s);
-		static int FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index = 0);
+		static int FindGoodSynapse(std::vector<std::tuple<std::string, int, double>>& s);
+		static int FindGoodSynapse(std::vector<std::tuple<std::string, std::string, double>>& s, size_t from_index = 0);
 	};
 
 	class Helper {
@@ -122,13 +122,13 @@ namespace SpaRcle {
 			if (left.Causes.size() == 0) left.Causes = right.Causes;
 			else if (right.Causes.size() == 0) right.Causes = left.Causes;
 			else for (size_t i = 0; i < right.Causes.size(); i++) {
-				int indx = Synapse::IndexOfSynapse(left.Causes, right.Causes[i].get<0>());
+				int indx = Synapse::IndexOfSynapse(left.Causes, right.GetCS_Name(i));
 				if (indx == -1)
 					left.Causes.push_back(right.Causes[i]);
 				else {
-					left.Causes[indx].get<1>() = (left.Causes[indx].get<1>() + right.Causes[i].get<1>()) / 2; // Суммируем количество встреч данного события
+					left.GetCS_Meet(indx) = (left.GetCS_Meet(indx) + right.GetCS_Meet(i)) / 2; // Суммируем количество встреч данного события
 					//left.Causes[indx].get<2>() = (left.Causes[indx].get<2>() + right.Causes[i].get<2>()) / Div; /* Суммируем полезность */
-					left.Causes[indx].get<2>() = Synapse::Summ(left.Causes[indx].get<2>(), right.Causes[i].get<2>()); /* Суммируем полезность */
+					left.GetCS_HP(indx) = Synapse::Summ(left.GetCS_HP(indx), right.GetCS_HP(i)); /* Суммируем полезность */
 				}
 			}
 
@@ -139,12 +139,12 @@ namespace SpaRcle {
 				for (size_t i = 0; i < right.PerhapsWill.size(); i++) {
 					f = false;
 					for (size_t p = index; p < left.PerhapsWill.size(); p++) {
-						if (right.PerhapsWill[i].get<0>() == left.PerhapsWill[p].get<0>())
-							if (right.PerhapsWill[i].get<1>() == left.PerhapsWill[p].get<1>())
+						if (right.GetPW_Name(i) == left.GetPW_Name(p))
+							if (right.GetPW_Sens(i) == left.GetPW_Sens(p))
 							{
 								//left.PerhapsWill[p].get<2>() = (left.PerhapsWill[p].get<2>() + right.PerhapsWill[i].get<2>()) / Div; // Суммируем полезность 
-								left.PerhapsWill[p].get<2>() = Synapse::Summ(left.PerhapsWill[p].get<2>(), right.PerhapsWill[i].get<2>()); // Суммируем полезность 
-								left.PerhapsWill[p].get<3>()++;
+								left.GetPW_HP(p) = Synapse::Summ(left.GetPW_HP(p), right.GetPW_HP(i)); // Суммируем полезность 
+								left.GetPW_Meet(p)++;
 								index = p;
 								f = true;
 								break;
@@ -157,7 +157,7 @@ namespace SpaRcle {
 			if (left.Synapses.size() == 0) left.Synapses = right.Synapses;
 			else if (right.Synapses.size() == 0) right.Synapses = left.Synapses;
 			else for (size_t i = 0; i < right.Synapses.size(); i++) {
-				int indx = Synapse::IndexOfSynapse(left.Synapses, right.Synapses[i].get<0>());
+				int indx = Synapse::IndexOfSynapse(left.Synapses, right.GetSN_Name(i));
 				if (indx == -1) left.Synapses.push_back(right.Synapses[i]);
 				else 
 					Synapse::SummHpSyns(left.Synapses[indx], right.Synapses[i]);
@@ -193,19 +193,16 @@ namespace SpaRcle {
 			return true;
 		}
 
-		inline static int IndexOfCause(std::vector<boost::tuple<std::string, int, double>>& Causes, std::string& name){
+		inline static int IndexOfCause(std::vector<std::tuple<std::string, int, double>>& Causes, std::string& name) {
 			for (size_t t = 0; t < Causes.size(); t++) 
-				if (Causes[t].get<0>() == name)
+				if (std::get<0>(Causes[t]) == name)
 					return (int)t;
-			return -1;
-		}
-		inline static int IndexOfPerhapsWill(std::vector<boost::tuple<std::string, std::string, double, int>>& Perhaps, std::string& name)
-		{
+			return -1; }
+		inline static int IndexOfPerhapsWill(std::vector<std::tuple<std::string, std::string, double, int>>& Perhaps, std::string& name) {
 			for (size_t t = 0; t < Perhaps.size(); t++)
-				if (Perhaps[t].get<0>() == name)
+				if (std::get<0>(Perhaps[t]) == name)
 					return (int)t;
-			return -1;
-		}
+			return -1; }
 
 		template<typename T> inline static void Sort(std::vector<int>& keys, std::vector<T>& data) {
 			if (keys.size() != data.size()) {
@@ -256,7 +253,7 @@ namespace SpaRcle {
 				std::swap(data[startIndex], data[smallestIndex]);
 			}
 		}
-		inline static void SelectionSort(std::vector<boost::tuples::tuple<std::string, double>>& Synapses) {//, std::string
+		inline static void SelectionSort(std::vector<std::tuple<std::string, double>>& Synapses) {//, std::string
 			for (size_t startIndex = 0; startIndex < Synapses.size() - 1; ++startIndex) {
 				// В переменной smallestIndex хранится индекс наименьшего значения, которое мы нашли в этой итерации
 				// Начинаем с того, что наименьший элемент в этой итерации - это первый элемент (индекс 0)
@@ -266,7 +263,7 @@ namespace SpaRcle {
 				for (size_t currentIndex = startIndex + 1; currentIndex < Synapses.size(); ++currentIndex) {
 					// Если мы нашли элемент, который меньше нашего наименьшего элемента,
 					//if (Synapses[currentIndex].get<2>() < Synapses[smallestIndex].get<2>())
-					if (Synapses[currentIndex].get<1>() < Synapses[smallestIndex].get<1>())
+					if (std::get<1>(Synapses[currentIndex]) < std::get<1>(Synapses[smallestIndex]))
 						// то запоминаем его
 						smallestIndex = currentIndex; }
 
@@ -275,13 +272,13 @@ namespace SpaRcle {
 				std::swap(Synapses[startIndex], Synapses[smallestIndex]);
 			}
 		}
-		inline static void SelectionSort(std::vector<boost::tuples::tuple<std::string, int, double>>& Causes, bool warning = true) { // Sort to meetings
+		inline static void SelectionSort(std::vector<std::tuple<std::string, int, double>>& Causes, bool warning = true) { // Sort to meetings
 			if (Causes.size() >= 3)
 				for (size_t startIndex = 0; startIndex < Causes.size() - 1; ++startIndex) {
 					int smallestIndex = startIndex;
 
 					for (size_t currentIndex = startIndex + 1; currentIndex < Causes.size(); ++currentIndex)
-						if (Causes[currentIndex].get<1>() < Causes[smallestIndex].get<1>())
+						if (std::get<1>(Causes[currentIndex]) < std::get<1>(Causes[smallestIndex]))
 							smallestIndex = currentIndex;
 
 					std::swap(Causes[startIndex], Causes[smallestIndex]);
@@ -353,11 +350,9 @@ namespace SpaRcle {
 				num = i + 1;
 				if (result[result.size() - 1] == '.')result.resize(result.size() - 1);
 				return result;
-			}
+			} 
 		}
-
-		return result;
-	}
+		return result; }
 	template<typename T> inline std::vector<T> Remove(std::vector<T> arr, size_t index) {
 		if (index > arr.size()) Debug::Log("SpaRcle::Remove : Index > Array.Size()!", Warning);
 		else arr.resize(index);

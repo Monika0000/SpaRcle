@@ -75,7 +75,7 @@ namespace SpaRcle {
 			
 			if (int C_index = Synapse::IndexOfSynapse(conq.Causes, C_name); C_index == -1) { // Ищем схожую причину
 				// Добавляем синапс на нейрон являющийся причиной данного следствия (нейрона)
-				conq.Causes.push_back(boost::tuple<std::string, int, double>(C_name, 1, Ref_ev[t].GetSummHP()));
+				conq.Causes.push_back(std::tuple<std::string, int, double>(C_name, 1, Ref_ev[t].GetSummHP()));
 
 				Temp_Causes.push_back(C_name); // Добавляем причину для дальнейшей обработки
 				Temp_Meets.push_back(1); // Добавляем колличество встреч данной причины
@@ -84,11 +84,11 @@ namespace SpaRcle {
 			}
 			else {
 				if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : summ cause \"" + conq.name + "\" with \"" + C_name + "\"");
-				conq.Causes[C_index].get<2>() = (conq.Causes[C_index].get<2>() + Ref_ev[t].GetSummHP()) / 1.5f; /* Суммируем полезность */
-				conq.Causes[C_index].get<1>()++; // Увеличиваем количество встреч данного события на 1
+				conq.GetCS_HP(C_index) = (conq.GetCS_HP(C_index) + Ref_ev[t].GetSummHP()) / 1.5f; /* Суммируем полезность */
+				conq.GetCS_Meet(C_index)++; // Увеличиваем количество встреч данного события на 1
 
 				Temp_Causes.push_back(C_name); // Добавляем причину для дальнейшей обработки
-				Temp_Meets.push_back(conq.Causes[C_index].get<1>()); // Добавляем колличество встреч данной причины
+				Temp_Meets.push_back(conq.GetCS_Meet(C_index)); // Добавляем колличество встреч данной причины
 			}
 			#pragma endregion
 		}
@@ -110,7 +110,7 @@ namespace SpaRcle {
 				int S_index = Synapse::IndexOfSynapse(conq.Synapses, S_name); // Получаем индекс
 				if (S_index == -1) { 
 					// Добавляем синапс на новый нейрон, который нужно будет выпоолнить после этого
-					conq.Synapses.push_back(boost::tuple<std::string, double>(S_name, ref_will.GetSummHP())); // ======== Добавляем новый снапс ========
+					conq.Synapses.push_back(std::tuple<std::string, double>(S_name, ref_will.GetSummHP())); // ======== Добавляем новый снапс ========
 					if (Settings::EventsProcessigDebug) Debug::Log("CausalityCore : add synapse \"" + S_name + "\" to \"" + conq.name + "\"");
 				}
 				else { // Summ consequences (synapses)
@@ -150,6 +150,9 @@ namespace SpaRcle {
 		std::vector<std::string> Temp_Causes;
 		std::vector<int> Temp_Meets;
 		Consequence load_conq;
+		size_t size_temp = 0;
+		unsigned char count_sens = 0;
+		std::vector<std::string> clean_sensiv;
 
 		#pragma region [===== Pre-Processing =====]
 
@@ -311,7 +314,6 @@ namespace SpaRcle {
 
 						Situation.clear();
 						Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
-						//Situation += Synapse::GetSensivityOfName(event.name, false);
 						Situation += Synapse::GetSensivityOfName(event.name, event.self);
 						Situation = Synapse::ClearSensivity(Situation);
 
@@ -374,24 +376,39 @@ namespace SpaRcle {
 					CausalityCore::CheckedEventsProcessing((*_core).CheckedEvents, Temp_Causes, Temp_Meets);
 					/* Обрабатываем следствия устанавливая между ними взаимосвязи и добавляем в них причины. */
 
-					std::vector<std::string> clean_sensiv;
-					for (auto a : (*_core).Sensivity_List)
-						if (a[a.size() - 1] != '.') {
-							for (size_t t = 0; t < a.size(); t++)
-								if (a[t] == '.') {
-									a.erase(a.begin() + t);
-									t--;
-								}
-							clean_sensiv.push_back(a);
-						}
-					// Избавляемся от точек. (Пустых следствий)
 
-					//Высокая верятность неизвестной ошибки!!!!!!!!!!!!!!!!!
-					L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
+					size_temp = Temp_Causes.size();
+
+					if (size_temp != 0) {
+						for (auto a : (*_core).Sensivity_List)
+							if (a[a.size() - 1] != '.') {
+								for (size_t t = 0; t < a.size(); t++)
+									if (a[t] == '.') {
+										a.erase(a.begin() + t);
+										t--;
+									}
+								clean_sensiv.push_back(a);
+								count_sens++;
+								if (count_sens == size_temp) break;
+							}
+						// Избавляемся от точек. (Пустых следствий)
+
+						//Высокая верятность неизвестной ошибки!!!!!!!!!!!!!!!!!
+
+						//====================================================================================
+							//Утечка памяти!!!!!!
+						//====================================================================================
+
+						//L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
+
+						L_ref.EditCauses(Temp_Causes, Temp_Meets, clean_sensiv, conq);
+					}
+
 					Temp_Causes.clear();
 					Temp_Meets.clear();
 					clean_sensiv.clear();
 					load_conq.~Consequence();
+					count_sens = 0;
 					/* Изменяем репутацию причин, которые только что произошли отталкитваясь от следствий в которых они находятся */
 				}
 

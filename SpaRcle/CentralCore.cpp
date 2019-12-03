@@ -38,9 +38,9 @@ namespace SpaRcle {
 
 	bool DoFindSynapse(Consequence& event, int _index, RealityCore& real, CentralCore& core) {
 		size_t dp = 0;
-		Debug::Log("DFS : Find synapse = " + event.Synapses[_index].get<0>(), Module);
+		Debug::Log("DFS : Find synapse = " + event.GetSN_Name(_index), Module);
 		//%Выполняем %полезное %действие...
-		std::string syn = event.Synapses[_index].get<0>();
+		std::string syn = event.GetSN_Name(_index);
 	Deep:
 		if (syn[0] == 'S') {
 			Consequence con;
@@ -54,20 +54,20 @@ namespace SpaRcle {
 
 					for (size_t t = 0; t < con.Synapses.size(); t++) {
 						size_t idx_2 = 0; //double perc = 0; 
-						auto& s_au_2 = con.Synapses[t].get<0>();
+						auto& s_au_2 = con.GetSN_Name(t);
 						for (size_t tt = 0; tt < con.PerhapsWill.size(); tt++)
-							if (con.PerhapsWill[tt].get<0>() == s_au_2) {
+							if (con.GetPW_Name(tt) == s_au_2) {
 								/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
-								double per = Synapse::SimilarityPercentage(con.PerhapsWill[tt].get<1>(), core.SE_With_MyActions, true, true);
+								double per = Synapse::SimilarityPercentage(con.GetPW_Sens(tt), core.SE_With_MyActions, true, true);
 								if (per > max) { 
 									if (super) { super_indx.clear(); super = false; }
 									max = per; idx_2 = tt;
 									index = idx_2;
-									Debug::Log("DFS : Synapse ["+con.Synapses[t].get<0>()+"] = "+std::to_string(per) + 
-										" {"+ con.PerhapsWill[tt].get<1>() +"}", Module);
+									Debug::Log("DFS : Synapse ["+con.GetSN_Name(t)+"] = "+std::to_string(per) + 
+										" {"+ con.GetPW_Sens(tt) +"}", Module);
 								}
 								else if(per == max) {
-									Debug::Log("DFS : super variant = "+ con.PerhapsWill[tt].get<0>() + " ["+ std::to_string(per) +"] {"+ con.PerhapsWill[tt].get<1>() +"}", Module);
+									Debug::Log("DFS : super variant = "+ con.GetPW_Name(tt) + " ["+ std::to_string(per) +"] {"+ con.GetPW_Sens(tt) +"}", Module);
 									super = true;
 								}
 							}
@@ -76,16 +76,16 @@ namespace SpaRcle {
 					if (super) {
 						short ind = 0; float meets = 0;
 						for (short i = 0; i < (short)super_indx.size(); i++) {
-							if (con.PerhapsWill[super_indx[i]].get<3>() > meets) {
-								meets = con.PerhapsWill[super_indx[i]].get<3>();
+							if (con.GetPW_Meet(super_indx[i]) > meets) {
+								meets = con.GetPW_Meet(super_indx[i]);
 								ind = i;
 							}
 						}
 						Debug::Log("DFS finaly : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tSuper result : " +
-							con.PerhapsWill[ind].get<0>() + "; Max = " + std::to_string(max), Module);
+							con.GetPW_Name(ind) + "; Max = " + std::to_string(max), Module);
 						//TODODODODODODODODODODODODODOODODOODODODODOODODOODOODOOD
 						if (max > 58) { // 76
-							syn = con.PerhapsWill[ind].get<0>();
+							syn = con.GetPW_Name(ind);
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
 							else goto Deep;
@@ -94,10 +94,10 @@ namespace SpaRcle {
 					else {
 						Debug::Log("DFS finaly : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " +
 							//con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
-							con.PerhapsWill[index].get<0>() + "; Max = " + std::to_string(max), Module);
+							con.GetPW_Name(index) + "; Max = " + std::to_string(max), Module);
 
 						if (max > 58) { // 76
-							syn = con.PerhapsWill[index].get<0>();
+							syn = con.GetPW_Name(index);
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
 							else goto Deep;
@@ -125,14 +125,14 @@ namespace SpaRcle {
 			/// Добавить возможность крайностей - когда мы совершенно не знаем ответа, но нам нужно что-то сказать,
 			/// и у нас есть варианты (хоть и не самые подходящие(но не плохие)) ты мы будем пытаться их выполнить
 		Repeat:
-			if (event.Synapses[index].get<1>() > 0)	{
+			if (event.GetSN_HP(index) > 0)	{
 				/// \see Ищем самый схожий синапс
-				size_t idx = 0; double percent = 0; auto& s_au = event.Synapses[index].get<0>();
+				size_t idx = 0; double percent = 0; auto& s_au = event.GetSN_Name(index);
 				for (size_t t = 0; t < event.PerhapsWill.size(); t++) {
-					if (event.PerhapsWill[t].get<0>() == s_au) {
-						if (event.PerhapsWill[t].get<2>() < 0) { Debug::Log("DEOS : Bad syanpse! \"" + s_au + "\" = " + event.PerhapsWill[t].get<1>(), Module); continue; }
+					if (event.GetPW_Name(t) == s_au) {
+						if (event.GetPW_HP(t) < 0) { Debug::Log("DEOS : Bad synapse! \"" + s_au + "\" = " + event.GetPW_Sens(t), Module); continue; }
 						/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
-						double per = Synapse::SimilarityPercentage(event.PerhapsWill[t].get<1>(), core.SE_With_MyActions, true, true);
+						double per = Synapse::SimilarityPercentage(event.GetPW_Sens(t), core.SE_With_MyActions, true, true);
 						if (per > percent) { percent = per; idx = t; }
 					}
 				}
@@ -140,10 +140,10 @@ namespace SpaRcle {
 				if (percent != 0) {
 					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);
 					if (percent == 100) {
-						Debug::Log("DEOS : Super variant = " + event.PerhapsWill[idx].get<0>() + "; Meets = " + std::to_string(event.PerhapsWill[idx].get<3>()), Module);
+						Debug::Log("DEOS : Super variant = " + event.GetPW_Name(idx) + "; Meets = " + std::to_string(event.GetPW_Meet(idx)), Module);
 						find = true;
-						if (event.PerhapsWill[idx].get<3>() > meets) {
-							meets = event.PerhapsWill[idx].get<3>();
+						if (event.GetPW_Meet(idx) > meets) {
+							meets = event.GetPW_Meet(idx);
 							deepModeIndex = index;
 						}
 						if (index > 0) { index--; goto Repeat; }

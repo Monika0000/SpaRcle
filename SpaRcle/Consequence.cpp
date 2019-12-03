@@ -14,6 +14,7 @@ namespace SpaRcle {
 	bool Consequence::isRead = false;
 
 	static std::ofstream fout;
+
 	bool Consequence::Save(Consequence* conseq, const bool Diagnostic)
 	{
 	ret: if (isWrite) { Debug::Log("Consequence::Save : file already use! ["+conseq->name+"]", Warning); Sleep(1); goto ret; }
@@ -50,19 +51,22 @@ namespace SpaRcle {
 
 			fout << "h:" << bad << ";" << good << std::endl << "m:" << (*conseq).meetings << std::endl;
 
+			bad.clear();
+			good.clear();
+
 			if ((*conseq).Causes.size() > 0)
 			{
 				fout << "cas:" << (*conseq).Causes.size() << std::endl;
 				for (size_t i = 0; i < (*conseq).Causes.size(); i++)
-					fout << (*conseq).Causes[i].get<0>() << ";" << (*conseq).Causes[i].get<1>() << ";" << (*conseq).Causes[i].get<2>() << std::endl;
+					fout << std::get<0>((*conseq).Causes[i]) << ";" << std::get<1>((*conseq).Causes[i]) << ";" << std::get<2>((*conseq).Causes[i]) << std::endl;
 			} // Запись причин в файл
 
 			if ((*conseq).PerhapsWill.size() > 0)
 			{
 				fout << "prw:" << (*conseq).PerhapsWill.size() << std::endl;
 				for (size_t i = 0; i < (*conseq).PerhapsWill.size(); i++)
-					fout << (*conseq).PerhapsWill[i].get<0>() << ";" << (*conseq).PerhapsWill[i].get<1>() << ";"
-					<< (*conseq).PerhapsWill[i].get<2>() << ";" << (*conseq).PerhapsWill[i].get<3>() << std::endl;
+					fout << std::get<0>((*conseq).PerhapsWill[i]) << ";" << std::get<1>((*conseq).PerhapsWill[i]) << ";"
+					<< std::get<2>((*conseq).PerhapsWill[i]) << ";" << std::get<3>((*conseq).PerhapsWill[i]) << std::endl;
 			} // Запись вероятных последущих следствий
 
 			if ((*conseq).Synapses.size() > 0)
@@ -70,7 +74,7 @@ namespace SpaRcle {
 				fout << "syn:" << (*conseq).Synapses.size() << std::endl;
 				for (size_t i = 0; i < (*conseq).Synapses.size(); i++) {
 					//fout << (*conseq).Synapses[i].get<0>() << ";" << (*conseq).Synapses[i].get<1>() << ";" << (*conseq).Synapses[i].get<2>() << std::endl;
-					fout << (*conseq).Synapses[i].get<0>() << ";" << (*conseq).Synapses[i].get<1>() << std::endl;
+					fout << std::get<0>((*conseq).Synapses[i]) << ";" << std::get<1>((*conseq).Synapses[i]) << std::endl;
 				}
 			} // Запись синапсов в файл
 
@@ -119,13 +123,16 @@ namespace SpaRcle {
 		bool findType = false;
 		this->name = name;
 
-		boost::tuple<std::string, std::string, double, int> t_prw;
+		//boost::tuple<std::string, std::string, double, int> t_prw;
+		std::tuple<std::string, std::string, double, int> t_prw;
 		std::string l_prw;// int n2;
 
-		boost::tuple<std::string, int, double> t_cas;
+		//boost::tuple<std::string, int, double> t_cas;
+		std::tuple<std::string, int, double> t_cas;
 		std::string l_cas;// int n2;
 
-		boost::tuple<std::string, double> t_syn;
+		//boost::tuple<std::string, double> t_syn;
+		std::tuple<std::string, double> t_syn;
 		std::string l_syn; //int n2;
 
 		while (!fin.eof()) {
@@ -150,12 +157,13 @@ namespace SpaRcle {
 							{
 								std::getline(fin, l_cas);
 
-								t_cas.get<0>() = ReadUpToChar(l_cas, ';', n2);
+								std::get<0>(t_cas) = ReadUpToChar(l_cas, ';', n2);
 								l_cas = l_cas.substr(n2);
 
-								t_cas.get<1>() = std::atoi(ReadUpToChar(l_cas, ';', n2).c_str());
+								std::get<1>(t_cas) = std::atoi(ReadUpToChar(l_cas, ';', n2).c_str());
 								l_cas = l_cas.substr(n2);
-								t_cas.get<2>() = std::stod(l_cas);
+
+								std::get<2>(t_cas) = std::stod(l_cas);
 								Causes.push_back(t_cas);
 
 								number++;
@@ -167,13 +175,13 @@ namespace SpaRcle {
 							for (short i = 0; i < leng; i++)
 							{
 								std::getline(fin, l_prw);
-								t_prw.get<0>() = ReadUpToChar(l_prw, ';', n2);
+								std::get<0>(t_prw) = ReadUpToChar(l_prw, ';', n2);
 								l_prw = l_prw.substr(n2);
-								t_prw.get<1>() = ReadUpToChar(l_prw, ';', n2);
+								std::get<1>(t_prw) = ReadUpToChar(l_prw, ';', n2);
 								l_prw = l_prw.substr(n2);
-								t_prw.get<2>() = std::stof(ReadUpToChar(l_prw, ';', n2, 8));
+								std::get<2>(t_prw) = std::stof(ReadUpToChar(l_prw, ';', n2, 8));
 								l_prw = l_prw.substr(n2);
-								t_prw.get<3>() = std::atoi(l_prw.c_str());
+								std::get<3>(t_prw) = std::atoi(l_prw.c_str());
 								PerhapsWill.push_back(t_prw);
 
 								number++;
@@ -185,9 +193,9 @@ namespace SpaRcle {
 							for (short i = 0; i < leng; i++)
 							{
 								std::getline(fin, l_syn);
-								t_syn.get<0>() = ReadUpToChar(l_syn, ';', n2);
+								std::get<0>(t_syn) = ReadUpToChar(l_syn, ';', n2);
 								//l_syn = l_syn.substr(n2);
-								t_syn.get<1>() = std::stof(post.c_str());
+								std::get<1>(t_syn) = std::stof(post.c_str());
 								Synapses.push_back(t_syn);
 
 								number++;

@@ -41,9 +41,9 @@ namespace SpaRcle {
 						load++;
 						LogicalCore::CauseReputation((*_core).Causes[0]); ///\see Get first element
 
-						_core->Causes[0].get<0>().clear();
-						_core->Causes[0].get<1>().clear();
-						_core->Causes[0].get<2>().clear();
+						std::get<0>(_core->Causes[0]).clear();
+						std::get<1>(_core->Causes[0]).clear();
+						std::get<2>(_core->Causes[0]).clear();
 						(*_core).Causes.erase((*_core).Causes.begin());   /// Delete first element
 					}
 				}
@@ -76,7 +76,7 @@ namespace SpaRcle {
 	}
 	void LogicalCore::EditCauses(std::vector<std::string>& Causes, std::vector<int>& Meets, std::vector<std::string> Sensivitys, Consequence& conq) {
 		std::string name = std::string(1, ToString(conq.action.type)[0]) + "/" + conq.name;
-		this->Causes.push_back(boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string>
+		this->Causes.push_back(std::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string>
 			(Causes, Meets, Sensivitys, conq.GetSummHP(), name)); // ƒобавл€ем элемент в конец
 		name.~basic_string();
 		Sensivitys.clear();
@@ -94,43 +94,44 @@ namespace SpaRcle {
 
 		std::vector<std::string> decomps;
 		for (size_t t = 0; t < conseq.Causes.size(); t++) {
-			if (name == conseq.Causes[t].get<0>()) { continue; }
+			if (name == conseq.GetCS_Name(t)) { continue; }
 
-			Consequence load(conseq.Causes[t].get<0>().substr(2), Helper::GetConseqType(conseq.Causes[t].get<0>()));
+			Consequence load(conseq.GetCS_Name(t).substr(2), Helper::GetConseqType(conseq.GetCS_Name(t)));
 			for (size_t t2 = 0; t2 < load.PerhapsWill.size(); t2++) {
 
-				if (conseq.Causes[t].get<0>() == load.PerhapsWill[t2].get<0>())
-				{
-					decomps.push_back(conseq.Causes[t].get<0>());
-					break;
-				}
+				if (conseq.GetCS_Name(t) == load.GetPW_Name(t2))//.PerhapsWill[t2].get<0>())
+				{ decomps.push_back(conseq.GetCS_Name(t)); break; }
 			}
+			load.~Consequence();
 		}
 
 		return decomps;
 	}
 
-	bool LogicalCore::CauseReputation(boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, 
+	bool LogicalCore::CauseReputation(std::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, 
 		std::string>& Cause, const bool Diagnostic) /* CauseReputation */ {
 		//// «десь все вроде бы готово. “естирование прошло более менее стабильно.
-		if (Cause.get<0>().size() == 0 && Cause.get<1>().size() == 0 && Cause.get<2>().size() == 0) {
+		if (std::get<0>(Cause).size() == 0 && std::get<1>(Cause).size() == 0 && std::get<2>(Cause).size() == 0) {
 			if(Settings::CauseReputationDebug) Debug::Log("LogicalCore::CauseReputation : Size causes equal zero...", Info);
 			return false; }
 
-		if (!Helper::SelectionSort(Cause.get<1>(), Cause.get<0>(), Cause.get<2>())) { // Sorting...
-			Settings::IsActive = false; }
+		if (!Helper::SelectionSort(std::get<1>(Cause), std::get<0>(Cause), std::get<2>(Cause))) { // Sorting...
+			Settings::IsActive = false; return false; }
 
-		size_t size = Cause.get<0>().size();
-		for (size_t i = 0; i < size; i++) {
-			Consequence loaded;
+		static Consequence loaded;
+
+		unsigned short size = std::get<0>(Cause).size();
+		for (unsigned short i = 0; i < size; i++) {
+			loaded.~Consequence();
+
 			try {
-				int last_index = size - 1 - i; // ѕеречисление с конца массива в начало (инверси€). »бо массив отсортирован от меньшего к большему
-				AType t = ToAType(Cause.get<0>()[last_index][0]);
+				unsigned short last_index = size - 1 - i; // ѕеречисление с конца массива в начало (инверси€). »бо массив отсортирован от меньшего к большему
+				AType t = ToAType(std::get<0>(Cause)[last_index][0]);
 				if (t != Undefined) { // Error
-					if (!loaded.Load(Cause.get<0>()[last_index].substr(2), t, true, Diagnostic, "Logic"))
+					if (!loaded.Load(std::get<0>(Cause)[last_index].substr(2), t, true, Diagnostic, "Logic"))
 						if (Diagnostic) return false;
 						else continue; }
-				else { Debug::Log("LogicalCore::CauseReputation : Unknown type! \"" + Cause.get<0>()[last_index] + "\"", Warning); continue; }
+				else { Debug::Log("LogicalCore::CauseReputation : Unknown type! \"" + std::get<0>(Cause)[last_index] + "\"", Warning); continue; }
 
 				///\TODO :
 				///	Ќаписать логику того, как насто€щее событие будет вли€ть на наше отношение к прошлому - причинам насто€щего.
@@ -141,42 +142,45 @@ namespace SpaRcle {
 			size_t percent = (size_t)((double)size * 0.6f);
 			if (size - i > percent) {
 				try {
-					if (Cause.get<3>() < 0) {
-						loaded.Bad -= (Cause.get<3>() / 3) * (size - i);
+					if (std::get<3>(Cause) < 0) {
+						loaded.Bad -= (std::get<3>(Cause) / 3) * (size - i);
 						loaded.Good -= loaded.Bad * 0.25f;
 						// „ем выше веро€тность того, что это следствие €вл€етс€ истинной прчиной, тем сильнее мен€етс€ его репутаци€ 
 					}
-					else if (Cause.get<3>() > 0) {
-						loaded.Good += (Cause.get<3>() / 3) * (size - i);
+					else if (std::get<3>(Cause) > 0) {
+						loaded.Good += (std::get<3>(Cause) / 3) * (size - i);
 						loaded.Bad -= loaded.Good * 0.25f; }
-					else Debug::Log("LogicalCore::CauseReputation : Ќепредвиденна€ ситуаци€... \n\tHelpfulness = 0 \n\tName conseq : " + Cause.get<4>(), Warning); }
+					else Debug::Log("LogicalCore::CauseReputation : Ќепредвиденна€ ситуаци€... \n\tHelpfulness = 0 \n\tName conseq : " + std::get<4>(Cause), Warning); }
 				catch (...) {
 					Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Second Block]", Error); }
 
 				try {
-					Synapse::FindAndSummSensiv(loaded, Cause.get<4>(), Cause.get<2>()[i], Cause.get<3>());
+					Synapse::FindAndSummSensiv(loaded, std::get<4>(Cause), std::get<2>(Cause)[i], std::get<3>(Cause));
 					loaded.meetings++;
 
 					if (!Diagnostic) loaded.Save(); // Saving
 					else Consequence::Save(&loaded, true); // Debug-Save
 				}
 				catch (...) { Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Third Block]", Error); }
+
+				loaded.~Consequence();
 			}
-			else break;
+			else { loaded.~Consequence(); break; }
 		}
+
 		return true;
 	}
 	bool LogicalCore::GetOpposite(Consequence & opposite, Consequence & ev, bool Diagnostic)
 	{
 		Helper::SelectionSort(ev.Causes, false);
 		bool find = false;
-
+		std::string cause = "";
 		for (size_t t = 0; t < ev.Causes.size(); t++) {
-			std::string cause = ev.Causes[t].get<0>();
+			cause = ev.GetCS_Name(t);//.Causes[t].get<0>();
 			if (cause.substr(2) == ev.name)
 				continue;
 			//std::cout << cause << std::endl;
-			int m_cs = ev.Causes[t].get<1>(); // “о, сколько раз встретилось это событие перед текущим следствием.
+			int m_cs = ev.GetCS_Meet(t); // “о, сколько раз встретилось это событие перед текущим следствием.
 
 			// Ќаверное нужно загружать самую чстую причину в виде следстви€,
 			// после сравнивать количество встреч, провер€€ соответствие двух следствий.
@@ -191,7 +195,7 @@ namespace SpaRcle {
 				
 				if (index != -1) {
 
-					int m_po = opposite.PerhapsWill[index].get<3>();
+					int m_po = opposite.GetPW_Meet(index);
 
 					if (double(m_cs) * 0.75f <= double(m_po)) {
 						find = true;

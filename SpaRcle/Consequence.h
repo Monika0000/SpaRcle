@@ -4,7 +4,8 @@
 #include <vector>
 #include "Action.h"
 #include "DataTime.h"
-#include <boost/tuple/tuple.hpp>
+#include <tuple>
+//#include <boost/tuple/tuple.hpp>
 
 namespace SpaRcle {
 	struct Consequence
@@ -19,9 +20,21 @@ namespace SpaRcle {
 		Action action; /* Multi-value */
 		bool self = false;
 
-		std::vector<boost::tuple<std::string, double>> Synapses;			/* This are ref to path Consequence		|	Max = 5   */
-		std::vector<boost::tuple<std::string, std::string, double, int>> PerhapsWill;			/* This are ref to path Consequence		|	Max = 10  */
-		std::vector<boost::tuple<std::string, int, double>> Causes;		/* This are ref to path Consequence		|	Max = 15  */
+		inline std::string& GetPW_Name(size_t index) { return std::get<0>(PerhapsWill[index]); };
+		inline std::string& GetPW_Sens(size_t index) { return std::get<1>(PerhapsWill[index]); };
+		inline double& GetPW_HP(size_t index) { return std::get<2>(PerhapsWill[index]); };
+		inline int& GetPW_Meet(size_t index) { return std::get<3>(PerhapsWill[index]); };
+
+		inline std::string& GetCS_Name(size_t index) { return std::get<0>(Causes[index]); };
+		inline int& GetCS_Meet(size_t index) { return std::get<1>(Causes[index]); };
+		inline double& GetCS_HP(size_t index) { return std::get<2>(Causes[index]); };
+
+		inline std::string& GetSN_Name(size_t index) { return std::get<0>(Synapses[index]); };
+		inline double& GetSN_HP(size_t index) { return std::get<1>(Synapses[index]); };
+
+		std::vector<std::tuple<std::string, double>> Synapses;			/* This are ref to path Consequence		|	Max = 5   */
+		std::vector<std::tuple<std::string, std::string, double, int>> PerhapsWill;			/* This are ref to path Consequence		|	Max = 10  */
+		std::vector<std::tuple<std::string, int, double>> Causes;		/* This are ref to path Consequence		|	Max = 15  */
 
 		DataTime EventData; /* Do not save */
 

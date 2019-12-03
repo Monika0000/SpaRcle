@@ -7,6 +7,7 @@ namespace SpaRcle {
 	class Settings {
 	public:
 		static std::string PathPj;
+		static std::string Drive;
 		// PathProject += ------------->
 		static std::string SysDir;
 		static std::string Resources;

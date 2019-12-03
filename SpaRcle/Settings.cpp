@@ -6,6 +6,7 @@
 
 namespace SpaRcle {
 	std::string Settings::PathPj = "D:\\SpaRcle\\Release";
+	std::string Settings::Drive = "C";
 	std::string Settings::SysDir = "\\System";
 	std::string Settings::Resources = "\\Resources";
 	std::string Settings::Memory = "\\Memory";
@@ -81,11 +82,11 @@ namespace SpaRcle {
 
 		if (false) {
 			Consequence event("Open");
-			event.Causes.push_back(boost::tuple<std::string, int, double>("Close", 28, 0.f));
+			//event.Causes.push_back(boost::tuple<std::string, int, double>("Close", 28, 0.f));
 			//event.Causes.push_back(boost::tuple<std::string, int, double>("Break", 1, 0.f));
 			//event.Causes.push_back(boost::tuple<std::string, int, double>("Week", 2, 0.f));
-			event.Causes.push_back(boost::tuple<std::string, int, double>("Home", 8, 0.f));
-			event.Causes.push_back(boost::tuple<std::string, int, double>("Door", 12, 0.f));
+			//event.Causes.push_back(boost::tuple<std::string, int, double>("Home", 8, 0.f));
+			//event.Causes.push_back(boost::tuple<std::string, int, double>("Door", 12, 0.f));
 
 			Consequence opposite;
 			if (LogicalCore::GetOpposite(opposite, event, true))

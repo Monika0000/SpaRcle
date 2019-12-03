@@ -116,36 +116,33 @@ namespace SpaRcle {
 
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
-	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, int, double>>& s, std::string name) {
+	int Synapse::IndexOfSynapse(std::vector<std::tuple<std::string, int, double>>& s, std::string name) {
 		for (size_t i = 0; i < s.size(); i++)
-			if (s[i].get<0>() == name)
+			if (std::get<0>(s[i]) == name)
 				return i; // Found!
-		return -1; // Not found!
-	}
-	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, double>>& s, std::string name) {
+		return -1; }
+	int Synapse::IndexOfSynapse(std::vector<std::tuple<std::string, double>>& s, std::string name) {
 		for (size_t i = 0; i < s.size(); i++)
-			if (s[i].get<0>() == name)
+			if (std::get<0>(s[i]) == name)
 				return i; // Found!
-		return -1; // Not found!
-	} 
-	int Synapse::IndexOfSynapse(std::vector<boost::tuple<std::string, std::string, double, int>>& s, std::string name) {
+		return -1; } 
+	int Synapse::IndexOfSynapse(std::vector<std::tuple<std::string, std::string, double, int>>& s, std::string name) {
 		for (size_t i = 0; i < s.size(); i++)
-			if (s[i].get<0>() == name)
+			if (std::get<0>(s[i]) == name)
 				return i; // Found!
-		return -1; // Not found!
-	}
+		return -1; }
 
-	int Synapse::FindGoodSynapse(std::vector<boost::tuple<std::string, int, double>>& s) {
+	int Synapse::FindGoodSynapse(std::vector<std::tuple<std::string, int, double>>& s) {
 		if (s.size() == 0) return -1;
 		int point = 0; double value = 0;
 
 		for (size_t i = 0; i < s.size(); i++)
-			if (s[i].get<2>() > value) {
-				value = s[i].get<2>();
+			if (std::get<2>(s[i]) > value) {
+				value = std::get<2>(s[i]);
 				point = i; }
 
 		return point; }
-	int Synapse::FindGoodSynapse(std::vector<boost::tuple<std::string, std::string, double>>& s, size_t from_index) {
+	int Synapse::FindGoodSynapse(std::vector<std::tuple<std::string, std::string, double>>& s, size_t from_index) {
 		if (s.size() == 0) return -1;
 		if (s.size() - 1 < from_index) {
 			Debug::Log("Helper::FindGoodSynapse : from_index > size!", Warning);
@@ -154,8 +151,8 @@ namespace SpaRcle {
 		int point = 0; double value = 0;
 
 		for (size_t i = from_index; i < s.size(); i++)
-			if (s[i].get<2>() > value) {
-				value = s[i].get<2>();
+			if (std::get<2>(s[i]) > value) {
+				value = std::get<2>(s[i]);
 				point = i; }
 
 		return point; }
@@ -213,40 +210,41 @@ namespace SpaRcle {
 
 		double max = 0; size_t index = 0;
 		for (size_t t = 0; t < con.PerhapsWill.size(); t++) {
-			if (con.PerhapsWill[t].get<0>() == name) {
-				std::string p = con.PerhapsWill[t].get<1>();
+			if (con.GetPW_Name(t) == name) {
+				std::string p = con.GetPW_Sens(t);
 				double var = GetPercent(sens, p);
 				if (var > max) { index = t; max = var; }
 			}
 		}
 		if (max > 90) {
 			//con.PerhapsWill[index].get<2>() = (con.PerhapsWill[index].get<2>() + hp) / 2;
-			con.PerhapsWill[index].get<2>() = Synapse::Summ(con.PerhapsWill[index].get<2>(), hp);
-			con.PerhapsWill[index].get<3>()++; // Increment
+			con.GetPW_HP(index) = Synapse::Summ(con.GetPW_HP(index), hp);
+			con.GetPW_Meet(index)++; // Increment
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : summ perhaps will \"" + name + "\" to conseq \"" + con.name +
-				"\"; perc:"+std::to_string(max) + "; sens:"+sens + "="+ con.PerhapsWill[index].get<1>()); }
+				"\"; perc:"+std::to_string(max) + "; sens:"+sens + "="+ con.GetPW_Sens(index)); }
 		else {
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : add perhaps will \""+name+"\" to conseq \""+con.name + "\"");
-			con.PerhapsWill.push_back(boost::tuple<std::string, std::string, double, int>(name, sens, hp, 1)); }
+			con.PerhapsWill.push_back(std::tuple<std::string, std::string, double, int>(name, sens, hp, 1)); }
 	}
-	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<boost::tuple<std::string, int, double>>& s) {
+	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s) {
 		std::string Sensiv;
 		for (auto& a : s) {
-			if (a.get<0>() != Settings::EmptyName) {
-				if (a.get<0>()[0] != '.')
+			auto&b = std::get<0>(a);
+			if (b != Settings::EmptyName) {
+				if (b[0] != '.')
 					if (count_word_in_sensiv == 1) {
-						if (a.get<0>()[1] == '/')
-							Sensiv += a.get<0>()[2]; // [2]
+						if (b[1] == '/')
+							Sensiv += b[2]; // [2]
 						else
-							Sensiv += a.get<0>()[0]; //[0]
+							Sensiv += b[0]; //[0]
 					}
 					else {
-						if (a.get<0>()[1] == '/') 
-							Sensiv += a.get<0>()[2]; // [2]
+						if (b[1] == '/') 
+							Sensiv += b[2]; // [2]
 						else					  
-							Sensiv += a.get<0>()[0]; //[0]
+							Sensiv += b[0]; //[0]
 
-						Sensiv += a.get<0>()[a.get<0>().size() - 1];
+						Sensiv += b[b.size() - 1];
 					}
 			}
 			else
@@ -280,7 +278,7 @@ namespace SpaRcle {
 		//double trueVal;
 		//size_t size;
 		short mode = 0;
-		int modifer = 0;
+		short modifer = 0;
 
 		// Сравниваем относительно первого, то-есть, процент схожести будет говорить насколько второй похож на первый.
 		if (second.size() > first.size()) mode = 1;
@@ -311,6 +309,9 @@ namespace SpaRcle {
 			//trueVal = 100.f / first.size(); //size = second.size();
 		}
 
-		return GetPercent(first, second, modifer);
+		double finaly = GetPercent(first, second, modifer);
+		first.clear(); first.~basic_string();
+		second.clear(); second.~basic_string();
+		return finaly;
 	}
 }

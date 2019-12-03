@@ -50,29 +50,32 @@ int main(int argc, char** argv)
 	TCHAR cwd[100];
 	GetCurrentDirectory(100, cwd);
 	std::wstring ws(&cwd[0]);
+
+	char buf[255]; _getcwd(buf, 255); Settings::Drive = "D";// std::string(1, buf[0]);
+
 	Settings::SetPaths(std::string(ws.begin(), ws.end()),
-		"D:\\SpaRcleData\\System",
-		"D:\\SpaRcle\\SpaRcle\\Resources",
-		"D:\\SpaRcleData\\Memory",
-		"D:\\SpaRcleData\\Logic");
+		Settings::Drive + ":\\SpaRcleData\\System",
+		std::string(1, buf[0]) + ":\\SpaRcle\\SpaRcle\\Resources",
+		Settings::Drive + ":\\SpaRcleData\\Memory",
+		Settings::Drive + ":\\SpaRcleData\\Logic");
 	Debug::Log("~ DIR \"" + Settings::PathPj + "\"");
 
 	if (!Settings::Diagnostic())
 		Debug::Log("Diagnostic... System is unstable!", true, DType::System, SpaRcle::Red);
 	else
 	{
-		boost::tuple<int> r;
+		//boost::tuple<int> r;
 		Debug::Log("Diagnostic... System is stable!", DType::System, SpaRcle::Green);
 
 		//std::cout << Helper::SimilarityPercentage("12", "123") << std::endl;
 		//Sleep(225552);
 
 		//////////////////////////////
-		_core = new CentralCore(150);
-		_causality = new CausalityCore(150);
-		_logic = new LogicalCore(150);
-		_reality = new RealityCore(150);
-		_emotion = new EmotionCore(150);
+		_core = new CentralCore(50);
+		_causality = new CausalityCore(50);
+		_logic = new LogicalCore(50);
+		_reality = new RealityCore(50);
+		_emotion = new EmotionCore(50);
 #pragma endregion
 
 	#pragma region [======== Init ========]
