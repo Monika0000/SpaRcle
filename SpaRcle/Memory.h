@@ -18,8 +18,10 @@ namespace SpaRcle {
 		bool isCreate;
 		CentralCore* core;
 	public:
+		std::vector<std::string> GetAllFiles(std::string path);
 		Memory();
 		~Memory();
+		int CopyFile(char const* source, char const* dest, bool overwrite);
 
 		Consequence* GetFragment(std::string name, AType type); 
 		void LoadStaticMemory();

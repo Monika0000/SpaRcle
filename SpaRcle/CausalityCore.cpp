@@ -141,7 +141,7 @@ namespace SpaRcle {
 		LogicalCore& L_ref = *C_ref._logic;
 
 		std::string& Current_sensivity = (*_core).Current_sensivity;
-		Consequence event, helpData;
+		Consequence _event, helpData;
 		short timer = 0, load_1 = 0; 
 		double bad = 0, good = 0;
 		Consequence empty_conq(Settings::EmptyName);
@@ -154,6 +154,7 @@ namespace SpaRcle {
 		unsigned char count_sens = 0;
 		std::vector<std::string> clean_sensiv;
 
+		/*
 		#pragma region [===== Pre-Processing =====]
 
 		/// \see В данном регионе мы определяем начальную ситуацию, при которой программа должна начать работать.
@@ -183,6 +184,7 @@ namespace SpaRcle {
 		(*_core).Sensivity_List = temp;
 		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
 #pragma endregion 
+*/ 
 
 		if (true) {
 			if (false) {
@@ -293,67 +295,74 @@ namespace SpaRcle {
 			if (_core->size_unchk_ev == 0) Sleep(*delay);
 			else { 
 			//if ((*_core).UncheckedEvents.size() > 0) {
-				event = (*_core).UncheckedEvents[0]; // Get first event
+				_event = (*_core).UncheckedEvents[0]; // Get first _event
 
-				char found = 0;
-				if (event.name != Settings::EmptyName) {
-					load_1++;
-					// Воспомогательная информация [find counsequence -> get info from consequence]
-					found = helpData.Load(event.name, event.action.type, false, false, "U_Caus");
-
-					if (found >= 0) {
-						//boost::tuple<double, double> hp(0, 0);
-						E_ref.EmotionHelpfulness(event.action, bad, good); // Эмоционально реагируем на событие
-						event.Bad = event.Bad + bad; event.Good = event.Good + good;
-
-						if (found) {//helpData.~Consequence();
-							Helper::SummActionConseq(event, helpData);
-							Helper::SimpleSummConseq(event, helpData);
-							event.meetings = event.meetings + helpData.meetings;
-						}
-
-						Situation.clear();
-						Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
-						Situation += Synapse::GetSensivityOfName(event.name, event.self);
-						Situation = Synapse::ClearSensivity(Situation);
-
-						if (!event.self) {
-							C_ref.NewEvent(event, Situation); 
-							E_ref.AddEvent(event, Situation);
-						}
-
-						if (found) {
-							event.Bad = (event.Bad + helpData.Bad) / Div;
-							event.Good = (event.Good + helpData.Good) / Div;
-						}
-					}
-				}
-				else if (!event.self) C_ref.NewEvent(empty_conq, empty_sens);
-
-				if (found >= 0)
-					(*_core).CheckedEvents.push_back(event);						  // System
-				(*_core).UncheckedEvents.erase((*_core).UncheckedEvents.begin()); // System
-				_core->size_unchk_ev--;
-
-				if (event.name != Settings::EmptyName && found >= 0) {
-					event.Save();
-
-					//if (!event.self) 
-					//	Current_sensivity += Synapse::GetSensivityOfName(event.name, false);  // System
-					//else{
-						//Current_sensivity += Helper::ToUpper(Synapse::GetSensivityOfName(event.name, false));  // System
-						Current_sensivity += Synapse::GetSensivityOfName(event.name, event.self);  // System
-						if(event.self)
-							Debug::Log("CausalityCore : self event \"" + event.name + "\" [" + Current_sensivity + "]");
-					//}
-
-					(*_core).Sensivity_List.push_back(Current_sensivity); // System
+				if (_event.name.empty()) {
+					Debug::Log("CausalityCore : Unknown ERROR => conseq.name == \"\"!", Error);
+					(*_core).UncheckedEvents.erase((*_core).UncheckedEvents.begin()); // System
+					_core->size_unchk_ev--;
 				}
 				else {
-					Current_sensivity += std::string(count_word_in_sensiv, '.');						 	  // System
-					(*_core).Sensivity_List.push_back(Current_sensivity); // System
+					char found = 0;
+					if (_event.name != Settings::EmptyName) {
+						load_1++;
+						// Воспомогательная информация [find counsequence -> get info from consequence]
+						found = helpData.Load(_event.name, _event.action.type, false, false, "U_Caus");
+
+						if (found >= 0) {
+							//boost::tuple<double, double> hp(0, 0);
+							E_ref.EmotionHelpfulness(_event.action, bad, good); // Эмоционально реагируем на событие
+							_event.Bad = _event.Bad + bad; _event.Good = _event.Good + good;
+
+							if (found) {//helpData.~Consequence();
+								Helper::SummActionConseq(_event, helpData);
+								Helper::SimpleSummConseq(_event, helpData);
+								_event.meetings = _event.meetings + helpData.meetings;
+							}
+
+							Situation.clear();
+							Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
+							Situation += Synapse::GetSensivityOfName(_event.name, _event.self);
+							Situation = Synapse::ClearSensivity(Situation);
+
+							if (!_event.self) {
+								C_ref.NewEvent(_event, Situation);
+								E_ref.AddEvent(_event, Situation);
+							}
+
+							if (found) {
+								_event.Bad = (_event.Bad + helpData.Bad) / Div;
+								_event.Good = (_event.Good + helpData.Good) / Div;
+							}
+						}
+					}
+					else if (!_event.self) C_ref.NewEvent(empty_conq, empty_sens);
+
+					if (found >= 0)
+						(*_core).CheckedEvents.push_back(_event);						  // System
+					(*_core).UncheckedEvents.erase((*_core).UncheckedEvents.begin()); // System
+					_core->size_unchk_ev--;
+
+					if (_event.name != Settings::EmptyName && found >= 0) {
+						_event.Save();
+
+						//if (!_event.self) 
+						//	Current_sensivity += Synapse::GetSensivityOfName(_event.name, false);  // System
+						//else{
+							//Current_sensivity += Helper::ToUpper(Synapse::GetSensivityOfName(_event.name, false));  // System
+						Current_sensivity += Synapse::GetSensivityOfName(_event.name, _event.self);  // System
+						if (_event.self)
+							Debug::Log("CausalityCore : self _event \"" + _event.name + "\" [" + Current_sensivity + "]");
+						//}
+
+						(*_core).Sensivity_List.push_back(Current_sensivity); // System
+					}
+					else {
+						Current_sensivity += std::string(count_word_in_sensiv, '.');						 	  // System
+						(*_core).Sensivity_List.push_back(Current_sensivity); // System
+					}
 				}
-				event.~Consequence();
+				_event.~Consequence();
 				helpData.~Consequence();
 			}
 
@@ -363,7 +372,7 @@ namespace SpaRcle {
 			if (_core->size_check_ev > ((Settings::Size_SCP * 2) + 1)) {
 				Consequence& conq = (*_core).CheckedEvents[Settings::Size_SCP]; // 6-ый element
 
-				if (conq.name != Settings::EmptyName) {
+				if (!conq.name._Equal(Settings::EmptyName)) {
 					
 					if (load_conq.Load(conq.name, conq.action.type, "C_Caus")) {
 						conq.Bad = (conq.Bad + load_conq.Bad) / Div;

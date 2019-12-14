@@ -85,6 +85,7 @@ namespace SpaRcle {
 	public : 
 		static std::string Transliteration(std::string line, bool inRus = false, bool errors = true);
 		static std::string TransliterationEN(char ch, bool errors = true);
+		static std::string TransliterationRU(std::string line);
 
 		static std::string ToUpper(std::string s);
 

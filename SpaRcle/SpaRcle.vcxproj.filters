@@ -131,9 +131,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="SpaRcle.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="CentralCore.cpp">
       <Filter>Исходные файлы\Core</Filter>
     </ClCompile>
@@ -187,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="Memory.cpp">
       <Filter>Исходные файлы\Utilites</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaRcle.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

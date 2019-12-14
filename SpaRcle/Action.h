@@ -42,7 +42,7 @@ namespace SpaRcle {
 		Action(Sound sound);
 		Action(Visual visual);
 		~Action();
-
+		void Save(std::string path);
 		//bool Save(std::string path);
 		//static bool Save(std::string path, Action& action);
 

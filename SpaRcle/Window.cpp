@@ -24,7 +24,6 @@ namespace SpaRcle {
 			 modifer * (float(CurrentSize.y) / float(Window::DisplaySize.y))); }
 	sf::Sprite Window::NormalizeSprite(sf::Sprite sp) {
 		sp.setPosition(NormalizePos(sp.getPosition()));
-		//sp.setScale(NormalizeScale(sp.getScale()));
 		sp.scale((float(CurrentSize.x) / float(Window::DisplaySize.x)), (float(CurrentSize.y) / float(Window::DisplaySize.y)));
 		return sp; }
 	sf::Text Window::NormalizeText(sf::Text sp) {
@@ -32,11 +31,9 @@ namespace SpaRcle {
 		sp.setScale(NormalizeScale(sp.getScale()));
 		return sp; }
 	sf::Text* Window::SetText(sf::Text* text, sf::Font& font, unsigned int size, sf::Color color) {
-		(*text).setFillColor(color); (*text).setFont(font); (*text).setCharacterSize(size);
-		return text; }
+		(*text).setFillColor(color); (*text).setFont(font); (*text).setCharacterSize(size); return text; }
 	sf::Text* Window::SetText(sf::Text* text, std::string str, sf::Font& font, unsigned int size, sf::Color color) {
-		(*text).setFillColor(color); (*text).setFont(font); (*text).setCharacterSize(size); (*text).setString(str);
-		return text; }
+		(*text).setFillColor(color); (*text).setFont(font); (*text).setCharacterSize(size); (*text).setString(str); return text; }
 	sf::RectangleShape Window::NormalizeRect(sf::RectangleShape sp, float modifer) {
 		sp.setPosition(NormalizePos(sp.getPosition()));
 		sp.setScale(NormalizeScale(sp.getScale(), modifer));
@@ -48,22 +45,14 @@ namespace SpaRcle {
 		AddRect("BG", sf::Vector2f(0, 0), sf::Vector2f(10000, 10000), sf::Color(155, 155, 155));
 
 		AddTextEntry("TextEntry", sf::Vector2f(500, 500), sf::Vector2f(150, 20),"enter text...", 3, [=](Window& win, Button* button) {
-			TextEntry* box = static_cast<TextEntry*>(&(*button));
-			if (box->no_clicked > 0)
-			{
-				if(box->no_clicked == 1)
-					box->IsChecked = false;
-				else
-					box->no_clicked--;
-			}
-			else {
-				(*box).IsChecked = !(*box).IsChecked;
-				if ((*box).IsChecked)
-					(*box).notActive = (*box)._checked;
-				else
-					(*box).notActive = (*box)._default;
+			CheckBox* box = static_cast<CheckBox*>(&(*button));
+			//TextEntry* box = static_cast<TextEntry*>(&(*chk));
+			(*box).SetChecked(!box->GetChecked());
+
+
+
 				//Debug::Log(static_cast<CheckBox*>(&(*button))->data););
-			}
+			
 			});
 
 		AddButton("badEvent", sf::Vector2f(25, 610), sf::Vector2f(80, 20), "	[Bad Event]", 3, [=](Window& win, Button* button) {
@@ -74,11 +63,15 @@ namespace SpaRcle {
 			win.core->_causality->NewEvent(Consequence(Sound("open", 10, 15)));
 			win.core->_causality->NewEvent(Consequence(Sound("door", 10, 15)));
 
+			//win.core->_causality->NewEvent(Consequence(Sound("okay", 10, 15)));
+			Sleep(10);
+
+
 			win.core->_causality->NewEvent(Consequence(Sound("door", 10, 15)));
 			win.core->_causality->NewEvent(Consequence(Sound("is", 10, 15)));
 			win.core->_causality->NewEvent(Consequence(Sound("open", 10, 15)));
 
-			win.core->_causality->NewEvent(Consequence(Sound("hit", 2, 50)));
+			win.core->_causality->NewEvent(Consequence(Sound("hit", -1000, 5000)));
 			});
 		AddButton("plus2", sf::Vector2f(25, 680), sf::Vector2f(80, 20), "		[3 + 4]", 3, [=](Window& win, Button* button) {
 			win.core->_causality->NewEvent(Consequence(Sound("bhree", 10, 15)));
@@ -108,16 +101,13 @@ namespace SpaRcle {
 			win.core->_causality->NewEvent(Consequence(Sound("you", 10, 15)));
 			});
 		AddButton("Skip", sf::Vector2f(25, 1030), sf::Vector2f(80, 20), "    	[Skip]", 3, [=](Window& win, Button* button) {
+			for(char c = 0; c < 5; c++)
 				win.core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}, 1);
 
 		AddCheckBox("test", sf::Vector2f(555, 830), sf::Vector2f(20, 20), "2134254354", 3, [=](Window& win, Button* button) {
 				CheckBox* box = static_cast<CheckBox*>(&(*button));
-				(*box).IsChecked = !(*box).IsChecked;
-				if ((*box).IsChecked)
-					(*box).notActive = (*box)._checked;
-				else
-					(*box).notActive = (*box)._default;
+				(*box).SetChecked(!box->GetChecked());
 				//Debug::Log(static_cast<CheckBox*>(&(*button))->data);
 			});
 		
@@ -159,7 +149,9 @@ namespace SpaRcle {
 		(*rect).setPosition(pos);
 		MouseRects.insert(std::pair<std::string, sf::RectangleShape*>(name, rect));
 
-		Buttons.insert(std::pair<std::string, TextEntry*>(name, new TextEntry(pos, size, scale, context)));
+		TextEntry* entr = new TextEntry(pos, size, scale, context);
+		Buttons.insert(std::pair<std::string, TextEntry*>(name, entr));
+		this->UncheckBoxes.insert(std::pair<std::string, TextEntry*>(name, entr));
 
 		AddMouseEvent(name);
 		AddEvent(name, act); }
@@ -274,26 +266,19 @@ namespace SpaRcle {
 				window.clear();
 
 				it_texts = (wn.Texts.begin());
-				for (size_t t = 0; t < wn.Texts.size(); t++) {
-					window.draw(NormalizeText(*it_texts->second));
-					it_texts++; }
+				for (size_t t = 0; t < wn.Texts.size(); t++) { window.draw(NormalizeText(*it_texts->second)); it_texts++; }
 
 				it_rects = (wn.Rectangles.begin());
-				for (size_t t = 0; t < wn.Rectangles.size(); t++) {
-					window.draw(NormalizeRect(*it_rects->second));
-					it_rects++; }
+				for (size_t t = 0; t < wn.Rectangles.size(); t++) { window.draw(NormalizeRect(*it_rects->second)); it_rects++; }
 
 				it_buttons = (wn.Buttons.begin());
 				for (size_t t = 0; t < wn.Buttons.size(); t++) {
 					if (it_buttons->second->L_clicked == 0) {
 						window.draw(NormalizeRect(*it_buttons->second->border, it_buttons->second->scale));
-						if (it_buttons->second->IsActive)
-							window.draw(NormalizeRect(*it_buttons->second->active, it_buttons->second->scale));
-						else
-							window.draw(NormalizeRect(*it_buttons->second->notActive, it_buttons->second->scale));
+						if (it_buttons->second->IsActive) window.draw(NormalizeRect(*it_buttons->second->active, it_buttons->second->scale));
+						else window.draw(NormalizeRect(*it_buttons->second->notActive, it_buttons->second->scale));
 					}
-					else
-						window.draw(NormalizeRect(*it_buttons->second->click, it_buttons->second->scale));
+					else window.draw(NormalizeRect(*it_buttons->second->click, it_buttons->second->scale));
 
 					window.draw(NormalizeText(*it_buttons->second->text));
 					it_buttons++; }
@@ -330,8 +315,9 @@ namespace SpaRcle {
 
 			typename MouseActions::iterator it_mouse;
 			typename std::map<std::string, InfoPanel*>::iterator it_panels;
-			sf::RectangleShape rect; InfoPanel* panel = NULL;
-			Monitor& m = *wn.monitor;
+			typename std::map<std::string, TextEntry*>::iterator it_uncheck;
+			sf::RectangleShape rect; InfoPanel* panel = NULL; //TextEntry* entry = NULL;
+			Monitor& m = *wn.monitor; sf::Vector2f pos = sf::Vector2f();
 
 			while (wn.IsActive) {
 				Sleep(10);
@@ -343,16 +329,17 @@ namespace SpaRcle {
 					rect = NormalizeRect(*wn.MouseRects[it_mouse->first], (*wn.Buttons[it_mouse->first]).scale);
 					if ((*wn.Buttons[it_mouse->first]).L_clicked > 0) { (*wn.Buttons[it_mouse->first]).L_clicked--; }
 					rect.setSize(sf::Vector2f(rect.getSize().x * rect.getScale().x, rect.getSize().y * rect.getScale().y));
-
-					it_mouse->second(wn, rect, it_mouse->first); it_mouse++;
-				}
+					
+					it_mouse->second(wn, rect, it_mouse->first); it_mouse++; }
 
 				it_panels = (wn.InfoPanels.begin());
 				for (size_t t = 0; t < wn.InfoPanels.size(); t++) {
 					panel = it_panels->second;
-					for (size_t tt = 0; tt < (*panel).texts.size(); tt++)
-						(*panel).funcs[tt](wn, *(*panel).texts[tt]);
-				}
+					for (size_t tt = 0; tt < (*panel).texts.size(); tt++) (*panel).funcs[tt](wn, *(*panel).texts[tt]); }
+
+				if (wn.LMouse) { it_uncheck = (wn.UncheckBoxes.begin());
+					for (size_t t = 0; t < wn.UncheckBoxes.size(); t++)
+						if (!(*it_uncheck->second).isSelected(wn)) (*it_uncheck->second).SetChecked(false); }
 
 				for (char c = 0; c < m.poses.size(); c++) {
 					m.poses[c].erase(m.poses[c].begin());
@@ -365,10 +352,9 @@ namespace SpaRcle {
 					}
 				}
 
-				m.poses[0].push_back((*wn.core->_logic).CoreLoad);
-				m.poses[1].push_back((*wn.core->_causality).CoreLoad);
+				m.poses[0].push_back((*wn.core->_logic).CoreLoad); 
+				m.poses[1].push_back((*wn.core->_causality).CoreLoad); 
 				m.poses[2].push_back((*wn.core).CoreLoad);
-				//m.poses[3].push_back(0);
 			}
 			Debug::Log("-> Stopping window logic...", Info);
 		});
@@ -436,6 +422,17 @@ namespace SpaRcle {
 		delete this->click;
 		delete this->notActive;
 		delete this->text; }
+	bool Button::isSelected(Window& win) {
+		sf::RectangleShape rect = SpaRcle::Window::NormalizeRect(*this->border, this->scale);
+		rect.setSize(sf::Vector2f(rect.getSize().x * rect.getScale().x, rect.getSize().y * rect.getScale().y));
+		sf::Vector2f pos = rect.getPosition();
+
+		if (win.MousePos.x <= (int)win.CurrentSize.x && win.MousePos.y <= (int)win.CurrentSize.y && win.MousePos.x >= (int)pos.x
+			&& win.MousePos.x <= (int)pos.x + rect.getSize().x &&
+			win.MousePos.y >= (int)pos.y && win.MousePos.y <= pos.y + rect.getSize().y)
+			return true;
+		else return false; }
+	
 	CheckBox::CheckBox(sf::Vector2f pos, sf::Vector2f size, float scale, short max_delay)// : Button(pos, sf::Vector2f(2 * scale, 2 * scale) , "", scale, max_delay)
 	{
 		this->max_delay = max_delay;
@@ -475,6 +472,11 @@ namespace SpaRcle {
 		IsChecked = false;
 	}
 	CheckBox::CheckBox(){ }
+
+	void CheckBox::Update() {
+		if (IsChecked) notActive = _checked;
+		else notActive = _default; }
+	
 	InfoPanel::InfoPanel(sf::Vector2f pos, sf::Vector2f size, float scale, std::vector<sf::Text*> texts, std::vector < std::function<void(Window& win, sf::Text& text)>> funcs) {
 		this->border = new sf::RectangleShape();
 		this->panel = new sf::RectangleShape();
@@ -494,6 +496,7 @@ namespace SpaRcle {
 		this->border->setSize(size);
 		this->border->setPosition(pos.x, pos.y);
 	}
+	
 	Monitor::Monitor(Window& win) : win{win} {
 		pos = sf::Vector2f(400, 550);
 		memory_size = 30;
@@ -531,6 +534,7 @@ namespace SpaRcle {
 					lines[t][i + 1].position = lines[t][i].position; }
 		}
 	}
+	
 	TextEntry::TextEntry(sf::Vector2f pos, sf::Vector2f size, float scale, std::string defText)  {
 		this->max_delay = 20;
 		this->IsActive = false;
@@ -574,5 +578,6 @@ namespace SpaRcle {
 		this->border->setSize(size);
 		this->border->setPosition(pos.x, pos.y);
 	}
+	TextEntry::~TextEntry() { }
 }
 // refactoring

@@ -16,6 +16,7 @@ namespace SpaRcle {
 		static bool PathsIsSet; // Установлена-ли рабочая директория
 		///////////////////////////////
 		static bool CoreDebug; // Отладка работы ядер
+		static bool ExternalInteraction;
 		static KeyboardLayout Layout;
 		static bool CentralCoreDebug;
 		static bool CauseReputationDebug;

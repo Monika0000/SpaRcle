@@ -8,6 +8,10 @@
 //#include <boost/tuple/tuple.hpp>
 
 namespace SpaRcle {
+	enum class load_mode {
+		to_hp, to_cas, to_action, to_all, to_syn, to_meets
+	};
+
 	struct Consequence
 	{
 	public:
@@ -42,8 +46,8 @@ namespace SpaRcle {
 		static bool Save(Consequence* conseq, const bool Diagnostic = false);
 		bool Save(const bool Diagnostic = false);
 
-		char Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block = "?");
-		char Load(std::string name, AType atype, std::string Block = "?");
+		char Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block = "?", load_mode mode = load_mode::to_all);
+		char Load(std::string name, AType atype, std::string Block = "?", load_mode mode = load_mode::to_all);
 
 		void Set(const Consequence& con);
 
@@ -58,7 +62,12 @@ namespace SpaRcle {
 		Consequence(std::string name, Action action, int meets, double Bad, double Good);
 		~Consequence();
 
-		inline double GetSummHP() { return Good - Bad; }
+		double GetSummHP() { 
+			if (Good > 0 && Bad > 0)
+				return Good - Bad;
+			else
+				return Good + Bad; 
+		} // Info : change  "-" to "+" (Good - Bad)
 		///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 		bool operator==(Consequence& right) {

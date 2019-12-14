@@ -75,18 +75,19 @@ namespace SpaRcle {
 				for (short s = 0; s < conq.PerhapsWill.size(); s++) {
 					mem = Synapse::SimilarityPercentage(conq.GetPW_Sens(s), sens);
 					if (mem > max_sim) { max_sim = mem; indexs.clear(); indexs.push_back(s); }
-					else if(mem == max_sim) {
+					else if(mem == max_sim) 
 						indexs.push_back(s);
-					}
 				}
 
 				if (indexs.size() > 0) {
-					//std::string debug = "EmotionCore : ["+conq.name+"] possible events => ";
+					std::string debug = "EmotionCore : ["+conq.name+"] possible events => ";
 
-					//for (auto& a : indexs)
-					//	debug += "\n\t" + conq.GetPW_Name(a) + " [" + conq.GetPW_Sens(a) + "] {"+std::to_string(max_sim)+"}";
+					for (auto& a : indexs) {
+						debug += "\n\t" + conq.GetPW_Name(a) + " [" + conq.GetPW_Sens(a) + "] {" + std::to_string(max_sim) + "} (" +
+							 std::to_string(conq.GetSummHP())+ ")";
+					}
 
-					//Debug::Log(debug, Info);
+					Debug::Log(debug, Info);
 
 					indexs.clear();
 				}

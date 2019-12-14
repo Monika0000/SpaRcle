@@ -6,19 +6,27 @@
 namespace SpaRcle {
 	Action::Action() { type = Undefined; }
 
-	Action::Action(Sound sound)
-	{
+	Action::Action(Sound sound) {
 		this->sound = sound;
 		this->type = Speech; }
-	Action::Action(Visual visual)
-	{
+	Action::Action(Visual visual) {
 		this->visual = visual;
 		this->type = VisualData; }
 
-	Action::~Action()
-	{
+	Action::~Action() {
 		this->sound.~Sound();
 		this->visual.~Visual(); }
+
+	void Action::Save(std::string path) {
+		std::ofstream fout; path = Settings::SysDir + "\\Commands\\" + path + ".act";
+		fout.open(path);
+		Debug::Log(path);
+
+		if (!fout.is_open())
+			Debug::Log("Action::Save = Cant't saving file! \n\tPath : " + path, Error);
+
+		fout << this->GetSaveData() << std::endl;
+		fout.close(); }
 
 	std::string Action::GetSaveData(Action * action)
 	{
@@ -50,12 +58,9 @@ namespace SpaRcle {
 
 		return data;
 	}
-	std::string Action::GetSaveData() {
-		return GetSaveData(this);
-	}
+	std::string Action::GetSaveData() { return GetSaveData(this); }
 
-	bool Action::ApplyLine(std::string line)
-	{
+	bool Action::ApplyLine(std::string line) {
 		short n;
 		std::string pref = ReadUpToChar(line, ':', n);
 		std::string post = line.substr(n);
@@ -67,6 +72,7 @@ namespace SpaRcle {
 				short n2; std::string t = ReadUpToChar(post, ';', n2);
 				sound.tone = std::stof(t);
 				sound.volime = std::stof(post.substr(n2));
+				t.clear(); t.~basic_string();
 				break; }
 	///^SOUND
 
@@ -81,6 +87,9 @@ namespace SpaRcle {
 			return false;
 			}
 		}
+		pref.clear(); pref.~basic_string();
+		post.clear(); post.~basic_string();
+		line.clear(); line.~basic_string();
 		return true;
 	}
 

@@ -71,6 +71,8 @@ namespace SpaRcle {
 	void RealityCore::DoAction(Action& action, std::string helpName) {
 		switch (action.type) {
 		case AType::Speech : {
+			if (Settings::ExternalInteraction)
+				action.Save(helpName);
 			Sound s = action;
 			Debug::Log("|RDA| => " + s.text, DType::Mind);
 			this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
@@ -81,5 +83,6 @@ namespace SpaRcle {
 				+ "\n\tConseq name : " + helpName
 				,Error);
 			break; }
+		helpName.~basic_string();
 	}
 }

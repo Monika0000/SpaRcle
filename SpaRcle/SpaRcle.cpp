@@ -17,6 +17,7 @@
 #include <thread>
 #include "Memory.h"
 #include <stdexcept>
+
 using namespace SpaRcle;
 
 #pragma region Propetries;
@@ -33,7 +34,7 @@ void Destruct() {
 	delete _core;
 }
 #pragma endregion
- 
+
 int main(int argc, char** argv)
 {
 	system("color 70");
@@ -54,7 +55,7 @@ int main(int argc, char** argv)
 	char buf[255]; _getcwd(buf, 255); Settings::Drive = "D";// std::string(1, buf[0]);
 
 	Settings::SetPaths(std::string(ws.begin(), ws.end()),
-		Settings::Drive + ":\\SpaRcleData\\System",
+		std::string(1, buf[0]) + ":\\SpaRcle\\System",
 		std::string(1, buf[0]) + ":\\SpaRcle\\SpaRcle\\Resources",
 		Settings::Drive + ":\\SpaRcleData\\Memory",
 		Settings::Drive + ":\\SpaRcleData\\Logic");
@@ -103,6 +104,8 @@ int main(int argc, char** argv)
 
 		_core->Start();
 		Sleep(100);
+
+		Memory::GetMemory()->CopyFile("memory_mapped_file.hpp", "copy.tmp", true);
 #pragma endregion
 
 		while (true)

@@ -43,18 +43,27 @@ namespace SpaRcle {
 		short max_delay;
 		char L_clicked;
 		char no_clicked;
+		bool isSelected(Window& win);
 	};
 	
 	struct CheckBox : public Button {
 		CheckBox(sf::Vector2f pos, sf::Vector2f size, float scale, short max_delay = 20);
 		CheckBox();
-		bool IsChecked;
+	
+		void Update();
+
+		inline void SetChecked(bool b) { IsChecked = b; Update(); }
+		inline bool GetChecked() { return IsChecked; }
+
 		sf::RectangleShape* _checked;
 		sf::RectangleShape* _default;
+	protected:
+		bool IsChecked;
 	};
 
 	struct TextEntry : public CheckBox {
 		TextEntry(sf::Vector2f pos, sf::Vector2f size, float scale, std::string defText);
+		~TextEntry();
 		std::string defultText;
 		sf::Font font;
 	};
@@ -124,6 +133,9 @@ namespace SpaRcle {
 		std::map<std::string, Button*> Buttons;
 		std::map<std::string, InfoPanel*> InfoPanels;
 		std::map<std::string, GAction> Actions;
+		
+		std::map<std::string, TextEntry*> UncheckBoxes;
+
 		MouseActions Mouses;
 		GRects MouseRects;
 	private:

@@ -14,12 +14,13 @@ namespace SpaRcle {
 	bool Settings::PathsIsSet = false;
 	////////////////////////////
 	bool Settings::CoreDebug = false;
+	bool Settings::ExternalInteraction = true;
 	KeyboardLayout Settings::Layout = UNKNOWN;
 	bool Settings::EventsProcessigDebug = false;
 	bool Settings::CentralCoreDebug = false;
 	bool Settings::CauseReputationDebug = false; 
 	const int Settings::SaveNumbers = 5;
-	const size_t Settings::Size_SCP = 5;
+	const size_t Settings::Size_SCP = 8; // 5
 	std::string Settings::version = "0.1_alpha_sparcle";
 	const std::string Settings::EmptyName = "[NTHG]";
 	const char Settings::TrueSymbol = '_';

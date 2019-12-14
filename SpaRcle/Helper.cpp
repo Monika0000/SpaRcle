@@ -34,8 +34,8 @@ namespace SpaRcle {
 		case 'ö': return "c";
 		case '÷': return "ch";
 		case 'ø': return "sh";
-		case 'ù': return "jsh";
-		case 'ú': return "hh";
+		case 'ù': return "js";
+		case 'ú': return "jt";
 		case 'û': return "ih";
 		case 'ü': return "jh";
 		case 'ý': return "eh";
@@ -50,6 +50,51 @@ namespace SpaRcle {
 				return std::string(1, ch);
 		}
 	}
+	std::string Helper::TransliterationRU(std::string line) {
+		std::string ru = ""; unsigned short size = (unsigned short)line.size();
+		//Debug::Log(line);
+		for (unsigned short i = 0; i < size; i++) {
+			switch (line[i]) {
+			case ' ': ru += " "; break;
+			case 'a': ru += "a"; break;
+			case 'b': ru += "á"; break;
+			case 'v': ru += "â"; break;
+			case 'g': ru += "ã"; break;
+			case 'd': ru += "ä"; break;
+			case 'y': ru += "é"; break;
+			case 'l': ru += "ë"; break;
+			case 'm': ru += "ì"; break;
+			case 'n': ru += "í"; break;
+			case 'o': ru += "î"; break;
+			case 'p': ru += "ï"; break;
+			case 'r': ru += "ð"; break;
+			case 't': ru += "ò"; break;
+			case 'u': ru += "ó"; break;
+			case 'f': ru += "ô"; break;
+
+			case 's': { if (i + 1 < size) { if (line[i + 1] == 'h') { i++; ru += "ø"; } else ru += "ñ"; } else ru += "ñ"; break; }; // ø\ñ
+			case 'k': { if (i + 1 < size) { if (line[i + 1] == 'h') { i++; ru += "õ"; } else ru += "ê"; } else ru += "ê"; break; }; // õ\ê
+			case 'i': { if (i + 1 < size) { if (line[i + 1] == 'h') { i++; ru += "û"; } else ru += "è"; } else ru += "è"; break; }; // û\è
+
+			case 'z': { if (i + 1 < size) { if (line[i + 1] == 'h') { i++; ru += "æ"; } else ru += "ç"; } else ru += "ç"; break; }; // æ\ç
+			case 'c': { if (i + 1 < size) { if (line[i + 1] == 'h') { i++; ru += "÷"; } else ru += "ö"; } else ru += "ö"; break; }; // ÷\ö
+			case 'e': { if (i + 1 < size) { if (line[i + 1] == 'h') { i++; ru += "ý"; } else ru += "å"; } else ru += "å"; break; }; // ý\å
+			
+			case 'j': { if (i + 1 < size) switch (line[i + 1]) {
+			case 't': ru += "ú"; i++; break;
+			case 'e': ru += "¸"; i++; break;
+			case 'h': ru += "ü"; i++; break;
+			case 'u': ru += "þ"; i++; break;
+			case 'a': ru += "ÿ"; i++; break;
+			case 's': ru += "ù"; i++; break;
+			default: ru += "~"; break;
+			} break; }; // none
+
+			default: Debug::Log("Helper::TransliterationRU : unknown char! (" + std::string(1, line[i]) + ")", Warning); break;
+			}
+		}
+
+		return ru; }
 	std::string Helper::ToUpper(std::string s) { for (auto& a : s) a= toupper(a); return s; }
 	std::string Helper::Transliteration(std::string line, bool inRus,bool errors)
 	{

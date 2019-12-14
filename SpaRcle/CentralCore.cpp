@@ -44,8 +44,8 @@ namespace SpaRcle {
 	Deep:
 		if (syn[0] == 'S') {
 			Consequence con;
-			if (con.Load(syn.substr(2), AType::Speech, false, false, "DFS")) {
-				real.DoAction(con.action);
+			if (con.Load(syn.substr(2), AType::Speech, false, false, "DFS") == 1) {
+				real.DoAction(con.action, con.name);
 				real.core->AddSE(con.name, true);
 
 				if (con.Synapses.size() != 0) {
@@ -219,7 +219,7 @@ namespace SpaRcle {
 		{
 			Debug::Log("CentralCore : \"" + event.name + "\" is undefined. \n\t" + "Good : " + std::to_string(event.Good) + "\n\tBad : " + std::to_string(event.Bad));
 			// Повторяем для того, чтобы понять : плохо это или хорошо.
-			(*core._reality).DoAction(event.action); // Trying to repeat
+			(*core._reality).DoAction(event.action, event.name); // Trying to repeat
 		}
 		// Если не поняли
 	}
@@ -266,6 +266,13 @@ namespace SpaRcle {
 								deep = 0;
 							}
 						}
+						else if (conseq.name.empty()) {
+							Debug::Log("CentralCore : [1] Unknown ERROR => conseq.name == \"\"!", Error);
+							core.Events_sens.erase(core.Events_sens.begin() + deep);
+							core.Events_conq.erase(core.Events_conq.begin() + deep);
+							deep = 0;
+							Sleep(1000);
+						}
 						else {
 							//std::string sit = core.Events[deep].get<1>();
 							std::string& sit = core.Events_sens[deep];
@@ -284,8 +291,9 @@ namespace SpaRcle {
 										core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
 										core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
 
-										core.Events_sens.erase(core.Events_sens.begin());
-										core.Events_conq.erase(core.Events_conq.begin());
+										if (core.Events_conq.size() != 0) {
+											core.Events_sens.erase(core.Events_sens.begin());
+											core.Events_conq.erase(core.Events_conq.begin()); }
 									}
 									deep = 0;
 								}
@@ -297,12 +305,12 @@ namespace SpaRcle {
 								if (core.Events_sens.size() != 0) {
 									//for (size_t t = deep; t > 0; t--)
 									//	core.Events.erase(core.Events.end() - t);
-
 									core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
 									core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
 
-									core.Events_sens.erase(core.Events_sens.begin());
-									core.Events_conq.erase(core.Events_conq.begin());
+									if (core.Events_conq.size() != 0) {
+										core.Events_sens.erase(core.Events_sens.begin());
+										core.Events_conq.erase(core.Events_conq.begin()); }
 								}
 								deep = 0;
 							}
@@ -313,9 +321,11 @@ namespace SpaRcle {
 					Consequence& conseq = core.Events_conq[0];
 					if (conseq.name == Settings::EmptyName)
 						(*_core).AddSE(conseq.name, false);
+					else if (conseq.name.empty())
+						Debug::Log("CentralCore : [2] Unknown ERROR => conseq.name == \"\"!", Error);
 					else {
 						Debug::Log("CentralCore : only (" + core.Events_sens[0]+ "): " + conseq.name);
-						CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
+						//CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
 					}
 					core.Events_sens.erase(core.Events_sens.begin());
 					core.Events_conq.erase(core.Events_conq.begin());

@@ -130,7 +130,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\Libraries\SFML-2.5.1\include;C:\Users\Nikita\Anaconda3\envs\py36\include;D:\Libraries\boost_1_70_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Libraries\SFML-2.5.1\include;C:\Users\Nikita\Anaconda3\envs\py36\include;J:\SpaRcle\SpaRcleNet;D:\Libraries\boost_1_70_0</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>

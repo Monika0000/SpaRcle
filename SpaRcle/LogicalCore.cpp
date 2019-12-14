@@ -44,6 +44,7 @@ namespace SpaRcle {
 						std::get<0>(_core->Causes[0]).clear();
 						std::get<1>(_core->Causes[0]).clear();
 						std::get<2>(_core->Causes[0]).clear();
+						std::get<4>(_core->Causes[0]).clear();
 						(*_core).Causes.erase((*_core).Causes.begin());   /// Delete first element
 					}
 				}
@@ -96,11 +97,15 @@ namespace SpaRcle {
 		for (size_t t = 0; t < conseq.Causes.size(); t++) {
 			if (name == conseq.GetCS_Name(t)) { continue; }
 
-			Consequence load(conseq.GetCS_Name(t).substr(2), Helper::GetConseqType(conseq.GetCS_Name(t)));
-			for (size_t t2 = 0; t2 < load.PerhapsWill.size(); t2++) {
+			Consequence load;
+			if (load.Load(conseq.GetCS_Name(t).substr(2), Helper::GetConseqType(conseq.GetCS_Name(t))) == 1) {
+				for (size_t t2 = 0; t2 < load.PerhapsWill.size(); t2++) {
 
-				if (conseq.GetCS_Name(t) == load.GetPW_Name(t2))//.PerhapsWill[t2].get<0>())
-				{ decomps.push_back(conseq.GetCS_Name(t)); break; }
+					if (conseq.GetCS_Name(t) == load.GetPW_Name(t2))//.PerhapsWill[t2].get<0>())
+					{
+						decomps.push_back(conseq.GetCS_Name(t)); break;
+					}
+				}
 			}
 			load.~Consequence();
 		}

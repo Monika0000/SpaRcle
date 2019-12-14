@@ -13,7 +13,7 @@ namespace SpaRcle {
 	bool Consequence::isWrite = false;
 	bool Consequence::isRead = false;
 
-	static std::ofstream fout;
+	static std::ofstream fout; ///\todo WTF it is STATIC?!?!?!?!?!?!?!?!??! 
 
 	bool Consequence::Save(Consequence* conseq, const bool Diagnostic)
 	{
@@ -91,17 +91,9 @@ namespace SpaRcle {
 	}
 	bool Consequence::Save(const bool Diagnostic) { return Save(this, Diagnostic); }
 
-	char SpaRcle::Consequence::Load(std::string name, AType atype, std::string Block) {
-		return this->Load(name, atype, true, false, "Load_" + Block); }
-	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block) {
-	//ret: if (isRead) { Debug::Log("Consequence::Load : file already use!", Warning); Sleep(1); goto ret; }
-		//if (Settings::isUseMemory) {
-		//	auto* a = Memory::GetMemory()->GetFragment(name, atype);
-		//	if (a != NULL) {
-		//		Set(*a); }
-		//}
-
-
+	char SpaRcle::Consequence::Load(std::string name, AType atype, std::string Block, load_mode mode) {
+		return this->Load(name, atype, true, false, "Load_" + Block, mode); }
+	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block, load_mode mode) {
 		isRead = true;
 		std::string path;
 		if (!Diagnostic)
@@ -120,22 +112,14 @@ namespace SpaRcle {
 			return 0;
 		}
 		short n = 0, n2 = 0, number = 0, leng = 0;
-		bool findType = false;
+		bool findType = false, isBreak = false;
 		this->name = name;
 
-		//boost::tuple<std::string, std::string, double, int> t_prw;
-		std::tuple<std::string, std::string, double, int> t_prw;
-		std::string l_prw;// int n2;
+		std::tuple<std::string, std::string, double, int> t_prw; std::string l_prw; 
+		std::tuple<std::string, int, double> t_cas;	std::string l_cas; 
+		std::tuple<std::string, double> t_syn; std::string l_syn; 
 
-		//boost::tuple<std::string, int, double> t_cas;
-		std::tuple<std::string, int, double> t_cas;
-		std::string l_cas;// int n2;
-
-		//boost::tuple<std::string, double> t_syn;
-		std::tuple<std::string, double> t_syn;
-		std::string l_syn; //int n2;
-
-		while (!fin.eof()) {
+		while (!fin.eof() && !isBreak) {
 			try {
 				std::string line;
 				std::getline(fin, line); number++;
@@ -146,6 +130,17 @@ namespace SpaRcle {
 
 					SWITCH(pref)
 					{
+						CASE("h") :{
+							std::string bad = ReadUpToChar(post, ';', n2);
+
+							Bad = std::stof(bad);
+							Good = std::stof(post.substr(n2));
+							bad.clear(); bad.~basic_string();
+
+							if (mode == load_mode::to_hp)
+								isBreak = true;
+							break;
+						}
 						CASE("m") : {
 							meetings = std::atoi(post.c_str());
 							//sreturn false;
@@ -202,16 +197,7 @@ namespace SpaRcle {
 							}
 							break;
 						}
-						CASE("h") :{
-							//int n2;
-							std::string bad = ReadUpToChar(post, ';', n2);
 
-							Bad = std::stof(bad);
-							Good = std::stof(post.substr(n2));
-							bad.clear();
-							bad.~basic_string();
-							break;
-						}
 
 						CASE("t") :{
 							if (post == "Speech")
@@ -242,8 +228,9 @@ namespace SpaRcle {
 			}
 			catch (...) {
 				Debug::Log("Consequence::Load (3) ["+Block+"] {"+std::to_string(number)+"} : Loading failed! \n\t" + path , Error);
-				Settings::IsActive = false;
+				//Settings::IsActive = false;
 				fin.close();
+				Sleep(1000);
 				isRead = false;
 				return -1;
 			}
@@ -251,6 +238,10 @@ namespace SpaRcle {
 		fin.close();
 		isRead = false;
 
+		path.~basic_string();
+		l_prw.~basic_string();
+		l_cas.~basic_string();
+		l_syn.~basic_string();
 		return true;
 	}
 
