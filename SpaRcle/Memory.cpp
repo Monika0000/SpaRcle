@@ -72,8 +72,8 @@ namespace SpaRcle {
 
 						try {
 							switch (mode) {
-							case'w': {
-								for (unsigned short t = 0; t < vec.size(); t++) { Debug::Log(Helper::TransliterationRU(vec[t])); this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
+							case'w': { //Debug::Log(Helper::TransliterationRU(vec[t]));
+								for (unsigned short t = 0; t < vec.size(); t++) {  this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
 								for (unsigned short t = 0; t < vec.size(); t++) {  this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
 								// Double
 								for (unsigned char c = 0; c < 10; c++) this->core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
@@ -81,6 +81,9 @@ namespace SpaRcle {
 							case'm': {
 								for (unsigned short t = 0; t < vec.size(); t++) { this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
 								for (unsigned char c = 0; c < 10; c++) this->core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+								break; }
+							case's': {
+								for (unsigned short t = 0; t < vec.size(); t++) { this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
 								break; }
 							case'h': {
 								double hp = std::stod(vec[vec.size() - 1]);

@@ -25,6 +25,7 @@ namespace SpaRcle {
 		CentralCore(int cpuSpeed = 1500);
 		~CentralCore();		
 
+		size_t size_events = 0;
 		short CoreLoad;
 
 		TaskTree Tree;

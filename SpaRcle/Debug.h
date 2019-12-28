@@ -3,7 +3,7 @@
 #include <thread>
 #include <string>
 #include <vector>
-#include <boost/tuple/tuple.hpp>
+#include <tuple>
 
 namespace SpaRcle {
 	enum DType { Info = 1, Log = 2, Warning = 3, Error = 4, System = 5, Mind = 6, Module = 7 };
@@ -51,7 +51,7 @@ namespace SpaRcle {
 	private :
 		static void DebuggerSolution();
 
-		static std::vector<boost::tuple<std::string, bool, SpaRcle::DType, SpaRcle::ConsoleColor>> Messages;
+		static std::vector<std::tuple<std::string, bool, SpaRcle::DType, SpaRcle::ConsoleColor>> Messages;
 
 		static bool IsStart;
 

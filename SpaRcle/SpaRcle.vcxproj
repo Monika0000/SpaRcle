@@ -186,6 +186,7 @@
     <ClInclude Include="StatusBox.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="TaskTree.h" />
+    <ClInclude Include="TCP.h" />
     <ClInclude Include="TextEntry.h" />
     <ClInclude Include="Visual.h" />
     <ClInclude Include="Window.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SpaRcle.cpp" />
     <ClCompile Include="TaskTree.cpp" />
+    <ClCompile Include="TCP.cpp" />
     <ClCompile Include="Visual.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

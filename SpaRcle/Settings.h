@@ -23,8 +23,10 @@ namespace SpaRcle {
 		static bool EventsProcessigDebug; // Отладка обработки проверенных событий
 		static const int SaveNumbers;
 		static const size_t Size_SCP; /* Synapse & Cause & Perhaps | Min = 5 | Интеллект <=> Производительность */
+		static double MinSimilarityPerc;
 		static std::string version;
 		static const std::string EmptyName;
+		static const std::string ClearEvent;
 		static const char TrueSymbol;
 		static bool IsActive;
 		static bool isMinding;
@@ -44,6 +46,8 @@ namespace SpaRcle {
 	};
 
 	const static double Div = 1.5f;
+
+	const static size_t size_t_max = 4294967295;
 
 	const double PeriodicSix = (1.f / 3.f) * 200.f;
 

@@ -84,7 +84,7 @@ namespace SpaRcle {
 						Debug::Log("DFS finaly : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tSuper result : " +
 							con.GetPW_Name(ind) + "; Max = " + std::to_string(max), Module);
 						//TODODODODODODODODODODODODODOODODOODODODODOODODOODOODOOD
-						if (max > 58) { // 76
+						if (max > Settings::MinSimilarityPerc) { // 76 // 58
 							syn = con.GetPW_Name(ind);
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
@@ -96,7 +96,7 @@ namespace SpaRcle {
 							//con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
 							con.GetPW_Name(index) + "; Max = " + std::to_string(max), Module);
 
-						if (max > 58) { // 76
+						if (max > Settings::MinSimilarityPerc) { // 76 // 58
 							syn = con.GetPW_Name(index);
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
@@ -130,7 +130,10 @@ namespace SpaRcle {
 				size_t idx = 0; double percent = 0; auto& s_au = event.GetSN_Name(index);
 				for (size_t t = 0; t < event.PerhapsWill.size(); t++) {
 					if (event.GetPW_Name(t) == s_au) {
-						if (event.GetPW_HP(t) < 0) { Debug::Log("DEOS : Bad synapse! \"" + s_au + "\" = " + event.GetPW_Sens(t), Module); continue; }
+						if (event.GetPW_HP(t) < 0) { 
+							///\!Debug::Log("DEOS : Bad synapse! \"" + s_au + "\" = " + event.GetPW_Sens(t), Module); 
+							continue; 
+						}
 						/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
 						double per = Synapse::SimilarityPercentage(event.GetPW_Sens(t), core.SE_With_MyActions, true, true);
 						if (per > percent) { percent = per; idx = t; }
@@ -239,7 +242,9 @@ namespace SpaRcle {
 			if (timer >= 100) { timer = 0; _core->CoreLoad = load; load = 0; }
 			else timer++;
 
-			if (core.Events_sens.size() == 0) Sleep(*DelayCPU);
+			core.size_events = core.Events_conq.size();
+
+			if (core.size_events == 0) Sleep(*DelayCPU);
 			else try {
 				//core._logic->DoIt(core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks[
 				//	core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks.size() - 1]);
@@ -259,19 +264,23 @@ namespace SpaRcle {
 							else {
 								core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
 								core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
+								core.size_events -= deep;
 
-								core.Events_sens.erase(core.Events_sens.begin());
-								core.Events_conq.erase(core.Events_conq.begin());
+								if (core.size_events > 0 && core.Events_sens.size() > 0) {
+									core.Events_sens.erase(core.Events_sens.begin());
+									core.Events_conq.erase(core.Events_conq.begin()); }
 
 								deep = 0;
 							}
 						}
 						else if (conseq.name.empty()) {
-							Debug::Log("CentralCore : [1] Unknown ERROR => conseq.name == \"\"!", Error);
+							Debug::Log("CentralCore : [1] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000);
 							core.Events_sens.erase(core.Events_sens.begin() + deep);
-							core.Events_conq.erase(core.Events_conq.begin() + deep);
+							
+							if(deep < core.Events_conq.size()) core.Events_conq.erase(core.Events_conq.begin() + deep);
+							else Debug::Log("CentralCore : [1] Fatal ERORR!\n\tdeep = "+std::to_string(deep) + "\n\tsize = "+std::to_string(core.Events_conq.size()), Error); Sleep(1000);
+							
 							deep = 0;
-							Sleep(1000);
 						}
 						else {
 							//std::string sit = core.Events[deep].get<1>();
@@ -321,8 +330,8 @@ namespace SpaRcle {
 					Consequence& conseq = core.Events_conq[0];
 					if (conseq.name == Settings::EmptyName)
 						(*_core).AddSE(conseq.name, false);
-					else if (conseq.name.empty())
-						Debug::Log("CentralCore : [2] Unknown ERROR => conseq.name == \"\"!", Error);
+					else if (conseq.name.empty()) {
+						Debug::Log("CentralCore : [2] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000); }
 					else {
 						Debug::Log("CentralCore : only (" + core.Events_sens[0]+ "): " + conseq.name);
 						//CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);

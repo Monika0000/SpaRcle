@@ -2,6 +2,7 @@
 #include "Helper.h"
 #include "DataTime.h"
 #include <tchar.h>
+#include <typeinfo>
 
 namespace SpaRcle {
 	std::string Helper::TransliterationEN(char ch, bool errors) {
@@ -106,8 +107,31 @@ namespace SpaRcle {
 		//	en[i] = tolower(en[i]);
 		return en;
 	}
-	std::vector<std::string> Helper::Split(std::string text, std::string chr)
-	{
+	std::vector<std::string> Helper::Split(std::string text, std::string chr, std::string end, size_t& index) {
+		std::vector<std::string> arr;
+		std::size_t prev = index;
+		std::size_t next;
+		std::size_t delta = chr.length();
+
+		if (end != "")
+			if ((next = text.find(end, prev)) != std::string::npos) {
+				next = next + index;
+				if (text[next] == end[0]) {
+					text.resize(next); index = next + 1;
+				}
+				else index = -1;
+			}
+			else index = -1;
+
+		while ((next = text.find(chr, prev)) != std::string::npos) {
+			arr.push_back(text.substr(prev, next - prev));
+			prev = next + delta;
+		}
+		arr.push_back(text.substr(prev));
+
+		return arr;
+	}
+	std::vector<std::string> Helper::Split(std::string text, std::string chr) {
 		std::vector<std::string> arr;
 		std::size_t prev = 0;
 		std::size_t next;
@@ -247,17 +271,20 @@ namespace SpaRcle {
 
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
-	void Synapse::FindAndSummSensiv(Consequence& con, std::string& name, std::string& sens, double hp) /* 1 - name, 2 - sensiv */ {
-		if (con.self) Debug::Log("Synapse::FindAndSummSensiv : Self event \"" + con.name + "\" ["+sens+"]");
-		if (sens.size() < 2) {
-			Debug::Log("Synapse::FindAndSummSensiv : sens.size() < 2! \n\tConq : "+con.name + "\n\tName : " + name + "\n\tSens : " + sens, Warning);
+	void Synapse::FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp) /* 1 - name, 2 - sensiv */ {
+		if (sens == NULL) { Debug::Log("Synapse::FindAndSummSensiv : sensivity is NULL!", Error); Sleep(1000); return; }
+		if (typeid(*sens).name() != typeid(std::string).name()) { Debug::Log("Synapse::FindAndSummSensiv : sensivity var are not string type!", Error); Sleep(1000); return; }
+
+		if (con.self) Debug::Log("Synapse::FindAndSummSensiv : Self event \"" + con.name + "\" [" + *sens + "]");
+		if (sens->size() < 2) {
+			Debug::Log("Synapse::FindAndSummSensiv : sens.size() < 2! \n\tConq : "+con.name + "\n\tName : " + name + "\n\tSens : " + *sens, Warning);
 			return; }
 
 		double max = 0; size_t index = 0;
 		for (size_t t = 0; t < con.PerhapsWill.size(); t++) {
 			if (con.GetPW_Name(t) == name) {
 				std::string p = con.GetPW_Sens(t);
-				double var = GetPercent(sens, p);
+				double var = GetPercent(*sens, p);
 				if (var > max) { index = t; max = var; }
 			}
 		}
@@ -266,10 +293,10 @@ namespace SpaRcle {
 			con.GetPW_HP(index) = Synapse::Summ(con.GetPW_HP(index), hp);
 			con.GetPW_Meet(index)++; // Increment
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : summ perhaps will \"" + name + "\" to conseq \"" + con.name +
-				"\"; perc:"+std::to_string(max) + "; sens:"+sens + "="+ con.GetPW_Sens(index)); }
+				"\"; perc:"+std::to_string(max) + "; sens:"+*sens + "="+ con.GetPW_Sens(index)); }
 		else {
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : add perhaps will \""+name+"\" to conseq \""+con.name + "\"");
-			con.PerhapsWill.push_back(std::tuple<std::string, std::string, double, int>(name, sens, hp, 1)); }
+			con.PerhapsWill.push_back(std::tuple<std::string, std::string, double, int>(name, *sens, hp, 1)); }
 	}
 	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s) {
 		std::string Sensiv;

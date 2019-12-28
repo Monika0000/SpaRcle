@@ -18,14 +18,14 @@ namespace SpaRcle {
 	Debug::Debug() { }
 	Debug::~Debug() { }
 	void Debug::Log(std::string mess, bool nline, SpaRcle::DType type, SpaRcle::ConsoleColor type_color)
-	{ Messages.push_back(boost::tuple<std::string, bool, DType, ConsoleColor>(mess, nline, type, type_color)); }
+	{ Messages.push_back(std::tuple<std::string, bool, DType, ConsoleColor>(mess, nline, type, type_color)); }
 	void Debug::Log(std::string mess, SpaRcle::DType type, SpaRcle::ConsoleColor text_color) { Debug::Log(mess, true, type, text_color); }
 	void Debug::Log(int mess, bool nline, DType type, ConsoleColor text_color) {
 		std::string s = std::to_string(mess);
 		Debug::Log(std::basic_string(s), nline, type, text_color); }
 
 	bool Debug::IsStart = false;
-	std::vector<boost::tuple<std::string, bool, DType, ConsoleColor>> Debug::Messages;
+	std::vector<std::tuple<std::string, bool, DType, ConsoleColor>> Debug::Messages;
 	std::thread Debug::Process;
 
 	void Debug::DebuggerSolution() {
@@ -37,56 +37,58 @@ namespace SpaRcle {
 				if (!Settings::IsActive && Debug::Messages.size() == 0) { continue; }
 
 				if (Messages.size() > 0) {
+					ConsoleColor& color = std::get<3>(Messages[0]);
 
 					std::string pref;
-					switch (Messages[0].get<2>())//type
+					switch (std::get<2>(Messages[0]))//type
 					{
 					case SpaRcle::Info:
 						Debug::Info++;
 						pref = "[Info] ";
-						if (Messages[0].get<3>() == Black) Messages[0].get<3>() = ConsoleColor::Magenta;
+						if (color == Black) color = ConsoleColor::Magenta;
 						break;
 					case SpaRcle::Log:
 						pref = "[Log] ";
 						Debug::Logs++;
-						if (Messages[0].get<3>() == Black) Messages[0].get<3>() = ConsoleColor::Cyan;
+						if (color == Black) color = ConsoleColor::Cyan;
 						break;
 					case SpaRcle::Warning:
 						pref = "[Warning] ";
 						Debug::Warnings++;
-						if (Messages[0].get<3>() == Black) Messages[0].get<3>() = ConsoleColor::Yellow;
+						if (color == Black) color = ConsoleColor::Yellow;
 						break;
 					case SpaRcle::Error:
 						Debug::Errors++;
 						pref = "[Error] ";
-						if (Messages[0].get<3>() == Black) Messages[0].get<3>() = ConsoleColor::Red;
+						if (color == Black) color = ConsoleColor::Red;
 						break;
 					case SpaRcle::System:
 						Debug::System++;
 						pref = "[System] ";
-						if (Messages[0].get<3>() == Black) Messages[0].get<3>() = ConsoleColor::Blue;
+						if (color == Black) color = ConsoleColor::Blue;
 						break;
 					case SpaRcle::Mind:
 						Debug::Mind++;
 						pref = "[Mind] ";
-						if (Messages[0].get<3>() == Black) Messages[0].get<3>() = ConsoleColor::Green;
+						if (color == Black) color = ConsoleColor::Green;
 						break;
 					case SpaRcle::Module:
 						Debug::Module++;
 						pref = "[Module] ";
-						if (Messages[0].get<3>() == Black) Messages[0].get<3>() = ConsoleColor::Brown;
+						if (color == Black) color = ConsoleColor::Brown;
 						break;
 					default:
 						break;
 					}
 
-					SetConsoleTextAttribute(hConsole, (WORD)((LightGray << 4) | Messages[0].get<3>()));
+					SetConsoleTextAttribute(hConsole, (WORD)((LightGray << 4) | color));
 					std::cout << pref;
 					SetConsoleTextAttribute(hConsole, (WORD)((LightGray << 4) | Black));
 
-					if (Messages[0].get<1>()) std::cout << Messages[0].get<0>() << std::endl;
-					else std::cout << Messages[0].get<0>();
+					if (std::get<1>(Messages[0])) std::cout << std::get<0>(Messages[0]) << std::endl;
+					else std::cout << std::get<0>(Messages[0]);
 					
+					std::get<0>(Messages[0]).~basic_string();
 					Messages.erase(Messages.begin());
 					pref.~basic_string();
 				}

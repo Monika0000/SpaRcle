@@ -12,11 +12,8 @@
 #include "Memory.h"
 
 namespace SpaRcle {
-	CausalityCore::CausalityCore(int cpuSpeed)
-	{
-		//CoreLoad_1 = 0;
-		CoreLoad = 0;
-		core = NULL;
+	CausalityCore::CausalityCore(int cpuSpeed) {
+		CoreLoad = 0; core = NULL;
 		std::vector<std::string> vector;
 		if (System::Load("temp%load\\causality_data.temp", vector, false))
 			for (std::string a : vector)
@@ -24,20 +21,15 @@ namespace SpaRcle {
 					Consequence conseq("");
 
 					char ok = conseq.Load(a.substr(2), AType::Speech, "Caus_constr");
-					if (ok == 1)
-						this->CheckedEvents.push_back(conseq);
-					else
-						Debug::Log("CausalityCore::Constructor::Load : Unknown error! Type : " + a, Error);
+					if (ok == 1) this->CheckedEvents.push_back(conseq);
+					else Debug::Log("CausalityCore::Constructor::Load : Unknown error! Type : " + a, Error);
 				}
 				else if (a == "U/" + Settings::EmptyName) {
 					this->CheckedEvents.push_back(Consequence(Settings::EmptyName));
 				} else {
 					std::string line = "CausalityCore::Constructor::Load : Unknown type! Type : \"" + a + "\"";
-					Debug::Log(line, Warning);
-				}
-		else
-			CheckedEvents = std::vector<Consequence>();
-
+					Debug::Log(line, Warning); }
+		else CheckedEvents = std::vector<Consequence>();
 		vector.~vector();
 
 		DelayCPU = cpuSpeed;
@@ -60,8 +52,7 @@ namespace SpaRcle {
 		Debug::Log("-> The causality core has completed it's work!", Info);
 	}
  
-	inline bool SpaRcle::CausalityCore::CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, const bool Diagnostic)
-	{
+	inline bool SpaRcle::CausalityCore::CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, const bool Diagnostic) {
 		// Здесь все вроде-бы готово. Пока-что лучше больше не трогать данный участок кода.
 		Consequence& conq = Ref_ev[Settings::Size_SCP]; // 6-ый element
 
@@ -121,7 +112,7 @@ namespace SpaRcle {
 
 			#pragma endregion
 
-			Synapse::FindAndSummSensiv(conq, S_name, Sensivity, ref_will.GetSummHP()); // Perhaps will
+			Synapse::FindAndSummSensiv(conq, S_name, &Sensivity, ref_will.GetSummHP()); // Perhaps will
 		}
 		/* А теперь  */
 
@@ -153,38 +144,6 @@ namespace SpaRcle {
 		size_t size_temp = 0;
 		unsigned char count_sens = 0;
 		std::vector<std::string> clean_sensiv;
-
-		/*
-		#pragma region [===== Pre-Processing =====]
-
-		/// \see В данном регионе мы определяем начальную ситуацию, при которой программа должна начать работать.
-
-		std::vector<std::string> temp;
-		//temp.push_back(std::string(count_word_in_sensiv, '.'));
-		temp.push_back(".");
-
-		if ((*_core).CheckedEvents.size() == 0)
-			for (size_t i = 0; i < 10; i++) {
-				//Sensivity_List.push_back(std::string(".", i + 1));
-				(*_core).CheckedEvents.push_back(Consequence(Settings::EmptyName));
-			}
-
-		if ((*_core).CheckedEvents.size() > 0) {
-			if ((*_core).CheckedEvents.size() < 10) {
-				Debug::Log("CausalitySolution : CheckedEvents < 10! Possible ERROR!", Error);
-				//return;
-			}
-			for (size_t i = 0; i < (*_core).CheckedEvents.size() - 1; i++) {
-				temp.push_back(Synapse::GetSensivityCauses((*_core).CheckedEvents, i));
-			}
-			for (size_t i = 0; i < Settings::Size_SCP; i++) ///\bug TODO : ERRORS
-				(*_core).Sensivity_List.push_back(temp[Settings::Size_SCP + i]); // Я хз зачем это, но лучше не трогай.
-		}
-
-		(*_core).Sensivity_List = temp;
-		Current_sensivity = (*_core).Sensivity_List[(*_core).Sensivity_List.size() - 1];
-#pragma endregion 
-*/ 
 
 		if (true) {
 			if (false) {
@@ -232,11 +191,10 @@ namespace SpaRcle {
 					(*_core).UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
 					(*_core).UncheckedEvents.push_back(Consequence("nikita", Action(Sound("nikita")), 1, 0, good));
 
-					for (size_t tt = 0; tt < 10; tt++)
+					for (size_t tt = 0; tt < Settings::Size_SCP + 2; tt++)
 						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
-				for (size_t tt = 0; tt < 15; tt++)
-					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+				for (size_t tt = 0; tt < Settings::Size_SCP + 5; tt++) (*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
 			if (true) {
 				double tone = 10;
@@ -258,7 +216,7 @@ namespace SpaRcle {
 						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (true) {
+			if (false) {
 				double tone = 8;
 				double volime = 13;
 
@@ -282,8 +240,7 @@ namespace SpaRcle {
 			for (size_t tt = 0; tt < 10; tt++)
 				(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 		}
-
-		Memory::GetMemory()->LoadStaticMemory();
+		//Memory::GetMemory()->LoadStaticMemory();
 
 		Debug::Log("-> The causality core is started!");
 
@@ -294,7 +251,6 @@ namespace SpaRcle {
 			_core->size_unchk_ev = _core->UncheckedEvents.size();
 			if (_core->size_unchk_ev == 0) Sleep(*delay);
 			else { 
-			//if ((*_core).UncheckedEvents.size() > 0) {
 				_event = (*_core).UncheckedEvents[0]; // Get first _event
 
 				if (_event.name.empty()) {
@@ -372,7 +328,7 @@ namespace SpaRcle {
 			if (_core->size_check_ev > ((Settings::Size_SCP * 2) + 1)) {
 				Consequence& conq = (*_core).CheckedEvents[Settings::Size_SCP]; // 6-ый element
 
-				if (!conq.name._Equal(Settings::EmptyName)) {
+				if (!conq.name._Equal(Settings::EmptyName) && !conq.name.empty()) {
 					
 					if (load_conq.Load(conq.name, conq.action.type, "C_Caus")) {
 						conq.Bad = (conq.Bad + load_conq.Bad) / Div;
@@ -413,13 +369,13 @@ namespace SpaRcle {
 						L_ref.EditCauses(Temp_Causes, Temp_Meets, clean_sensiv, conq);
 					}
 
-					Temp_Causes.clear();
-					Temp_Meets.clear();
-					clean_sensiv.clear();
-					load_conq.~Consequence();
 					count_sens = 0;
 					/* Изменяем репутацию причин, которые только что произошли отталкитваясь от следствий в которых они находятся */
 				}
+				Temp_Causes.clear();
+				Temp_Meets.clear();
+				clean_sensiv.clear();
+				load_conq.~Consequence();
 
 				(*_core).CheckedEvents.erase((*_core).CheckedEvents.begin()); // Удаляем первый еэлемент
 				_core->size_check_ev--;

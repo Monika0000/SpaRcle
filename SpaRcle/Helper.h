@@ -46,7 +46,7 @@ namespace SpaRcle {
 			}
 			return percent;
 		}
-		static void FindAndSummSensiv(Consequence& con, std::string& name, std::string& sens, double hp);
+		static void FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp);
 		static std::string GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
 		inline static std::string GetSensivityOfName(std::string& name, bool self) {
@@ -110,6 +110,7 @@ namespace SpaRcle {
 			return r;
 		}
 		static std::vector<std::string> Split(std::string text, std::string chr);
+		static std::vector<std::string> Split(std::string text, std::string chr, std::string end, size_t& index);
 		static inline std::string GetNameWithType(Consequence& conq) {
 			std::string n;
 			n += ToString(conq.action.type)[0];

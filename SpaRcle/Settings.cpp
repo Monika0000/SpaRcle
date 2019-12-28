@@ -14,15 +14,17 @@ namespace SpaRcle {
 	bool Settings::PathsIsSet = false;
 	////////////////////////////
 	bool Settings::CoreDebug = false;
-	bool Settings::ExternalInteraction = true;
+	bool Settings::ExternalInteraction = false;
 	KeyboardLayout Settings::Layout = UNKNOWN;
 	bool Settings::EventsProcessigDebug = false;
 	bool Settings::CentralCoreDebug = false;
 	bool Settings::CauseReputationDebug = false; 
 	const int Settings::SaveNumbers = 5;
-	const size_t Settings::Size_SCP = 8; // 5
-	std::string Settings::version = "0.1_alpha_sparcle";
+	const size_t Settings::Size_SCP = 12; // 5 // 8
+	double Settings::MinSimilarityPerc = 60.0f;
+	std::string Settings::version = "0.18_alpha_sparcle";
 	const std::string Settings::EmptyName = "[NTHG]";
+	const std::string Settings::ClearEvent = "[CL]";
 	const char Settings::TrueSymbol = '_';
 	bool Settings::IsActive = false;
 	bool Settings::isMinding = true;
@@ -51,11 +53,11 @@ namespace SpaRcle {
 	bool Settings::Diagnostic() {
 		std::string temp = "%temp%\\";
 
-		boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string> _Cause(
-			{ "S/Бежал", "S/Упал", "S/Прыгал", "S/Плавал", "S/Ходил" },  // Причины
-			{ 8, 22, 10, 2, 5 }, // Колличество встреч в данном следствии
-			{ "QWERT" , "WERT", "ERT", "RT", "T" },
-			-15.0f, "Больно"); // Результат следствия
+		//boost::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string> _Cause(
+	//		{ "S/Бежал", "S/Упал", "S/Прыгал", "S/Плавал", "S/Ходил" },  // Причины
+	//		{ 8, 22, 10, 2, 5 }, // Колличество встреч в данном следствии
+	//		{ "QWERT" , "WERT", "ERT", "RT", "T" },
+	//		-15.0f, "Больно"); // Результат следствия
 
 		//if (!LogicalCore::CauseReputation(_Cause, true))
 		//	return false;

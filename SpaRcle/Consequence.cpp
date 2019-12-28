@@ -94,6 +94,7 @@ namespace SpaRcle {
 	char SpaRcle::Consequence::Load(std::string name, AType atype, std::string Block, load_mode mode) {
 		return this->Load(name, atype, true, false, "Load_" + Block, mode); }
 	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block, load_mode mode) {
+	ret: if (isRead) { Debug::Log("Consequence::Load : file already use! [" + name + "]", Warning); Sleep(10); goto ret; }
 		isRead = true;
 		std::string path;
 		if (!Diagnostic)
@@ -111,7 +112,7 @@ namespace SpaRcle {
 			isRead = false;
 			return 0;
 		}
-		short n = 0, n2 = 0, number = 0, leng = 0;
+		short n = 0, n2 = 0, number = 0, leng = 0; char method = 0;
 		bool findType = false, isBreak = false;
 		this->name = name;
 
@@ -124,13 +125,12 @@ namespace SpaRcle {
 				std::string line;
 				std::getline(fin, line); number++;
 				if (!findType) {
-					//int n;
+					method = 0;
 					std::string pref = ReadUpToChar(line, ':', n);
 					std::string post = line.substr(n);
 
-					SWITCH(pref)
-					{
-						CASE("h") :{
+					SWITCH(pref) {
+						CASE("h") :{ method = 1;
 							std::string bad = ReadUpToChar(post, ';', n2);
 
 							Bad = std::stof(bad);
@@ -141,15 +141,13 @@ namespace SpaRcle {
 								isBreak = true;
 							break;
 						}
-						CASE("m") : {
+						CASE("m") : { method = 2;
 							meetings = std::atoi(post.c_str());
-							//sreturn false;
 							break;
 						}
-						CASE("cas") : {
+						CASE("cas") : { method = 3;
 							leng = std::atoi(post.c_str());
-							for (short i = 0; i < leng; i++)
-							{
+							for (short i = 0; i < leng; i++) {
 								std::getline(fin, l_cas);
 
 								std::get<0>(t_cas) = ReadUpToChar(l_cas, ';', n2);
@@ -165,7 +163,7 @@ namespace SpaRcle {
 							}
 							break;
 						}
-						CASE("prw") : {
+						CASE("prw") : { method = 4;
 							leng = std::atoi(post.c_str());
 							for (short i = 0; i < leng; i++)
 							{
@@ -177,13 +175,13 @@ namespace SpaRcle {
 								std::get<2>(t_prw) = std::stof(ReadUpToChar(l_prw, ';', n2, 8));
 								l_prw = l_prw.substr(n2);
 								std::get<3>(t_prw) = std::atoi(l_prw.c_str());
-								PerhapsWill.push_back(t_prw);
+								PerhapsWill.push_back(t_prw); // Load 
 
 								number++;
 							}
 							break;
 						}
-						CASE("syn") : {
+						CASE("syn") : { method = 5;
 							leng = std::atoi(post.c_str());
 							for (short i = 0; i < leng; i++)
 							{
@@ -199,7 +197,7 @@ namespace SpaRcle {
 						}
 
 
-						CASE("t") :{
+						CASE("t") :{ method = 6;
 							if (post == "Speech")
 								action.type = Speech;
 							else if (post == "Visual")
@@ -226,8 +224,8 @@ namespace SpaRcle {
 					if (!action.ApplyLine(line))
 						std::cout << "\n\t" + path << std::endl;
 			}
-			catch (...) {
-				Debug::Log("Consequence::Load (3) ["+Block+"] {"+std::to_string(number)+"} : Loading failed! \n\t" + path , Error);
+			catch (std::exception e) {
+				Debug::Log("Consequence::Load (3) ["+Block+"] {"+std::to_string(number)+"} : Loading failed! \n\tPath : " + path + "\n\tMethod = " + std::to_string(method) + "\n\tReason : "+ e.what(), Error);
 				//Settings::IsActive = false;
 				fin.close();
 				Sleep(1000);

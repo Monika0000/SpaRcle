@@ -17,6 +17,7 @@
 #include <thread>
 #include "Memory.h"
 #include <stdexcept>
+#include "TCP.h"
 
 using namespace SpaRcle;
 
@@ -77,6 +78,8 @@ int main(int argc, char** argv)
 		_logic = new LogicalCore(50);
 		_reality = new RealityCore(50);
 		_emotion = new EmotionCore(50);
+
+		TCP tcp = TCP(_core);
 #pragma endregion
 
 	#pragma region [======== Init ========]
@@ -88,6 +91,26 @@ int main(int argc, char** argv)
 		_core->ConnectCausality(_causality);
 		_core->ConnectReality(_reality);
 		_core->ConnectEmotion(_emotion);
+
+		tcp.Start();
+
+		
+		//size_t index = 0;
+		//std::string line = "event S monika~event S how~event S are~event S you";
+	//ret:
+		//Sleep(100);
+		/*
+		for (std::string s : Helper::Split(line, " ", "~", index))
+			Debug::Log(s + " ("+std::to_string(index)+")");
+		Debug::Log("==============");
+		if (index != ::size_t_max)
+		{
+			line = line.substr(index);
+			index = 0;
+			goto ret;
+		}
+		*/
+		//while (true) { }
 
 		Sleep(100);
 		_reality->Start();
@@ -108,17 +131,12 @@ int main(int argc, char** argv)
 		Memory::GetMemory()->CopyFile("memory_mapped_file.hpp", "copy.tmp", true);
 #pragma endregion
 
-		while (true)
-		{
-			Sleep(100);
-			Settings::Layout = Helper::GetLayout();
-			if (!Settings::IsActive)
-				break;
+		while (true) {
+			Sleep(100); Settings::Layout = Helper::GetLayout();
+			if (!Settings::IsActive) break;
 
-			if (Display::Status == 2)
-				break;
-			else if (Display::Status == 0)
-			{
+			if (Display::Status == 2) break;
+			else if (Display::Status == 0) {
 				//std::cout << "Для продолжения нажмите Enter\n";
 				Debug::Log("Starting are successful. For exit press the Enter...", DType::System);
 				std::cin.get();
@@ -129,6 +147,7 @@ int main(int argc, char** argv)
 
 		std::cout << "==================================[STOP]==================================" << std::endl;
 		Sleep(2000);
+		tcp.Close();
 		Destruct();
 		delete Window::Get();
 		Display::Deactive();

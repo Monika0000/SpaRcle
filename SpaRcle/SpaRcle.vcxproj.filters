@@ -126,6 +126,9 @@
     <ClInclude Include="Memory.h">
       <Filter>Файлы заголовков\Utilites</Filter>
     </ClInclude>
+    <ClInclude Include="TCP.h">
+      <Filter>Файлы заголовков\Reality</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -187,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="SpaRcle.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="TCP.cpp">
+      <Filter>Исходные файлы\Reality</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

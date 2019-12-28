@@ -84,12 +84,20 @@ namespace SpaRcle {
 			win.core->_causality->NewEvent(Consequence(Sound("two", 10, 15)));
 			});
 		AddButton("Spam", sf::Vector2f(25, 820), sf::Vector2f(80, 20), "    	[Spam]", 3, [=](Window& win, Button* button) {
+			/*
 			win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)),false);
 			win.core->_causality->NewEvent(Consequence(Sound("monika", 10, 15)), false);
 			win.core->_causality->NewEvent(Consequence(Sound("kak", 10, 15)), false);
 			win.core->_causality->NewEvent(Consequence(Sound("dele", 10, 15)), false);
 			win.core->_causality->NewEvent(Consequence(Sound("baka", 10, 15)), false);
 			win.core->_causality->NewEvent(Consequence(Sound("desu", 10, 15)), false);
+			*/
+			win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)), false);
+			win.core->_causality->NewEvent(Consequence(Sound("monika", 10, 15)), false);
+			win.core->_causality->NewEvent(Consequence(Sound("desu", 10, 15)), false);
+			win.core->_causality->NewEvent(Consequence(Sound("baka", 10, 15)), false);
+			for (size_t i = 0; i < Settings::Size_SCP * 2 + 5; i++)
+				core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}, 0);
 		AddButton("Hello", sf::Vector2f(25, 890), sf::Vector2f(80, 20), "  [Hello Monika]", 3, [=](Window& win, Button*button) {
 				win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)));
@@ -120,6 +128,8 @@ namespace SpaRcle {
 				SetText(new sf::Text(), defaultFont, 30, sf::Color(0, 255, 0)), // mind
 				SetText(new sf::Text(), defaultFont, 30, sf::Color(255, 255, 125)), // module
 				SetText(new sf::Text(), defaultFont, 30, sf::Color(0, 0, 255)), // sys
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(0, 0, 0)), 
+				SetText(new sf::Text(), defaultFont, 30, sf::Color(255, 255, 125)), // SIZE CC EV
 		},
 			std::vector<std::function<void(Window & win, sf::Text & text)>> {
 				[=](Window& win, sf::Text& text) {},
@@ -130,6 +140,8 @@ namespace SpaRcle {
 					[=](Window& win, sf::Text& text) { text.setString("[Mind] : " + std::to_string(Debug::Mind)); },
 					[=](Window& win, sf::Text& text) { text.setString("[Module] : " + std::to_string(Debug::Module)); },
 					[=](Window& win, sf::Text& text) { text.setString("[System] : " + std::to_string(Debug::System)); },
+					[=](Window& win, sf::Text& text) { text.setString("~~~~~~~~~~~~~~~~~"); },
+					[=](Window& win, sf::Text& text) { text.setString("[CC size ev] : "+ std::to_string(win.core->size_events)); },
 			})); }
 	}
 

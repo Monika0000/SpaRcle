@@ -131,7 +131,7 @@ namespace SpaRcle {
 
 			try {
 				unsigned short last_index = size - 1 - i; // Перечисление с конца массива в начало (инверсия). Ибо массив отсортирован от меньшего к большему
-				AType t = ToAType(std::get<0>(Cause)[last_index][0]);
+				AType t = ToAType(std::get<0>(Cause)[last_index][0]); ///\error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				if (t != Undefined) { // Error
 					if (!loaded.Load(std::get<0>(Cause)[last_index].substr(2), t, true, Diagnostic, "Logic"))
 						if (Diagnostic) return false;
@@ -160,7 +160,7 @@ namespace SpaRcle {
 					Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Second Block]", Error); }
 
 				try {
-					Synapse::FindAndSummSensiv(loaded, std::get<4>(Cause), std::get<2>(Cause)[i], std::get<3>(Cause));
+					Synapse::FindAndSummSensiv(loaded, std::get<4>(Cause), &std::get<2>(Cause)[i], std::get<3>(Cause));
 					loaded.meetings++;
 
 					if (!Diagnostic) loaded.Save(); // Saving

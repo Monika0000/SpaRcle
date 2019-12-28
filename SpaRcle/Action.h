@@ -29,6 +29,8 @@ namespace SpaRcle {
 			return Speech;
 		case 'V':
 			return VisualData;
+		case 'M':
+			return Move;
 		default:
 			//Debug::Log("ToAType : Unknown type! \"" + std::string(1, c) + "\"");
 			return Undefined;
