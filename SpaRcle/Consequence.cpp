@@ -13,22 +13,23 @@ namespace SpaRcle {
 	bool Consequence::isWrite = false;
 	bool Consequence::isRead = false;
 
-	static std::ofstream fout; ///\todo WTF it is STATIC?!?!?!?!?!?!?!?!??! 
+	static int _cdecl r;
+	//static std::ofstream fout; ///\TODO WTF it is STATIC?!?!?!?!?!?!?!?!??! 
 
-	bool Consequence::Save(Consequence* conseq, const bool Diagnostic)
-	{
-	ret: if (isWrite) { Debug::Log("Consequence::Save : file already use! ["+conseq->name+"]", Warning); Sleep(1); goto ret; }
+	bool Consequence::Save(Consequence* conseq, const bool Diagnostic) {
+	ret: if (isWrite) { Debug::Log("Consequence::Save : file already use! ["+conseq->name+"]", Warning); Sleep(5); goto ret; }
 		isWrite = true;
 
+		std::ofstream fout;
 		std::string p;
 		if (!Diagnostic)
 			p = Settings::Logic; // path to logic
 		else
 			p = Settings::SysDir + "\\TestingData";
 
-		if (!Helper::DirExists(p)) _mkdir(p.c_str()); // if not exists - make path
+		if (!Helper::DirExists(p)) r = _mkdir(p.c_str()); // if not exists - make path
 		p += "\\"; p += ToString(conseq->action.type); // add additional path
-		if (!Helper::DirExists(p)) _mkdir(p.c_str()); // if not exists - make path
+		if (!Helper::DirExists(p)) r = _mkdir(p.c_str()); // if not exists - make path
 		if (!Diagnostic)
 			p += "\\" + conseq->name + Settings::exp_conseq; // set file name
 		else
@@ -40,8 +41,9 @@ namespace SpaRcle {
 			if (!fout.is_open()) {
 				Debug::Log("Consequence::Save = Cant't saving file! \n\tPath : " + p);
 				isWrite = false;
-				return false;
-			}
+				p.clear(); p.~basic_string();
+				return false; }
+			p.clear(); p.~basic_string();
 
 			std::string bad = Helper::Remove(std::to_string((*conseq).Bad), Settings::SaveNumbers);
 			if (bad[bad.size() - 1] == ',') bad.resize(bad.size() - 2);
@@ -51,8 +53,8 @@ namespace SpaRcle {
 
 			fout << "h:" << bad << ";" << good << std::endl << "m:" << (*conseq).meetings << std::endl;
 
-			bad.clear();
-			good.clear();
+			bad.clear(); bad.~basic_string();
+			good.clear(); good.~basic_string();
 
 			if ((*conseq).Causes.size() > 0)
 			{
@@ -79,13 +81,15 @@ namespace SpaRcle {
 			} // Запись синапсов в файл
 
 			fout << conseq->action.GetSaveData();
-			fout.close();
+			fout.close(); 
 			isWrite = false;
+			p.clear(); p.~basic_string();
 			return true;
 		}
 		catch (...) {
 			Debug::Log("SpaRcle::Consequence::Save : An exception has occured! ["+conseq->name+"]", Error);
 			isWrite = false;
+			p.clear(); p.~basic_string();
 			return false;
 		}
 	}
@@ -94,6 +98,34 @@ namespace SpaRcle {
 	char SpaRcle::Consequence::Load(std::string name, AType atype, std::string Block, load_mode mode) {
 		return this->Load(name, atype, true, false, "Load_" + Block, mode); }
 	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block, load_mode mode) {
+		if (Settings::isUseMemory) {
+			Consequence* con = Memory::GetMemory()->GetFragment(name, atype);
+			if (con != NULL) {
+				this->action = con->action;
+				this->Bad = con->Bad;
+				this->Causes = con->Causes;
+				this->Good = con->Good;
+				this->meetings = con->meetings;
+				this->name = con->name;
+				this->PerhapsWill = con->PerhapsWill;
+				this->Synapses = con->Synapses;
+				return true;
+			}
+			else {
+				char result = LoadFile(name, atype, notFoundIsError, Diagnostic, Block, mode);
+				if (result == 1) {
+					Memory::GetMemory()->AddFragment(this);
+					return 1;
+				}
+				else
+					return result;
+			}
+
+		}
+		else
+		 	return LoadFile(name, atype,notFoundIsError, Diagnostic, Block, mode);
+	}
+	char Consequence::LoadFile(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block, load_mode mode) {
 	ret: if (isRead) { Debug::Log("Consequence::Load : file already use! [" + name + "]", Warning); Sleep(10); goto ret; }
 		isRead = true;
 		std::string path;
@@ -104,12 +136,13 @@ namespace SpaRcle {
 
 		std::ifstream fin;
 		try { fin.open(path); }
-		catch (...) { Debug::Log("Consequence::Load (1) [" + Block + "] : Openning failed! \n	" + path, Error); return -1; isRead = false; }
+		catch (...) { Debug::Log("Consequence::Load (1) [" + Block + "] : Openning failed! \n	" + path, Error); fin.close(); path.clear(); path.~basic_string(); return -1; isRead = false; }
 
 		if (!fin.is_open()) {
 			if (notFoundIsError)
 			Debug::Log("SpaRcle::Consequence::Load (2) [" + Block + "] : File is not exists! \n	" + path, Error);
-			isRead = false;
+			isRead = false; 
+			fin.close(); path.clear(); path.~basic_string();
 			return 0;
 		}
 		short n = 0, n2 = 0, number = 0, leng = 0; char method = 0;
@@ -199,9 +232,11 @@ namespace SpaRcle {
 
 						CASE("t") :{ method = 6;
 							if (post == "Speech")
-								action.type = Speech;
+								action.type = AType::Speech;
 							else if (post == "Visual")
-								action.type = VisualData;
+								action.type = AType::VisualData;
+							else if (post == "Move")
+								action.type = AType::Move;
 							else
 								Debug::Log("SpaRcle::Consequence::Load::CASE(t) = WARNING : Unknown type! \n\tPath : " + path +
 									"\n\tLine : " + line +
@@ -209,9 +244,7 @@ namespace SpaRcle {
 									"\n\tNumber : " + std::to_string(number), Warning);
 							//std::cout << "SWITCH::CASE : t" << std::endl;
 							findType = true;
-							break;
-						}
-
+							break; }
 					DEFAULT:
 						Debug::Log("SpaRcle::Consequence::Load::SWITCH = WARNING : Uncorrect char! \n\tPath : " + path +
 							"\n\tLine : " + line +
@@ -228,6 +261,7 @@ namespace SpaRcle {
 				Debug::Log("Consequence::Load (3) ["+Block+"] {"+std::to_string(number)+"} : Loading failed! \n\tPath : " + path + "\n\tMethod = " + std::to_string(method) + "\n\tReason : "+ e.what(), Error);
 				//Settings::IsActive = false;
 				fin.close();
+				path.clear(); path.~basic_string();
 				Sleep(1000);
 				isRead = false;
 				return -1;
@@ -283,6 +317,12 @@ namespace SpaRcle {
 		this->meetings = 1;
 		this->EventData = DataTime();
 		this->action = Action(visual); }
+	Consequence::Consequence(Motion move) {
+		this->Bad = 0; this->Good = 0;
+		this->name = move.part;
+		this->meetings = 1;
+		this->EventData = DataTime();
+		this->action = Action(move); }
 	Consequence::Consequence(std::string name, Action action) {
 		this->Bad = 0; this->Good = 0;
 		this->name = name;

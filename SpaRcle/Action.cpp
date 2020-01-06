@@ -4,18 +4,23 @@
 #include "Helper.h"
 
 namespace SpaRcle {
-	Action::Action() { type = Undefined; }
+	Action::Action() { type = AType::Undefined; }
 
 	Action::Action(Sound sound) {
 		this->sound = sound;
-		this->type = Speech; }
+		this->type = AType::Speech; }
+	Action::Action(Motion motion) {
+		this->motion = motion;
+		this->type = AType::Move;
+	}
 	Action::Action(Visual visual) {
 		this->visual = visual;
-		this->type = VisualData; }
+		this->type = AType::VisualData; }
 
 	Action::~Action() {
 		this->sound.~Sound();
-		this->visual.~Visual(); }
+		this->visual.~Visual(); 
+		this->motion.~Motion(); }
 
 	void Action::Save(std::string path) {
 		std::ofstream fout; path = Settings::SysDir + "\\Commands\\" + path + ".act";
@@ -28,36 +33,35 @@ namespace SpaRcle {
 		fout << this->GetSaveData() << std::endl;
 		fout.close(); }
 
-	std::string Action::GetSaveData(Action * action)
-	{
+	std::string Action::GetSaveData(Action * action) {
 		std::string data;
 		data += "t:"; data += ToString(action->type); data += "\n";
 
-		switch (action->type)
-		{
-		case AType::Undefined:
-		{
+		switch (action->type) {
+		case AType::Undefined: {
+			Debug::Log("Action::GetSaveData : trying save undefined action!", Error);
 			break;
 		}
-		case AType::Speech:
-		{
+		case AType::Speech: {
 			data += "sd:" + action->sound.text + "\n";
 			data += "pr:" + Helper::Remove(std::to_string(action->sound.tone), Settings::SaveNumbers) + ";" + Helper::Remove(std::to_string(action->sound.volime),
 				Settings::SaveNumbers);
 			break;
 		}
-		case AType::VisualData:
-		{
-			data += "vs:" + action->visual.tag;
+		case AType::VisualData: {
+			data += "vs:" + action->visual.tag; // visual
+			break;
+		}
+		case AType::Move: {
+			data += "pt:" + action->motion.part + "\n"; // part
+			data += "vl:" + std::to_string(action->motion.value); // value
 			break;
 		}
 		default:
 			Debug::Log("Action::GetSaveData : Unknown type!", Error);
-			return "[Error]";
-		}
+			return "[Error]"; }
 
-		return data;
-	}
+		return data; }
 	std::string Action::GetSaveData() { return GetSaveData(this); }
 
 	bool Action::ApplyLine(std::string line) {
@@ -81,6 +85,10 @@ namespace SpaRcle {
 			CASE("vs") :{ visual.tag = post; break; }
 	///^VISUAL
 
+	///^MOTION
+			CASE("pt") :{ motion.part = post; break; }
+			CASE("vl") :{ motion.value = std::stof(post); break; }
+	///^MOTION
 		DEFAULT: {
 			Debug::Log("SpaRcle::Action::ApplyLine::SWITCH = WARNING : Uncorrect char! \n\tLine : "  + line +
 				"\n\tSymbol : " + pref, Warning);

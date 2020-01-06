@@ -42,9 +42,9 @@ namespace SpaRcle {
 		//%Выполняем %полезное %действие...
 		std::string syn = event.GetSN_Name(_index);
 	Deep:
-		if (syn[0] == 'S') {
+		if (syn[0] == 'S' || syn[0] == 'M') {
 			Consequence con;
-			if (con.Load(syn.substr(2), AType::Speech, false, false, "DFS") == 1) {
+			if (con.Load(syn.substr(2), ToAType(syn[0]), true, false, "DFS") == 1) {
 				real.DoAction(con.action, con.name);
 				real.core->AddSE(con.name, true);
 
@@ -74,16 +74,16 @@ namespace SpaRcle {
 					}
 
 					if (super) {
-						short ind = 0; float meets = 0;
+						short ind = 0; int meets = 0;
 						for (short i = 0; i < (short)super_indx.size(); i++) {
 							if (con.GetPW_Meet(super_indx[i]) > meets) {
 								meets = con.GetPW_Meet(super_indx[i]);
 								ind = i;
 							}
 						}
-						Debug::Log("DFS finaly : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tSuper result : " +
+						Debug::Log("DFS finaly (super) : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tSuper result : " +
 							con.GetPW_Name(ind) + "; Max = " + std::to_string(max), Module);
-						//TODODODODODODODODODODODODODOODODOODODODODOODODOODOODOOD
+						///\TODO !!!!!!!
 						if (max > Settings::MinSimilarityPerc) { // 76 // 58
 							syn = con.GetPW_Name(ind);
 							dp++;
@@ -110,75 +110,125 @@ namespace SpaRcle {
 			else
 				Debug::Log("DSF::DoAction : Failed! \n\t  Name : \"" + con.name + "\"\n\t  Type : "
 					+ ToString(con.action.type) + "\n\t  Synapse : " + syn, Warning);
+			con.~Consequence();
 		}
 		else
 			Debug::Log("DFS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(_index), Error);
 		return false;
 	}
-	bool DoEventOfSynapse(Consequence& event, std::string& Situation, CentralCore& core) {
+	bool DoEventOfSynapse(Consequence& _event, std::string& Situation, CentralCore& core) {
 		RealityCore& real = (*core._reality);
-		if (event.Synapses.size() > 0) {
-			Helper::SelectionSort(event.Synapses);
-			int index = event.Synapses.size() - 1;
-			bool find = false;
+		//std::vector<short> super_variants; 
+		size_t mem_sup_index = 0;
+
+		if (_event.Synapses.size() > 0) {
+			Helper::SelectionSort(_event.Synapses);
+			int index = _event.Synapses.size() - 1;
+			bool find = false, super = false; 
 			int meets = -1, deepModeIndex = -1;
 			/// Добавить возможность крайностей - когда мы совершенно не знаем ответа, но нам нужно что-то сказать,
 			/// и у нас есть варианты (хоть и не самые подходящие(но не плохие)) ты мы будем пытаться их выполнить
 		Repeat:
-			if (event.GetSN_HP(index) > 0)	{
-				/// \see Ищем самый схожий синапс
-				size_t idx = 0; double percent = 0; auto& s_au = event.GetSN_Name(index);
-				for (size_t t = 0; t < event.PerhapsWill.size(); t++) {
-					if (event.GetPW_Name(t) == s_au) {
-						if (event.GetPW_HP(t) < 0) { 
+			if (_event.GetSN_HP(index) > 0)	{ // Полезность синапса внутри _event
+
+				/// ^see ^IIIIIIIIIIIIIIIII Ищем самый схожий синапс
+				double percent = 0; // Итоговый процент схожести ситуации на одну из возможных вариаций
+				size_t idx = 0;		// Индекс найденой вариации
+				auto& s_au = _event.GetSN_Name(index); // Имя синапса под индексом перечисления
+				for (size_t t = 0; t < _event.PerhapsWill.size(); t++) {
+					if (_event.GetPW_Name(t) == s_au) {
+						if (_event.GetPW_HP(t) < 0) { 
 							///\!Debug::Log("DEOS : Bad synapse! \"" + s_au + "\" = " + event.GetPW_Sens(t), Module); 
 							continue; 
 						}
 						/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
-						double per = Synapse::SimilarityPercentage(event.GetPW_Sens(t), core.SE_With_MyActions, true, true);
-						if (per > percent) { percent = per; idx = t; }
+						double per = Synapse::SimilarityPercentage(_event.GetPW_Sens(t), core.SE_With_MyActions, true, true);
+						if (per > percent)  {
+							percent = per; 
+							idx = t; 
+						}
 					}
 				}
+				if (percent == 100) super = true;
+				Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);//(" + core.SE_With_MyActions + " " + + ")", Module);
+				/// ^see ^IIIIIIIIIIIIIIIII Ищем самый схожий синапс
 
 				if (percent != 0) {
-					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);
-					if (percent == 100) {
-						Debug::Log("DEOS : Super variant = " + event.GetPW_Name(idx) + "; Meets = " + std::to_string(event.GetPW_Meet(idx)), Module);
-						find = true;
-						if (event.GetPW_Meet(idx) > meets) {
-							meets = event.GetPW_Meet(idx);
-							deepModeIndex = index;
+					if (super) {
+						if (percent == 100) { 
+							// Если у нас однажды был найден супер вариант, то мы выполняем проверку,
+							// на принадлежность последнего найденного, к супер вариации.
+							// Если принадлежит - сравниваем с последним на число встреч
+							// Если не принадлежит - прверяем есть ли еще варианты, 
+							// Если есть - продолжаем искать супер варианты
+							// Если нет - выполняем лучший найденный супер вариант
+
+							Debug::Log("DEOS : Super variant = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
+							//super_variants.push_back(short(idx));
+							find = true;
+							if (_event.GetPW_Meet(idx) > meets) {
+								meets = _event.GetPW_Meet(idx);
+								deepModeIndex = index;
+							}
 						}
-						if (index > 0) { index--; goto Repeat; }
-						else DoFindSynapse(event, deepModeIndex, real, core);
+
+						if (index > 0) { index--; goto Repeat; } // Выполняем проверку
+						else  DoFindSynapse(_event, deepModeIndex, real, core);
 					}
-					else if (percent >= PeriodicSix + 10) { /// \bug +10
-						DoFindSynapse(event, index, real, core);
-						find = true;
-						if (!find && index > 0) { index--; /*Debug::Log(index);*/ goto Repeat; } // Если не вышло
+					else { // Если не было найдено абсолютных супер вариантов
+						if (percent >= PeriodicSix + 10) { ///\%isGood +10
+							DoFindSynapse(_event, index, real, core);
+							find = true;
+							if (!find && index > 0) { index--; /*Debug::Log(index);*/ goto Repeat; } // Если не вышло
+						}
+						else if (index > 0) { index--; goto Repeat; }/// $Если $не $подходит
+						else {
+							/*
+							if (super_variants.size() != 0) { // Финальное умо-заключение, при том, что не было найдено абсолютных вариаций
+								if (super_variants.size() > 1)
+									for (size_t s = 1; s < super_variants.size(); s++)
+										if (std::get<3>(_event.PerhapsWill[super_variants[s]]) > std::get<3>(_event.PerhapsWill[super_variants[mem_sup_index]])) {
+											mem_sup_index = super_variants[s];
+										}
+
+								std::string _name = std::get<0>(_event.PerhapsWill[mem_sup_index]);
+								Debug::Log("DEOS : Finaly variant = " + _name, Module);
+								Consequence* _final = new Consequence(_name.substr(2), ToAType(_name[0]));
+								//core._reality->DoAction((*_final).action);
+								_name.clear(); delete _final;
+							}
+							else {*/
+							// "Последняя надежда", тупо для отладки
+							std::string _name = std::get<0>(_event.PerhapsWill[idx]);
+							Debug::Log("DEOS : last variant = " + _name, Module);
+							Consequence* _final = new Consequence(_name.substr(2), ToAType(_name[0]));
+							//core._reality->DoAction((*_final).action);
+							_name.clear(); delete _final;
+							//}
+						}
 					}
-					else if (index > 0) { index--; goto Repeat; }/// $Если $не $подходит
 				}
 				else { ///\to NOT FOUND SOLUTION
-					Debug::Log("DEOS : Not found solution = \"" + event.name + "\" at synapse \"" + s_au + "\" index=" + std::to_string(index), Module);
+					Debug::Log("DEOS : Not found solution = \"" + _event.name + "\" at synapse \"" + s_au + "\" index=" + std::to_string(index), Module);
 					if (index > 0) { index--; goto Repeat; }
 				}
 			}
-
+			
+			//super_variants.clear(); //last_variants.clear();
 			return find;
 		}
-		else return false;
+		else { /*super_variants.clear(); last_variants.clear();*/ return false; }
 	}
 
 	void SpaRcle::CentralCore::ProcessingEvent(Consequence& event, std::string& Situation, CentralCore& core) {
 		// TODO : Требуется калибровка порогов чувствительности.
 		if (event.Bad > event.Good && event.Bad > 3) { // Пытаемся выкрутиться из ситуации с наименьшим ущербом
-			Debug::Log("CentralCore : " + event.name + " is Bad! \n\tBad : " + std::to_string(event.Bad) + "\n\tGood : " + std::to_string(event.Good)); 
+			Debug::Log("CentralCore::PE : " + event.name + " is Bad! \n\tBad : " + std::to_string(event.Bad) + "\n\tGood : " + std::to_string(event.Good)); 
 			bool find = DoEventOfSynapse(event, Situation, core); // Если имеется хоть какое-то решение
 
 			if (!find) // Если все совсем печально...
 			{
-				Debug::Log("CentralCore : Find opposite...", Mind);
+				Debug::Log("CentralCore::PE : Find opposite...", Mind);
 
 				Consequence opposite; bool seccues = false;
 				if (LogicalCore::GetOpposite(opposite, event)) {
@@ -214,13 +264,15 @@ namespace SpaRcle {
 		}
 		// Если плохо 
 		else if (event.Good > event.Bad && event.Good > 5) {
-			Debug::Log("CentralCore : " + event.name + " is Good"); /* Debuging */
+			Debug::Log("CentralCore::PE : " + event.name + " is Good"); /* Debuging */
 			DoEventOfSynapse(event, Situation, core); // Ищем продолжение
 		}
 		// Если хорошо
 		else
 		{
-			Debug::Log("CentralCore : \"" + event.name + "\" is undefined. \n\t" + "Good : " + std::to_string(event.Good) + "\n\tBad : " + std::to_string(event.Bad));
+			///\TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			Debug::Log("CentralCore::PE : TODO!", DType::Error);
+			Debug::Log("CentralCore::PE : \"" + event.name + "\" is undefined. \n\t" + "Good : " + std::to_string(event.Good) + "\n\tBad : " + std::to_string(event.Bad));
 			// Повторяем для того, чтобы понять : плохо это или хорошо.
 			(*core._reality).DoAction(event.action, event.name); // Trying to repeat
 		}
@@ -246,74 +298,63 @@ namespace SpaRcle {
 
 			if (core.size_events == 0) Sleep(*DelayCPU);
 			else try {
-				//core._logic->DoIt(core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks[
-				//	core.Tree.Branches[core.Tree.Branches.size() - 1].Tasks.size() - 1]);
-
 				if (causal.size_unchk_ev == 0) {
-					//if (core.Events.size() > 1) {
-						load++;
-					Ret:
-						//Consequence& conseq = core.Events[deep].get<0>();
-						Consequence& conseq = core.Events_conq[deep];
-						(*_core).AddSE(conseq.name, false); // Петля
+					load++;
+				//Ret: /// name == EmptyName |and| logical loop
+					Consequence& conseq = core.Events_conq[deep];
+					(*_core).AddSE(conseq.name, false); // !Петля
 
-						if (conseq.name == Settings::EmptyName) {
-							if (core.Events_sens.size() > deep + 1) {
-								deep++; goto Ret;
-							}
-							else {
-								core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
-								core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
-								core.size_events -= deep;
+					if (conseq.name.empty()) {
+						Debug::Log("CentralCore : [1] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000);
+						core.Events_sens.erase(core.Events_sens.begin() + deep);
 
-								if (core.size_events > 0 && core.Events_sens.size() > 0) {
-									core.Events_sens.erase(core.Events_sens.begin());
-									core.Events_conq.erase(core.Events_conq.begin()); }
-
-								deep = 0;
-							}
+						if (deep < core.Events_conq.size()) core.Events_conq.erase(core.Events_conq.begin() + deep);
+						else {
+							Debug::Log("CentralCore : [1] Fatal ERORR!\n\tdeep = " + std::to_string(deep) + "\n\tsize = " + std::to_string(core.Events_conq.size()), Error);
+							core.Events_conq.clear();
+							core.Events_sens.clear();
+							Sleep(1000);
 						}
-						else if (conseq.name.empty()) {
-							Debug::Log("CentralCore : [1] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000);
-							core.Events_sens.erase(core.Events_sens.begin() + deep);
-							
-							if(deep < core.Events_conq.size()) core.Events_conq.erase(core.Events_conq.begin() + deep);
-							else Debug::Log("CentralCore : [1] Fatal ERORR!\n\tdeep = "+std::to_string(deep) + "\n\tsize = "+std::to_string(core.Events_conq.size()), Error); Sleep(1000);
-							
-							deep = 0;
+
+						deep = 0;
+						continue;
+					}
+					else if (conseq.name == Settings::EmptyName) {
+						core.Events_conq.erase(core.Events_conq.begin() + deep);
+						core.Events_sens.erase(core.Events_sens.begin() + deep);
+						if(deep > 0) deep--;
+						continue;
+						/*
+						if (core.Events_sens.size() > deep + 1) {
+							deep++; goto Ret;
 						}
 						else {
-							//std::string sit = core.Events[deep].get<1>();
-							std::string& sit = core.Events_sens[deep];
+							core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
+							core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
+							core.size_events -= deep;
 
-							if (core.Events_sens.size() > deep + 1) {
-								//if (conseq.EventData.sec + 5 >= core.Events[deep + 1].get<0>().EventData.sec) {
-								if (conseq.EventData.sec + 5 >= core.Events_conq[deep + 1].EventData.sec) {
-									deep++; goto Ret;
-								}
-								else {
-									Debug::Log("CentralCore : While - Logical loop. \n\tEvents : "
-										//+ std::to_string(core.Events.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
-										+ std::to_string(core.Events_sens.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
+							if (core.size_events > 0 && core.Events_sens.size() > 0) {
+								core.Events_sens.erase(core.Events_sens.begin());
+								core.Events_conq.erase(core.Events_conq.begin()); }
 
-									if (core.Events_sens.size() != 0) {
-										core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
-										core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
-
-										if (core.Events_conq.size() != 0) {
-											core.Events_sens.erase(core.Events_sens.begin());
-											core.Events_conq.erase(core.Events_conq.begin()); }
-									}
-									deep = 0;
-								}
+							deep = 0;
+						}
+						*/
+					}
+					else {
+						/* if (core.Events_sens.size() > deep + 1) {
+							if (conseq.EventData.sec + 5 >= core.Events_conq[deep + 1].EventData.sec) {
+								//Debug::Log(conseq.name);
+								deep++;
+								//goto Ret;
+								continue;
 							}
 							else {
-								Debug::Log("CentralCore : multi (" + sit + "): " + conseq.name);
-								//CentralCore::ProcessingEvent(conseq, core.Events[deep].get<1>(), core);
-								CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
+								Debug::Log("CentralCore : While - Logical loop. \n\tEvents : "
+									//+ std::to_string(core.Events.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
+									+ std::to_string(core.Events_sens.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
+
 								if (core.Events_sens.size() != 0) {
-									//for (size_t t = deep; t > 0; t--)
-									//	core.Events.erase(core.Events.end() - t);
 									core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
 									core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
 
@@ -324,21 +365,49 @@ namespace SpaRcle {
 								deep = 0;
 							}
 						}
+						else */
+						if (core.Events_sens.size() == 1) {
+							load++; // resource monitor
+							Consequence& conseq = core.Events_conq[0];
+							if (conseq.name == Settings::EmptyName)
+								(*_core).AddSE(conseq.name, false);
+							else if (conseq.name.empty()) {
+								Debug::Log("CentralCore : [2] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000);
+							}
+							else {
+								Debug::Log("CentralCore : only (" + core.Events_sens[0] + "): " + conseq.name);
+								CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
+							}
+							core.Events_sens.erase(core.Events_sens.begin());
+							core.Events_conq.erase(core.Events_conq.begin());
+
+						}
+						else {
+							if (core.Events_sens.size() > deep + 1) {
+								deep++;
+								continue;
+							}
+							
+							std::string& sit = core.Events_sens[deep];
+							Debug::Log("CentralCore : multi (" + sit + "): " + conseq.name);
+
+							CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
+							//if (core.Events_sens.size() != 0) {
+								//core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
+								//core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
+
+							deep++;
+								core.Events_sens.erase(core.Events_sens.begin(), core.Events_sens.begin() + deep);
+								core.Events_conq.erase(core.Events_conq.begin(), core.Events_conq.begin() + deep);
+
+								//if (core.Events_conq.size() != 0) {
+								//	core.Events_sens.erase(core.Events_sens.begin());
+								//	core.Events_conq.erase(core.Events_conq.begin()); }
+				
+							//}
+							deep = 0;
+						}
 					}
-				else if (core.Events_sens.size() == 1) {
-					load++;
-					Consequence& conseq = core.Events_conq[0];
-					if (conseq.name == Settings::EmptyName)
-						(*_core).AddSE(conseq.name, false);
-					else if (conseq.name.empty()) {
-						Debug::Log("CentralCore : [2] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000); }
-					else {
-						Debug::Log("CentralCore : only (" + core.Events_sens[0]+ "): " + conseq.name);
-						//CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
-					}
-					core.Events_sens.erase(core.Events_sens.begin());
-					core.Events_conq.erase(core.Events_conq.begin());
-					//}
 				}
 			}
 			catch (...) {
@@ -373,22 +442,21 @@ namespace SpaRcle {
 
 			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name, IDoIt);
 		}
+		event_name.clear(); event_name.~basic_string();
 	}
-	void CentralCore::NewEvent(Consequence& event, std::string& Situation)
-	{
-		//Events.push_back(boost::tuple<Consequence, std::string>(event, Situation));
+	void CentralCore::NewEvent(Consequence& event, std::string& Situation) {
+		//if(event.name != Settings::EmptyName) Debug::Log("CentralCore : New event = "+ event.name, Info);
 		Events_conq.push_back(event);
-		Events_sens.push_back(Situation);
-		//event.~Consequence();
-		//Situation.~basic_string();
-	}
+		Events_sens.push_back(Situation); }
 	void CentralCore::Start() {
 		if (!Settings::PathsIsSet) {
-			Debug::Log("CentralCore::Start = WARNING : Paths is not set! Setting to default...");
-			TCHAR cwd[100];
-			GetCurrentDirectory(100, cwd);
-			std::wstring ws(&cwd[0]); // WARNINGS!!!!!
-			Settings::SetDefaultPaths(std::string(ws.begin(), ws.end()));
+			Debug::Log("CentralCore::Start FATAL : Paths is not set!", Error);
+			Settings::IsActive = false;
+			//Debug::Log("CentralCore::Start = WARNING : Paths is not set! Setting to default...");
+			//TCHAR cwd[100];
+			//GetCurrentDirectory(100, cwd);
+			//std::wstring ws(&cwd[0]); // WARNINGS!!!!!
+			//Settings::SetDefaultPaths(std::string(ws.begin(), ws.end()));
 		}
 		//Process = std::thread(std::move(task));
 		Process = std::thread(CentralSolution, &DelayCPU, this);
@@ -400,4 +468,8 @@ namespace SpaRcle {
 	void CentralCore::ConnectCausality(CausalityCore* core) { _causality = core; _causality->core = this; }
 	void CentralCore::ConnectLogic(LogicalCore* core) { _logic = core; _logic->core = this; }
 	void CentralCore::ConnectEmotion(EmotionCore* core) { _emotion = core; _emotion->core = this; }
+	void CentralCore::ConnectTCP(TCP* tcp) { this->_tcp = tcp; }
+	TCP* CentralCore::GetTCP() { 
+		if (_tcp == NULL) { Debug::Log("CentralCore FATAL : TCP* is NULL!", Error); Settings::IsActive = false; Sleep(2000); return nullptr; }
+		else return _tcp; }
 }

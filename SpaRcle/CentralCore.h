@@ -14,6 +14,8 @@
 #include "TaskTree.h"
 
 namespace SpaRcle {
+	class TCP;
+
 	class CentralCore : public Core
 	{
 	public:
@@ -46,7 +48,11 @@ namespace SpaRcle {
 		void ConnectCausality(CausalityCore* core);
 		void ConnectLogic(LogicalCore* core);
 		void ConnectEmotion(EmotionCore* core);
+		void ConnectTCP(TCP* tcp);
+
+		TCP* GetTCP();
 	private:
+		TCP* _tcp;
 	};
 }
 

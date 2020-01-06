@@ -42,11 +42,11 @@ namespace SpaRcle {
 				else if (modifer != -1)
 					if (first[size - t - 1] == Settings::TrueSymbol || second[size - t - 1] == Settings::TrueSymbol)
 						//percent += trueVal / (4 + modifer);
-						percent += trueVal / (modifer + 4);
+						percent += trueVal / (double(modifer) + 4.0);
 			}
 			return percent;
 		}
-		static void FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp);
+		static void FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp, bool addNew = true);
 		static std::string GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
 		inline static std::string GetSensivityOfName(std::string& name, bool self) {
@@ -83,6 +83,9 @@ namespace SpaRcle {
 
 	class Helper {
 	public : 
+		static std::string SummArray(std::vector<std::string>& _array, char space = '\0');
+		static std::string SummArray(std::vector<Consequence>& _array, char space = '\0');
+
 		static std::string Transliteration(std::string line, bool inRus = false, bool errors = true);
 		static std::string TransliterationEN(char ch, bool errors = true);
 		static std::string TransliterationRU(std::string line);
@@ -144,6 +147,8 @@ namespace SpaRcle {
 						if (right.GetPW_Name(i) == left.GetPW_Name(p))
 							if (right.GetPW_Sens(i) == left.GetPW_Sens(p))
 							{
+								//Debug::Log(std::to_string(left.GetPW_HP(p)) + " " + std::to_string(right.GetPW_HP(i)));
+
 								//left.PerhapsWill[p].get<2>() = (left.PerhapsWill[p].get<2>() + right.PerhapsWill[i].get<2>()) / Div; // Суммируем полезность 
 								left.GetPW_HP(p) = Synapse::Summ(left.GetPW_HP(p), right.GetPW_HP(i)); // Суммируем полезность 
 								left.GetPW_Meet(p)++;
@@ -168,8 +173,8 @@ namespace SpaRcle {
 		inline static bool SummActionConseq(Consequence& left, Consequence& right) {
 			if (left.action.type != right.action.type) {
 				Debug::Log("Helper::SummActionConseq : Discrepancy types! \n	Left : "
-					+ std::string(ToString(left.action.type)) + "\n	Right : "
-					+ std::string(ToString(right.action.type)), Error);
+					+ left.name + " " + std::string(ToString(left.action.type)) + "\n	Right : "
+					+ right.name + " " + std::string(ToString(right.action.type)), Error);
 				return false; }
 
 			if (left.name != right.name) {
@@ -177,8 +182,7 @@ namespace SpaRcle {
 					+ left.name + "\n	Right : " + right.name, Error);
 				return false; }
 
-			switch (left.action.type)
-			{
+			switch (left.action.type) {
 			case AType::Undefined: {
 				/// \TODO
 				break; }
@@ -186,6 +190,9 @@ namespace SpaRcle {
 				/// \TODO
 				break; }
 			case AType::VisualData: {
+				/// \TODO
+				break; }
+			case AType::Move: {
 				/// \TODO
 				break; }
 			default:

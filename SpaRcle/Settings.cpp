@@ -22,7 +22,7 @@ namespace SpaRcle {
 	const int Settings::SaveNumbers = 5;
 	const size_t Settings::Size_SCP = 12; // 5 // 8
 	double Settings::MinSimilarityPerc = 60.0f;
-	std::string Settings::version = "0.18_alpha_sparcle";
+	std::string Settings::version = "0.19_alpha_sparcle";
 	const std::string Settings::EmptyName = "[NTHG]";
 	const std::string Settings::ClearEvent = "[CL]";
 	const char Settings::TrueSymbol = '_';

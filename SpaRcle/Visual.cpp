@@ -12,9 +12,10 @@ namespace SpaRcle {
 	Visual::Visual(std::string tag) {
 		this->tag = tag;
 		this->pos = Vector3();
+		this->distance = 0;
+
 	}
-	Visual::Visual() {
-		Visual(""); }
+	Visual::Visual() : Visual("") { }
 	Visual::~Visual()
 	{
 		this->tag.~basic_string();

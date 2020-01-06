@@ -6,8 +6,7 @@
 namespace SpaRcle {
 	class CentralCore;
 
-	class Memory
-	{
+	class Memory {
 	private:
 		std::map<std::string, Consequence*> conq_speech;
 		std::map<std::string, Consequence*> conq_visual;
@@ -21,9 +20,10 @@ namespace SpaRcle {
 		std::vector<std::string> GetAllFiles(std::string path);
 		Memory();
 		~Memory();
-		int CopyFile(char const* source, char const* dest, bool overwrite);
+		//int CopyFile(char const* source, char const* dest, bool overwrite);
 
 		Consequence* GetFragment(std::string name, AType type); 
+		void AddFragment(Consequence * con); 
 		void LoadStaticMemory();
 		void InitMemory(CentralCore* core);
 		static Memory* GetMemory();

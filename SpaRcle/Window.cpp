@@ -14,10 +14,10 @@ namespace SpaRcle {
 
 	sf::Vector2f Window::NormalizePos(sf::Vector2f pos, float modifer) {
 		return sf::Vector2f(
-			(std::sqrt(CurrentSize.x / 2) + pos.x - 40.f) * 
-				(double (CurrentSize.x) / double(Window::DisplaySize.x)),
-			(std::sqrt(CurrentSize.y / 2) + pos.y - 40.f) * 
-				(double(CurrentSize.y) / double(Window::DisplaySize.y))); }
+			(float)(std::sqrt<float, void>(float(CurrentSize.x) / 2.f) + pos.x - 40.f) * 
+				(float(CurrentSize.x) / float(Window::DisplaySize.x)),
+			(float)(std::sqrt<float, void>(float(CurrentSize.y) / 2.f) + pos.y - 40.f) * 
+				(float(CurrentSize.y) / float(Window::DisplaySize.y))); }
 	sf::Vector2f Window::NormalizeScale(sf::Vector2f scale, float modifer) {
 		return sf::Vector2f(
 			 modifer * (float(CurrentSize.x) / float(Window::DisplaySize.x)),
@@ -353,7 +353,7 @@ namespace SpaRcle {
 					for (size_t t = 0; t < wn.UncheckBoxes.size(); t++)
 						if (!(*it_uncheck->second).isSelected(wn)) (*it_uncheck->second).SetChecked(false); }
 
-				for (char c = 0; c < m.poses.size(); c++) {
+				for (char c = 0; c < char(m.poses.size()); c++) {
 					m.poses[c].erase(m.poses[c].begin());
 
 					m.lines[c][0].position = Window::NormalizePos(m.pos);
@@ -389,6 +389,7 @@ namespace SpaRcle {
 		this->notActive = new sf::RectangleShape();
 		this->border = new sf::RectangleShape();
 		this->click = new sf::RectangleShape();
+		this->no_clicked = 0;
 
 		this->text = new sf::Text();
 		if (text != "") {
@@ -483,7 +484,22 @@ namespace SpaRcle {
 
 		IsChecked = false;
 	}
-	CheckBox::CheckBox(){ }
+	CheckBox::CheckBox() {
+		this->IsChecked = false;
+		this->IsActive = false;
+		this->active = NULL;
+		this->border = NULL;
+		this->click = NULL;
+		this->delay = 0;
+		this->L_clicked = 0;
+		this->max_delay = 0;
+		this->notActive = NULL;
+		this->_default = NULL;
+		this->_checked = NULL;
+		this->text = NULL;
+		this->scale = 0;
+		this->no_clicked = 0;
+	}
 
 	void CheckBox::Update() {
 		if (IsChecked) notActive = _checked;
@@ -542,7 +558,7 @@ namespace SpaRcle {
 		for (short t = 3; t< (short)lines.size();t++) {
 				lines[t][0].position = Window::NormalizePos(pos);
 				for (short i = 1; i < memory_size; i += 2) {
-					lines[t][i].position = Window::NormalizePos(pos + sf::Vector2f(i * size, float(rand() % 120 + 1)));
+					lines[t][i].position = Window::NormalizePos(pos + sf::Vector2f(float(i * size), float(rand() % 120 + 1)));
 					lines[t][i + 1].position = lines[t][i].position; }
 		}
 	}

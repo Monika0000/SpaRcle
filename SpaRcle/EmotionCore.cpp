@@ -6,6 +6,15 @@
 #include <string>
 #include <Windows.h>
 
+/*
+	Данное ядро должно будет работать с обычными нейро сетями,
+	для обработки таких данных, как понимание того, на каком расстоянии определенный объект, в определенной ситуации 
+	хорош либо плох. Значение ситуаций можно будет преобразовывать в числа, ибо данные более не нужно будет сравнивать,
+	там будет нужно использовать иной метод обработки.
+
+	///!Основная !задача !ядра - !понять, !плохо !ли !данное !событие, !или !нет.
+*/
+
 namespace SpaRcle {
 	EmotionCore::EmotionCore(int cpuSpeed) {
 		this->events = std::vector<Consequence>();
@@ -37,12 +46,8 @@ namespace SpaRcle {
 		/* ============== [ End Paradigm ] ============== */
 	}
 
-	void EmotionCore::EmotionHelpfulness(Action & act, double& bad, double& good)
-	{
-		//boost::tuple<double, double> hp(0, 0);
-
-		switch (act.type)
-		{
+	void EmotionCore::EmotionHelpfulness(Action & act, double& bad, double& good) {
+		switch (act.type) {
 		case AType::Speech: {
 			Sound s = act;
 			Paradigm_Emotion(bad, good, s); // Using emotional paradigm
@@ -53,11 +58,14 @@ namespace SpaRcle {
 			good = 10;
 			/// \TODO Add method mathing helpfulness in visual data
 			break; }
+		case AType::Move: {
+			good = 20;
+			/// \TODO Add method mathing helpfulness in move data
+			break;
+		}
 		default:
 			Debug::Log("EmotionCore::EmotionHelpfulness = ERROR : unknown token \"" + std::string(ToString(act.type)) + "\"", Error);
 			break; }
-
-		//return hp;
 	}
 
 	void EmotionSolution(int* delay, EmotionCore* core) {
@@ -72,11 +80,11 @@ namespace SpaRcle {
 				Consequence& conq = core->events[0];
 				std::string& sens = core->sensivs[0];
 
-				for (short s = 0; s < conq.PerhapsWill.size(); s++) {
+				for (size_t s = 0; s < conq.PerhapsWill.size(); s++) {
 					mem = Synapse::SimilarityPercentage(conq.GetPW_Sens(s), sens);
-					if (mem > max_sim) { max_sim = mem; indexs.clear(); indexs.push_back(s); }
+					if (mem > max_sim) { max_sim = mem; indexs.clear(); indexs.push_back(short(s)); }
 					else if(mem == max_sim) 
-						indexs.push_back(s);
+						indexs.push_back(short(s));
 				}
 
 				if (indexs.size() > 0) {
@@ -87,7 +95,7 @@ namespace SpaRcle {
 							 std::to_string(conq.GetSummHP())+ ")";
 					}
 
-					Debug::Log(debug, Info);
+					///\%IIIIIIIIIIIIIIIIIIIIIII Debug::Log(debug, Info); TODO
 
 					indexs.clear();
 				}

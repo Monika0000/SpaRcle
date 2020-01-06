@@ -69,9 +69,6 @@
     <ClInclude Include="resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Файлы заголовков\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Файлы заголовков\Utilites</Filter>
     </ClInclude>
@@ -90,19 +87,7 @@
     <ClInclude Include="Action.h">
       <Filter>Файлы заголовков\Reality</Filter>
     </ClInclude>
-    <ClInclude Include="TextEntry.h">
-      <Filter>Файлы заголовков\UI</Filter>
-    </ClInclude>
     <ClInclude Include="GetKeyCode.h">
-      <Filter>Файлы заголовков\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckBox.h">
-      <Filter>Файлы заголовков\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="StatusBox.h">
-      <Filter>Файлы заголовков\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Display.h">
       <Filter>Файлы заголовков\UI</Filter>
     </ClInclude>
     <ClInclude Include="DataTime.h">
@@ -110,12 +95,6 @@
     </ClInclude>
     <ClInclude Include="EmotionCore.h">
       <Filter>Файлы заголовков\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Selector.h">
-      <Filter>Файлы заголовков\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Table.h">
-      <Filter>Файлы заголовков\UI</Filter>
     </ClInclude>
     <ClInclude Include="Visual.h">
       <Filter>Файлы заголовков\Reality</Filter>
@@ -127,6 +106,9 @@
       <Filter>Файлы заголовков\Utilites</Filter>
     </ClInclude>
     <ClInclude Include="TCP.h">
+      <Filter>Файлы заголовков\Reality</Filter>
+    </ClInclude>
+    <ClInclude Include="Motion.h">
       <Filter>Файлы заголовков\Reality</Filter>
     </ClInclude>
   </ItemGroup>
@@ -173,9 +155,6 @@
     <ClCompile Include="Debug.cpp">
       <Filter>Исходные файлы\Utilites</Filter>
     </ClCompile>
-    <ClCompile Include="Display.cpp">
-      <Filter>Исходные файлы\UI</Filter>
-    </ClCompile>
     <ClCompile Include="EmotionCore.cpp">
       <Filter>Исходные файлы\Core</Filter>
     </ClCompile>
@@ -193,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="TCP.cpp">
       <Filter>Исходные файлы\Reality</Filter>
+    </ClCompile>
+    <ClCompile Include="Motion.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

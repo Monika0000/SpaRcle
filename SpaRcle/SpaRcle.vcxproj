@@ -163,31 +163,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
-    <ClInclude Include="Button.h" />
     <ClInclude Include="CausalityCore.h" />
     <ClInclude Include="CentralCore.h" />
-    <ClInclude Include="CheckBox.h" />
     <ClInclude Include="Consequence.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="DataTime.h" />
     <ClInclude Include="Debug.h" />
-    <ClInclude Include="Display.h" />
     <ClInclude Include="EmotionCore.h" />
     <ClInclude Include="GetKeyCode.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="LogicalCore.h" />
     <ClInclude Include="Memory.h" />
+    <ClInclude Include="Motion.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RealityCore.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Selector.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Sound.h" />
-    <ClInclude Include="StatusBox.h" />
-    <ClInclude Include="Table.h" />
     <ClInclude Include="TaskTree.h" />
     <ClInclude Include="TCP.h" />
-    <ClInclude Include="TextEntry.h" />
     <ClInclude Include="Visual.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -199,11 +193,11 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DataTime.cpp" />
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="Display.cpp" />
     <ClCompile Include="EmotionCore.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="LogicalCore.cpp" />
     <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="Motion.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

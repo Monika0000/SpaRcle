@@ -4,44 +4,41 @@
 #include "Visual.h"
 #include "Settings.h"
 #include "Debug.h"
+#include "Motion.h"
 
 namespace SpaRcle {
-	enum AType
-	{
-		Undefined, Speech, Move, VisualData
-	};
+	enum class AType {
+		Undefined, Speech, Move, VisualData };
 
 	inline const char* ToString(AType a)
 	{
-		switch (a)
-		{
-		case Undefined:   return "Undefined";
-		case Speech:   return "Speech";
-		case Move: return "Move";
-		case VisualData: return "Visual";
+		switch (a) {
+		case AType::Undefined:   return "Undefined";
+		case AType::Speech:   return "Speech";
+		case AType::Move: return "Move";
+		case AType::VisualData: return "Visual";
 		default:      return "[Unknown]";
 		}
 	}
 	inline const AType ToAType(char c) {
-		switch (c)
-		{
+		switch (c) {
 		case 'S':
-			return Speech;
+			return AType::Speech;
 		case 'V':
-			return VisualData;
+			return AType::VisualData;
 		case 'M':
-			return Move;
+			return AType::Move;
 		default:
 			//Debug::Log("ToAType : Unknown type! \"" + std::string(1, c) + "\"");
-			return Undefined;
+			return AType::Undefined;
 		}
 	}
 
-	struct Action
-	{
+	struct Action {
 	public:
 		Action();
 		Action(Sound sound);
+		Action(Motion sound);
 		Action(Visual visual);
 		~Action();
 		void Save(std::string path);
@@ -55,27 +52,22 @@ namespace SpaRcle {
 
 		AType type;
 
-		operator Sound()
-		{
-			if (type == AType::Speech)
-				return sound;
-			else 
-				Debug::Log("Action::GetSound() = ERROR : trying get to type \"Sound\", where has : " + std::string(ToString(type)) + "!", Error);
-
-			return Sound();
-		}
-		operator Visual()
-		{
-			if (type == AType::VisualData)
-				return visual;
-			else
-				Debug::Log("Action::GetVisualData() = ERROR : trying get to type \"VisualData\", where has : " + std::string(ToString(type)) + "!", Error);
-
-			return Visual();
-		}
+		operator Sound() {
+			if (type == AType::Speech) return sound;
+			else Debug::Log("Action::GetSound() = ERROR : trying get to type \"Sound\", where has : " + std::string(ToString(type)) + "!", Error);
+			return Sound(); }
+		operator Visual() {
+			if (type == AType::VisualData) return visual;
+			else Debug::Log("Action::GetVisualData() = ERROR : trying get to type \"VisualData\", where has : " + std::string(ToString(type)) + "!", Error);
+			return Visual(); }
+		operator Motion() {
+			if (type == AType::Move) return motion;
+			else Debug::Log("Action::GetMove() = ERROR : trying get to type \"Move\", where has : " + std::string(ToString(type)) + "!", Error);
+			return Motion(); }
 	private:
 		Sound sound;
 		Visual visual;
+		Motion motion;
 		/* [reality data container] */
 	};
 }

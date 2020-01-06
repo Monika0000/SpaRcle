@@ -97,8 +97,21 @@ namespace SpaRcle {
 
 		return ru; }
 	std::string Helper::ToUpper(std::string s) { for (auto& a : s) a= toupper(a); return s; }
-	std::string Helper::Transliteration(std::string line, bool inRus,bool errors)
-	{
+	std::string Helper::SummArray(std::vector<std::string>& _array, char space) {
+		std::string summ = "";
+		for (auto& a : _array) {
+			summ += a + std::string(1, space);
+		}
+		return summ;
+	}
+	std::string Helper::SummArray(std::vector<Consequence>& _array, char space) {
+		std::string summ = "";
+		for (auto& a : _array) {
+			summ += a.name + std::string(1, space);
+		}
+		return summ;
+	}
+	std::string Helper::Transliteration(std::string line, bool inRus,bool errors) {
 		std::string en;
 		for (auto& c: line) {
 			en += TransliterationEN(c, errors);
@@ -271,14 +284,17 @@ namespace SpaRcle {
 
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
-	void Synapse::FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp) /* 1 - name, 2 - sensiv */ {
+	void Synapse::FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp, bool addNew) /* 1 - name, 2 - sensiv */ {
 		if (sens == NULL) { Debug::Log("Synapse::FindAndSummSensiv : sensivity is NULL!", Error); Sleep(1000); return; }
 		if (typeid(*sens).name() != typeid(std::string).name()) { Debug::Log("Synapse::FindAndSummSensiv : sensivity var are not string type!", Error); Sleep(1000); return; }
-
-		if (con.self) Debug::Log("Synapse::FindAndSummSensiv : Self event \"" + con.name + "\" [" + *sens + "]");
-		if (sens->size() < 2) {
+		
+		std::string s = (*sens);
+		try{
+		if (s.size() < 2) {
 			Debug::Log("Synapse::FindAndSummSensiv : sens.size() < 2! \n\tConq : "+con.name + "\n\tName : " + name + "\n\tSens : " + *sens, Warning);
 			return; }
+		} catch (...) { Debug::Log("Synapse::FindAndSummSensiv : fatal error!", Error); return; }
+		if (con.self) Debug::Log("Synapse::FindAndSummSensiv : Self event \"" + con.name + "\" [" + *sens + "]");
 
 		double max = 0; size_t index = 0;
 		for (size_t t = 0; t < con.PerhapsWill.size(); t++) {
@@ -288,13 +304,13 @@ namespace SpaRcle {
 				if (var > max) { index = t; max = var; }
 			}
 		}
-		if (max > 90) {
+		if (max > 70) { // 90
 			//con.PerhapsWill[index].get<2>() = (con.PerhapsWill[index].get<2>() + hp) / 2;
 			con.GetPW_HP(index) = Synapse::Summ(con.GetPW_HP(index), hp);
 			con.GetPW_Meet(index)++; // Increment
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : summ perhaps will \"" + name + "\" to conseq \"" + con.name +
 				"\"; perc:"+std::to_string(max) + "; sens:"+*sens + "="+ con.GetPW_Sens(index)); }
-		else {
+		else if(addNew) {
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : add perhaps will \""+name+"\" to conseq \""+con.name + "\"");
 			con.PerhapsWill.push_back(std::tuple<std::string, std::string, double, int>(name, *sens, hp, 1)); }
 	}
@@ -342,7 +358,7 @@ namespace SpaRcle {
 		for (auto& a : sensiv) if (a != '.') clean += a;
 		return clean; }
 	double SpaRcle::Synapse::SimilarityPercentage(std::string first, std::string second, bool lenght, bool normalize) {
-		///\todo clear code!!!
+		///\TODO clear code!!!
 
 		//TODO : при hm hmh схожесть 0!!!!!!
 		//Debug::Log(std::to_string(first.size()) + "_" + std::to_string(second.size()));
@@ -360,9 +376,9 @@ namespace SpaRcle {
 
 		if (mode == 1) {
 			if (lenght) {
-				modifer = second.size() - first.size();
+				modifer = short(second.size() - first.size());
 				//second += std::string(Settings::TrueSymbol, modifer);
-				second += std::string(modifer, Settings::TrueSymbol);
+				second += std::string(size_t(modifer), Settings::TrueSymbol);
 			}
 
 			/// \todo 
@@ -371,9 +387,9 @@ namespace SpaRcle {
 		}
 		else if (mode == -1) {
 			if (lenght) {
-				modifer = first.size() - second.size();
+				modifer = short(first.size() - second.size());
 				//first += std::string(Settings::TrueSymbol, modifer);
-				first += std::string(modifer, Settings::TrueSymbol);
+				first += std::string(size_t(modifer), Settings::TrueSymbol);
 			}
 
 			/// \todo 

@@ -48,7 +48,9 @@ namespace SpaRcle {
 
 		char Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block = "?", load_mode mode = load_mode::to_all);
 		char Load(std::string name, AType atype, std::string Block = "?", load_mode mode = load_mode::to_all);
-
+	private:
+		char LoadFile(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block = "?", load_mode mode = load_mode::to_all);
+	public:
 		void Set(const Consequence& con);
 
 		Consequence();
@@ -57,17 +59,33 @@ namespace SpaRcle {
 		Consequence(std::string name, AType atype);
 		Consequence(Sound speech, bool self = false, float hp = 0);
 		Consequence(Visual visual);
+		Consequence(Motion move);
 		Consequence(std::string name, Action action);
 		Consequence(std::string name, Action action, int meets);
 		Consequence(std::string name, Action action, int meets, double Bad, double Good);
 		~Consequence();
 
 		double GetSummHP() { 
+			if (Good >= 0 && Bad >= 0)
+				return Good - Bad;
+			else if (Good > 0 && Bad < 0)
+				return Good - Bad;
+			else if (Good < 0 && Bad > 0)
+				return Bad - Good;
+			else if (Good < 0 && Bad < 0)
+				return Good - Bad;
+			else
+				Debug::Log("Consequence::GetSummHP() : unknown situation!\n\tGood = " + std::to_string(Good) + "\n\tBad = " + std::to_string(Bad), Error);
+		} // Info : change  "-" to "+" (Good - Bad)
+
+		/*
+		double GetSummHP() {
 			if (Good > 0 && Bad > 0)
 				return Good - Bad;
 			else
-				return Good + Bad; 
+				return Good + Bad;
 		} // Info : change  "-" to "+" (Good - Bad)
+		*/
 		///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 		bool operator==(Consequence& right) {

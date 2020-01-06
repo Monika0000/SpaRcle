@@ -18,6 +18,7 @@ namespace SpaRcle {
 	public:
 		std::string tag;
 		Vector3 pos;
+		float distance;
 		Visual(std::string tag);
 		Visual();
 		~Visual();

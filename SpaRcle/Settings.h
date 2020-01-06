@@ -49,7 +49,7 @@ namespace SpaRcle {
 
 	const static size_t size_t_max = 4294967295;
 
-	const double PeriodicSix = (1.f / 3.f) * 200.f;
+	const double PeriodicSix = (1.0 / 3.0) * 200.0;
 
 	const static size_t count_word_in_sensiv = 2;
 

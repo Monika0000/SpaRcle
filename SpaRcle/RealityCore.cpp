@@ -8,6 +8,7 @@
 #include "Consequence.h"
 #include "Helper.h"
 #include "Settings.h"
+#include "TCP.h"
 
 namespace SpaRcle {
 	RealityCore::RealityCore(int cpuSpeed) {
@@ -58,7 +59,7 @@ namespace SpaRcle {
 			Sleep(*delay);
 
 			if (Settings::isMinding)
-				if (r_timer >= 500 / (*delay)) {
+				if (r_timer >= size_t(500 / (*delay))) {
 					///\see causal.UncheckedEvents.push_back(Consequence(Settings::EmptyName)); 
 					r_timer = 0;
 				}
@@ -69,14 +70,24 @@ namespace SpaRcle {
 	void RealityCore::Start() { Process = std::thread(RealitySolution, &DelayCPU, this); }
 
 	void RealityCore::DoAction(Action& action, std::string helpName) {
+		this->core->GetTCP()->Send(action);
 		switch (action.type) {
 		case AType::Speech : {
-			if (Settings::ExternalInteraction)
-				action.Save(helpName);
-			Sound s = action;
-			Debug::Log("|RDA| => " + s.text, DType::Mind);
-			this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
-			s.~Sound();
+			if (Settings::ExternalInteraction) {
+
+			}
+			Sound* s = new Sound(action);
+			Debug::Log("|RDA| => Speech : " + s->text, DType::Mind);
+			//this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
+			///\ Отключаем отправку в ядро причинности, ибо теперь это задача симуляции
+			delete s;
+			break; }
+		case AType::Move: {
+			Motion* m = new Motion(action);
+			Debug::Log("|RDA| => Move : " + m->part, DType::Mind);
+			//this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
+			///\ Отключаем отправку в ядро причинности, ибо теперь это задача симуляции
+			delete m;
 			break; }
 		default:
 			Debug::Log("RealityCore::DoAction : Unknown type! \n\tType : " + std::string(ToString(action.type))

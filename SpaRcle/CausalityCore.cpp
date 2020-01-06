@@ -97,6 +97,9 @@ namespace SpaRcle {
 			std::string S_name; S_name += ToString(ref_will.action.type)[0];
 			S_name += "/"; S_name += ref_will.name; // Генерируем имя
 
+			//Debug::Log("Event : "+conq.name+"; Synapse : "+ref_will.name + "; hp = " +std::to_string(ref_will.GetSummHP()) + 
+			//	"\n\t Bad = " + std::to_string(ref_will.Bad) + " Good = "+std::to_string(ref_will.Good));
+
 			if (ref_will.GetSummHP() > 0) { // Ищем синапсы, чтобы можно было продолжить действия после этого нейрона
 				int S_index = Synapse::IndexOfSynapse(conq.Synapses, S_name); // Получаем индекс
 				if (S_index == -1) { 
@@ -216,7 +219,7 @@ namespace SpaRcle {
 						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (false) {
+			if (true) {
 				double tone = 8;
 				double volime = 13;
 
@@ -255,7 +258,8 @@ namespace SpaRcle {
 
 				if (_event.name.empty()) {
 					Debug::Log("CausalityCore : Unknown ERROR => conseq.name == \"\"!", Error);
-					(*_core).UncheckedEvents.erase((*_core).UncheckedEvents.begin()); // System
+					try { (*_core).UncheckedEvents.erase((*_core).UncheckedEvents.begin()); }
+					catch (...) { Debug::Log("CausalityCore FATAL : unchecked events is bad!", Error); (*_core).UncheckedEvents.clear(); Sleep(1500); continue; }
 					_core->size_unchk_ev--;
 				}
 				else {
@@ -269,6 +273,7 @@ namespace SpaRcle {
 							//boost::tuple<double, double> hp(0, 0);
 							E_ref.EmotionHelpfulness(_event.action, bad, good); // Эмоционально реагируем на событие
 							_event.Bad = _event.Bad + bad; _event.Good = _event.Good + good;
+							//Debug::Log("Bad = " + std::to_string(_event.Bad) + " Good = " + std::to_string(_event.Good));
 
 							if (found) {//helpData.~Consequence();
 								Helper::SummActionConseq(_event, helpData);
@@ -302,14 +307,9 @@ namespace SpaRcle {
 					if (_event.name != Settings::EmptyName && found >= 0) {
 						_event.Save();
 
-						//if (!_event.self) 
-						//	Current_sensivity += Synapse::GetSensivityOfName(_event.name, false);  // System
-						//else{
-							//Current_sensivity += Helper::ToUpper(Synapse::GetSensivityOfName(_event.name, false));  // System
 						Current_sensivity += Synapse::GetSensivityOfName(_event.name, _event.self);  // System
 						if (_event.self)
 							Debug::Log("CausalityCore : self _event \"" + _event.name + "\" [" + Current_sensivity + "]");
-						//}
 
 						(*_core).Sensivity_List.push_back(Current_sensivity); // System
 					}
@@ -340,7 +340,8 @@ namespace SpaRcle {
 
 					CausalityCore::CheckedEventsProcessing((*_core).CheckedEvents, Temp_Causes, Temp_Meets);
 					/* Обрабатываем следствия устанавливая между ними взаимосвязи и добавляем в них причины. */
-
+					//Debug::Log(Helper::SummArray(_core->CheckedEvents, ' '));
+					//Debug::Log(Helper::SummArray(Temp_Causes, ' '));
 
 					size_temp = Temp_Causes.size();
 
@@ -366,7 +367,7 @@ namespace SpaRcle {
 
 						//L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
 
-						L_ref.EditCauses(Temp_Causes, Temp_Meets, clean_sensiv, conq);
+						///L_ref.EditCauses(Temp_Causes, Temp_Meets, clean_sensiv, conq);
 					}
 
 					count_sens = 0;
@@ -379,7 +380,7 @@ namespace SpaRcle {
 
 				(*_core).CheckedEvents.erase((*_core).CheckedEvents.begin()); // Удаляем первый еэлемент
 				_core->size_check_ev--;
-				Current_sensivity.erase(Current_sensivity.begin(), Current_sensivity.begin() + count_word_in_sensiv);    // $Удаляем $одну $причину
+				Current_sensivity.erase(Current_sensivity.begin(), Current_sensivity.begin() + count_word_in_sensiv);    // $Удаляем $одну $причину // Memory leak
 				(*_core).Sensivity_List.erase((*_core).Sensivity_List.begin());											 // $Удаляем $одну $причину
 			}
 		}
@@ -387,6 +388,7 @@ namespace SpaRcle {
 	}
 	void CausalityCore::Start() { Process = std::thread(CausalitySolution, &DelayCPU, this); }
 	void CausalityCore::NewEvent(Consequence event, bool debug) {
-		if(debug) Debug::Log("CausalityCore::NewEvent = " + std::string(ToString(event.action.type)) + " : " + event.name, Info);
+		if(debug)
+			Debug::Log("CausalityCore::NewEvent = " + std::string(ToString(event.action.type)) + " : " + event.name, Info);
 		UncheckedEvents.push_back(event); }
 }

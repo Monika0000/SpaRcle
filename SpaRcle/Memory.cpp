@@ -31,19 +31,38 @@ namespace SpaRcle {
 			a.~basic_string();
 		}
 	}
-	Memory::~Memory() { Debug::Log("Memory clearing...", System); }
-	int Memory::CopyFile(char const* source, char const* dest, bool overwrite) { return 0; }
+	Memory::~Memory() { 
+		Debug::Log("Memory clearing...", System); 
+		if (Settings::isUseMemory) {
+			Settings::isUseMemory = false;
+			for (std::map<std::string, Consequence*>::iterator it = this->conq_speech.begin(); it != this->conq_speech.end(); ++it) {
+				it->second->Save();
+				delete it->second;
+			}
+		}
+	}
+	//int Memory::CopyFile(char const* source, char const* dest, bool overwrite) { return 0; }
 	Consequence* Memory::GetFragment(std::string name, AType type) {
 		switch (type) {
-		case SpaRcle::Undefined: return NULL;
-		case SpaRcle::Speech:
+		case SpaRcle::AType::Undefined: return NULL;
+		case SpaRcle::AType::Speech:
 			iterator = this->conq_speech.find(name);
 			if (iterator != this->conq_speech.end())
 				return iterator->second;
 			else return NULL;
-		case SpaRcle::Move: return NULL;
-		case SpaRcle::VisualData: return NULL;
+		case SpaRcle::AType::Move: return NULL;
+		case SpaRcle::AType::VisualData: return NULL;
 		default: return NULL; }
+	}
+	void Memory::AddFragment(Consequence* con) {
+		switch (con->action.type) {
+		case AType::Speech: {
+			this->conq_speech.insert(std::pair<std::string, Consequence*>(con->name, con));
+		}
+		default:
+			Debug::Log("Memory::AddFragment : unknown type! (" + std::string(ToString(con->action.type)) + ")", Error);
+			break;
+		}
 	}
 	void Memory::LoadStaticMemory() {
 		if (this->isInit) {
@@ -86,7 +105,7 @@ namespace SpaRcle {
 								for (unsigned short t = 0; t < vec.size(); t++) { this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
 								break; }
 							case'h': {
-								double hp = std::stod(vec[vec.size() - 1]);
+								float hp = std::stof(vec[vec.size() - 1]);
 								for (unsigned char c = 0; c < vec.size() - 2; c++) this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[c]), false, hp));
 								for (unsigned char c = 0; c < 10; c++) this->core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 								break; }

@@ -125,14 +125,14 @@ namespace SpaRcle {
 
 		static Consequence loaded;
 
-		unsigned short size = std::get<0>(Cause).size();
+		unsigned short size = unsigned short(std::get<0>(Cause).size());
 		for (unsigned short i = 0; i < size; i++) {
 			loaded.~Consequence();
 
 			try {
 				unsigned short last_index = size - 1 - i; // Перечисление с конца массива в начало (инверсия). Ибо массив отсортирован от меньшего к большему
 				AType t = ToAType(std::get<0>(Cause)[last_index][0]); ///\error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				if (t != Undefined) { // Error
+				if (t != AType::Undefined) { // Error
 					if (!loaded.Load(std::get<0>(Cause)[last_index].substr(2), t, true, Diagnostic, "Logic"))
 						if (Diagnostic) return false;
 						else continue; }
@@ -144,7 +144,7 @@ namespace SpaRcle {
 			}
 			catch (...) { Debug::Log("LogicalCore::CauseReputation : An exception has occured! [First Block]", Error); }
 
-			size_t percent = (size_t)((double)size * 0.6f);
+			unsigned short percent = (unsigned short)((double)size * 0.6f);
 			if (size - i > percent) {
 				try {
 					if (std::get<3>(Cause) < 0) {
@@ -160,7 +160,7 @@ namespace SpaRcle {
 					Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Second Block]", Error); }
 
 				try {
-					Synapse::FindAndSummSensiv(loaded, std::get<4>(Cause), &std::get<2>(Cause)[i], std::get<3>(Cause));
+					Synapse::FindAndSummSensiv(loaded, std::get<4>(Cause), &std::get<2>(Cause)[i], std::get<3>(Cause), false);
 					loaded.meetings++;
 
 					if (!Diagnostic) loaded.Save(); // Saving
@@ -214,7 +214,7 @@ namespace SpaRcle {
 
 		if (!find) {
 			opposite.name = "[MISSING]";
-			opposite.action.type = Undefined; }
+			opposite.action.type = AType::Undefined; }
 
 		return find;
 	}

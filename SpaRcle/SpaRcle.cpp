@@ -3,7 +3,6 @@
 //#pragma comment(lib, "C:\\Program Files (x86)\\Microsoft Visual Studio\\SFML-2.5.1\\lib\\sfml-graphics.lib")
 #include "pch.h"
 #include <iostream>
-#include "Display.h"
 #include "CentralCore.h"
 #include "Window.h"
 #include "CausalityCore.h"
@@ -36,8 +35,7 @@ void Destruct() {
 }
 #pragma endregion
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	system("color 70");
 	setlocale(LC_ALL, "rus");
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
@@ -112,37 +110,33 @@ int main(int argc, char** argv)
 		*/
 		//while (true) { }
 
-		Sleep(100);
-		_reality->Start();
+		Sleep(100); _reality->Start();
+
+		Sleep(100); _logic->Start();
+
+		Sleep(100); _causality->Start();
+
+		Sleep(100); _emotion->Start();
+
+		Sleep(100); _core->Start();
 
 		Sleep(100);
-		_logic->Start();
 
-		Sleep(100);
-		_causality->Start();
-
-		Sleep(100);
-		_emotion->Start();
-		Sleep(100);
-
-		_core->Start();
-		Sleep(100);
-
-		Memory::GetMemory()->CopyFile("memory_mapped_file.hpp", "copy.tmp", true);
+		//Memory::GetMemory()->CopyFile("memory_mapped_file.hpp", "copy.tmp", true);
 #pragma endregion
 
 		while (true) {
 			Sleep(100); Settings::Layout = Helper::GetLayout();
 			if (!Settings::IsActive) break;
 
-			if (Display::Status == 2) break;
-			else if (Display::Status == 0) {
+			//if (Display::Status == 2) break;
+			//else if (Display::Status == 0) {
 				//std::cout << "Для продолжения нажмите Enter\n";
 				Debug::Log("Starting are successful. For exit press the Enter...", DType::System);
 				std::cin.get();
 				Settings::IsActive = false;
 				break;
-			}
+			//}
 		}
 
 		std::cout << "==================================[STOP]==================================" << std::endl;
@@ -150,7 +144,7 @@ int main(int argc, char** argv)
 		tcp.Close();
 		Destruct();
 		delete Window::Get();
-		Display::Deactive();
+		//Display::Deactive();
 		delete Memory::GetMemory();
 		Sleep(2000);
 
