@@ -367,7 +367,7 @@ namespace SpaRcle {
 
 						//L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
 
-						///L_ref.EditCauses(Temp_Causes, Temp_Meets, clean_sensiv, conq);
+						L_ref.EditCauses(Temp_Causes, Temp_Meets, clean_sensiv, conq);
 					}
 
 					count_sens = 0;

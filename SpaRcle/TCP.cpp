@@ -122,8 +122,9 @@ namespace SpaRcle {
 							}
 						}
 						else if (splits[0] == "clear") {
-							Debug::Log("======================================[CLEAR]======================================");
-							for (size_t i = 0; i < Settings::Size_SCP * 2 + 5; i++)
+							Debug::Log("======================================[HALF CLEAR]======================================");
+							//for (size_t i = 0; i < Settings::Size_SCP * 2 + 5; i++)
+							for (size_t i = 0; i < 5; i++)
 								core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 						}
 						else

@@ -9,9 +9,13 @@
 #include "Settings.h"
 #include "Debug.h"
 #include "Helper.h"
+#include <unordered_map>
 
 namespace SpaRcle {
 	LogicalCore::LogicalCore(int cpuSpeed) {
+		mono_nam = std::vector<std::string>(); mono_nam.resize(Settings::Monotone_size);
+		mono_sit = std::vector<std::string>(); mono_sit.resize(Settings::Monotone_size);
+
 		core = NULL;
 		CoreLoad = 0;
 		DelayCPU = cpuSpeed;
@@ -22,6 +26,8 @@ namespace SpaRcle {
 	LogicalCore::~LogicalCore() {
 		if (Process.joinable()) Process.detach();
 		this->Causes.clear();
+		this->mono_nam.clear();
+		this->mono_sit.clear();
 		Debug::Log("-> The logical core has completed it's work!", Info); }
 	 
 	void LogicalSolution(int* delay, LogicalCore* _core) {
@@ -175,6 +181,7 @@ namespace SpaRcle {
 
 		return true;
 	}
+
 	bool LogicalCore::GetOpposite(Consequence & opposite, Consequence & ev, bool Diagnostic)
 	{
 		Helper::SelectionSort(ev.Causes, false);
@@ -217,5 +224,25 @@ namespace SpaRcle {
 			opposite.action.type = AType::Undefined; }
 
 		return find;
+	}
+
+	float LogicalCore::IsMonotone(std::string& name, std::string& situation) {
+		//this->temp_hash = std::hash<std::string>{}(situation); //\!Hash !summ
+		this->temp_percent = 0;
+
+		this->mono_nam.erase(mono_nam.begin()); this->mono_sit.erase(mono_sit.begin());
+		///////////////////////////////////////////////////////////////////////////////
+		this->mono_nam.push_back(name); this->mono_sit.push_back(situation);
+
+		//^TODO analyze (foreach)
+
+		for (short s = 0; s < Settings::Monotone_size; s++) {
+			if (this->mono_nam[s] == name)
+				temp_percent += (50.f / (float)Settings::Monotone_size);
+
+			temp_percent += ((float)Synapse::SimilarityPercentage(mono_sit[s], situation)  / 2.f / (float)Settings::Monotone_size);
+		}
+
+		return this->temp_percent;
 	}
 }

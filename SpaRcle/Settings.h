@@ -13,16 +13,23 @@ namespace SpaRcle {
 		static std::string Resources;
 		static std::string Memory;
 		static std::string Logic;
-		static bool PathsIsSet; // Установлена-ли рабочая директория
+		/* Установлена-ли рабочая директория*/
+		static bool PathsIsSet; 
 		///////////////////////////////
-		static bool CoreDebug; // Отладка работы ядер
+		/* Отладка работы ядер */
+		static bool CoreDebug; 
 		static bool ExternalInteraction;
 		static KeyboardLayout Layout;
 		static bool CentralCoreDebug;
 		static bool CauseReputationDebug;
-		static bool EventsProcessigDebug; // Отладка обработки проверенных событий
+		/* Отладка обработки проверенных событий*/
+		static bool EventsProcessigDebug; 
 		static const int SaveNumbers;
-		static const size_t Size_SCP; /* Synapse & Cause & Perhaps | Min = 5 | Интеллект <=> Производительность */
+		/* Synapse & Cause & Perhaps | Min = 5 | Интеллект <=> Производительность */
+		static const size_t Size_SCP; 
+		/* size monotone list in Logical core*/
+		static const size_t Monotone_size;
+		static float Monotone_MaxPercent;
 		static double MinSimilarityPerc;
 		static std::string version;
 		static const std::string EmptyName;

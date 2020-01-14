@@ -36,17 +36,18 @@ namespace SpaRcle {
 		Debug::Log("-> The central core has completed it's work!", Info);
 	}
 
-	bool DoFindSynapse(Consequence& event, int _index, RealityCore& real, CentralCore& core) {
+	bool CentralCore::DoFindSynapse(Consequence& event, int _index) {
 		size_t dp = 0;
 		Debug::Log("DFS : Find synapse = " + event.GetSN_Name(_index), Module);
 		//%Выполняем %полезное %действие...
+		//std::string syn = event.GetPW_Name(_index); //WTF????????????
 		std::string syn = event.GetSN_Name(_index);
 	Deep:
 		if (syn[0] == 'S' || syn[0] == 'M') {
 			Consequence con;
 			if (con.Load(syn.substr(2), ToAType(syn[0]), true, false, "DFS") == 1) {
-				real.DoAction(con.action, con.name);
-				real.core->AddSE(con.name, true);
+				_reality->DoAction(con.action, con.name);
+				AddSE(con.name, true);
 
 				if (con.Synapses.size() != 0) {
 					std::string sens_log; size_t index = 0; double max = 0; 
@@ -58,7 +59,7 @@ namespace SpaRcle {
 						for (size_t tt = 0; tt < con.PerhapsWill.size(); tt++)
 							if (con.GetPW_Name(tt) == s_au_2) {
 								/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
-								double per = Synapse::SimilarityPercentage(con.GetPW_Sens(tt), core.SE_With_MyActions, true, true);
+								double per = Synapse::SimilarityPercentage(con.GetPW_Sens(tt), SE_With_MyActions, true, true);
 								if (per > max) { 
 									if (super) { super_indx.clear(); super = false; }
 									max = per; idx_2 = tt;
@@ -81,7 +82,7 @@ namespace SpaRcle {
 								ind = i;
 							}
 						}
-						Debug::Log("DFS finaly (super) : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tSuper result : " +
+						Debug::Log("DFS finaly (super) : \n\tSens : " + SE_With_MyActions + "\n" + sens_log + "\tSuper result : " +
 							con.GetPW_Name(ind) + "; Max = " + std::to_string(max), Module);
 						///\TODO !!!!!!!
 						if (max > Settings::MinSimilarityPerc) { // 76 // 58
@@ -92,7 +93,7 @@ namespace SpaRcle {
 						}
 					}
 					else {
-						Debug::Log("DFS finaly : \n\tSens : " + core.SE_With_MyActions + "\n" + sens_log + "\tResult : " +
+						Debug::Log("DFS finaly : \n\tSens : " + SE_With_MyActions + "\n" + sens_log + "\tResult : " +
 							//con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
 							con.GetPW_Name(index) + "; Max = " + std::to_string(max), Module);
 
@@ -116,20 +117,23 @@ namespace SpaRcle {
 			Debug::Log("DFS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(_index), Error);
 		return false;
 	}
-	bool DoEventOfSynapse(Consequence& _event, std::string& Situation, CentralCore& core) {
-		RealityCore& real = (*core._reality);
-		//std::vector<short> super_variants; 
+	bool CentralCore::DoEventOfSynapse(Consequence& _event, std::string& Situation) {
+		this->temp_sim_sup_per = 0;
+		normal_variants.clear(); super_variants.clear();
+
+		RealityCore& real = (*_reality);
+
 		size_t mem_sup_index = 0;
 
 		if (_event.Synapses.size() > 0) {
 			Helper::SelectionSort(_event.Synapses);
 			int index = _event.Synapses.size() - 1;
-			bool find = false, super = false; 
+			bool find = false, super = false;
 			int meets = -1, deepModeIndex = -1;
 			/// Добавить возможность крайностей - когда мы совершенно не знаем ответа, но нам нужно что-то сказать,
 			/// и у нас есть варианты (хоть и не самые подходящие(но не плохие)) ты мы будем пытаться их выполнить
 		Repeat:
-			if (_event.GetSN_HP(index) > 0)	{ // Полезность синапса внутри _event
+			if (_event.GetSN_HP(index) > 0) { // Полезность синапса внутри _event
 
 				/// ^see ^IIIIIIIIIIIIIIIII Ищем самый схожий синапс
 				double percent = 0; // Итоговый процент схожести ситуации на одну из возможных вариаций
@@ -137,102 +141,156 @@ namespace SpaRcle {
 				auto& s_au = _event.GetSN_Name(index); // Имя синапса под индексом перечисления
 				for (size_t t = 0; t < _event.PerhapsWill.size(); t++) {
 					if (_event.GetPW_Name(t) == s_au) {
-						if (_event.GetPW_HP(t) < 0) { 
+						if (_event.GetPW_HP(t) < 0) {
 							///\!Debug::Log("DEOS : Bad synapse! \"" + s_au + "\" = " + event.GetPW_Sens(t), Module); 
-							continue; 
+							continue;
 						}
 						/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
-						double per = Synapse::SimilarityPercentage(_event.GetPW_Sens(t), core.SE_With_MyActions, true, true);
-						if (per > percent)  {
-							percent = per; 
-							idx = t; 
+						double per = Synapse::SimilarityPercentage(_event.GetPW_Sens(t), SE_With_MyActions, true, true);
+						if (per > percent) {
+							percent = per;
+							idx = t;
 						}
 					}
 				}
-				if (percent == 100) super = true;
-				Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\"", Module);//(" + core.SE_With_MyActions + " " + + ")", Module);
-				/// ^see ^IIIIIIIIIIIIIIIII Ищем самый схожий синапс
 
 				if (percent != 0) {
-					if (super) {
-						if (percent == 100) { 
-							// Если у нас однажды был найден супер вариант, то мы выполняем проверку,
-							// на принадлежность последнего найденного, к супер вариации.
-							// Если принадлежит - сравниваем с последним на число встреч
-							// Если не принадлежит - прверяем есть ли еще варианты, 
-							// Если есть - продолжаем искать супер варианты
-							// Если нет - выполняем лучший найденный супер вариант
-
-							Debug::Log("DEOS : Super variant = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
-							//super_variants.push_back(short(idx));
-							find = true;
-							if (_event.GetPW_Meet(idx) > meets) {
-								meets = _event.GetPW_Meet(idx);
-								deepModeIndex = index;
-							}
+					// Обработка всех возможных и исключительных ситуаций
+					if (percent > 99.f) {
+						if (!super) {
+							normal_variants.clear(); super_variants.clear(); super = true; meets = 0;
 						}
+
+						if (temp_sim_sup_per < percent) {
+							temp_sim_sup_per = percent;
+							meets = 0;
+						}
+
+						Debug::Log("DEOS : Super variant = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
+						if (_event.GetPW_Meet(idx) > meets) {
+							meets = _event.GetPW_Meet(idx);
+							super_variants.push_back(short(index)); }
+					}
+					else if (percent == temp_sim_sup_per) {
+						if (!super) {
+							normal_variants.clear(); super_variants.clear(); super = true; meets = 0;
+						}
+
+						Debug::Log("DEOS : Super variant = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
+						if (_event.GetPW_Meet(idx) > meets) {
+							meets = _event.GetPW_Meet(idx);
+							super_variants.push_back(short(index)); }
+					}
+					else if (percent > temp_sim_sup_per) {
+						if (super) {
+							super = false; meets = 0;
+							super_variants.clear();
+						}
+
+						temp_sim_sup_per = percent;
+
+						if (percent >= PeriodicSix + 10) {
+							find = true;
+							normal_variants.push_back(index);
+						}
+					}
+
+					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\" [" + std::to_string(_event.GetPW_Meet(idx)) + "] " + std::to_string(super), Module);//(" + SE_With_MyActions + " " + + ")", Module);
+					/// ^see ^IIIIIIIIIIIIIIIII Ищем самый схожий синапс
+
+					// Определяем, искать дальше, или выполнить найденное, с учетом супер вариации
+					if (super) {
+						// Если у нас однажды был найден супер вариант, то мы выполняем проверку,
+						// на принадлежность последнего найденного, к супер вариации.
+						// Если принадлежит - сравниваем с последним на число встреч
+						// Если не принадлежит - прверяем есть ли еще варианты, 
+						// Если есть - продолжаем искать супер варианты
+						// Если нет - выполняем лучший найденный супер вариант
+
+						find = true;
 
 						if (index > 0) { index--; goto Repeat; } // Выполняем проверку
-						else  DoFindSynapse(_event, deepModeIndex, real, core);
+						else {
+							//if (super_variants.size() != 0)
+							//	DoFindSynapse(_event, super_variants[super_variants.size() - 1]);
+							CheckMonotoneAndDo(_event, super_variants);
+						}
 					}
 					else { // Если не было найдено абсолютных супер вариантов
-						if (percent >= PeriodicSix + 10) { ///\%isGood +10
-							DoFindSynapse(_event, index, real, core);
-							find = true;
-							if (!find && index > 0) { index--; /*Debug::Log(index);*/ goto Repeat; } // Если не вышло
-						}
-						else if (index > 0) { index--; goto Repeat; }/// $Если $не $подходит
+						if (index > 0) { index--; goto Repeat; }
 						else {
-							/*
-							if (super_variants.size() != 0) { // Финальное умо-заключение, при том, что не было найдено абсолютных вариаций
-								if (super_variants.size() > 1)
-									for (size_t s = 1; s < super_variants.size(); s++)
-										if (std::get<3>(_event.PerhapsWill[super_variants[s]]) > std::get<3>(_event.PerhapsWill[super_variants[mem_sup_index]])) {
-											mem_sup_index = super_variants[s];
-										}
-
-								std::string _name = std::get<0>(_event.PerhapsWill[mem_sup_index]);
-								Debug::Log("DEOS : Finaly variant = " + _name, Module);
+							if (normal_variants.size() != 0) {
+								//DoFindSynapse(_event, variants[variants.size() - 1]);
+								CheckMonotoneAndDo(_event, normal_variants);
+								//END.
+							}
+							else {// Финальное умо-заключение, при том, что не было найдено абсолютных вариаций
+								// "Последняя надежда", тупо для отладки
+								std::string _name = std::get<0>(_event.PerhapsWill[idx]);
+								Debug::Log("DEOS : last variant = " + _name, Module);
 								Consequence* _final = new Consequence(_name.substr(2), ToAType(_name[0]));
 								//core._reality->DoAction((*_final).action);
 								_name.clear(); delete _final;
+								//}
 							}
-							else {*/
-							// "Последняя надежда", тупо для отладки
-							std::string _name = std::get<0>(_event.PerhapsWill[idx]);
-							Debug::Log("DEOS : last variant = " + _name, Module);
-							Consequence* _final = new Consequence(_name.substr(2), ToAType(_name[0]));
-							//core._reality->DoAction((*_final).action);
-							_name.clear(); delete _final;
-							//}
 						}
 					}
 				}
 				else { ///\to NOT FOUND SOLUTION
 					Debug::Log("DEOS : Not found solution = \"" + _event.name + "\" at synapse \"" + s_au + "\" index=" + std::to_string(index), Module);
 					if (index > 0) { index--; goto Repeat; }
+					///\!TODO Если попадется последнее не решаемое, а остальные будут решаемые, не выполнится ни одно!
 				}
 			}
-			
-			//super_variants.clear(); //last_variants.clear();
+
 			return find;
 		}
-		else { /*super_variants.clear(); last_variants.clear();*/ return false; }
+		else return false;
 	}
 
-	void SpaRcle::CentralCore::ProcessingEvent(Consequence& event, std::string& Situation, CentralCore& core) {
-		// TODO : Требуется калибровка порогов чувствительности.
-		if (event.Bad > event.Good && event.Bad > 3) { // Пытаемся выкрутиться из ситуации с наименьшим ущербом
-			Debug::Log("CentralCore::PE : " + event.name + " is Bad! \n\tBad : " + std::to_string(event.Bad) + "\n\tGood : " + std::to_string(event.Good)); 
-			bool find = DoEventOfSynapse(event, Situation, core); // Если имеется хоть какое-то решение
+	void CentralCore::CheckMonotoneAndDo(Consequence& _event, std::vector<short>& _variants) {
+		static std::string debug = ""; debug.clear();
+		static size_t stat_var_size = 0;
+		stat_var_size = _variants.size();
+
+		if (stat_var_size != 0) {
+			if (mono_deep != 0) {
+				if (mono_deep >= stat_var_size) mono_deep = stat_var_size - 1;
+
+				for (size_t t = stat_var_size - 1; t > stat_var_size - mono_deep - 1; t--)
+					debug +=  " " + _event.GetSN_Name(_variants[0]);
+				Debug::Log("CMAD : useless actions :" + debug + "\n\tAlternative : "+ 
+					_event.GetSN_Name(_variants[stat_var_size - mono_deep - 1]), Module);
+			}
+
+			DoFindSynapse(_event, _variants[stat_var_size - mono_deep - 1]);
+		}
+	}
+
+	void SpaRcle::CentralCore::ProcessingEvent(Consequence& _event, std::string& Situation) {
+		this->mono_per_temp = _logic->IsMonotone(_event.name, Situation);
+		Debug::Log("CentralCore PE : is monotone = " + std::to_string(mono_per_temp));
+
+		if (!mono_wait) { // Проверка монотонности ситуации.
+			if (mono_per_temp > Settings::Monotone_MaxPercent) 
+				mono_deep++; // Если монотонна, ищем другое решение, отличное от предыдущего.
+			else 
+				mono_deep = 0;
+			mono_wait = true;
+		} else mono_wait = false;
+
+		///\^TODO : Требуется калибровка порогов чувствительности.
+		if (_event.GetSummHP() < 0) { //(event.Bad > event.Good && event.Bad > 3) { // Пытаемся выкрутиться из ситуации с наименьшим ущербом
+			Debug::Log("CentralCore::PE : " + _event.name + " is Bad! \n\tBad : " + std::to_string(_event.Bad) + "\n\tGood : " + std::to_string(_event.Good)); 
+			bool find = DoEventOfSynapse(_event, Situation); // Если имеется хоть какое-то решение
 
 			if (!find) // Если все совсем печально...
 			{
 				Debug::Log("CentralCore::PE : Find opposite...", Mind);
 
 				Consequence opposite; bool seccues = false;
-				if (LogicalCore::GetOpposite(opposite, event)) {
-					std::string ev_name = event.name;
+				if (LogicalCore::GetOpposite(opposite, _event)) {
+					std::string ev_name = _event.name;
 					std::string op_name = opposite.name;
 
 					Debug::Log("CentralCore::GetOpposite : " + ev_name + " => " + op_name);
@@ -245,7 +303,7 @@ namespace SpaRcle {
 				}
 				else {
 					Debug::Log("Opposite : " + opposite.name, Mind);
-					//TODO
+					///\TODO
 
 				}
 
@@ -263,56 +321,56 @@ namespace SpaRcle {
 				return; /* Ничего не делаем, тк в DEOS уже все выполнилось*/ }
 		}
 		// Если плохо 
-		else if (event.Good > event.Bad && event.Good > 5) {
-			Debug::Log("CentralCore::PE : " + event.name + " is Good"); /* Debuging */
-			DoEventOfSynapse(event, Situation, core); // Ищем продолжение
+		else if(_event.GetSummHP() > 0) { //if (event.Good > event.Bad && event.Good > 5) {
+			Debug::Log("CentralCore::PE : " + _event.name + " is Good"); /* Debuging */
+
+			DoEventOfSynapse(_event, Situation); // Ищем продолжение
 		}
 		// Если хорошо
-		else
-		{
+		else {
 			///\TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			Debug::Log("CentralCore::PE : TODO!", DType::Error);
-			Debug::Log("CentralCore::PE : \"" + event.name + "\" is undefined. \n\t" + "Good : " + std::to_string(event.Good) + "\n\tBad : " + std::to_string(event.Bad));
+			//Debug::Log("CentralCore::PE : TODO!", DType::Error);
+			Debug::Log("CentralCore::PE : \"" + _event.name + "\" is undefined. \n\t" + "Good : " + std::to_string(_event.Good) + "\n\tBad : " + std::to_string(_event.Bad));
 			// Повторяем для того, чтобы понять : плохо это или хорошо.
-			(*core._reality).DoAction(event.action, event.name); // Trying to repeat
+			_reality->DoAction(_event.action, _event.name); // Trying to repeat
 		}
 		// Если не поняли
 	}
 
-	void CentralSolution(int* DelayCPU, CentralCore* _core) {
+	void CentralCore::CentralSolution() {
 	Restarting:
 		Sleep(100);
-		CentralCore& core = *_core;
-		RealityCore& real = *core._reality;
-		CausalityCore& causal = *core._causality;
+		//CentralCore& core = &this;
+		RealityCore& real = *this->_reality;
+		CausalityCore& causal = *this->_causality;
 		size_t size_ev = 0, deep = 0;
 		char timer = 0; short load = 0;
 
 		Debug::Log("-> The central core is started!");
 
 		while (Settings::IsActive) {
-			if (timer >= 100) { timer = 0; _core->CoreLoad = load; load = 0; }
+			if (timer >= 100) { timer = 0; CoreLoad = load; load = 0; }
 			else timer++;
 
-			core.size_events = core.Events_conq.size();
+			size_events = Events_conq.size();
 
-			if (core.size_events == 0) Sleep(*DelayCPU);
+			if (size_events == 0) Sleep(DelayCPU);
 			else try {
 				if (causal.size_unchk_ev == 0) {
 					load++;
 				//Ret: /// name == EmptyName |and| logical loop
-					Consequence& conseq = core.Events_conq[deep];
-					(*_core).AddSE(conseq.name, false); // !Петля
+					Consequence& conseq = Events_conq[deep];
+					AddSE(conseq.name, false); // !Петля
 
 					if (conseq.name.empty()) {
 						Debug::Log("CentralCore : [1] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000);
-						core.Events_sens.erase(core.Events_sens.begin() + deep);
+						Events_sens.erase(Events_sens.begin() + deep);
 
-						if (deep < core.Events_conq.size()) core.Events_conq.erase(core.Events_conq.begin() + deep);
+						if (deep < Events_conq.size()) Events_conq.erase(Events_conq.begin() + deep);
 						else {
-							Debug::Log("CentralCore : [1] Fatal ERORR!\n\tdeep = " + std::to_string(deep) + "\n\tsize = " + std::to_string(core.Events_conq.size()), Error);
-							core.Events_conq.clear();
-							core.Events_sens.clear();
+							Debug::Log("CentralCore : [1] Fatal ERORR!\n\tdeep = " + std::to_string(deep) + "\n\tsize = " + std::to_string(Events_conq.size()), Error);
+							Events_conq.clear();
+							Events_sens.clear();
 							Sleep(1000);
 						}
 
@@ -320,8 +378,8 @@ namespace SpaRcle {
 						continue;
 					}
 					else if (conseq.name == Settings::EmptyName) {
-						core.Events_conq.erase(core.Events_conq.begin() + deep);
-						core.Events_sens.erase(core.Events_sens.begin() + deep);
+						Events_conq.erase(Events_conq.begin() + deep);
+						Events_sens.erase(Events_sens.begin() + deep);
 						if(deep > 0) deep--;
 						continue;
 						/*
@@ -366,39 +424,39 @@ namespace SpaRcle {
 							}
 						}
 						else */
-						if (core.Events_sens.size() == 1) {
+						if (Events_sens.size() == 1) {
 							load++; // resource monitor
-							Consequence& conseq = core.Events_conq[0];
+							Consequence& conseq = Events_conq[0];
 							if (conseq.name == Settings::EmptyName)
-								(*_core).AddSE(conseq.name, false);
+								AddSE(conseq.name, false);
 							else if (conseq.name.empty()) {
 								Debug::Log("CentralCore : [2] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000);
 							}
 							else {
-								Debug::Log("CentralCore : only (" + core.Events_sens[0] + "): " + conseq.name);
-								CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
+								Debug::Log("CentralCore : only (" + Events_sens[0] + "): " + conseq.name);
+								CentralCore::ProcessingEvent(conseq, Events_sens[deep]);
 							}
-							core.Events_sens.erase(core.Events_sens.begin());
-							core.Events_conq.erase(core.Events_conq.begin());
+							Events_sens.erase(Events_sens.begin());
+							Events_conq.erase(Events_conq.begin());
 
 						}
 						else {
-							if (core.Events_sens.size() > deep + 1) {
+							if (Events_sens.size() > deep + 1) {
 								deep++;
 								continue;
 							}
 							
-							std::string& sit = core.Events_sens[deep];
+							std::string& sit = Events_sens[deep];
 							Debug::Log("CentralCore : multi (" + sit + "): " + conseq.name);
 
-							CentralCore::ProcessingEvent(conseq, core.Events_sens[deep], core);
+							CentralCore::ProcessingEvent(conseq, Events_sens[deep]);
 							//if (core.Events_sens.size() != 0) {
 								//core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
 								//core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
 
 							deep++;
-								core.Events_sens.erase(core.Events_sens.begin(), core.Events_sens.begin() + deep);
-								core.Events_conq.erase(core.Events_conq.begin(), core.Events_conq.begin() + deep);
+								Events_sens.erase(Events_sens.begin(), Events_sens.begin() + deep);
+								Events_conq.erase(Events_conq.begin(), Events_conq.begin() + deep);
 
 								//if (core.Events_conq.size() != 0) {
 								//	core.Events_sens.erase(core.Events_sens.begin());
@@ -411,7 +469,7 @@ namespace SpaRcle {
 				}
 			}
 			catch (...) {
-				Debug::Log("CentralCore : An exception has occured! \n\tEvents : " + std::to_string(core.Events_sens.size()) +
+				Debug::Log("CentralCore : An exception has occured! \n\tEvents : " + std::to_string(Events_sens.size()) +
 					"\n\tDeep : " + std::to_string(deep), Error);
 				Sleep(500);
 				Debug::Log("-> The central core is stopped!");
@@ -459,7 +517,8 @@ namespace SpaRcle {
 			//Settings::SetDefaultPaths(std::string(ws.begin(), ws.end()));
 		}
 		//Process = std::thread(std::move(task));
-		Process = std::thread(CentralSolution, &DelayCPU, this);
+		//Process = std::thread(CentralSolution, &DelayCPU, this);
+		Process = std::thread(&CentralCore::CentralSolution, this);
 		//std::packaged_task<void(int &)> task{ CentralSolution };
 		//Process = std::thread { std::move(CentralSolution), std::ref(DelayCPU) };
 	}

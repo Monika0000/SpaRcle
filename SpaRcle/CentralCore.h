@@ -16,8 +16,21 @@
 namespace SpaRcle {
 	class TCP;
 
-	class CentralCore : public Core
-	{
+	class CentralCore : public Core {
+	private:
+		void CentralSolution();
+		void ProcessingEvent(Consequence& conseq, std::string& Situation);
+		bool DoFindSynapse(Consequence& event, int _index);
+		bool DoEventOfSynapse(Consequence& _event, std::string& Situation);
+		void CheckMonotoneAndDo(Consequence& _event, std::vector<short>& variants);
+
+		bool mono_wait;
+		short mono_deep;
+		float mono_per_temp, temp_sim_sup_per;
+
+
+		std::vector<short> normal_variants;
+		std::vector<short> super_variants;
 	public:
 		RealityCore* _reality;
 		CausalityCore* _causality;
@@ -40,8 +53,6 @@ namespace SpaRcle {
 		//void AddSE();
 
 		void NewEvent(Consequence& event, std::string& Situation);
-
-		static void ProcessingEvent(Consequence& conseq, std::string& Situation, CentralCore& core);
 
 		void Start();
 		void ConnectReality(RealityCore* core);

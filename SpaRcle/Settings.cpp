@@ -21,6 +21,8 @@ namespace SpaRcle {
 	bool Settings::CauseReputationDebug = false; 
 	const int Settings::SaveNumbers = 5;
 	const size_t Settings::Size_SCP = 12; // 5 // 8
+	const size_t Settings::Monotone_size = 15; 
+	float Settings::Monotone_MaxPercent = 75.0f;
 	double Settings::MinSimilarityPerc = 60.0f;
 	std::string Settings::version = "0.19_alpha_sparcle";
 	const std::string Settings::EmptyName = "[NTHG]";
