@@ -16,9 +16,21 @@ namespace SpaRcle {
 		std::vector<std::string> mono_sit;
 
 		size_t temp_hash; float temp_percent;
+
+		void LogicalSolution();
+
+		//!LoverPrioritySynapse
+
+		size_t lower_size; 
+		std::vector<std::string> lower_names;
+		std::vector<size_t> lower_id_bad;
+		std::vector<size_t> lower_id_good;
+
 	public:
 		LogicalCore(int cpuSpeed);
 		~LogicalCore();
+
+		void LoverPrioritySynapse(std::string& event_name, size_t bad_syn_index, size_t good_syn_index);
 
 		static std::vector<std::string> DecomposeConsequence(Consequence& conseq);
 
@@ -42,11 +54,12 @@ namespace SpaRcle {
 			5 - »м€ следстви€ вместе с типом, пример : T/Name	
 		*/
 		std::vector<std::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string>> Causes; // Private (Don't use)
-		
+		size_t size_causes;
+
 		/*
 			»зменить репутацию(полезность) некоторого следстви€, в соответствии с другими следстви€ми.
 		*/
-		bool static CauseReputation(std::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string>& Cause, const bool Diagnostic = false);
+		bool CauseReputation(std::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string>& Cause, const bool Diagnostic = false);
 
 		/*
 			ѕолучить логическую противоположность заданному следствию

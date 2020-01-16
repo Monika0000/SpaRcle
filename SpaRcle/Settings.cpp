@@ -14,6 +14,7 @@ namespace SpaRcle {
 	bool Settings::PathsIsSet = false;
 	////////////////////////////
 	bool Settings::CoreDebug = false;
+	bool Settings::DEOSDebug = false;
 	bool Settings::ExternalInteraction = false;
 	KeyboardLayout Settings::Layout = UNKNOWN;
 	bool Settings::EventsProcessigDebug = false;

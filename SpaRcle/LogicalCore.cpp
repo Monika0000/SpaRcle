@@ -29,9 +29,16 @@ namespace SpaRcle {
 		this->mono_nam.clear();
 		this->mono_sit.clear();
 		Debug::Log("-> The logical core has completed it's work!", Info); }
+
+	void LogicalCore::LoverPrioritySynapse(std::string& event_name, size_t bad_syn_index, size_t good_syn_index) {
+		this->lower_size++;
+		this->lower_names.push_back(event_name);
+		this->lower_id_bad.push_back(bad_syn_index);
+		this->lower_id_good.push_back(good_syn_index);
+	}
 	 
-	void LogicalSolution(int* delay, LogicalCore* _core) {
-		CentralCore& core = *(*_core).core;
+	void LogicalCore::LogicalSolution() {
+		CentralCore& core = *this->core;
 		RealityCore& real = *core._reality;
 		CausalityCore& causal = *core._causality;
 		char timer = 0, load = 0;
@@ -40,27 +47,28 @@ namespace SpaRcle {
 		size_t& check_ev_size= causal.size_check_ev, uncheck_ev_size=causal.size_unchk_ev;
 
 		while (Settings::IsActive) {
-			if (timer >= 100) { timer = 0; _core->CoreLoad = load; load = 0; } else timer++;
+			if (timer >= 100) { timer = 0; this->CoreLoad = load; load = 0; } else timer++;
 			try {
 				if (check_ev_size <= Settings::Size_SCP * 2 + 1 && uncheck_ev_size == 0 && core.Events_sens.size() == 0) {
-					if ((*_core).Causes.size() > 0) {
+					if (this->Causes.size() > 0) {
 						load++;
-						LogicalCore::CauseReputation((*_core).Causes[0]); ///\see Get first element
+						LogicalCore::CauseReputation(this->Causes[0]); ///\see Get first element
 
-						std::get<0>(_core->Causes[0]).clear();
-						std::get<1>(_core->Causes[0]).clear();
-						std::get<2>(_core->Causes[0]).clear();
-						std::get<4>(_core->Causes[0]).clear();
-						(*_core).Causes.erase((*_core).Causes.begin());   /// Delete first element
+						std::get<0>(this->Causes[0]).clear();
+						std::get<1>(this->Causes[0]).clear();
+						std::get<2>(this->Causes[0]).clear();
+						std::get<4>(this->Causes[0]).clear();
+						this->Causes.erase(this->Causes.begin());   /// Delete first element
+						this->size_causes--;
 					}
 				}
-				else Sleep(*delay);
+				else Sleep(this->DelayCPU);
 			}
 			catch (...) { Debug::Log("LogicalSolution : An exception has ocurred!", Error); break; }
 			if (Settings::CoreDebug) Debug::Log("Processing logical... ");
 		}
 	}
-	void LogicalCore::Start() { Process = std::thread(LogicalSolution, &DelayCPU, this); /*union d { int f = 5; };*/ }
+	void LogicalCore::Start() { Process = std::thread(&LogicalCore::LogicalSolution, this); /*union d { int f = 5; };*/ }
 
 	void LogicalCore::DoIt(Task task) {
 		bool has = false;
@@ -85,6 +93,7 @@ namespace SpaRcle {
 		std::string name = std::string(1, ToString(conq.action.type)[0]) + "/" + conq.name;
 		this->Causes.push_back(std::tuple<std::vector<std::string>, std::vector<int>, std::vector<std::string>, double, std::string>
 			(Causes, Meets, Sensivitys, conq.GetSummHP(), name)); // Добавляем элемент в конец
+		this->size_causes++;
 		name.~basic_string();
 		Sensivitys.clear();
 		Sensivitys.~vector();
@@ -139,9 +148,36 @@ namespace SpaRcle {
 				unsigned short last_index = size - 1 - i; // Перечисление с конца массива в начало (инверсия). Ибо массив отсортирован от меньшего к большему
 				AType t = ToAType(std::get<0>(Cause)[last_index][0]); ///\error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				if (t != AType::Undefined) { // Error
-					if (!loaded.Load(std::get<0>(Cause)[last_index].substr(2), t, true, Diagnostic, "Logic"))
+					if (!loaded.Load(std::get<0>(Cause)[last_index].substr(2), t, true, Diagnostic, "Logic")) {
 						if (Diagnostic) return false;
-						else continue; }
+						else continue;
+					}
+					else { // is all ok
+						//for(size_t t = 0; t < loaded.Synapses.size(); t++)
+						//	Debug::Log(loaded.GetSN_Name(t) + "\t" + std::to_string(loaded.GetSN_HP(t)));
+
+						for (size_t t = 0; t < this->lower_size; t++) {
+							if (loaded.name == lower_names[t]) {
+
+								std::get<1>(loaded.Synapses[this->lower_id_bad[t]]) = std::get<1>(loaded.Synapses[this->lower_id_bad[t]]) * double(1.0 / 3.0);
+								std::get<1>(loaded.Synapses[this->lower_id_good[t]]) = std::get<1>(loaded.Synapses[this->lower_id_good[t]]) * double(7.0 / 6.0);
+
+								Debug::Log("LogicalCore::CauseReputation : change priority syanpses in event \"" + loaded.name + "\"\n\tBad : " 
+									+ loaded.GetSN_Name(this->lower_id_bad[t]) + "\n\tGood : "
+									+ loaded.GetSN_Name(this->lower_id_good[t]), DType::Info);
+
+								//////////////////////////////////////////////////////////
+
+								this->lower_names.erase(this->lower_names.begin() + t);
+								this->lower_id_bad.erase(this->lower_id_bad.begin() + t);
+								this->lower_id_good.erase(this->lower_id_good.begin() + t);
+
+								this->lower_size--; t--;
+							}
+						}
+						/* Ищем совпадения имен событий, чтобы понизить приоритет тех синапсов, которые есть в списке, и так же повысить приоритет других. */
+					}
+				}
 				else { Debug::Log("LogicalCore::CauseReputation : Unknown type! \"" + std::get<0>(Cause)[last_index] + "\"", Warning); continue; }
 
 				///\TODO :
@@ -169,8 +205,8 @@ namespace SpaRcle {
 					Synapse::FindAndSummSensiv(loaded, std::get<4>(Cause), &std::get<2>(Cause)[i], std::get<3>(Cause), false);
 					loaded.meetings++;
 
-					if (!Diagnostic) loaded.Save(); // Saving
-					else Consequence::Save(&loaded, true); // Debug-Save
+					if (!Diagnostic) loaded.Save("Logical"); // Saving
+					else Consequence::Save(&loaded, "Logical_diag", true); // Debug-Save
 				}
 				catch (...) { Debug::Log("LogicalCore::CauseReputation : An exception has occured! [Third Block]", Error); }
 

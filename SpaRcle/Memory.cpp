@@ -36,7 +36,7 @@ namespace SpaRcle {
 		if (Settings::isUseMemory) {
 			Settings::isUseMemory = false;
 			for (std::map<std::string, Consequence*>::iterator it = this->conq_speech.begin(); it != this->conq_speech.end(); ++it) {
-				it->second->Save();
+				it->second->Save("Memory");
 				delete it->second;
 			}
 		}

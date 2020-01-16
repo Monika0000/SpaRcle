@@ -51,10 +51,10 @@ namespace SpaRcle {
 		CheckedEvents.~vector();
 		Debug::Log("-> The causality core has completed it's work!", Info);
 	}
- 
-	inline bool SpaRcle::CausalityCore::CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, const bool Diagnostic) {
+
+	bool SpaRcle::CausalityCore::CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, Consequence& conq, const bool Diagnostic) {
 		// Здесь все вроде-бы готово. Пока-что лучше больше не трогать данный участок кода.
-		Consequence& conq = Ref_ev[Settings::Size_SCP]; // 6-ый element
+		//Consequence& conq = Ref_ev[Settings::Size_SCP]; // 6-ый element
 
 		for (size_t t = 0; t < Settings::Size_SCP; t++) {
 			/* Здесь мы суммируем и добавляем в нейрон синапсы, ведущие к другим нейронам */
@@ -119,22 +119,22 @@ namespace SpaRcle {
 		}
 		/* А теперь  */
 
-		if (!Diagnostic)
-			conq.Save(); // Re-write file
-		else
-			if (!Consequence::Save(&conq, true))
-				return false;
+		//if (!Diagnostic)
+		//	conq.Save(); // Re-write file
+		//else
+		//	if (!Consequence::Save(&conq, true))
+		//		return false;
 
 		return true;
 	}
 
-	void CausalitySolution(int* delay, CausalityCore* _core) {
-		CentralCore& C_ref = *(*_core).core;
+	void CausalityCore::CausalitySolution() {
+		CentralCore& C_ref = *this->core;
 		EmotionCore& E_ref = *C_ref._emotion;
 		RealityCore& R_ref = *C_ref._reality;
 		LogicalCore& L_ref = *C_ref._logic;
 
-		std::string& Current_sensivity = (*_core).Current_sensivity;
+		std::string& Current_sensivity = this->Current_sensivity;
 		Consequence _event, helpData;
 		short timer = 0, load_1 = 0; 
 		double bad = 0, good = 0;
@@ -153,51 +153,51 @@ namespace SpaRcle {
 				double tone = 8, volime = 13;
 				for (size_t t = 0; t < 3; t++)
 				{
-					(*_core).UncheckedEvents.push_back(Consequence(Sound("test", tone, volime)));
+					this->UncheckedEvents.push_back(Consequence(Sound("test", tone, volime)));
 
-					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 
 					for (size_t tt = 0; tt < 10; tt++)
-						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+						this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
 			if (false) {
 				for (size_t t = 0; t < 30; t++) {
-					(*_core).UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
-					(*_core).UncheckedEvents.push_back(Consequence("is", Action(Sound("is")), 1, 13, 0));
-					(*_core).UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("is", Action(Sound("is")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
 
-					(*_core).UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
-					(*_core).UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
 
-					(*_core).UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
-					(*_core).UncheckedEvents.push_back(Consequence("is", Action(Sound("is")), 1, 13, 0));
-					(*_core).UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("is", Action(Sound("is")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
 
-					(*_core).UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
-					(*_core).UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
 				}
 			}
 			if (false) {
 				for (size_t t = 0; t < 10; t++) {
-					(*_core).UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
-					(*_core).UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
-					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
 			if (true) {
 				double good = 20;
 				for (size_t t = 0; t < 3; t++) {
-					(*_core).UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
-					(*_core).UncheckedEvents.push_back(Consequence("monika", Action(Sound("monika")), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("monika", Action(Sound("monika")), 1, 0, good));
 
-					(*_core).UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
-					(*_core).UncheckedEvents.push_back(Consequence("nikita", Action(Sound("nikita")), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("nikita", Action(Sound("nikita")), 1, 0, good));
 
 					for (size_t tt = 0; tt < Settings::Size_SCP + 2; tt++)
-						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+						this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
-				for (size_t tt = 0; tt < Settings::Size_SCP + 5; tt++) (*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+				for (size_t tt = 0; tt < Settings::Size_SCP + 5; tt++) this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
 			if (true) {
 				double tone = 10;
@@ -205,18 +205,18 @@ namespace SpaRcle {
 
 				for (size_t t = 0; t < 3; t++)
 				{
-					(*_core).UncheckedEvents.push_back(Consequence(Sound("how", tone, volime)));
-					(*_core).UncheckedEvents.push_back(Consequence(Sound("are", tone, volime)));
-					(*_core).UncheckedEvents.push_back(Consequence(Sound("you", tone, volime)));
+					this->UncheckedEvents.push_back(Consequence(Sound("how", tone, volime)));
+					this->UncheckedEvents.push_back(Consequence(Sound("are", tone, volime)));
+					this->UncheckedEvents.push_back(Consequence(Sound("you", tone, volime)));
 
-					(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 
-					(*_core).UncheckedEvents.push_back(Consequence(Sound("i", tone, volime)));
-					(*_core).UncheckedEvents.push_back(Consequence(Sound("am", tone, volime)));
-					(*_core).UncheckedEvents.push_back(Consequence(Sound("okay", tone, volime)));
+					this->UncheckedEvents.push_back(Consequence(Sound("i", tone, volime)));
+					this->UncheckedEvents.push_back(Consequence(Sound("am", tone, volime)));
+					this->UncheckedEvents.push_back(Consequence(Sound("okay", tone, volime)));
 
 					for (size_t tt = 0; tt < 10; tt++)
-						(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+						this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
 			if (true) {
@@ -227,40 +227,40 @@ namespace SpaRcle {
 					for (int b = 1; b < 6; b++)
 						for (size_t t = 0; t < 3; t++)
 						{
-							(*_core).UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(a), tone, volime)));
-							(*_core).UncheckedEvents.push_back(Consequence(Sound("plus", tone, volime)));
-							(*_core).UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(b), tone, volime)));
-							(*_core).UncheckedEvents.push_back(Consequence(Sound("equal", tone, volime)));
+							this->UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(a), tone, volime)));
+							this->UncheckedEvents.push_back(Consequence(Sound("plus", tone, volime)));
+							this->UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(b), tone, volime)));
+							this->UncheckedEvents.push_back(Consequence(Sound("equal", tone, volime)));
 
-							(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+							this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 
-							(*_core).UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(a + b), tone, volime)));
+							this->UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(a + b), tone, volime)));
 
 							for (size_t tt = 0; tt < 10; tt++)
-								(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+								this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 						}
 			}
 			for (size_t tt = 0; tt < 10; tt++)
-				(*_core).UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+				this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 		}
 		//Memory::GetMemory()->LoadStaticMemory();
 
 		Debug::Log("-> The causality core is started!");
 
 		while (Settings::IsActive) {
-			if (timer >= 100) { timer = 0; _core->CoreLoad = load_1; load_1 = 0; }
+			if (timer >= 100) { timer = 0; this->CoreLoad = load_1; load_1 = 0; }
 			else timer++;
 
-			_core->size_unchk_ev = _core->UncheckedEvents.size();
-			if (_core->size_unchk_ev == 0) Sleep(*delay);
+			this->size_unchk_ev = this->UncheckedEvents.size();
+			if (this->size_unchk_ev == 0) { Sleep(DelayCPU); } //  || L_ref.size_causes > Settings::Size_SCP * 2
 			else { 
-				_event = (*_core).UncheckedEvents[0]; // Get first _event
+				_event = this->UncheckedEvents[0]; // Get first _event
 
 				if (_event.name.empty()) {
 					Debug::Log("CausalityCore : Unknown ERROR => conseq.name == \"\"!", Error);
-					try { (*_core).UncheckedEvents.erase((*_core).UncheckedEvents.begin()); }
-					catch (...) { Debug::Log("CausalityCore FATAL : unchecked events is bad!", Error); (*_core).UncheckedEvents.clear(); Sleep(1500); continue; }
-					_core->size_unchk_ev--;
+					try { this->UncheckedEvents.erase(this->UncheckedEvents.begin()); }
+					catch (...) { Debug::Log("CausalityCore FATAL : unchecked events is bad!", Error); this->UncheckedEvents.clear(); Sleep(1500); continue; }
+					this->size_unchk_ev--;
 				}
 				else {
 					char found = 0;
@@ -282,7 +282,7 @@ namespace SpaRcle {
 							}
 
 							Situation.clear();
-							Situation = Synapse::GetSensivityCauses((*_core).CheckedEvents);
+							Situation = Synapse::GetSensivityCauses(this->CheckedEvents);
 							Situation += Synapse::GetSensivityOfName(_event.name, _event.self);
 							Situation = Synapse::ClearSensivity(Situation);
 
@@ -300,22 +300,22 @@ namespace SpaRcle {
 					else if (!_event.self) C_ref.NewEvent(empty_conq, empty_sens);
 
 					if (found >= 0)
-						(*_core).CheckedEvents.push_back(_event);						  // System
-					(*_core).UncheckedEvents.erase((*_core).UncheckedEvents.begin()); // System
-					_core->size_unchk_ev--;
+						this->CheckedEvents.push_back(_event);						  // System
+					this->UncheckedEvents.erase(this->UncheckedEvents.begin()); // System
+					this->size_unchk_ev--;
 
 					if (_event.name != Settings::EmptyName && found >= 0) {
-						_event.Save();
+						_event.Save("Causality");
 
 						Current_sensivity += Synapse::GetSensivityOfName(_event.name, _event.self);  // System
 						if (_event.self)
 							Debug::Log("CausalityCore : self _event \"" + _event.name + "\" [" + Current_sensivity + "]");
 
-						(*_core).Sensivity_List.push_back(Current_sensivity); // System
+						this->Sensivity_List.push_back(Current_sensivity); // System
 					}
 					else {
 						Current_sensivity += std::string(count_word_in_sensiv, '.');						 	  // System
-						(*_core).Sensivity_List.push_back(Current_sensivity); // System
+						this->Sensivity_List.push_back(Current_sensivity); // System
 					}
 				}
 				_event.~Consequence();
@@ -324,9 +324,9 @@ namespace SpaRcle {
 
 			/* Пост-процессинг. Здесь мы объединям некоторую информацию и проводим синапсы между нейронами. */
 
-			_core->size_check_ev = _core->CheckedEvents.size();
-			if (_core->size_check_ev > ((Settings::Size_SCP * 2) + 1)) {
-				Consequence& conq = (*_core).CheckedEvents[Settings::Size_SCP]; // 6-ый element
+			this->size_check_ev = this->CheckedEvents.size();
+			if (this->size_check_ev > ((Settings::Size_SCP * 2) + 1)) {
+				Consequence& conq = this->CheckedEvents[Settings::Size_SCP]; // 6-ый element
 
 				if (!conq.name._Equal(Settings::EmptyName) && !conq.name.empty()) {
 					
@@ -338,15 +338,27 @@ namespace SpaRcle {
 						Helper::SummActionConseq(conq, load_conq);
 					}
 
-					CausalityCore::CheckedEventsProcessing((*_core).CheckedEvents, Temp_Causes, Temp_Meets);
+					CausalityCore::CheckedEventsProcessing(this->CheckedEvents, Temp_Causes, Temp_Meets, conq);
+
+					conq.Save("Causality_2"); // Сохраняем тут, ибо при проверке более они не сохраняются
+
+					//for (size_t t = 0; t < conq.Synapses.size(); t++)
+					//	Debug::Log(conq.GetSN_Name(t) + "\t" + std::to_string(conq.GetSN_HP(t)), DType::Info);
+
+					
+					//Consequence c; c.Load(conq.name, conq.action.type);
+
+					//for (size_t t = 0; t < c.Synapses.size(); t++)
+					//	Debug::Log(c.GetSN_Name(t) + "\t" + std::to_string(c.GetSN_HP(t)), DType::Log);
+					
 					/* Обрабатываем следствия устанавливая между ними взаимосвязи и добавляем в них причины. */
-					//Debug::Log(Helper::SummArray(_core->CheckedEvents, ' '));
+					//Debug::Log(Helper::SummArray(this->CheckedEvents, ' '));
 					//Debug::Log(Helper::SummArray(Temp_Causes, ' '));
 
 					size_temp = Temp_Causes.size();
 
 					if (size_temp != 0) {
-						for (auto a : (*_core).Sensivity_List)
+						for (auto a : this->Sensivity_List)
 							if (a[a.size() - 1] != '.') {
 								for (size_t t = 0; t < a.size(); t++)
 									if (a[t] == '.') {
@@ -368,6 +380,11 @@ namespace SpaRcle {
 						//L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
 
 						L_ref.EditCauses(Temp_Causes, Temp_Meets, clean_sensiv, conq);
+						/*
+							Самая ужасная функция!!! 
+							Как же я тебя ненавижу!!
+							От тебя нереально много проблем!!!!!!!!!
+						*/
 					}
 
 					count_sens = 0;
@@ -378,15 +395,16 @@ namespace SpaRcle {
 				clean_sensiv.clear();
 				load_conq.~Consequence();
 
-				(*_core).CheckedEvents.erase((*_core).CheckedEvents.begin()); // Удаляем первый еэлемент
-				_core->size_check_ev--;
+				CheckedEvents[0].~Consequence();
+				this->CheckedEvents.erase(this->CheckedEvents.begin()); // Удаляем первый еэлемент
+				this->size_check_ev--;
 				Current_sensivity.erase(Current_sensivity.begin(), Current_sensivity.begin() + count_word_in_sensiv);    // $Удаляем $одну $причину // Memory leak
-				(*_core).Sensivity_List.erase((*_core).Sensivity_List.begin());											 // $Удаляем $одну $причину
+				this->Sensivity_List.erase(this->Sensivity_List.begin());											 // $Удаляем $одну $причину
 			}
 		}
 		if (Settings::CoreDebug) Debug::Log("Processing causality... ");
 	}
-	void CausalityCore::Start() { Process = std::thread(CausalitySolution, &DelayCPU, this); }
+	void CausalityCore::Start() { Process = std::thread(&CausalityCore::CausalitySolution, this); }
 	void CausalityCore::NewEvent(Consequence event, bool debug) {
 		if(debug)
 			Debug::Log("CausalityCore::NewEvent = " + std::string(ToString(event.action.type)) + " : " + event.name, Info);

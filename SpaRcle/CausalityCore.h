@@ -9,8 +9,10 @@ namespace SpaRcle
 {
 	class CentralCore;
 
-	class CausalityCore : public Core
-	{
+	class CausalityCore : public Core {
+	private:
+		void CausalitySolution();
+
 	public:
 		CausalityCore(int cpuSpeed = 1500);
 		~CausalityCore();
@@ -31,7 +33,7 @@ namespace SpaRcle
 		void Start();
 		void NewEvent(Consequence event, bool debug = true);
 
-		bool static CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, const bool Diagnostic = false);
+		bool static CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, Consequence& conq, const bool Diagnostic = false);
 	private:
 	};
 }

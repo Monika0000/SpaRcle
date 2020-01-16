@@ -16,7 +16,9 @@ namespace SpaRcle {
 	static int _cdecl r;
 	//static std::ofstream fout; ///\TODO WTF it is STATIC?!?!?!?!?!?!?!?!??! 
 
-	bool Consequence::Save(Consequence* conseq, const bool Diagnostic) {
+	bool Consequence::Save(Consequence* conseq, const std::string region, const bool Diagnostic) {
+		//Debug::Log("Save " + region + " = " + conseq->name, DType::System);
+
 	ret: if (isWrite) { Debug::Log("Consequence::Save : file already use! ["+conseq->name+"]", Warning); Sleep(5); goto ret; }
 		isWrite = true;
 
@@ -76,7 +78,8 @@ namespace SpaRcle {
 				fout << "syn:" << (*conseq).Synapses.size() << std::endl;
 				for (size_t i = 0; i < (*conseq).Synapses.size(); i++) {
 					//fout << (*conseq).Synapses[i].get<0>() << ";" << (*conseq).Synapses[i].get<1>() << ";" << (*conseq).Synapses[i].get<2>() << std::endl;
-					fout << std::get<0>((*conseq).Synapses[i]) << ";" << std::get<1>((*conseq).Synapses[i]) << std::endl;
+					//fout << std::get<0>((*conseq).Synapses[i]) << ";" << std::get<1>((*conseq).Synapses[i]) << std::endl;
+					fout << std::get<0>((*conseq).Synapses[i]) << ";" << conseq->GetSN_HP(i) << std::endl;
 				}
 			} // Запись синапсов в файл
 
@@ -93,11 +96,12 @@ namespace SpaRcle {
 			return false;
 		}
 	}
-	bool Consequence::Save(const bool Diagnostic) { return Save(this, Diagnostic); }
+	bool Consequence::Save(const std::string region, const bool Diagnostic) { return Save(this, region, Diagnostic); }
 
 	char SpaRcle::Consequence::Load(std::string name, AType atype, std::string Block, load_mode mode) {
 		return this->Load(name, atype, true, false, "Load_" + Block, mode); }
 	char Consequence::Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block, load_mode mode) {
+		//Debug::Log("Load " + Block + " = " + name, DType::System);
 		if (Settings::isUseMemory) {
 			Consequence* con = Memory::GetMemory()->GetFragment(name, atype);
 			if (con != NULL) {
@@ -121,12 +125,12 @@ namespace SpaRcle {
 					return result;
 			}
 
-		}
+		} 
 		else
 		 	return LoadFile(name, atype,notFoundIsError, Diagnostic, Block, mode);
 	}
 	char Consequence::LoadFile(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block, load_mode mode) {
-	ret: if (isRead) { Debug::Log("Consequence::Load : file already use! [" + name + "]", Warning); Sleep(10); goto ret; }
+	ret: if (isRead) { Debug::Log("Consequence::Load : file already use! [" + name + "]", Warning); Sleep(40); goto ret; }
 		isRead = true;
 		std::string path;
 		if (!Diagnostic)
@@ -221,7 +225,10 @@ namespace SpaRcle {
 								std::getline(fin, l_syn);
 								std::get<0>(t_syn) = ReadUpToChar(l_syn, ';', n2);
 								//l_syn = l_syn.substr(n2);
-								std::get<1>(t_syn) = std::stof(post.c_str());
+								//std::get<1>(t_syn) = std::stod(post.c_str());
+								std::get<1>(t_syn) = std::stod(l_syn.substr(n2));
+								//Debug::Log(l_syn + " = " + std::get<0>(t_syn) + " " + std::to_string(std::get<1>(t_syn)) + " " + l_syn.substr(n2), DType::Info);
+
 								Synapses.push_back(t_syn);
 
 								number++;
@@ -301,7 +308,7 @@ namespace SpaRcle {
 		this->action = Action();
 		this->EventData = DataTime();
 		this->meetings = 1; }
-	Consequence::Consequence(std::string name, AType atype) { Load(name, atype,"Constructor"); }
+	Consequence::Consequence(std::string name, AType atype, const std::string Block) { Load(name, atype,"Constructor_"+Block); }
 	Consequence::Consequence(Sound speech, bool self, float hp) {
 		this->Bad = -hp;
 		this->Good = hp;

@@ -43,8 +43,8 @@ namespace SpaRcle {
 		DataTime EventData; /* Do not save */
 
 		///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-		static bool Save(Consequence* conseq, const bool Diagnostic = false);
-		bool Save(const bool Diagnostic = false);
+		static bool Save(Consequence* conseq, const std::string region, const bool Diagnostic = false);
+		bool Save(const std::string region, bool Diagnostic = false);
 
 		char Load(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block = "?", load_mode mode = load_mode::to_all);
 		char Load(std::string name, AType atype, std::string Block = "?", load_mode mode = load_mode::to_all);
@@ -56,7 +56,7 @@ namespace SpaRcle {
 		Consequence();
 		//Consequence(const Consequence &con);
 		Consequence(std::string name);
-		Consequence(std::string name, AType atype);
+		Consequence(std::string name, AType atype, const std::string Block);
 		Consequence(Sound speech, bool self = false, float hp = 0);
 		Consequence(Visual visual);
 		Consequence(Motion move);

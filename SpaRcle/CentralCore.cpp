@@ -121,6 +121,7 @@ namespace SpaRcle {
 		this->temp_sim_sup_per = 0;
 		normal_variants.clear(); super_variants.clear();
 
+		static std::string s_au;
 		RealityCore& real = (*_reality);
 
 		size_t mem_sup_index = 0;
@@ -138,7 +139,7 @@ namespace SpaRcle {
 				/// ^see ^IIIIIIIIIIIIIIIII Ищем самый схожий синапс
 				double percent = 0; // Итоговый процент схожести ситуации на одну из возможных вариаций
 				size_t idx = 0;		// Индекс найденой вариации
-				auto& s_au = _event.GetSN_Name(index); // Имя синапса под индексом перечисления
+				s_au = _event.GetSN_Name(index); // Имя синапса под индексом перечисления
 				for (size_t t = 0; t < _event.PerhapsWill.size(); t++) {
 					if (_event.GetPW_Name(t) == s_au) {
 						if (_event.GetPW_HP(t) < 0) {
@@ -176,7 +177,9 @@ namespace SpaRcle {
 							normal_variants.clear(); super_variants.clear(); super = true; meets = 0;
 						}
 
-						Debug::Log("DEOS : Super variant = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
+						if(Settings::DEOSDebug)
+							Debug::Log("DEOS : Super variant = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
+
 						if (_event.GetPW_Meet(idx) > meets) {
 							meets = _event.GetPW_Meet(idx);
 							super_variants.push_back(short(index)); }
@@ -195,7 +198,8 @@ namespace SpaRcle {
 						}
 					}
 
-					Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\" [" + std::to_string(_event.GetPW_Meet(idx)) + "] " + std::to_string(super), Module);//(" + SE_With_MyActions + " " + + ")", Module);
+					if(Settings::DEOSDebug)
+						Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\" [" + std::to_string(_event.GetPW_Meet(idx)) + "] " + std::to_string(super), Module);//(" + SE_With_MyActions + " " + + ")", Module);
 					/// ^see ^IIIIIIIIIIIIIIIII Ищем самый схожий синапс
 
 					// Определяем, искать дальше, или выполнить найденное, с учетом супер вариации
@@ -228,7 +232,7 @@ namespace SpaRcle {
 								// "Последняя надежда", тупо для отладки
 								std::string _name = std::get<0>(_event.PerhapsWill[idx]);
 								Debug::Log("DEOS : last variant = " + _name, Module);
-								Consequence* _final = new Consequence(_name.substr(2), ToAType(_name[0]));
+								Consequence* _final = new Consequence(_name.substr(2), ToAType(_name[0]), "Central");
 								//core._reality->DoAction((*_final).action);
 								_name.clear(); delete _final;
 								//}
@@ -257,9 +261,16 @@ namespace SpaRcle {
 			if (mono_deep != 0) {
 				if (mono_deep >= stat_var_size) mono_deep = stat_var_size - 1;
 
-				for (size_t t = stat_var_size - 1; t > stat_var_size - mono_deep - 1; t--)
-					debug +=  " " + _event.GetSN_Name(_variants[0]);
-				Debug::Log("CMAD : useless actions :" + debug + "\n\tAlternative : "+ 
+				for (size_t t = stat_var_size - 1; t > stat_var_size - mono_deep - 1; t--) {
+					this->_logic->LoverPrioritySynapse(
+						_event.name, 
+						(size_t)_variants[t], 
+						(size_t)_variants[stat_var_size - mono_deep - 1]);
+
+					debug += " " + _event.GetSN_Name(_variants[t]);
+				}
+
+				if(stat_var_size > 1) Debug::Log("CMAD : useless actions :" + debug + "\n\tAlternative : "+ 
 					_event.GetSN_Name(_variants[stat_var_size - mono_deep - 1]), Module);
 			}
 

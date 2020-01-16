@@ -19,6 +19,7 @@ namespace SpaRcle {
 	class Synapse {
 	public:
 		static inline double Summ(double& l, double& r) {
+			//double d = (l + r) / Div;
 			double d = (l + r) / Div;
 			if (d > 99999) d = 99999;
 			if (d < -99999) d = -99999;
@@ -166,8 +167,11 @@ namespace SpaRcle {
 			else for (size_t i = 0; i < right.Synapses.size(); i++) {
 				int indx = Synapse::IndexOfSynapse(left.Synapses, right.GetSN_Name(i));
 				if (indx == -1) left.Synapses.push_back(right.Synapses[i]);
-				else 
+				else {
+					//Debug::Log(left.name + " ====== " + std::get<0>(left.Synapses[indx]) + " " + std::to_string(std::get<1>(left.Synapses[indx])));
 					Synapse::SummHpSyns(left.Synapses[indx], right.Synapses[i]);
+					//Debug::Log(std::get<0>(left.Synapses[indx]) + " " + std::to_string(std::get<1>(left.Synapses[indx])));
+				}
 			}
 		}
 		inline static bool SummActionConseq(Consequence& left, Consequence& right) {
