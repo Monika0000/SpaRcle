@@ -7,6 +7,8 @@
 #include "Motion.h"
 
 namespace SpaRcle {
+	struct Consequence;
+
 	enum class AType {
 		Undefined, Speech, Move, VisualData };
 
@@ -22,26 +24,35 @@ namespace SpaRcle {
 	}
 	inline const AType ToAType(char c) {
 		switch (c) {
-		case 'S':
-			return AType::Speech;
-		case 'V':
-			return AType::VisualData;
-		case 'M':
-			return AType::Move;
+		case 'S': return AType::Speech;
+		case 'V': return AType::VisualData;
+		case 'M': return AType::Move;
 		default:
 			//Debug::Log("ToAType : Unknown type! \"" + std::string(1, c) + "\"");
 			return AType::Undefined;
 		}
 	}
+	
+	struct Neuron {
+	public:
+		Neuron();
+		~Neuron();
+		std::vector<std::string> syn_name;
+		std::vector<size_t> hash;
+		std::vector<float> value_1;
+		std::vector<float> value_2;
+	};
 
 	struct Action {
+	private:
+		//std::map<size_t, Neuron> neurons;
 	public:
 		Action();
 		Action(Sound sound);
 		Action(Motion sound);
 		Action(Visual visual);
 		~Action();
-		void Save(std::string path);
+		//void Save(std::string path);
 		//bool Save(std::string path);
 		//static bool Save(std::string path, Action& action);
 
@@ -49,6 +60,11 @@ namespace SpaRcle {
 		std::string GetSaveData();
 
 		bool ApplyLine(std::string line); // Only for loading consequence!
+
+		//static void SaveNeuron(Consequence&conq, std::string& situation);
+		//static void SaveNeuron(std::string& name, Action& action, std::string& situation);
+		static void SaveNeuron(std::string& synapse, Consequence& conq, std::string& situation);
+		Neuron* LoadNeuron(std::string name, AType type, size_t hash);
 
 		AType type;
 

@@ -20,9 +20,9 @@ namespace SpaRcle {
 	private:
 		void CentralSolution();
 		void ProcessingEvent(Consequence& conseq, std::string& Situation);
-		bool DoFindSynapse(Consequence& event, int _index);
+		bool DoFindSynapse(Consequence& event, int _index, std::string& Situation, std::string PWSit); // PWSit is not ref
 		bool DoEventOfSynapse(Consequence& _event, std::string& Situation);
-		void CheckMonotoneAndDo(Consequence& _event, std::vector<short>& variants);
+		void CheckMonotoneAndDo(Consequence& _event, std::vector<short>& variants, std::string& Situation, std::vector<std::string>& variants_sens);
 
 		bool mono_wait;
 		short mono_deep;
@@ -31,6 +31,7 @@ namespace SpaRcle {
 
 		std::vector<short> normal_variants;
 		std::vector<short> super_variants;
+		std::vector<std::string> sens_variants;
 	public:
 		RealityCore* _reality;
 		CausalityCore* _causality;
@@ -49,7 +50,7 @@ namespace SpaRcle {
 		std::vector<std::string> Events_sens;
 
 		std::string SE_With_MyActions; // Sensivity events with my actions
-		void AddSE(std::string event_name, bool IDoIt);
+		void AddSE(Consequence& _event, bool IDoIt);
 		//void AddSE();
 
 		void NewEvent(Consequence& event, std::string& Situation);

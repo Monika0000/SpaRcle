@@ -3,8 +3,7 @@
 #include <string>
 
 namespace SpaRcle {
-	struct Vector3
-	{
+	struct Vector3 {
 	public:
 		float x; // x pos
 		float y; // y pos
@@ -17,9 +16,10 @@ namespace SpaRcle {
 	{
 	public:
 		std::string tag;
-		Vector3 pos;
-		float distance;
-		Visual(std::string tag);
+		//Vector3 pos;
+		//float distance;
+		char pos;
+		Visual(std::string tag, char pos = 0);
 		Visual();
 		~Visual();
 	};

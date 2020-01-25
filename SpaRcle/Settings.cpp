@@ -11,6 +11,7 @@ namespace SpaRcle {
 	std::string Settings::Resources = "\\Resources";
 	std::string Settings::Memory = "\\Memory";
 	std::string Settings::Logic = "\\Logic";
+	std::string Settings::Actions = "\\Actions";
 	bool Settings::PathsIsSet = false;
 	////////////////////////////
 	bool Settings::CoreDebug = false;
@@ -43,14 +44,16 @@ namespace SpaRcle {
 		Resources = PathPj + "\\Resources";
 		Memory = PathPj + "\\Memory";
 		Logic = PathPj + "\\Logic";
+		Actions = PathPj + "\\Actions";
 		PathsIsSet = true; }
 
-	void Settings::SetPaths(std::string proj, std::string sys, std::string res, std::string mem, std::string logic) {
+	void Settings::SetPaths(std::string proj, std::string sys, std::string res, std::string mem, std::string logic, std::string actions) {
 		PathPj = proj;
 		SysDir = sys;
 		Resources = res;
 		Memory = mem;
 		Logic = logic;
+		Actions = actions;
 		PathsIsSet = true; }
 
 	bool Settings::Diagnostic() {

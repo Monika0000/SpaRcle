@@ -57,7 +57,8 @@ int main(int argc, char** argv) {
 		std::string(1, buf[0]) + ":\\SpaRcle\\System",
 		std::string(1, buf[0]) + ":\\SpaRcle\\SpaRcle\\Resources",
 		Settings::Drive + ":\\SpaRcleData\\Memory",
-		Settings::Drive + ":\\SpaRcleData\\Logic");
+		Settings::Drive + ":\\SpaRcleData\\Logic",
+		Settings::Drive + ":\\SpaRcleData\\Actions");
 	Debug::Log("~ DIR \"" + Settings::PathPj + "\"");
 
 	if (!Settings::Diagnostic())
@@ -121,6 +122,9 @@ int main(int argc, char** argv) {
 		Sleep(100); _core->Start();
 
 		Sleep(100);
+
+		//Consequence conq_test(Visual("Object")); std::string line_test;
+		//Action::SaveNeuron(conq_test, line_test);
 
 		//Memory::GetMemory()->CopyFile("memory_mapped_file.hpp", "copy.tmp", true);
 #pragma endregion

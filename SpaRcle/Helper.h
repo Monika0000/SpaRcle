@@ -14,6 +14,8 @@
 //#include <boost/tuple/tuple.hpp>
 #include <direct.h>
 #include "Settings.h"
+#include <cctype>
+#include "Action.h"
 
 namespace SpaRcle {
 	class Synapse {
@@ -38,6 +40,14 @@ namespace SpaRcle {
 				if (first[size - t - 1] == '*' || second[size - t - 1] == '*') {
 					percent += trueVal; continue;
 				}
+
+				//if (std::isdigit(first[size - t - 1]) && !std::isdigit(second[size - t - 1])) {
+				//	first.erase(first.begin() + size - t - 1); first += Settings::TrueSymbol;
+				//}
+				//else if (std::isdigit(second[size - t - 1]) && !std::isdigit(first[size - t - 1])) {
+				//	second.erase(second.begin() + size - t - 1); second += Settings::TrueSymbol;
+				//}
+
 				if (first[size - t - 1] == second[size - t - 1])
 					percent += trueVal;
 				else if (modifer != -1)
@@ -48,12 +58,17 @@ namespace SpaRcle {
 			return percent;
 		}
 		static void FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp, bool addNew = true);
-		static std::string GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s);
+		//static std::string GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
-		inline static std::string GetSensivityOfName(std::string& name, bool self) {
+		inline static std::string GetSensivityOfName(Consequence&conq, bool self) {
+			std::string name = conq.name;
 			if (name.size() > 2)
 				if (name[1] == '/') name = name.substr(2);
-			if (count_word_in_sensiv == 1) { name.resize(1); return name; }
+			if (count_word_in_sensiv == 1) { 
+				name.resize(1); 
+				//if (conq.action.type == AType::VisualData) { name += std::to_string(Visual(conq.action).pos); }
+				return name;
+			}
 			else if (count_word_in_sensiv == 2) {
 				std::string newName;
 				if (name.size() < 2) {
@@ -64,10 +79,15 @@ namespace SpaRcle {
 				if (self)
 					for (unsigned char c = 0; c < name.size(); c++) newName[c] = toupper(newName[c]); // Принадлежность события к программе
 					//Debug::Log("GetSensivityOfName : name = " + name + "; sens = " + newName);
+
+				name.clear(); name.~basic_string();
+
+				//if (conq.action.type == AType::VisualData) { newName += std::to_string(Visual(conq.action).pos); }
 				return newName;
 			}
 			else {
 				Debug::Log("Helper::GetSensivityOfName : unknow variant!", Error);
+				name.clear(); name.~basic_string();
 				return "[ERROR]";
 			}
 		}

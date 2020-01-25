@@ -36,7 +36,7 @@ namespace SpaRcle {
 		Debug::Log("-> The central core has completed it's work!", Info);
 	}
 
-	bool CentralCore::DoFindSynapse(Consequence& event, int _index) {
+	bool CentralCore::DoFindSynapse(Consequence& event, int _index, std::string& Situation, std::string PWSit) {
 		size_t dp = 0;
 		Debug::Log("DFS : Find synapse = " + event.GetSN_Name(_index), Module);
 		//%Выполняем %полезное %действие...
@@ -46,8 +46,10 @@ namespace SpaRcle {
 		if (syn[0] == 'S' || syn[0] == 'M') {
 			Consequence con;
 			if (con.Load(syn.substr(2), ToAType(syn[0]), true, false, "DFS") == 1) {
-				_reality->DoAction(con.action, con.name);
-				AddSE(con.name, true);
+				_reality->DoAction(con.action,Situation, con.name);
+				Action::SaveNeuron(syn, event, PWSit); //\^SAVE ^NEURON
+
+				AddSE(con, true);
 
 				if (con.Synapses.size() != 0) {
 					std::string sens_log; size_t index = 0; double max = 0; 
@@ -87,6 +89,7 @@ namespace SpaRcle {
 						///\TODO !!!!!!!
 						if (max > Settings::MinSimilarityPerc) { // 76 // 58
 							syn = con.GetPW_Name(ind);
+							PWSit = con.GetPW_Sens(ind);
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
 							else goto Deep;
@@ -99,6 +102,7 @@ namespace SpaRcle {
 
 						if (max > Settings::MinSimilarityPerc) { // 76 // 58
 							syn = con.GetPW_Name(index);
+							PWSit = con.GetPW_Sens(index);
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
 							else goto Deep;
@@ -115,11 +119,13 @@ namespace SpaRcle {
 		}
 		else
 			Debug::Log("DFS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(_index), Error);
+
+		PWSit.clear(); PWSit.~basic_string();
 		return false;
 	}
 	bool CentralCore::DoEventOfSynapse(Consequence& _event, std::string& Situation) {
 		this->temp_sim_sup_per = 0;
-		normal_variants.clear(); super_variants.clear();
+		normal_variants.clear(); super_variants.clear(); sens_variants.clear();
 
 		static std::string s_au;
 		RealityCore& real = (*_reality);
@@ -159,7 +165,7 @@ namespace SpaRcle {
 					// Обработка всех возможных и исключительных ситуаций
 					if (percent > 99.f) {
 						if (!super) {
-							normal_variants.clear(); super_variants.clear(); super = true; meets = 0;
+							normal_variants.clear(); super_variants.clear(); sens_variants.clear(); super = true; meets = 0;
 						}
 
 						if (temp_sim_sup_per < percent) {
@@ -167,27 +173,32 @@ namespace SpaRcle {
 							meets = 0;
 						}
 
-						Debug::Log("DEOS : Super variant = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
+						Debug::Log("DEOS : Super variant (1) = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
 						if (_event.GetPW_Meet(idx) > meets) {
 							meets = _event.GetPW_Meet(idx);
-							super_variants.push_back(short(index)); }
+							super_variants.push_back(short(index));
+							sens_variants.push_back(_event.GetPW_Sens(idx));
+						}
 					}
 					else if (percent == temp_sim_sup_per) {
 						if (!super) {
-							normal_variants.clear(); super_variants.clear(); super = true; meets = 0;
+							normal_variants.clear(); super_variants.clear(); sens_variants.clear(); super = true; meets = 0;
 						}
 
-						if(Settings::DEOSDebug)
-							Debug::Log("DEOS : Super variant = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
+						//if(Settings::DEOSDebug)
+						Debug::Log("DEOS : Super variant (2) = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
 
 						if (_event.GetPW_Meet(idx) > meets) {
 							meets = _event.GetPW_Meet(idx);
-							super_variants.push_back(short(index)); }
+							super_variants.push_back(short(index));
+							sens_variants.push_back(_event.GetPW_Sens(idx));
+						}
 					}
 					else if (percent > temp_sim_sup_per) {
 						if (super) {
 							super = false; meets = 0;
-							super_variants.clear();
+							super_variants.clear(); sens_variants.clear();
+
 						}
 
 						temp_sim_sup_per = percent;
@@ -195,10 +206,11 @@ namespace SpaRcle {
 						if (percent >= PeriodicSix + 10) {
 							find = true;
 							normal_variants.push_back(index);
+							sens_variants.push_back(_event.GetPW_Sens(idx));
 						}
 					}
 
-					if(Settings::DEOSDebug)
+					if (Settings::DEOSDebug)
 						Debug::Log("DEOS : Similarity percentage situation = " + std::to_string(percent) + " \"" + s_au + "\" [" + std::to_string(_event.GetPW_Meet(idx)) + "] " + std::to_string(super), Module);//(" + SE_With_MyActions + " " + + ")", Module);
 					/// ^see ^IIIIIIIIIIIIIIIII Ищем самый схожий синапс
 
@@ -217,7 +229,8 @@ namespace SpaRcle {
 						else {
 							//if (super_variants.size() != 0)
 							//	DoFindSynapse(_event, super_variants[super_variants.size() - 1]);
-							CheckMonotoneAndDo(_event, super_variants);
+							//if(super_variants.size() == 0)
+							CheckMonotoneAndDo(_event, super_variants, Situation, sens_variants);
 						}
 					}
 					else { // Если не было найдено абсолютных супер вариантов
@@ -225,7 +238,7 @@ namespace SpaRcle {
 						else {
 							if (normal_variants.size() != 0) {
 								//DoFindSynapse(_event, variants[variants.size() - 1]);
-								CheckMonotoneAndDo(_event, normal_variants);
+								CheckMonotoneAndDo(_event, normal_variants, Situation, sens_variants);
 								//END.
 							}
 							else {// Финальное умо-заключение, при том, что не было найдено абсолютных вариаций
@@ -246,16 +259,25 @@ namespace SpaRcle {
 					///\!TODO Если попадется последнее не решаемое, а остальные будут решаемые, не выполнится ни одно!
 				}
 			}
+			else {
+				Debug::Log("DEOS : logical paradox!", DType::Warning);
+				if (super)
+					CheckMonotoneAndDo(_event, super_variants, Situation, sens_variants);
+				else
+					CheckMonotoneAndDo(_event, normal_variants, Situation, sens_variants);
+			}
 
 			return find;
 		}
 		else return false;
 	}
 
-	void CentralCore::CheckMonotoneAndDo(Consequence& _event, std::vector<short>& _variants) {
+	void CentralCore::CheckMonotoneAndDo(Consequence& _event, std::vector<short>& _variants, std::string& Situation, std::vector<std::string>& variants_sens) {
 		static std::string debug = ""; debug.clear();
 		static size_t stat_var_size = 0;
 		stat_var_size = _variants.size();
+
+		Debug::Log("CheckMonotoneAndDo : " + _event.name + "("+std::to_string(stat_var_size)+")", Info);
 
 		if (stat_var_size != 0) {
 			if (mono_deep != 0) {
@@ -274,7 +296,7 @@ namespace SpaRcle {
 					_event.GetSN_Name(_variants[stat_var_size - mono_deep - 1]), Module);
 			}
 
-			DoFindSynapse(_event, _variants[stat_var_size - mono_deep - 1]);
+			DoFindSynapse(_event, _variants[stat_var_size - mono_deep - 1], Situation, variants_sens[stat_var_size - mono_deep - 1]);
 		}
 	}
 
@@ -343,7 +365,7 @@ namespace SpaRcle {
 			//Debug::Log("CentralCore::PE : TODO!", DType::Error);
 			Debug::Log("CentralCore::PE : \"" + _event.name + "\" is undefined. \n\t" + "Good : " + std::to_string(_event.Good) + "\n\tBad : " + std::to_string(_event.Bad));
 			// Повторяем для того, чтобы понять : плохо это или хорошо.
-			_reality->DoAction(_event.action, _event.name); // Trying to repeat
+			//_reality->DoAction(_event.action, Situation, _event.name); // Trying to repeat
 		}
 		// Если не поняли
 	}
@@ -371,7 +393,7 @@ namespace SpaRcle {
 					load++;
 				//Ret: /// name == EmptyName |and| logical loop
 					Consequence& conseq = Events_conq[deep];
-					AddSE(conseq.name, false); // !Петля
+					AddSE(conseq, false); // !Петля
 
 					if (conseq.name.empty()) {
 						Debug::Log("CentralCore : [1] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000);
@@ -437,9 +459,9 @@ namespace SpaRcle {
 						else */
 						if (Events_sens.size() == 1) {
 							load++; // resource monitor
-							Consequence& conseq = Events_conq[0];
+							//Consequence& conseq = Events_conq[0];
 							if (conseq.name == Settings::EmptyName)
-								AddSE(conseq.name, false);
+								AddSE(conseq, false);
 							else if (conseq.name.empty()) {
 								Debug::Log("CentralCore : [2] Unknown ERROR => conseq.name == \"\"!", Error); Sleep(1000);
 							}
@@ -492,12 +514,12 @@ namespace SpaRcle {
 		}
 	}
 
-	void CentralCore::AddSE(std::string event_name, bool IDoIt) {
+	void CentralCore::AddSE(Consequence& _event, bool IDoIt) {
 		if (Settings::CentralCoreDebug)
-			if (IDoIt) Debug::Log("CentralCore::AddSE : " + event_name + " ~ " + this->SE_With_MyActions + " (SELF)");
-			else Debug::Log("CentralCore::AddSE : " + event_name + " ~ " + this->SE_With_MyActions);
+			if (IDoIt) Debug::Log("CentralCore::AddSE : " + _event.name + " ~ " + this->SE_With_MyActions + " (SELF)");
+			else Debug::Log("CentralCore::AddSE : " + _event.name + " ~ " + this->SE_With_MyActions);
 		
-		if (event_name == Settings::EmptyName) {
+		if (_event.name == Settings::EmptyName) {
 			if (this->SE_With_MyActions.size() > 0)
 				this->SE_With_MyActions.erase(this->SE_With_MyActions.begin(), this->SE_With_MyActions.begin() + count_word_in_sensiv);
 		}
@@ -509,9 +531,9 @@ namespace SpaRcle {
 			//if (IDoIt) for (short i = 0; i < event_name.size(); i++) event_name[i] = toupper(event_name[i]);
 			/// \see %Определяем %принадлежность %этого %события %к %нам (!сделали !его !мы !или !нет)
 
-			this->SE_With_MyActions += Synapse::GetSensivityOfName(event_name, IDoIt);
+			this->SE_With_MyActions += Synapse::GetSensivityOfName(_event, IDoIt);
 		}
-		event_name.clear(); event_name.~basic_string();
+		//event_name.clear(); event_name.~basic_string();
 	}
 	void CentralCore::NewEvent(Consequence& event, std::string& Situation) {
 		//if(event.name != Settings::EmptyName) Debug::Log("CentralCore : New event = "+ event.name, Info);

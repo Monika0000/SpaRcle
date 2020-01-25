@@ -283,7 +283,7 @@ namespace SpaRcle {
 
 							Situation.clear();
 							Situation = Synapse::GetSensivityCauses(this->CheckedEvents);
-							Situation += Synapse::GetSensivityOfName(_event.name, _event.self);
+							Situation += Synapse::GetSensivityOfName(_event, _event.self);
 							Situation = Synapse::ClearSensivity(Situation);
 
 							if (!_event.self) {
@@ -307,7 +307,7 @@ namespace SpaRcle {
 					if (_event.name != Settings::EmptyName && found >= 0) {
 						_event.Save("Causality");
 
-						Current_sensivity += Synapse::GetSensivityOfName(_event.name, _event.self);  // System
+						Current_sensivity += Synapse::GetSensivityOfName(_event, _event.self);  // System
 						if (_event.self)
 							Debug::Log("CausalityCore : self _event \"" + _event.name + "\" [" + Current_sensivity + "]");
 

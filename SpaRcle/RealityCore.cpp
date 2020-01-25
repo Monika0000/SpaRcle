@@ -69,7 +69,7 @@ namespace SpaRcle {
 	}
 	void RealityCore::Start() { Process = std::thread(RealitySolution, &DelayCPU, this); }
 
-	void RealityCore::DoAction(Action& action, std::string helpName) {
+	void RealityCore::DoAction(Action& action, std::string& Situation, std::string helpName) {
 		this->core->GetTCP()->Send(action);
 		switch (action.type) {
 		case AType::Speech : {

@@ -14,7 +14,7 @@ namespace SpaRcle {
 		CentralCore* core;
 
 		void Start();
-		void DoAction(Action& action, std::string HelpName = "[MISSING]");
+		void DoAction(Action& action, std::string&Situation, std::string HelpName = "[MISSING]");
 	};
 }
 

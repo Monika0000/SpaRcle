@@ -13,6 +13,7 @@ namespace SpaRcle {
 		static std::string Resources;
 		static std::string Memory;
 		static std::string Logic;
+		static std::string Actions;
 		/* Установлена-ли рабочая директория*/
 		static bool PathsIsSet; 
 		///////////////////////////////
@@ -44,7 +45,7 @@ namespace SpaRcle {
 		static std::string exp_action;
 
 		static void SetDefaultPaths(std::string project);
-		static void SetPaths(std::string proj, std::string sys, std::string res, std::string mem, std::string logic);
+		static void SetPaths(std::string proj, std::string sys, std::string res, std::string mem, std::string logic, std::string actions);
 
 		static bool Diagnostic();
 	private:
@@ -53,7 +54,7 @@ namespace SpaRcle {
 
 	};
 
-	const static double Div = 1.5f;
+	const static double Div = 1.8f;
 
 	const static size_t size_t_max = 4294967295;
 

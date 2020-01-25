@@ -299,9 +299,12 @@ namespace SpaRcle {
 		double max = 0; size_t index = 0;
 		for (size_t t = 0; t < con.PerhapsWill.size(); t++) {
 			if (con.GetPW_Name(t) == name) {
-				std::string p = con.GetPW_Sens(t);
-				double var = GetPercent(*sens, p);
+				std::string p = con.GetPW_Sens(t), first = *sens;
+				double var = GetPercent(first, p);
 				if (var > max) { index = t; max = var; }
+
+				p.clear(); first.clear();
+				p.~basic_string(); first.~basic_string();
 			}
 		}
 		if (max > 70) { // 90
@@ -314,6 +317,7 @@ namespace SpaRcle {
 			if (Settings::EventsProcessigDebug) Debug::Log("Synapse::FindAndSummSensiv : add perhaps will \""+name+"\" to conseq \""+con.name + "\"");
 			con.PerhapsWill.push_back(std::tuple<std::string, std::string, double, int>(name, *sens, hp, 1)); }
 	}
+	/*
 	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s) {
 		std::string Sensiv;
 		for (auto& a : s) {
@@ -340,6 +344,7 @@ namespace SpaRcle {
 		}
 		return Sensiv; // TODO : Возможно следует доделать, ну или обратить внимание в будущем.
 	}
+	*/
 	std::string SpaRcle::Synapse::GetSensivityCauses(std::vector<Consequence>& s, int to_index) {
 		std::string Sensiv;
 		if (to_index == -1) to_index = s.size() - 1;
@@ -347,7 +352,7 @@ namespace SpaRcle {
 		for (int i = 0; i <= to_index; i++) {
 			if (s[i].name != Settings::EmptyName) {
 				if (s[i].name[0] != '.')
-					Sensiv += Synapse::GetSensivityOfName(s[i].name, s[i].self);
+					Sensiv += Synapse::GetSensivityOfName(s[i], s[i].self);
 			}
 			else Sensiv += ".";//std::string(count_word_in_sensiv, '.');
 		}
