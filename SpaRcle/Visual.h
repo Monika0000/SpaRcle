@@ -12,7 +12,7 @@ namespace SpaRcle {
 		Vector3();
 	};
 
-	class Visual
+	class Visual 
 	{
 	public:
 		std::string tag;

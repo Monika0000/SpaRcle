@@ -36,18 +36,32 @@ namespace SpaRcle {
 		Debug::Log("-> The central core has completed it's work!", Info);
 	}
 
-	bool CentralCore::DoFindSynapse(Consequence& event, int _index, std::string& Situation, std::string PWSit) {
+	bool CentralCore::DoFindSynapse(Consequence& _event, int _index, std::string& Situation, std::string PWSit) {
 		size_t dp = 0;
-		Debug::Log("DFS : Find synapse = " + event.GetSN_Name(_index), Module);
+		Debug::Log("DFS : Find synapse = " + _event.GetSN_Name(_index), Module);
 		//%Выполняем %полезное %действие...
 		//std::string syn = event.GetPW_Name(_index); //WTF????????????
-		std::string syn = event.GetSN_Name(_index);
+		std::string syn = _event.GetSN_Name(_index);
 	Deep:
 		if (syn[0] == 'S' || syn[0] == 'M') {
 			Consequence con;
 			if (con.Load(syn.substr(2), ToAType(syn[0]), true, false, "DFS") == 1) {
+				Neuron* neuron = Action::LoadNeuron(con, PWSit);
+
+				if(neuron == NULL){
+					// create action with random values
+					//Debug::Log("CentralCore::DoFindSynapse : Random values");
+					con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()));
+				}
+				else {
+					if(!con.action.SetData(neuron))
+						con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()));
+				}
+
 				_reality->DoAction(con.action,Situation, con.name);
-				Action::SaveNeuron(syn, event, PWSit); //\^SAVE ^NEURON
+
+				if(dp == 0) Action::SaveNeuron(syn, _event, PWSit, Situation);  //\^SAVE ^NEURON
+				else		Action::SaveNeuron(syn, con   , PWSit, Situation);	//\^SAVE ^NEURON
 
 				AddSE(con, true);
 
@@ -118,7 +132,7 @@ namespace SpaRcle {
 			con.~Consequence();
 		}
 		else
-			Debug::Log("DFS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + event.name + "\n\tIndex : " + std::to_string(_index), Error);
+			Debug::Log("DFS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + _event.name + "\n\tIndex : " + std::to_string(_index), Error);
 
 		PWSit.clear(); PWSit.~basic_string();
 		return false;
@@ -273,8 +287,8 @@ namespace SpaRcle {
 	}
 
 	void CentralCore::CheckMonotoneAndDo(Consequence& _event, std::vector<short>& _variants, std::string& Situation, std::vector<std::string>& variants_sens) {
-		static std::string debug = ""; debug.clear();
-		static size_t stat_var_size = 0;
+		static std::string debug = "", temp_syn; debug.clear();
+		static size_t stat_var_size = 0, result;
 		stat_var_size = _variants.size();
 
 		Debug::Log("CheckMonotoneAndDo : " + _event.name + "("+std::to_string(stat_var_size)+")", Info);
@@ -292,11 +306,23 @@ namespace SpaRcle {
 					debug += " " + _event.GetSN_Name(_variants[t]);
 				}
 
+
 				if(stat_var_size > 1) Debug::Log("CMAD : useless actions :" + debug + "\n\tAlternative : "+ 
 					_event.GetSN_Name(_variants[stat_var_size - mono_deep - 1]), Module);
 			}
 
-			DoFindSynapse(_event, _variants[stat_var_size - mono_deep - 1], Situation, variants_sens[stat_var_size - mono_deep - 1]);
+			result = stat_var_size - mono_deep - 1;
+			temp_syn = _event.GetSN_Name(result);
+
+			///////////////////////////////[CHECK ACTION SIM]///////////////////////////////
+
+			//Neuron* neuron = Action::LoadNeuron(temp_syn.substr(2), ToAType(temp_syn[0]), variants_sens[result]);
+
+			//delete neuron;
+
+			///////////////////////////////[CHECK ACTION SIM]///////////////////////////////
+
+			DoFindSynapse(_event, _variants[result], Situation, variants_sens[result]);
 		}
 	}
 
@@ -378,6 +404,7 @@ namespace SpaRcle {
 		CausalityCore& causal = *this->_causality;
 		size_t size_ev = 0, deep = 0;
 		char timer = 0; short load = 0;
+		//std::string temp_synapse;
 
 		Debug::Log("-> The central core is started!");
 
@@ -393,6 +420,7 @@ namespace SpaRcle {
 					load++;
 				//Ret: /// name == EmptyName |and| logical loop
 					Consequence& conseq = Events_conq[deep];
+
 					AddSE(conseq, false); // !Петля
 
 					if (conseq.name.empty()) {
@@ -433,30 +461,11 @@ namespace SpaRcle {
 						*/
 					}
 					else {
-						/* if (core.Events_sens.size() > deep + 1) {
-							if (conseq.EventData.sec + 5 >= core.Events_conq[deep + 1].EventData.sec) {
-								//Debug::Log(conseq.name);
-								deep++;
-								//goto Ret;
-								continue;
-							}
-							else {
-								Debug::Log("CentralCore : While - Logical loop. \n\tEvents : "
-									//+ std::to_string(core.Events.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
-									+ std::to_string(core.Events_sens.size()) + "\n\tDeep : " + std::to_string(deep) + "\n\tClean events list...", Warning);
+						//temp_synapse = ToATypeChar(conseq.action.type) + "/" + conseq.name;
+						//Debug::Log("Action : " + conseq.name + "; Sens : " + Events_sens[deep], System);
+						//Action::SaveNeuron(temp_synapse, conseq, Events_sens[deep], Events_sens[deep]);
+						Action::SaveNeuron(conseq, Events_sens[deep]);
 
-								if (core.Events_sens.size() != 0) {
-									core.Events_sens.erase(core.Events_sens.end() - deep, core.Events_sens.end());
-									core.Events_conq.erase(core.Events_conq.end() - deep, core.Events_conq.end());
-
-									if (core.Events_conq.size() != 0) {
-										core.Events_sens.erase(core.Events_sens.begin());
-										core.Events_conq.erase(core.Events_conq.begin()); }
-								}
-								deep = 0;
-							}
-						}
-						else */
 						if (Events_sens.size() == 1) {
 							load++; // resource monitor
 							//Consequence& conseq = Events_conq[0];

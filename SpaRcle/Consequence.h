@@ -7,6 +7,10 @@
 #include <tuple>
 //#include <boost/tuple/tuple.hpp>
 
+#include "Sound.h"
+#include "Visual.h"
+#include "Motion.h"
+
 namespace SpaRcle {
 	enum class load_mode {
 		to_hp, to_cas, to_action, to_all, to_syn, to_meets

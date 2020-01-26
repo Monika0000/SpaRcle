@@ -20,14 +20,14 @@ namespace SpaRcle {
 	private:
 		void CentralSolution();
 		void ProcessingEvent(Consequence& conseq, std::string& Situation);
-		bool DoFindSynapse(Consequence& event, int _index, std::string& Situation, std::string PWSit); // PWSit is not ref
+		bool DoFindSynapse(Consequence& event, int _index, std::string& Situation, std::string PWSit); // PWSit is not ref IMPORTANT!1!1!!!
 		bool DoEventOfSynapse(Consequence& _event, std::string& Situation);
 		void CheckMonotoneAndDo(Consequence& _event, std::vector<short>& variants, std::string& Situation, std::vector<std::string>& variants_sens);
+		//void CheckActionSimilarity(Consequence& _event, std::vector<short>& variants, std::vector<std::string>& variants_sens);
 
 		bool mono_wait;
 		short mono_deep;
 		float mono_per_temp, temp_sim_sup_per;
-
 
 		std::vector<short> normal_variants;
 		std::vector<short> super_variants;

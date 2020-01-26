@@ -3,7 +3,7 @@
 #include <string>
 
 namespace SpaRcle {
-	struct Motion {
+	struct Motion  {
 	public:
 		std::string part;
 		float value;

@@ -93,20 +93,20 @@ namespace SpaRcle {
 							switch (mode) {
 							case'w': { //Debug::Log(Helper::TransliterationRU(vec[t]));
 								for (unsigned short t = 0; t < vec.size(); t++) {  this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
-								for (unsigned short t = 0; t < vec.size(); t++) {  this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
+								for (unsigned short t = 0; t < vec.size(); t++) {  this->core->_causality->UncheckedEvents.push_back(Consequence( Sound(vec[t]), false, 0)); }
 								// Double
 								for (unsigned char c = 0; c < 10; c++) this->core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 								break; }
 							case'm': {
-								for (unsigned short t = 0; t < vec.size(); t++) { this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
+								for (unsigned short t = 0; t < vec.size(); t++) { this->core->_causality->UncheckedEvents.push_back(Consequence( Sound(vec[t]), false, 0)); }
 								for (unsigned char c = 0; c < 10; c++) this->core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 								break; }
 							case's': {
-								for (unsigned short t = 0; t < vec.size(); t++) { this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[t]), false, 0)); }
+								for (unsigned short t = 0; t < vec.size(); t++) { this->core->_causality->UncheckedEvents.push_back(Consequence( Sound(vec[t]), false, 0)); }
 								break; }
 							case'h': {
 								float hp = std::stof(vec[vec.size() - 1]);
-								for (unsigned char c = 0; c < vec.size() - 2; c++) this->core->_causality->UncheckedEvents.push_back(Consequence(Sound(vec[c]), false, hp));
+								for (unsigned char c = 0; c < vec.size() - 2; c++) this->core->_causality->UncheckedEvents.push_back(Consequence( Sound(vec[c]), false, hp));
 								for (unsigned char c = 0; c < 10; c++) this->core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 								break; }
 							default: Debug::Log("Memory::LoadStaticMemory : Unknown mode! (" + std::string(1, mode) + ")\n\tPath : " + path_name + "\n\tContent : " + line

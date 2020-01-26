@@ -17,5 +17,5 @@ namespace SpaRcle {
 		this->tone = 0;
 		this->volime = 0; }
 
-	Sound::~Sound(){ this->text.~basic_string(); }
+	Sound::~Sound(){  } //this->text.~basic_string();
 }

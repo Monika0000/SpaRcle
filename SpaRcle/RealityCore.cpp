@@ -76,18 +76,18 @@ namespace SpaRcle {
 			if (Settings::ExternalInteraction) {
 
 			}
-			Sound* s = new Sound(action);
-			Debug::Log("|RDA| => Speech : " + s->text, DType::Mind);
+			Sound* s = new Sound(action);//+ s->text
+			Debug::Log("|RDA| => Speech : " + s->text + "\n\tVol : " + std::to_string(s->volime) + "\n\tTone : " + std::to_string(s->tone), DType::Mind);
 			//this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
 			///\ Отключаем отправку в ядро причинности, ибо теперь это задача симуляции
 			delete s;
 			break; }
 		case AType::Move: {
-			Motion* m = new Motion(action);
-			Debug::Log("|RDA| => Move : " + m->part, DType::Mind);
+			//Motion* m = new Motion(action);+ m->part
+			Debug::Log("|RDA| => Move : TODO " + helpName, DType::Mind);
 			//this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
 			///\ Отключаем отправку в ядро причинности, ибо теперь это задача симуляции
-			delete m;
+			//delete m;
 			break; }
 		default:
 			Debug::Log("RealityCore::DoAction : Unknown type! \n\tType : " + std::string(ToString(action.type))

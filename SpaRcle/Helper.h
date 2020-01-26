@@ -20,6 +20,7 @@
 namespace SpaRcle {
 	class Synapse {
 	public:
+		static const size_t ToInt(std::string sens);
 		static inline double Summ(double& l, double& r) {
 			//double d = (l + r) / Div;
 			double d = (l + r) / Div;
@@ -104,6 +105,12 @@ namespace SpaRcle {
 
 	class Helper {
 	public : 
+		static double CPUSpeed(void);
+
+		inline static const bool randomBool() {
+			return rand() > (RAND_MAX / 2);
+		}
+		static float RandomFloat(bool negative = true);
 		static std::string SummArray(std::vector<std::string>& _array, char space = '\0');
 		static std::string SummArray(std::vector<Consequence>& _array, char space = '\0');
 
@@ -142,6 +149,7 @@ namespace SpaRcle {
 		}
 		static std::string NumberToWord(int number);
 		static std::string Remove(std::string text, int index);
+		static std::string Remove(std::string text, char symbol, size_t& index);
 		static bool DirExists(std::string dir);
 
 		inline static void SimpleSummConseq(Consequence& left, Consequence& right) {
@@ -194,6 +202,7 @@ namespace SpaRcle {
 				}
 			}
 		}
+		/*
 		inline static bool SummActionConseq(Consequence& left, Consequence& right) {
 			if (left.action.type != right.action.type) {
 				Debug::Log("Helper::SummActionConseq : Discrepancy types! \n	Left : "
@@ -225,7 +234,7 @@ namespace SpaRcle {
 				break; }
 			return true;
 		}
-
+*/
 		inline static int IndexOfCause(std::vector<std::tuple<std::string, int, double>>& Causes, std::string& name) {
 			for (size_t t = 0; t < Causes.size(); t++) 
 				if (std::get<0>(Causes[t]) == name)

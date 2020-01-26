@@ -1,3 +1,5 @@
+#include <windows.h>
+
 #include "pch.h"
 #include "Helper.h"
 #include "DataTime.h"
@@ -97,6 +99,58 @@ namespace SpaRcle {
 
 		return ru; }
 	std::string Helper::ToUpper(std::string s) { for (auto& a : s) a= toupper(a); return s; }
+
+	double Helper::CPUSpeed(void) {
+		DWORD dwTimerHi, dwTimerLo;
+		double dRes;
+		__asm
+		{
+			//DW 0x310F
+			jmp short $ + 3
+			mov eax, 9090310Fh
+
+			mov dwTimerLo, EAX
+			mov dwTimerHi, EDX
+		}
+		Sleep(1);
+		__asm
+		{
+			//DW 0x310F
+			jmp short $ + 3
+			mov eax, 9090310Fh
+
+			sub EAX, dwTimerLo
+			sub EAX, dwTimerHi
+			mov dwTimerLo, EAX
+			mov dwTimerHi, EDX
+		}
+		dRes = dwTimerLo / (1000.0 * 500);
+		return dRes;
+	}
+
+	/* Генератор псевдо-случайных числел */
+	float Helper::RandomFloat(bool negative) {
+		static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
+
+		static const float min = 1.99f;
+		static const float max = 1.f;
+
+		int* p = new int[1];
+		int* p2 = new int[1];
+		auto i = reinterpret_cast<std::uintptr_t>(p);
+		auto i2 = reinterpret_cast<std::uintptr_t>(p2);
+
+		double d1 = CPUSpeed();
+		double d2 = std::sqrt(d1 + double(i) * (rand() % int(i2)));
+
+		delete[] p;
+		delete[] p2;
+		if (negative)
+			return float(std::sqrt(i * i + d1 * d1 + d2 * d2)) * fraction * (max - min + 1) - randomBool(); // +min;
+		else
+			return float(std::sqrt(i * i + d1 * d1 + d2 * d2)) * fraction * (max - min + 1);
+	}
+
 	std::string Helper::SummArray(std::vector<std::string>& _array, char space) {
 		std::string summ = "";
 		for (auto& a : _array) {
@@ -184,6 +238,16 @@ namespace SpaRcle {
 		for (int i = 0; i < index; i++)
 			str += text[i];
 		return str; }
+	std::string Helper::Remove(std::string text, char symbol, size_t& index) {
+		for (size_t t = 0; t < text.size(); t++) {
+			if (text[t] == symbol) {
+				text.resize(t);
+				index = t;
+				break;
+			}
+		}
+		return text;
+	}
 	bool Helper::DirExists(std::string dir) {
 		std::wstring stemp = s2ws(dir);
 
@@ -357,6 +421,54 @@ namespace SpaRcle {
 			else Sensiv += ".";//std::string(count_word_in_sensiv, '.');
 		}
 		return Sensiv; // TODO : Возможно следует доделать, ну или обратить внимание в будущем.
+	}
+	const size_t Synapse::ToInt(std::string sens) {
+		size_t summ = 0;
+
+		if (sens.size() < Settings::Size_SCP)
+			sens += std::string(Settings::Size_SCP - sens.size(), '_');
+
+		for (size_t t = 0; t < sens.size(); t++) {
+			switch (std::tolower(sens[t])) {
+			
+			case 'q': summ += 1; break;
+			case 'w': summ += 2; break;
+			case 'e': summ += 3; break;
+			case 'r': summ += 4; break;
+			case 't': summ += 5; break;
+			case 'y': summ += 6; break;
+			case 'u': summ += 7; break;
+			case 'i': summ += 8; break;
+			case 'o': summ += 9; break;
+			case 'p': summ += 10; break;
+
+			case 'a': summ += 11; break;
+			case 's': summ += 12; break;
+			case 'd': summ += 13; break;
+			case 'f': summ += 14; break;
+			case 'g': summ += 15; break;
+			case 'h': summ += 16; break;
+			case 'j': summ += 17; break;
+			case 'k': summ += 18; break;
+			case 'l': summ += 19; break;
+
+			case 'z': summ += 20; break;
+			case 'x': summ += 21; break;
+			case 'c': summ += 22; break;
+			case 'v': summ += 23; break;
+			case 'b': summ += 24; break;
+			case 'n': summ += 25; break;
+			case 'm': summ += 26; break;
+
+			case '_': summ += 27; break;
+
+			default:
+				Debug::Log("Synapse::ToInt : unknown character! (" + std::string(1, sens[t]) + ")", DType::Error);
+				break;
+			}
+		}
+
+		return summ;
 	}
 	std::string SpaRcle::Synapse::ClearSensivity(std::string& sensiv) {
 		std::string clean;

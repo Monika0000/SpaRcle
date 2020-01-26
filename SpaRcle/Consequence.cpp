@@ -75,7 +75,7 @@ namespace SpaRcle {
 
 			if ((*conseq).Synapses.size() > 0)
 			{
-				fout << "syn:" << (*conseq).Synapses.size() << std::endl;
+				fout << "syn:" << (*conseq).Synapses.size() << std::endl;	
 				for (size_t i = 0; i < (*conseq).Synapses.size(); i++) {
 					//fout << (*conseq).Synapses[i].get<0>() << ";" << (*conseq).Synapses[i].get<1>() << ";" << (*conseq).Synapses[i].get<2>() << std::endl;
 					//fout << std::get<0>((*conseq).Synapses[i]) << ";" << std::get<1>((*conseq).Synapses[i]) << std::endl;
@@ -83,7 +83,9 @@ namespace SpaRcle {
 				}
 			} // Запись синапсов в файл
 
-			fout << conseq->action.GetSaveData();
+			//data += "t:"; data += ToString(action->type); data += "\n";
+			//fout << conseq->action.GetSaveData();
+			//fout << "t:" << ToString(conseq->action.type);
 			fout.close(); 
 			isWrite = false;
 			p.clear(); p.~basic_string();
@@ -150,18 +152,20 @@ namespace SpaRcle {
 			return 0;
 		}
 		short n = 0, n2 = 0, number = 0, leng = 0; char method = 0;
-		bool findType = false, isBreak = false;
+		bool isBreak = false; //findType = false,
 		this->name = name;
 
 		std::tuple<std::string, std::string, double, int> t_prw; std::string l_prw; 
 		std::tuple<std::string, int, double> t_cas;	std::string l_cas; 
 		std::tuple<std::string, double> t_syn; std::string l_syn; 
 
+		this->action.type = atype;
+
 		while (!fin.eof() && !isBreak) {
 			try {
 				std::string line;
 				std::getline(fin, line); number++;
-				if (!findType) {
+				if (!line.empty()) {
 					method = 0;
 					std::string pref = ReadUpToChar(line, ':', n);
 					std::string post = line.substr(n);
@@ -237,6 +241,7 @@ namespace SpaRcle {
 						}
 
 
+						/*
 						CASE("t") :{ method = 6;
 							if (post == "Speech")
 								action.type = AType::Speech;
@@ -252,6 +257,7 @@ namespace SpaRcle {
 							//std::cout << "SWITCH::CASE : t" << std::endl;
 							findType = true;
 							break; }
+						*/
 					DEFAULT:
 						Debug::Log("SpaRcle::Consequence::Load::SWITCH = WARNING : Uncorrect char! \n\tPath : " + path +
 							"\n\tLine : " + line +
@@ -260,9 +266,9 @@ namespace SpaRcle {
 						break;
 					}
 				}
-				else
-					if (!action.ApplyLine(line))
-						std::cout << "\n\t" + path << std::endl;
+				//else
+				//	if (!action.ApplyLine(line))
+				//		std::cout << "\n\t" + path << std::endl;
 			}
 			catch (std::exception e) {
 				Debug::Log("Consequence::Load (3) ["+Block+"] {"+std::to_string(number)+"} : Loading failed! \n\tPath : " + path + "\n\tMethod = " + std::to_string(method) + "\n\tReason : "+ e.what(), Error);

@@ -2,7 +2,7 @@
 #include <string>
 
 namespace SpaRcle {
-	struct Sound
+	struct Sound 
 	{
 
 	public:

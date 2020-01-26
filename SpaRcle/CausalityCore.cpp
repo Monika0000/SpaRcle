@@ -236,6 +236,7 @@ namespace SpaRcle {
 
 							this->UncheckedEvents.push_back(Consequence(Sound(Helper::NumberToWord(a + b), tone, volime)));
 
+							//for (size_t tt = 0; tt < Settings::Size_SCP + 5; tt++)
 							for (size_t tt = 0; tt < 10; tt++)
 								this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 						}
@@ -276,7 +277,7 @@ namespace SpaRcle {
 							//Debug::Log("Bad = " + std::to_string(_event.Bad) + " Good = " + std::to_string(_event.Good));
 
 							if (found) {//helpData.~Consequence();
-								Helper::SummActionConseq(_event, helpData);
+								//Helper::SummActionConseq(_event, helpData);
 								Helper::SimpleSummConseq(_event, helpData);
 								_event.meetings = _event.meetings + helpData.meetings;
 							}
@@ -285,6 +286,8 @@ namespace SpaRcle {
 							Situation = Synapse::GetSensivityCauses(this->CheckedEvents);
 							Situation += Synapse::GetSensivityOfName(_event, _event.self);
 							Situation = Synapse::ClearSensivity(Situation);
+
+							//Action::SaveNeuron(_event, Situation);
 
 							if (!_event.self) {
 								C_ref.NewEvent(_event, Situation);
@@ -335,7 +338,7 @@ namespace SpaRcle {
 						conq.Good = (conq.Good + load_conq.Good) / Div;
 
 						Helper::SimpleSummConseq(conq, load_conq);
-						Helper::SummActionConseq(conq, load_conq);
+						//Helper::SummActionConseq(conq, load_conq);
 					}
 
 					CausalityCore::CheckedEventsProcessing(this->CheckedEvents, Temp_Causes, Temp_Meets, conq);

@@ -38,6 +38,13 @@ void Destruct() {
 int main(int argc, char** argv) {
 	system("color 70");
 	setlocale(LC_ALL, "rus");
+	srand(static_cast<unsigned int>(time(0)));
+
+	//std::string s = "123456";
+	//if (s.size() < 8) 
+	//	s += std::string(8 - s.size(), '_');
+	//std::cout << s << std::endl;
+	
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
 
 	#pragma region [======== Pre-Init ========]
@@ -69,7 +76,6 @@ int main(int argc, char** argv) {
 		Debug::Log("Diagnostic... System is stable!", DType::System, SpaRcle::Green);
 
 		//std::cout << Helper::SimilarityPercentage("12", "123") << std::endl;
-		//Sleep(225552);
 
 		//////////////////////////////
 		_core = new CentralCore(50);

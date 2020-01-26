@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Action.h"
-#include "Sound.h"
 #include "Helper.h"
 #include "Consequence.h"
 
@@ -42,8 +41,9 @@ namespace SpaRcle {
 
 		fout << this->GetSaveData() << std::endl;
 		fout.close(); }
-	*/
+	
 
+	// Neen to change/delete
 	std::string Action::GetSaveData(Action* action) {
 		std::string data;
 		data += "t:"; data += ToString(action->type); data += "\n";
@@ -75,14 +75,16 @@ namespace SpaRcle {
 
 		return data;
 	}
+	*/
+
+	/*
 	std::string Action::GetSaveData() { return GetSaveData(this); }
 
 	bool Action::ApplyLine(std::string line) {
 		short n;
 		std::string pref = ReadUpToChar(line, ':', n);
 		std::string post = line.substr(n);
-		SWITCH(pref)
-		{
+		SWITCH(pref) {
 			///^SOUND
 			CASE("sd") :{ sound.text = post; break; }
 			CASE("pr") :{
@@ -112,8 +114,9 @@ namespace SpaRcle {
 		post.clear(); post.~basic_string();
 		line.clear(); line.~basic_string();
 		return true;
-	}
+	} 
 
+	/*
 	void Read(FILE* pFile, size_t& offs) {
 		char* buf = NULL;
 		fread(buf, 0, SEEK_END, pFile);
@@ -135,14 +138,46 @@ namespace SpaRcle {
 	void Write(FILE* pFile, std::string line) {
 
 	}
+	*/
 
 	static int _cdecl r;
 
-	void Action::SaveNeuron(std::string& synapse, Consequence& conq, std::string& situation) {
-		//Debug::Log("Action::SaveNeuron : saving :\n\t\tevent = " + conq.name + ";\n\t\tsyn = " + synapse + ";\n\t\tsit = " + situation, DType::System);
-		
-		//std::string hash = "~" + std::to_string(std::hash<std::string>{}(conq.name + situation));
-		std::string hash = "~" + conq.name + "-" + situation;
+	bool Action::SetData(Neuron* nr) {
+		if (nr->size == 0)
+			return false;
+
+		switch (this->type) {
+		case SpaRcle::AType::Undefined:
+			Debug::Log("Action::SetData : \"Undefined\" type!", DType::Error);
+			break;
+		case SpaRcle::AType::Speech:
+			this->sound.volime = nr->value_1[0];
+			this->sound.tone = nr->value_2[0];
+			this->sound.text = nr->data[0];
+			break;
+		//case SpaRcle::AType::Move:
+		//	break;
+		//case SpaRcle::AType::VisualData:
+		//	break;
+		default:
+			Debug::Log("Action::SetData : unknown type! (TODO)", DType::Error);
+			break;
+		}
+		delete nr;
+		return true;
+	}
+
+	void Action::SaveNeuron(Consequence& conq, std::string& Situation) {
+		Action::SaveNeuron(ToATypeChar(conq.action.type) + "/" + conq.name, conq, Situation, Situation, true);
+	}
+
+	void Action::SaveNeuron(std::string synapse, Consequence& conq, std::string& PW_situation, std::string Situation, bool Base) {
+		//Debug::Log("Action::SaveNeuron : saving :\n\t\tevent = " + conq.name + ";\n\t\tsyn = " + synapse + ";\n\t\tsit = " + Situation, DType::System);
+
+		Situation = std::to_string(Synapse::ToInt(Situation));
+		std::string hash;
+		if(!Base) hash = "~" + Action::GetHashSumm(conq.name, PW_situation); 
+		else hash = "~Base"; 
 
 		size_t index = 0; std::string temp, line, line2;
 
@@ -153,9 +188,9 @@ namespace SpaRcle {
 		std::ofstream fout; std::ifstream fint;
 
 		if (!Helper::DirExists(p)) r = _mkdir(p.c_str()); // if not exists - make path
-		p += "\\"; p += ToString(conq.action.type); // add additional path
+		p += "\\"; p += ToPath(synapse[0]); //ToString(conq.action.type); // add additional path
 		if (!Helper::DirExists(p)) r = _mkdir(p.c_str()); // if not exists - make path
-		p += "\\" + conq.name + Settings::exp_action; // set file name
+		p += "\\" + synapse.substr(2) + Settings::exp_action; // set file name
 
 		try {
 			fint.open(p);
@@ -180,32 +215,36 @@ namespace SpaRcle {
 				std::getline(fint, line2);
 				if (line2[0] == '~') { break; }
 
+				std::vector<std::string> spl = Helper::Split(line2, ";");
+				if (spl[0] == Situation)
+					find = true;
+
 				switch (conq.action.type) {
 					case AType::VisualData: {
-						std::vector<std::string> spl = Helper::Split(line, ";");
-						if (spl[0] == conq.action.visual.tag) {
-							if (spl[1] == std::to_string(conq.action.visual.pos)) {
-								find = true;
-							}
-						}
-						spl.clear(); break; };
+						//std::vector<std::string> spl = Helper::Split(line, ";");
+						//if (spl[0] == conq.action.visual.tag) {
+						//	if (spl[1] == std::to_string(conq.action.visual.pos)) {
+						//	}
+						//}
+						//spl.clear(); 
+						break; };
 					case AType::Move: {
-						find = true;
+
 						break; };
 					case AType::Speech: {
-						//temp += (Sound(conq.action)).text;
-						find = true;
+
 						break; };
-					default:
-						Debug::Log("Action::SaveNeuron : unknown type!");
-						break;
+					default: Debug::Log("Action::SaveNeuron : unknown type!"); break;
 				}
+
+				spl.clear();
 
 				if (find) break;
 				else if(!line2.empty()) temp += line2 + "\n";
 			}
 			
 			if (!find) {
+				temp += Situation + ";";
 				switch (conq.action.type) {
 				case AType::VisualData: {
 					Visual v = conq.action.visual;
@@ -217,18 +256,19 @@ namespace SpaRcle {
 					m.~Motion(); break; };
 				case AType::Speech: {
 					Sound s = conq.action.sound;
-					//temp += s.text + ";" + std::to_string(s.volime) + ";" + std::to_string(s.tone);
-					temp += std::to_string(s.volime) + ";" + std::to_string(s.tone);
+					temp += s.text + ";" + std::to_string(s.volime) + ";" + std::to_string(s.tone);
+					//temp += std::to_string(s.volime) + ";" + std::to_string(s.tone);
 					s.~Sound(); break; };
 				default: Debug::Log("Action::SaveNeuron : unknown type!"); break;
 				}
-				temp += ";" + synapse + "\n";
+				temp += "\n";
 			}
 
 			if(!line2.empty() && line2 != "") temp += line2 + "\n";
 
 			while (!fint.eof()) {
-				std::getline(fint, line); if (!line.empty()) temp += line + "\n";
+				std::getline(fint, line); 
+				if (!line.empty()) temp += line + "\n";
 			}
 
 			fint.close();
@@ -248,23 +288,146 @@ namespace SpaRcle {
 		}
 		catch (...) {
 			Debug::Log("Action::SaveNeuron : Unknown error! \n\tPath : " + p, DType::Error);
+			fout.close(); fint.close();
+			synapse.clear(); hash.clear();
 			return;
 		}
 
+		temp.clear(); line.clear(); line2.clear();
+		synapse.clear(); hash.clear(); Situation.clear();
 		p.clear(); p.~basic_string();
 	}
-	
-	Neuron* Action::LoadNeuron(std::string name, AType type, size_t hash) {
 
+	Neuron* Action::LoadNeuron(Consequence& conq, std::string& PW_situation) {
+		return LoadNeuron(conq.name, conq.action.type, PW_situation);
+	}
+
+	Neuron* Action::LoadNeuron(std::string _Synapse, AType type, std::string& PW_situation) {
+
+		std::ifstream fint; bool exit = false, find = false;
+		std::string temp;
+		std::string p = Settings::Actions + "\\" + ToString(type) + "\\" + _Synapse + Settings::exp_action;
+		std::string line; size_t index;
+		Debug::Log("Action::LoadNeuron : " + _Synapse + "\n\tPath : " + p, DType::System);
+
+		//return NULL; ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		try {
+			fint.open(p);
+			if (fint.is_open()) {
+				Neuron* n = new Neuron();
+				std::string hash = Action::GetHashSumm(_Synapse, PW_situation);
+				////////////////////////
+
+				while (!fint.eof() && !exit) {
+					std::getline(fint, line);
+					if (line[0] == '~') {
+						if ((line.substr(1)) == hash) {
+							find = true;
+							while (!fint.eof()) {
+								std::getline(fint, line);
+								if (line[0] == '~') {
+									exit = true; break;
+								}
+								else {
+									if (line.empty()) break;
+
+									n->size++;
+
+									n->sensitivities.push_back(Helper::Remove(line, ';', index));
+									line = line.substr(index + 1);
+
+									n->data.push_back(Helper::Remove(line, ';', index));
+									line = line.substr(index + 1);
+
+									n->value_1.push_back(std::stod(Helper::Remove(line, ';', index).c_str()));
+									line = line.substr(index + 1);
+
+									n->value_2.push_back(std::stod(line.c_str()));
+								}
+							}
+						}
+					}
+					else continue;
+				}
+
+				if (!find) {
+					//Debug::Log("Action::LoadNeuron : loading base neuron...");
+
+					fint.clear();
+					fint.seekg(0);
+
+					std::getline(fint, line);
+					
+					while (!fint.eof()) {
+						std::getline(fint, line);
+						//Debug::Log(line);
+						if (line[0] == '~' || line.empty()) break;
+
+						n->size++;
+
+						n->sensitivities.push_back(Helper::Remove(line, ';', index));
+						line = line.substr(index + 1);
+
+						n->data.push_back(Helper::Remove(line, ';', index));
+						line = line.substr(index + 1);
+
+						n->value_1.push_back(std::atof(Helper::Remove(line, ';', index).c_str()));
+						line = line.substr(index + 1);
+
+						n->value_2.push_back(std::atof(line.c_str()));
+					}
+				}
+
+				////////////////////////
+				line.clear(); //line.~basic_string();
+				hash.clear(); //hash.~basic_string();
+				p.clear(); //p.~basic_string();
+				fint.close(); _Synapse.clear(); temp.clear();
+				return n;
+			}
+			else {
+				Debug::Log("Action::LoadNeuron : file is not exists!\n\tPath : " + p, DType::Warning);
+			}
+		}
+		catch (const std::exception & ex) {
+			Debug::Log("Action::LoadNeuron (1) : An exception has been occured!\n\tPath : " + p + "\n\tInfo : " 
+				+ ex.what() + "\n\tTemp : "+temp+ "\n\tLine : "+ line, DType::Error);
+		}
+		catch (const std::string & ex) {
+			Debug::Log("Action::LoadNeuron (2) : An exception has been occured!\n\tPath : " + p + "\n\tInfo : " + ex, DType::Error);
+		}
+		catch (...) {
+			Debug::Log("Action::LoadNeuron (3) : An exception has been occured!\n\tPath : " + p, DType::Error);
+		}
+
+		p.clear(); p.~basic_string(); fint.close(); _Synapse.clear();
 		return nullptr;
 	}
 
-	Neuron::Neuron()
-	{
+	Neuron::Neuron() {
+		this->size = 0;
+		//this->hash = std::vector<size_t>();
+		this->name = "";
+		//this->syn_name = std::vector<std::string>();
+		this->value_1 = std::vector<float>();
+		this->value_2 = std::vector<float>();
+		this->data = std::vector<std::string>();
+		this->sensitivities = std::vector<std::string>();
 	}
 
-	Neuron::~Neuron()
-	{
+	Neuron::Neuron(float value_1, float value_2) {
+		this->size = 1;
+		this->value_1.push_back(value_1);
+		this->value_2.push_back(value_2);
+		this->data.push_back(Settings::EmptyName);
+	}
+
+	Neuron::~Neuron() {
+		value_1.clear(); value_1.~vector();
+		data.clear(); data.~vector();
+		value_2.clear(); value_2.~vector();
+		name.clear(); name.~basic_string();
 	}
 
 	/*
