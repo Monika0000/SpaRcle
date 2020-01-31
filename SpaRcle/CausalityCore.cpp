@@ -163,43 +163,43 @@ namespace SpaRcle {
 			}
 			if (false) {
 				for (size_t t = 0; t < 30; t++) {
-					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
-					this->UncheckedEvents.push_back(Consequence("is", Action(Sound("is")), 1, 13, 0));
-					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door", 10, 15)), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("is", Action(Sound("is", 10, 15)), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open", 10, 15)), 1, 13, 0));
 
-					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
-					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close", 10, 15)), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door", 10, 15)), 1, 13, 0));
 
-					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
-					this->UncheckedEvents.push_back(Consequence("is", Action(Sound("is")), 1, 13, 0));
-					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door", 10, 15)), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("is", Action(Sound("is", 10, 15)), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close", 10, 15)), 1, 13, 0));
 
-					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
-					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open", 10, 15)), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("door", Action(Sound("door", 10, 15)), 1, 13, 0));
 				}
 			}
 			if (false) {
 				for (size_t t = 0; t < 10; t++) {
-					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open")), 1, 13, 0));
-					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close")), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("open", Action(Sound("open", 10, 15)), 1, 13, 0));
+					this->UncheckedEvents.push_back(Consequence("close", Action(Sound("close", 10, 15)), 1, 13, 0));
 					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
 			if (true) {
 				double good = 20;
 				for (size_t t = 0; t < 3; t++) {
-					this->UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
-					this->UncheckedEvents.push_back(Consequence("monika", Action(Sound("monika")), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello", 10, 15)), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("monika", Action(Sound("monika", 10, 15)), 1, 0, good));
 
-					this->UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello")), 1, 0, good));
-					this->UncheckedEvents.push_back(Consequence("nikita", Action(Sound("nikita")), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello",10, 15)), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("nikita", Action(Sound("nikita", 10, 15)), 1, 0, good));
 
 					for (size_t tt = 0; tt < Settings::Size_SCP + 2; tt++)
 						this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 				for (size_t tt = 0; tt < Settings::Size_SCP + 5; tt++) this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
-			if (true) {
+			if (false) {
 				double tone = 10;
 				double volime = 15;
 
@@ -219,7 +219,7 @@ namespace SpaRcle {
 						this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (true) {
+			if (false) {
 				double tone = 8;
 				double volime = 13;
 
@@ -244,6 +244,27 @@ namespace SpaRcle {
 			for (size_t tt = 0; tt < 10; tt++)
 				this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 		}
+		if (true) {
+			for (size_t t = 0; t < 3; t++) {
+				this->UncheckedEvents.push_back(Consequence(Sound("go", 10, 15)));
+				this->UncheckedEvents.push_back(Consequence(Sound("to", 10, 15)));
+				this->UncheckedEvents.push_back(Consequence(Sound("left", 10, 15)));
+
+				this->UncheckedEvents.push_back(Consequence(Motion("move", -1)));
+
+				for (size_t tt = 0; tt < Settings::Size_SCP * 2 + 3; tt++)
+					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+
+				this->UncheckedEvents.push_back(Consequence(Sound("go", 10, 15)));
+				this->UncheckedEvents.push_back(Consequence(Sound("to", 10, 15)));
+				this->UncheckedEvents.push_back(Consequence(Sound("right", 10, 15)));
+
+				this->UncheckedEvents.push_back(Consequence(Motion("move", 1)));
+
+				for (size_t tt = 0; tt < Settings::Size_SCP * 2 + 3; tt++)
+					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+			}
+		}
 		//Memory::GetMemory()->LoadStaticMemory();
 
 		Debug::Log("-> The causality core is started!");
@@ -266,6 +287,8 @@ namespace SpaRcle {
 				else {
 					char found = 0;
 					if (_event.name != Settings::EmptyName) {
+						//if (_event.action.type == AType::Speech) Debug::Log(Sound(_event.action).tone);
+						
 						load_1++;
 						// Воспомогательная информация [find counsequence -> get info from consequence]
 						found = helpData.Load(_event.name, _event.action.type, false, false, "U_Caus");
@@ -287,7 +310,7 @@ namespace SpaRcle {
 							Situation += Synapse::GetSensivityOfName(_event, _event.self);
 							Situation = Synapse::ClearSensivity(Situation);
 
-							//Action::SaveNeuron(_event, Situation);
+							Action::SaveNeuron(_event, Situation);
 
 							if (!_event.self) {
 								C_ref.NewEvent(_event, Situation);

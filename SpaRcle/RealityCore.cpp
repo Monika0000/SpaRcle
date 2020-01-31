@@ -83,11 +83,11 @@ namespace SpaRcle {
 			delete s;
 			break; }
 		case AType::Move: {
-			//Motion* m = new Motion(action);+ m->part
-			Debug::Log("|RDA| => Move : TODO " + helpName, DType::Mind);
+			Motion* m = new Motion(action);//+ m->part
+			Debug::Log("|RDA| => Move : TODO " + m->part + " " + std::to_string(m->value), DType::Mind);
 			//this->core->_causality->UncheckedEvents.push_back(Consequence(s, true));
 			///\ Отключаем отправку в ядро причинности, ибо теперь это задача симуляции
-			//delete m;
+			delete m;
 			break; }
 		default:
 			Debug::Log("RealityCore::DoAction : Unknown type! \n\tType : " + std::string(ToString(action.type))

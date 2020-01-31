@@ -76,6 +76,7 @@ namespace SpaRcle {
 
 					if (message[message.size() - 1] == '~') message.resize(message.size() - 1);
 				ret:
+					//std::cout << message << std::endl;
 					splits.clear();   splits = Helper::Split(message, " ", "~", index);
 					if (splits.size() > 0) {
 						if (splits[0] == "event") {
@@ -88,7 +89,7 @@ namespace SpaRcle {
 								Good = std::stod(splits[3]);
 
 								if (ToAType(splits[1][0]) == AType::Speech) {
-									Consequence conq = Consequence(Sound(splits[2], 10, 15));
+									Consequence conq = Consequence(Sound(splits[2], 10, 15)); //\^TODO
 									conq.self = self;
 									conq.Bad = Bad;
 									conq.Good = Good;
@@ -96,14 +97,14 @@ namespace SpaRcle {
 									Sleep(20);
 								}
 								else if (ToAType(splits[1][0]) == AType::VisualData) {
-									Consequence conq = Consequence(Sound(splits[2], 10, 15));
+									Consequence conq = Consequence(Sound(splits[2], 10, 15)); //\^TODO
 									conq.self = self;
 									conq.Bad = Bad;
 									conq.Good = Good;
 									core->_causality->NewEvent(conq, false);
 								}
 								else if (ToAType(splits[1][0]) == AType::Move) {
-									Consequence conq = Consequence(Motion(splits[2], 0));
+									Consequence conq = Consequence(Motion(splits[2], std::stod(splits[3])));
 
 									//Debug::Log("hp = "+splits[3]);
 									conq.Bad = Bad;

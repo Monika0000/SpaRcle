@@ -51,11 +51,11 @@ namespace SpaRcle {
 				if(neuron == NULL){
 					// create action with random values
 					//Debug::Log("CentralCore::DoFindSynapse : Random values");
-					con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()));
+					con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()), Situation);
 				}
 				else {
-					if(!con.action.SetData(neuron))
-						con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()));
+					if(!con.action.SetData(neuron, Situation))
+						con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()), Situation);
 				}
 
 				_reality->DoAction(con.action,Situation, con.name);
@@ -80,11 +80,12 @@ namespace SpaRcle {
 									if (super) { super_indx.clear(); super = false; }
 									max = per; idx_2 = tt;
 									index = idx_2;
-									Debug::Log("DFS : Synapse ["+con.GetSN_Name(t)+"] = "+std::to_string(per) + 
+									if (false) Debug::Log("DFS : Synapse ["+con.GetSN_Name(t)+"] = "+std::to_string(per) + 
 										" {"+ con.GetPW_Sens(tt) +"}", Module);
 								}
 								else if(per == max) {
-									Debug::Log("DFS : super variant = "+ con.GetPW_Name(tt) + " ["+ std::to_string(per) +"] {"+ con.GetPW_Sens(tt) +"}", Module);
+									if (false) Debug::Log("DFS : super variant = "+ con.GetPW_Name(tt) + " ["+ std::to_string(per) +"] {"+
+										con.GetPW_Sens(tt) +"}", Module);
 									super = true;
 								}
 							}
@@ -440,7 +441,8 @@ namespace SpaRcle {
 					}
 					else if (conseq.name == Settings::EmptyName) {
 						Events_conq.erase(Events_conq.begin() + deep);
-						Events_sens.erase(Events_sens.begin() + deep);
+						if(Events_sens.size() > 0)
+							Events_sens.erase(Events_sens.begin() + deep);
 						if(deep > 0) deep--;
 						continue;
 						/*
@@ -464,7 +466,8 @@ namespace SpaRcle {
 						//temp_synapse = ToATypeChar(conseq.action.type) + "/" + conseq.name;
 						//Debug::Log("Action : " + conseq.name + "; Sens : " + Events_sens[deep], System);
 						//Action::SaveNeuron(temp_synapse, conseq, Events_sens[deep], Events_sens[deep]);
-						Action::SaveNeuron(conseq, Events_sens[deep]);
+						
+						//Action::SaveNeuron(conseq, Events_sens[deep]);
 
 						if (Events_sens.size() == 1) {
 							load++; // resource monitor
@@ -547,7 +550,8 @@ namespace SpaRcle {
 	void CentralCore::NewEvent(Consequence& event, std::string& Situation) {
 		//if(event.name != Settings::EmptyName) Debug::Log("CentralCore : New event = "+ event.name, Info);
 		Events_conq.push_back(event);
-		Events_sens.push_back(Situation); }
+		Events_sens.push_back(Situation); 
+	}
 	void CentralCore::Start() {
 		if (!Settings::PathsIsSet) {
 			Debug::Log("CentralCore::Start FATAL : Paths is not set!", Error);

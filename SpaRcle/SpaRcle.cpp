@@ -44,7 +44,10 @@ int main(int argc, char** argv) {
 	//if (s.size() < 8) 
 	//	s += std::string(8 - s.size(), '_');
 	//std::cout << s << std::endl;
-	
+	//for(size_t t = 0; t < 50; t++)
+	///	std::cout << std::rand() % 2 << std::endl;
+	//return 0;
+
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
 
 	#pragma region [======== Pre-Init ========]

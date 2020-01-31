@@ -19,6 +19,7 @@ namespace SpaRcle {
 		///////////////////////////////
 		/* Отладка работы ядер */
 		static bool CoreDebug; 
+		static bool ActionDebug;
 		static bool DEOSDebug;
 		static bool ExternalInteraction;
 		static KeyboardLayout Layout;

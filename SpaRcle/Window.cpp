@@ -103,7 +103,7 @@ namespace SpaRcle {
 				win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)));
 				win.core->_causality->NewEvent(Consequence(Sound("monika", 10, 15)));
 			});
-		AddButton("Hello1", sf::Vector2f(25, 960), sf::Vector2f(80, 20), "  [How are you]", 3, [=](Window& win, Button* button) {
+		AddButton("HowAreYou", sf::Vector2f(25, 960), sf::Vector2f(80, 20), "  [How are you]", 3, [=](Window& win, Button* button) {
 			win.core->_causality->NewEvent(Consequence(Sound("how", 10, 15)));
 			win.core->_causality->NewEvent(Consequence(Sound("are", 10, 15)));
 			win.core->_causality->NewEvent(Consequence(Sound("you", 10, 15)));
@@ -112,6 +112,17 @@ namespace SpaRcle {
 			for(char c = 0; c < 5; c++)
 				win.core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}, 1);
+
+		AddButton("Go_to_left", sf::Vector2f(25 + 250, 960), sf::Vector2f(80, 20), "     [Go to left]", 3, [=](Window& win, Button* button) {
+			win.core->_causality->UncheckedEvents.push_back(Sound("go", 10, 15));
+			win.core->_causality->UncheckedEvents.push_back(Sound("to", 10, 15));
+			win.core->_causality->UncheckedEvents.push_back(Sound("left", 10, 15));
+			});
+		AddButton("Go_to_right", sf::Vector2f(25 + 250, 1030), sf::Vector2f(80, 20), "    [Go to right]", 3, [=](Window& win, Button* button) {
+				win.core->_causality->UncheckedEvents.push_back(Sound("go", 10, 15));
+				win.core->_causality->UncheckedEvents.push_back(Sound("to", 10, 15));
+				win.core->_causality->UncheckedEvents.push_back(Sound("right", 10, 15));
+			});
 
 		AddCheckBox("test", sf::Vector2f(555, 830), sf::Vector2f(20, 20), "2134254354", 3, [=](Window& win, Button* button) {
 				CheckBox* box = static_cast<CheckBox*>(&(*button));

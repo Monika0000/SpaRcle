@@ -61,12 +61,11 @@ namespace SpaRcle {
 		static void FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp, bool addNew = true);
 		//static std::string GetSensivityCauses(std::vector<std::tuple<std::string, int, double>>& s);
 		static std::string GetSensivityCauses(std::vector<Consequence>& s, int to_index = -1);
-		inline static std::string GetSensivityOfName(Consequence&conq, bool self) {
-			std::string name = conq.name;
+		inline static std::string GetSensivityOfName(std::string name, bool self) {
 			if (name.size() > 2)
 				if (name[1] == '/') name = name.substr(2);
-			if (count_word_in_sensiv == 1) { 
-				name.resize(1); 
+			if (count_word_in_sensiv == 1) {
+				name.resize(1);
 				//if (conq.action.type == AType::VisualData) { name += std::to_string(Visual(conq.action).pos); }
 				return name;
 			}
@@ -74,7 +73,8 @@ namespace SpaRcle {
 				std::string newName;
 				if (name.size() < 2) {
 					newName += name[0];
-					newName += Settings::TrueSymbol; }
+					newName += Settings::TrueSymbol;
+				}
 				else { newName += name[0]; newName += name[name.size() - 1]; }
 
 				if (self)
@@ -91,6 +91,9 @@ namespace SpaRcle {
 				name.clear(); name.~basic_string();
 				return "[ERROR]";
 			}
+		}
+		inline static std::string GetSensivityOfName(Consequence&conq, bool self) {
+			return Synapse::GetSensivityOfName(conq.name, self);
 		}
 		static double SimilarityPercentage(std::string first, std::string second, bool lenght = false, bool normalize = false);
 		///!Depend !of !size !sensivity

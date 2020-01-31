@@ -142,21 +142,56 @@ namespace SpaRcle {
 
 	static int _cdecl r;
 
-	bool Action::SetData(Neuron* nr) {
+	bool Action::SetData(Neuron* nr, std::string& sit) {
 		if (nr->size == 0)
 			return false;
 
-		switch (this->type) {
+		int index = -1, temp = 0; float hp = 0.f;
+		std::string temp_sit;
+
+		if (Settings::ActionDebug) Debug::Log("Action::SetData : variants = " + std::to_string(nr->size), DType::Module);
+
+		if (nr->size > 1) {
+			//////////////////// [FIND THE BEST VARIANT] //////////////////// 
+
+			for (size_t i = 0; i < nr->size; i++) {
+				temp = (size_t)std::stoul(nr->sensitivities[i]);
+				temp_sit = sit + Synapse::GetSensivityOfName(nr->data[i], false);
+				size_t hash = Synapse::ToInt(temp_sit);
+
+				if (temp == hash) {
+					if(Settings::ActionDebug) Debug::Log("Action::SetData : find variant = " + nr->sensitivities[i] + " " +
+						nr->data[i] + " " + std::to_string(nr->value_1[i]) + " " + std::to_string(nr->value_2[i]), DType::Module);
+					index = (int)i; break;
+				}
+				else {
+					if (Settings::ActionDebug) 
+						Debug::Log("Action::SetData : check [" + temp_sit + "] (" + std::to_string(hash) + ") != " + std::to_string(temp), DType::Module);
+				}
+			}
+
+			if (index == -1) {
+				index = std::rand() % nr->size;
+				if (Settings::ActionDebug) Debug::Log("Action::SetData : not found solution. Using random... [" + std::to_string(index) + "]", DType::Module);
+			}
+			if (index < 0 || index >= nr->size) { Debug::Log("Action::SetData : random error!", DType::Error); index = 0; }
+
+			//////////////////// [FIND THE BEST VARIANT] //////////////////// 
+		} else index = 0;
+
+		switch (this->type) { 
 		case SpaRcle::AType::Undefined:
 			Debug::Log("Action::SetData : \"Undefined\" type!", DType::Error);
 			break;
 		case SpaRcle::AType::Speech:
-			this->sound.volime = nr->value_1[0];
-			this->sound.tone = nr->value_2[0];
-			this->sound.text = nr->data[0];
+			this->sound.volime = nr->value_1[index];
+			this->sound.tone = nr->value_2[index];
+			this->sound.text = nr->data[index];
 			break;
-		//case SpaRcle::AType::Move:
-		//	break;
+		case SpaRcle::AType::Move:
+			this->motion.part = nr->data[index];
+			this->motion.value = nr->value_1[index];
+			break;
 		//case SpaRcle::AType::VisualData:
 		//	break;
 		default:
@@ -174,7 +209,15 @@ namespace SpaRcle {
 	void Action::SaveNeuron(std::string synapse, Consequence& conq, std::string& PW_situation, std::string Situation, bool Base) {
 		//Debug::Log("Action::SaveNeuron : saving :\n\t\tevent = " + conq.name + ";\n\t\tsyn = " + synapse + ";\n\t\tsit = " + Situation, DType::System);
 
-		Situation = std::to_string(Synapse::ToInt(Situation));
+		if (conq.action.type == AType::Move) {
+			Motion m = conq.action;
+			if (m.part == Settings::EmptyName) {
+				Debug::Log("Action::SaveNeuron : Empty part's name!!!!", DType::Error);
+				Settings::IsActive = false;
+			}
+		}
+
+		std::string hash_sit = std::to_string(Synapse::ToInt(Situation));
 		std::string hash;
 		if(!Base) hash = "~" + Action::GetHashSumm(conq.name, PW_situation); 
 		else hash = "~Base"; 
@@ -216,7 +259,7 @@ namespace SpaRcle {
 				if (line2[0] == '~') { break; }
 
 				std::vector<std::string> spl = Helper::Split(line2, ";");
-				if (spl[0] == Situation)
+				if (spl[0] == hash_sit)
 					find = true;
 
 				switch (conq.action.type) {
@@ -244,7 +287,8 @@ namespace SpaRcle {
 			}
 			
 			if (!find) {
-				temp += Situation + ";";
+				temp += hash_sit + ";";
+				//Debug::Log("Action::Save : event = "+conq.name + "\n\tHash sit = "+std::string(hash_sit) + "\n\tSit = "+Situation, DType::System);
 				switch (conq.action.type) {
 				case AType::VisualData: {
 					Visual v = conq.action.visual;
@@ -252,12 +296,13 @@ namespace SpaRcle {
 					v.~Visual(); break; };
 				case AType::Move: {
 					Motion m = conq.action.motion;
-					temp += m.part + ";" + std::to_string(m.value);
+					temp += m.part + ";" + std::to_string(m.value) + ";0,000000";
 					m.~Motion(); break; };
 				case AType::Speech: {
 					Sound s = conq.action.sound;
 					temp += s.text + ";" + std::to_string(s.volime) + ";" + std::to_string(s.tone);
 					//temp += std::to_string(s.volime) + ";" + std::to_string(s.tone);
+					//Debug::Log("\t" + s.text + ";" + std::to_string(s.volime) + ";" + std::to_string(s.tone), DType::System);
 					s.~Sound(); break; };
 				default: Debug::Log("Action::SaveNeuron : unknown type!"); break;
 				}
@@ -305,10 +350,11 @@ namespace SpaRcle {
 	Neuron* Action::LoadNeuron(std::string _Synapse, AType type, std::string& PW_situation) {
 
 		std::ifstream fint; bool exit = false, find = false;
-		std::string temp;
+		//std::string temp;
+		size_t method = 0, numline = 0	;
 		std::string p = Settings::Actions + "\\" + ToString(type) + "\\" + _Synapse + Settings::exp_action;
 		std::string line; size_t index;
-		Debug::Log("Action::LoadNeuron : " + _Synapse + "\n\tPath : " + p, DType::System);
+		//Debug::Log("Action::LoadNeuron : " + _Synapse + "\n\tPath : " + p, DType::System);
 
 		//return NULL; ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -320,7 +366,7 @@ namespace SpaRcle {
 				////////////////////////
 
 				while (!fint.eof() && !exit) {
-					std::getline(fint, line);
+					std::getline(fint, line); numline++;
 					if (line[0] == '~') {
 						if ((line.substr(1)) == hash) {
 							find = true;
@@ -332,17 +378,25 @@ namespace SpaRcle {
 								else {
 									if (line.empty()) break;
 
+									method = 1;
+
 									n->size++;
 
 									n->sensitivities.push_back(Helper::Remove(line, ';', index));
 									line = line.substr(index + 1);
 
+									method = 2;
+
 									n->data.push_back(Helper::Remove(line, ';', index));
 									line = line.substr(index + 1);
 
-									n->value_1.push_back(std::stod(Helper::Remove(line, ';', index).c_str()));
-									line = line.substr(index + 1);
+									method = 3;
 
+									n->value_1.push_back(std::stod(Helper::Remove(line, ';', index).c_str()));
+
+									method = 4;
+
+									line = line.substr(index + 1);
 									n->value_2.push_back(std::stod(line.c_str()));
 								}
 							}
@@ -357,24 +411,35 @@ namespace SpaRcle {
 					fint.clear();
 					fint.seekg(0);
 
-					std::getline(fint, line);
+					std::getline(fint, line); numline++;
 					
+					method = 6;
+
 					while (!fint.eof()) {
-						std::getline(fint, line);
+						std::getline(fint, line); numline++;
 						//Debug::Log(line);
 						if (line[0] == '~' || line.empty()) break;
 
 						n->size++;
 
+						method = 7;
+
 						n->sensitivities.push_back(Helper::Remove(line, ';', index));
 						line = line.substr(index + 1);
+
+						method = 8;
 
 						n->data.push_back(Helper::Remove(line, ';', index));
 						line = line.substr(index + 1);
 
-						n->value_1.push_back(std::atof(Helper::Remove(line, ';', index).c_str()));
-						line = line.substr(index + 1);
+						method = 9;
 
+						n->value_1.push_back(std::atof(Helper::Remove(line, ';', index).c_str()));
+
+					
+						method = 10;
+
+						line = line.substr(index + 1);
 						n->value_2.push_back(std::atof(line.c_str()));
 					}
 				}
@@ -383,7 +448,7 @@ namespace SpaRcle {
 				line.clear(); //line.~basic_string();
 				hash.clear(); //hash.~basic_string();
 				p.clear(); //p.~basic_string();
-				fint.close(); _Synapse.clear(); temp.clear();
+				fint.close(); _Synapse.clear(); //temp.clear();
 				return n;
 			}
 			else {
@@ -392,7 +457,7 @@ namespace SpaRcle {
 		}
 		catch (const std::exception & ex) {
 			Debug::Log("Action::LoadNeuron (1) : An exception has been occured!\n\tPath : " + p + "\n\tInfo : " 
-				+ ex.what() + "\n\tTemp : "+temp+ "\n\tLine : "+ line, DType::Error);
+				+ ex.what() + "\n\tMethod : " + std::to_string(method) + "\n\tLine : "+ line + " (" +std::to_string(numline)+")", DType::Error);
 		}
 		catch (const std::string & ex) {
 			Debug::Log("Action::LoadNeuron (2) : An exception has been occured!\n\tPath : " + p + "\n\tInfo : " + ex, DType::Error);

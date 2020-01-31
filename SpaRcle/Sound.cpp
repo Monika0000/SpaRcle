@@ -1,11 +1,14 @@
 #include "pch.h"
 #include "Sound.h"
+#include "Debug.h"
 
 namespace SpaRcle {
 	Sound::Sound(std::string text, double tone, double volime) {
 		this->text = text;
 		this->tone = tone;
-		this->volime = volime; }
+		this->volime = volime; 
+		//Debug::Log()
+	}
 
 	Sound::Sound(std::string text) {
 		this->text = text;

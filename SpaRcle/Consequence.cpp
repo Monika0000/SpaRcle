@@ -259,7 +259,7 @@ namespace SpaRcle {
 							break; }
 						*/
 					DEFAULT:
-						Debug::Log("SpaRcle::Consequence::Load::SWITCH = WARNING : Uncorrect char! \n\tPath : " + path +
+						Debug::Log("SpaRcle::Consequence::Load::SWITCH = WARNING ["+ Block +"] : Uncorrect char! \n\tPath : " + path +
 							"\n\tLine : " + line +
 							"\n\tSymbol : " + pref +
 							"\n\tNumber : " + std::to_string(number), Warning);

@@ -349,7 +349,7 @@ namespace SpaRcle {
 	///%IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 	void Synapse::FindAndSummSensiv(Consequence& con, std::string& name, std::string* sens, double hp, bool addNew) /* 1 - name, 2 - sensiv */ {
-		if (sens == NULL) { Debug::Log("Synapse::FindAndSummSensiv : sensivity is NULL!", Error); Sleep(1000); return; }
+		if (sens == NULL) { Debug::Log("Synapse::FindAndSummSensiv : sensivity is NULL! (event = "+con.name+"; name = "+name+")", Error); Sleep(1000); return; }
 		if (typeid(*sens).name() != typeid(std::string).name()) { Debug::Log("Synapse::FindAndSummSensiv : sensivity var are not string type!", Error); Sleep(1000); return; }
 		
 		std::string s = (*sens);
@@ -431,6 +431,17 @@ namespace SpaRcle {
 		for (size_t t = 0; t < sens.size(); t++) {
 			switch (std::tolower(sens[t])) {
 			
+				/*
+					_ 6x   = 162
+					go	   = 24 =
+					to	   = 14 =
+					goto   = 34 =
+					lt     = 24 =
+					rt     = 9  =
+					gotolt = 58 = 220
+					gotort = 43 = 205
+				*/
+
 			case 'q': summ += 1; break;
 			case 'w': summ += 2; break;
 			case 'e': summ += 3; break;
