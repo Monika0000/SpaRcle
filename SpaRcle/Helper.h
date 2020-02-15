@@ -108,6 +108,11 @@ namespace SpaRcle {
 
 	class Helper {
 	public : 
+		inline static const bool Contains(std::string& str, char c) {
+			for (size_t t = 0; t < str.size(); t++)
+				if (str[t] == c) return true;
+			return false;
+		}
 		static double CPUSpeed(void);
 
 		inline static const bool randomBool() {
@@ -155,7 +160,7 @@ namespace SpaRcle {
 		static std::string Remove(std::string text, char symbol, size_t& index);
 		static bool DirExists(std::string dir);
 
-		inline static void SimpleSummConseq(Consequence& left, Consequence& right) {
+		inline static void SimpleSummConseq(Consequence& left, Consequence& right, bool onlyAdd = false) {
 			if (left.Causes.size() == 0) left.Causes = right.Causes;
 			else if (right.Causes.size() == 0) right.Causes = left.Causes;
 			else for (size_t i = 0; i < right.Causes.size(); i++) {
@@ -177,13 +182,14 @@ namespace SpaRcle {
 					f = false;
 					for (size_t p = index; p < left.PerhapsWill.size(); p++) {
 						if (right.GetPW_Name(i) == left.GetPW_Name(p))
-							if (right.GetPW_Sens(i) == left.GetPW_Sens(p))
-							{
+							if (right.GetPW_Sens(i) == left.GetPW_Sens(p)) {
 								//Debug::Log(std::to_string(left.GetPW_HP(p)) + " " + std::to_string(right.GetPW_HP(i)));
 
-								//left.PerhapsWill[p].get<2>() = (left.PerhapsWill[p].get<2>() + right.PerhapsWill[i].get<2>()) / Div; // Суммируем полезность 
-								left.GetPW_HP(p) = Synapse::Summ(left.GetPW_HP(p), right.GetPW_HP(i)); // Суммируем полезность 
+								if (!onlyAdd) {
+									left.GetPW_HP(p) = Synapse::Summ(left.GetPW_HP(p), right.GetPW_HP(i)); // Суммируем полезность 
+								}
 								left.GetPW_Meet(p)++;
+
 								index = p;
 								f = true;
 								break;
@@ -197,9 +203,13 @@ namespace SpaRcle {
 			else if (right.Synapses.size() == 0) right.Synapses = left.Synapses;
 			else for (size_t i = 0; i < right.Synapses.size(); i++) {
 				int indx = Synapse::IndexOfSynapse(left.Synapses, right.GetSN_Name(i));
-				if (indx == -1) left.Synapses.push_back(right.Synapses[i]);
-				else {
+				if (indx == -1) { left.Synapses.push_back(right.Synapses[i]); Debug::Log("SSC : New synapse = "+std::get<0>(right.Synapses[i]) + " at event = " + left.name); }
+				else if(!onlyAdd) {
 					//Debug::Log(left.name + " ====== " + std::get<0>(left.Synapses[indx]) + " " + std::to_string(std::get<1>(left.Synapses[indx])));
+					static int temp = 0;
+					temp++;
+					//if(temp > 3500)
+					Debug::Log("SSC : " + left.name + " ====== " + std::get<0>(right.Synapses[i]) + " " + std::to_string(std::get<1>(right.Synapses[i])));
 					Synapse::SummHpSyns(left.Synapses[indx], right.Synapses[i]);
 					//Debug::Log(std::get<0>(left.Synapses[indx]) + " " + std::to_string(std::get<1>(left.Synapses[indx])));
 				}

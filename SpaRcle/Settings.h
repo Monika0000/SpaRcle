@@ -21,6 +21,7 @@ namespace SpaRcle {
 		static bool CoreDebug; 
 		static bool ActionDebug;
 		static bool DEOSDebug;
+		static bool DFSDebug;
 		static bool ExternalInteraction;
 		static KeyboardLayout Layout;
 		static bool CentralCoreDebug;
@@ -44,6 +45,8 @@ namespace SpaRcle {
 		///////////////////////////////
 		static std::string exp_conseq;
 		static std::string exp_action;
+
+		static bool dynamic_win_var_1;
 
 		static void SetDefaultPaths(std::string project);
 		static void SetPaths(std::string proj, std::string sys, std::string res, std::string mem, std::string logic, std::string actions);

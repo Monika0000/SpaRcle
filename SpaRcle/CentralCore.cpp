@@ -29,33 +29,36 @@ namespace SpaRcle {
 		DelayCPU = cpuSpeed;
 		Debug::Log("-> Creating the central core are successful!");
 	}
-	CentralCore::~CentralCore()
-	{
-		if (Process.joinable())
-			Process.detach();
+	CentralCore::~CentralCore() {
+		if (Process.joinable()) Process.detach();
 		Debug::Log("-> The central core has completed it's work!", Info);
 	}
 
 	bool CentralCore::DoFindSynapse(Consequence& _event, int _index, std::string& Situation, std::string PWSit) {
 		size_t dp = 0;
-		Debug::Log("DFS : Find synapse = " + _event.GetSN_Name(_index), Module);
+		//std::string caus_name = _event.name;
+		//AType		caus_type = _event.action.type;
+		//std::string syn = _event.GetSN_Name(_index);
+		std::string syn = _event.GetPW_Name(_index);
+		Consequence copy = _event;
+
+		Debug::Log("DFS : Find synapse = " + syn, Module); 
 		//%Выполняем %полезное %действие...
 		//std::string syn = event.GetPW_Name(_index); //WTF????????????
-		std::string syn = _event.GetSN_Name(_index);
 	Deep:
 		if (syn[0] == 'S' || syn[0] == 'M') {
 			Consequence con;
 			if (con.Load(syn.substr(2), ToAType(syn[0]), true, false, "DFS") == 1) {
 				Neuron* neuron = Action::LoadNeuron(con, PWSit);
 
-				if(neuron == NULL){
+				if(neuron == nullptr){
 					// create action with random values
 					//Debug::Log("CentralCore::DoFindSynapse : Random values");
-					con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()), Situation);
+					con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()), Situation, copy);
 				}
 				else {
-					if(!con.action.SetData(neuron, Situation))
-						con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()), Situation);
+					if(!con.action.SetData(neuron, Situation, copy))
+						con.action.SetData(new Neuron(Helper::RandomFloat(), Helper::RandomFloat()), Situation, copy);
 				}
 
 				_reality->DoAction(con.action,Situation, con.name);
@@ -72,6 +75,10 @@ namespace SpaRcle {
 					for (size_t t = 0; t < con.Synapses.size(); t++) {
 						size_t idx_2 = 0; //double perc = 0; 
 						auto& s_au_2 = con.GetSN_Name(t);
+						if (s_au_2[0] == 'V') { ///\^TODO 
+							con.Synapses.erase(con.Synapses.begin() + t);
+							continue;
+						}
 						for (size_t tt = 0; tt < con.PerhapsWill.size(); tt++)
 							if (con.GetPW_Name(tt) == s_au_2) {
 								/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
@@ -80,12 +87,11 @@ namespace SpaRcle {
 									if (super) { super_indx.clear(); super = false; }
 									max = per; idx_2 = tt;
 									index = idx_2;
-									if (false) Debug::Log("DFS : Synapse ["+con.GetSN_Name(t)+"] = "+std::to_string(per) + 
+									if (Settings::DFSDebug) Debug::Log("DFS : Synapse ["+con.GetSN_Name(t)+"] = "+std::to_string(per) + 
 										" {"+ con.GetPW_Sens(tt) +"}", Module);
 								}
 								else if(per == max) {
-									if (false) Debug::Log("DFS : super variant = "+ con.GetPW_Name(tt) + " ["+ std::to_string(per) +"] {"+
-										con.GetPW_Sens(tt) +"}", Module);
+									if (Settings::DFSDebug) Debug::Log("DFS : super variant = "+ con.GetPW_Name(tt) + " ["+ std::to_string(per) +"] {"+ con.GetPW_Sens(tt) +"}", Module);
 									super = true;
 								}
 							}
@@ -94,7 +100,7 @@ namespace SpaRcle {
 					if (super) {
 						short ind = 0; int meets = 0;
 						for (short i = 0; i < (short)super_indx.size(); i++) {
-							if (con.GetPW_Meet(super_indx[i]) > meets) {
+							if (con.GetPW_Meet(super_indx[i]) > meets && con.GetPW_Name(i)[0] != 'V') {
 								meets = con.GetPW_Meet(super_indx[i]);
 								ind = i;
 							}
@@ -105,6 +111,8 @@ namespace SpaRcle {
 						if (max > Settings::MinSimilarityPerc) { // 76 // 58
 							syn = con.GetPW_Name(ind);
 							PWSit = con.GetPW_Sens(ind);
+							//caus_name = con.name; caus_type = con.action.type;
+							copy.~Consequence(); copy = con;
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
 							else goto Deep;
@@ -112,12 +120,12 @@ namespace SpaRcle {
 					}
 					else {
 						Debug::Log("DFS finaly : \n\tSens : " + SE_With_MyActions + "\n" + sens_log + "\tResult : " +
-							//con.Synapses[index].get<0>() + "; Max = " + std::to_string(max), Module);
 							con.GetPW_Name(index) + "; Max = " + std::to_string(max), Module);
 
 						if (max > Settings::MinSimilarityPerc) { // 76 // 58
 							syn = con.GetPW_Name(index);
 							PWSit = con.GetPW_Sens(index);
+							copy.~Consequence(); copy = con;
 							dp++;
 							if (dp > 20) Debug::Log("DFS : Logical loop! See to logs...", Warning);
 							else goto Deep;
@@ -135,7 +143,7 @@ namespace SpaRcle {
 		else
 			Debug::Log("DFS::DoAction : Unknown type action! \n\tName : \"" + syn + "\" \n\tEvent : " + _event.name + "\n\tIndex : " + std::to_string(_index), Error);
 
-		PWSit.clear(); PWSit.~basic_string();
+		PWSit.clear(); PWSit.~basic_string(); copy.~Consequence();
 		return false;
 	}
 	bool CentralCore::DoEventOfSynapse(Consequence& _event, std::string& Situation) {
@@ -143,9 +151,12 @@ namespace SpaRcle {
 		normal_variants.clear(); super_variants.clear(); sens_variants.clear();
 
 		static std::string s_au;
+		int last_index = -1; std::string last_sens = "";
 		RealityCore& real = (*_reality);
 
 		size_t mem_sup_index = 0;
+
+		Debug::Log("DEOS : event has " + std::to_string(_event.Synapses.size()) + " synapses.", DType::Module);
 
 		if (_event.Synapses.size() > 0) {
 			Helper::SelectionSort(_event.Synapses);
@@ -161,43 +172,46 @@ namespace SpaRcle {
 				double percent = 0; // Итоговый процент схожести ситуации на одну из возможных вариаций
 				size_t idx = 0;		// Индекс найденой вариации
 				s_au = _event.GetSN_Name(index); // Имя синапса под индексом перечисления
-				for (size_t t = 0; t < _event.PerhapsWill.size(); t++) {
-					if (_event.GetPW_Name(t) == s_au) {
-						if (_event.GetPW_HP(t) < 0) {
-							///\!Debug::Log("DEOS : Bad synapse! \"" + s_au + "\" = " + event.GetPW_Sens(t), Module); 
-							continue;
-						}
-						/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
-						double per = Synapse::SimilarityPercentage(_event.GetPW_Sens(t), SE_With_MyActions, true, true);
-						if (per > percent) {
-							percent = per;
-							idx = t;
+				if (s_au[0] != 'V') {
+					for (size_t t = 0; t < _event.PerhapsWill.size(); t++) {
+						if (_event.GetPW_Name(t) == s_au) {
+							if (_event.GetPW_HP(t) < 0) {
+								Debug::Log("DEOS : Bad synapse! \"" + s_au + "\" = " + _event.GetPW_Sens(t), Module); 
+								continue; }
+							/// \see Нормализуем длину чувствительностей и сравниваем их между собой.
+							double per = Synapse::SimilarityPercentage(_event.GetPW_Sens(t), SE_With_MyActions, true, true);
+							if (per > percent) {
+								percent = per;
+								idx = t;
+							}
 						}
 					}
-				}
+				} else percent = 0;
 
 				if (percent != 0) {
 					// Обработка всех возможных и исключительных ситуаций
-					if (percent > 99.f) {
+					if (percent > 99.f) { // Абсолютный синапс
 						if (!super) {
-							normal_variants.clear(); super_variants.clear(); sens_variants.clear(); super = true; meets = 0;
+							normal_variants.clear(); super_variants.clear(); sens_variants.clear(); super = true; meets = 0; 
+							Debug::Log("DEOS : (1) Clear...", Module);
 						}
 
 						if (temp_sim_sup_per < percent) {
 							temp_sim_sup_per = percent;
-							meets = 0;
-						}
+							meets = 0; }
 
 						Debug::Log("DEOS : Super variant (1) = " + _event.GetPW_Name(idx) + "; Meets = " + std::to_string(_event.GetPW_Meet(idx)), Module);
-						if (_event.GetPW_Meet(idx) > meets) {
+						//if (_event.GetPW_Meet(idx) > meets) {
 							meets = _event.GetPW_Meet(idx);
-							super_variants.push_back(short(index));
+							//super_variants.push_back(short(index));
+							super_variants.push_back(short(idx));
 							sens_variants.push_back(_event.GetPW_Sens(idx));
-						}
+						//}
 					}
 					else if (percent == temp_sim_sup_per) {
 						if (!super) {
-							normal_variants.clear(); super_variants.clear(); sens_variants.clear(); super = true; meets = 0;
+							normal_variants.clear(); super_variants.clear(); sens_variants.clear(); super = true; meets = 0;  
+							Debug::Log("DEOS : (2) Clear...", Module);
 						}
 
 						//if(Settings::DEOSDebug)
@@ -205,7 +219,8 @@ namespace SpaRcle {
 
 						if (_event.GetPW_Meet(idx) > meets) {
 							meets = _event.GetPW_Meet(idx);
-							super_variants.push_back(short(index));
+							//super_variants.push_back(short(index));
+							super_variants.push_back(short(idx));
 							sens_variants.push_back(_event.GetPW_Sens(idx));
 						}
 					}
@@ -213,14 +228,16 @@ namespace SpaRcle {
 						if (super) {
 							super = false; meets = 0;
 							super_variants.clear(); sens_variants.clear();
-
+							Debug::Log("DEOS : (3) Clear...", Module);
 						}
 
 						temp_sim_sup_per = percent;
 
 						if (percent >= PeriodicSix + 10) {
 							find = true;
-							normal_variants.push_back(index);
+							//normal_variants.push_back(index);
+							normal_variants.push_back(idx
+							);
 							sens_variants.push_back(_event.GetPW_Sens(idx));
 						}
 					}
@@ -245,14 +262,27 @@ namespace SpaRcle {
 							//if (super_variants.size() != 0)
 							//	DoFindSynapse(_event, super_variants[super_variants.size() - 1]);
 							//if(super_variants.size() == 0)
+							Debug::Log("DEOS : Finaly super mode. Var = " + std::to_string(super_variants.size()), Module);
 							CheckMonotoneAndDo(_event, super_variants, Situation, sens_variants);
 						}
 					}
 					else { // Если не было найдено абсолютных супер вариантов
-						if (index > 0) { index--; goto Repeat; }
+						if (index > 0) { 
+							if (percent >= 58) {
+								last_index = index;
+								last_sens = _event.GetPW_Sens(idx);
+							}
+							else if (this->mono_per_temp > 50) {
+								last_index = index;
+								last_sens = _event.GetPW_Sens(idx);
+							}
+
+							index--; goto Repeat; 
+						}
 						else {
 							if (normal_variants.size() != 0) {
 								//DoFindSynapse(_event, variants[variants.size() - 1]);
+								Debug::Log("DEOS : Finaly normal mode. Var = " + std::to_string(normal_variants.size()), Module);
 								CheckMonotoneAndDo(_event, normal_variants, Situation, sens_variants);
 								//END.
 							}
@@ -260,10 +290,10 @@ namespace SpaRcle {
 								// "Последняя надежда", тупо для отладки
 								std::string _name = std::get<0>(_event.PerhapsWill[idx]);
 								Debug::Log("DEOS : last variant = " + _name, Module);
-								Consequence* _final = new Consequence(_name.substr(2), ToAType(_name[0]), "Central");
+								//Consequence* _final = new Consequence(_name.substr(2), ToAType(_name[0]), "Central");
+								//last.~Consequence(); last = Consequence(_name.substr(2), ToAType(_name[0]), "Central");
 								//core._reality->DoAction((*_final).action);
-								_name.clear(); delete _final;
-								//}
+								_name.clear(); //delete _final;
 							}
 						}
 					}
@@ -271,7 +301,23 @@ namespace SpaRcle {
 				else { ///\to NOT FOUND SOLUTION
 					Debug::Log("DEOS : Not found solution = \"" + _event.name + "\" at synapse \"" + s_au + "\" index=" + std::to_string(index), Module);
 					if (index > 0) { index--; goto Repeat; }
-					///\!TODO Если попадется последнее не решаемое, а остальные будут решаемые, не выполнится ни одно!
+					else if (super_variants.size() > 0) {
+						CheckMonotoneAndDo(_event, super_variants, Situation, sens_variants);
+					}
+					else if (normal_variants.size() > 0) {
+						CheckMonotoneAndDo(_event, normal_variants, Situation, sens_variants);
+					}
+					else {
+						if (last_index >= 0) { 
+							Debug::Log("DEOS : logical break point!\n\t\tLast : " + _event.GetSN_Name(last_index), DType::System); 
+							normal_variants.push_back(last_index);
+							sens_variants.push_back(last_sens);
+							CheckMonotoneAndDo(_event, normal_variants, Situation, sens_variants);
+						}
+						else Debug::Log("DEOS : logical break point! (Need Fix)", DType::System);
+					}
+
+					///\!TODO Если попадется последнее не решаемое, а остальные будут решаемые, не выполнится ни одно! (is fix)
 				}
 			}
 			else {
@@ -299,28 +345,40 @@ namespace SpaRcle {
 				if (mono_deep >= stat_var_size) mono_deep = stat_var_size - 1;
 
 				for (size_t t = stat_var_size - 1; t > stat_var_size - mono_deep - 1; t--) {
-					this->_logic->LoverPrioritySynapse(
-						_event.name, 
+					this->_logic->LoverPrioritySynapse( // Понижаем приоритет бесполезных синапсов
+						ToATypeChar(_event.action.type) + "/" + _event.name, 
 						(size_t)_variants[t], 
 						(size_t)_variants[stat_var_size - mono_deep - 1]);
 
-					debug += " " + _event.GetSN_Name(_variants[t]);
+					//debug += " " + _event.GetSN_Name(_variants[t]);
+					debug += " " + _event.GetPW_Name(_variants[t]);
 				}
 
 
 				if(stat_var_size > 1) Debug::Log("CMAD : useless actions :" + debug + "\n\tAlternative : "+ 
-					_event.GetSN_Name(_variants[stat_var_size - mono_deep - 1]), Module);
+					//_event.GetSN_Name(_variants[stat_var_size - mono_deep - 1]), Module);
+					_event.GetPW_Name(_variants[stat_var_size - mono_deep - 1]), DType::System);
 			}
 
 			result = stat_var_size - mono_deep - 1;
-			temp_syn = _event.GetSN_Name(result);
+			//temp_syn = _event.GetSN_Name(result);
+			temp_syn = _event.GetPW_Name(result);
 
 			///////////////////////////////[CHECK ACTION SIM]///////////////////////////////
+			if (false) {
+				//Neuron* neuron = Action::LoadNeuron(temp_syn.substr(2), ToAType(temp_syn[0]), variants_sens[result]);
+				Neuron* neuron = Action::LoadNeuron(_event.name, _event.action.type, variants_sens[result]);
 
-			//Neuron* neuron = Action::LoadNeuron(temp_syn.substr(2), ToAType(temp_syn[0]), variants_sens[result]);
+				if (neuron != nullptr) {
+					std::string data = _event.name;// = neuron->name;
+					for (size_t t = 0; t < neuron->size; t++) {
+						data += "\n\t" + neuron->sensitivities[t] + " " + std::to_string(neuron->value_1[t]);
+					}
+					Debug::Log("CMAD : " + data, DType::Info);
 
-			//delete neuron;
-
+					delete neuron;
+				}
+			}
 			///////////////////////////////[CHECK ACTION SIM]///////////////////////////////
 
 			DoFindSynapse(_event, _variants[result], Situation, variants_sens[result]);

@@ -352,6 +352,8 @@ namespace SpaRcle {
 		if (sens == NULL) { Debug::Log("Synapse::FindAndSummSensiv : sensivity is NULL! (event = "+con.name+"; name = "+name+")", Error); Sleep(1000); return; }
 		if (typeid(*sens).name() != typeid(std::string).name()) { Debug::Log("Synapse::FindAndSummSensiv : sensivity var are not string type!", Error); Sleep(1000); return; }
 		
+		//if (Settings::dynamic_win_var_1) Debug::Log("FASS : " + con.name);
+
 		std::string s = (*sens);
 		try{
 		if (s.size() < 2) {

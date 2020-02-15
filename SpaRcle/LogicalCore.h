@@ -12,6 +12,7 @@ namespace SpaRcle {
 
 	class LogicalCore : public Core	{
 	private:
+
 		std::vector<std::string> mono_nam;
 		std::vector<std::string> mono_sit;
 
@@ -25,12 +26,13 @@ namespace SpaRcle {
 		std::vector<std::string> lower_names;
 		std::vector<size_t> lower_id_bad;
 		std::vector<size_t> lower_id_good;
-
 	public:
+		void DoLowerPriopity(Consequence & conq);
+
 		LogicalCore(int cpuSpeed);
 		~LogicalCore();
 
-		void LoverPrioritySynapse(std::string& event_name, size_t bad_syn_index, size_t good_syn_index);
+		void LoverPrioritySynapse(std::string event_name, size_t bad_syn_index, size_t good_syn_index);
 
 		static std::vector<std::string> DecomposeConsequence(Consequence& conseq);
 

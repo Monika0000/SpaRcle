@@ -17,6 +17,7 @@ namespace SpaRcle {
 	bool Settings::CoreDebug = false;
 	bool Settings::ActionDebug = true;
 	bool Settings::DEOSDebug = false;
+	bool Settings::DFSDebug = false;
 	bool Settings::ExternalInteraction = false;
 	KeyboardLayout Settings::Layout = UNKNOWN;
 	bool Settings::EventsProcessigDebug = false;
@@ -37,6 +38,8 @@ namespace SpaRcle {
 	////////////////////////////
 	std::string Settings::exp_conseq = ".cnq"; // .cnq
 	std::string Settings::exp_action = ".act";
+
+	bool Settings::dynamic_win_var_1 = false;
 
 	void Settings::SetDefaultPaths(std::string project) {
 		Layout = Helper::GetLayout();

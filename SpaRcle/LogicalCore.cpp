@@ -30,13 +30,46 @@ namespace SpaRcle {
 		this->mono_sit.clear();
 		Debug::Log("-> The logical core has completed it's work!", Info); }
 
-	void LogicalCore::LoverPrioritySynapse(std::string& event_name, size_t bad_syn_index, size_t good_syn_index) {
+	void LogicalCore::LoverPrioritySynapse(std::string event_name, size_t bad_syn_index, size_t good_syn_index) {
 		this->lower_size++;
 		this->lower_names.push_back(event_name);
 		this->lower_id_bad.push_back(bad_syn_index);
 		this->lower_id_good.push_back(good_syn_index);
 	}
-	 
+
+	void LogicalCore::DoLowerPriopity(Consequence& conq) {
+		for (size_t t = 0; t < lower_size; t++) {
+			if (lower_names[t].substr(2) == conq.name) { // Ќевыполн€етс€ условие!!!!!!!
+				//if (conq->Load(lower_names[t].substr(2), ToAType(lower_names[t][0]), "DoLowerPriopity")) {
+				size_t bad_syn_index = conq.GetSN_Index(conq.GetPW_Name(lower_id_bad[t]));
+				size_t good_syn_index = conq.GetSN_Index(conq.GetPW_Name(lower_id_good[t]));
+
+				std::get<2>(conq.PerhapsWill[lower_id_bad[t]]) = std::get<2>(conq.PerhapsWill[lower_id_bad[t]]) * double(1.0 / 2.3); // 3.0 //6.0
+				std::get<2>(conq.PerhapsWill[lower_id_good[t]]) = std::get<2>(conq.PerhapsWill[lower_id_good[t]]) * double(7.0 / 3.6);
+
+				std::get<1>(conq.Synapses[bad_syn_index]) = std::get<1>(conq.Synapses[bad_syn_index]) * double(1.0 / 3.0);
+				std::get<1>(conq.Synapses[good_syn_index]) = std::get<1>(conq.Synapses[good_syn_index]) * double(7.0 / 6.0); //6.0  // 3.0
+
+				Debug::Log("LogicalCore::DoLowerPriopity : change priority syanpses in event \"" + conq.name + "\"\n\tBad : "
+					+ conq.GetSN_Name(bad_syn_index) + "\n\tGood : "
+					+ conq.GetSN_Name(good_syn_index), DType::Info);
+				
+
+				//}
+
+				this->lower_names.erase(this->lower_names.begin() + t);
+				this->lower_id_bad.erase(this->lower_id_bad.begin() + t);
+				this->lower_id_good.erase(this->lower_id_good.begin() + t);
+
+				this->lower_size--; t--;
+			}
+			//else Debug::Log(lower_names[t] + " " + conq.name);
+		}
+
+		conq.Save("DoLowerPriopity");
+		//lower_event.erase(lower_event.begin());
+	}
+
 	void LogicalCore::LogicalSolution() {
 		CentralCore& core = *this->core;
 		RealityCore& real = *core._reality;
@@ -62,6 +95,9 @@ namespace SpaRcle {
 						this->size_causes--;
 					}
 				}
+				//else if (this->lower_event.size() > 0 && causal.UncheckedEvents.size() == 0){
+					//DoLowerPriopity();
+				//}
 				else Sleep(this->DelayCPU);
 			}
 			catch (...) { Debug::Log("LogicalSolution : An exception has ocurred!", Error); break; }
@@ -156,15 +192,23 @@ namespace SpaRcle {
 						//for(size_t t = 0; t < loaded.Synapses.size(); t++)
 						//	Debug::Log(loaded.GetSN_Name(t) + "\t" + std::to_string(loaded.GetSN_HP(t)));
 
+						///\^DONT ^WORK!!!!!!
+						/*
 						for (size_t t = 0; t < this->lower_size; t++) {
+							Debug::Log("lowerPriority : "+ loaded.name + " == " + lower_names[t], System);
 							if (loaded.name == lower_names[t]) {
+								size_t bad_syn_index  = loaded.GetSN_Index(loaded.GetPW_Name(lower_id_bad[t]));
+								size_t good_syn_index = loaded.GetSN_Index(loaded.GetPW_Name(lower_id_good[t]));
 
-								std::get<1>(loaded.Synapses[this->lower_id_bad[t]]) = std::get<1>(loaded.Synapses[this->lower_id_bad[t]]) * double(1.0 / 3.0);
-								std::get<1>(loaded.Synapses[this->lower_id_good[t]]) = std::get<1>(loaded.Synapses[this->lower_id_good[t]]) * double(7.0 / 6.0);
+								std::get<2>(loaded.PerhapsWill[lower_id_bad[t]]) = std::get<2>(loaded.PerhapsWill[lower_id_bad[t]]) * double(7.0 / 3.6); //6.0
+								std::get<2>(loaded.PerhapsWill[lower_id_good[t]]) = std::get<2>(loaded.PerhapsWill[lower_id_good[t]]) * double(1.0 / 2.3); // 3.0
+
+								std::get<1>(loaded.Synapses[bad_syn_index])  = std::get<1>(loaded.Synapses[bad_syn_index])  * double(7.0 / 6.0); //6.0
+								std::get<1>(loaded.Synapses[good_syn_index]) = std::get<1>(loaded.Synapses[good_syn_index]) * double(1.0 / 3.0); // 3.0
 
 								Debug::Log("LogicalCore::CauseReputation : change priority syanpses in event \"" + loaded.name + "\"\n\tBad : " 
-									+ loaded.GetSN_Name(this->lower_id_bad[t]) + "\n\tGood : "
-									+ loaded.GetSN_Name(this->lower_id_good[t]), DType::Info);
+									+ loaded.GetSN_Name(bad_syn_index) + "\n\tGood : "
+									+ loaded.GetSN_Name(good_syn_index), DType::Info);
 
 								//////////////////////////////////////////////////////////
 
@@ -175,7 +219,9 @@ namespace SpaRcle {
 								this->lower_size--; t--;
 							}
 						}
+						*/
 						/* »щем совпадени€ имен событий, чтобы понизить приоритет тех синапсов, которые есть в списке, и так же повысить приоритет других. */
+
 					}
 				}
 				else { Debug::Log("LogicalCore::CauseReputation : Unknown type! \"" + std::get<0>(Cause)[last_index] + "\"", Warning); continue; }

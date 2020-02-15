@@ -132,7 +132,7 @@ namespace SpaRcle {
 		 	return LoadFile(name, atype,notFoundIsError, Diagnostic, Block, mode);
 	}
 	char Consequence::LoadFile(std::string name, AType atype, bool notFoundIsError, bool Diagnostic, std::string Block, load_mode mode) {
-	ret: if (isRead) { Debug::Log("Consequence::Load : file already use! [" + name + "]", Warning); Sleep(40); goto ret; }
+	ret: if (isRead) { Debug::Log("Consequence::Load : file already use! [" + name + "] {"+ Block + "}", Warning); Sleep(60); goto ret; }
 		isRead = true;
 		std::string path;
 		if (!Diagnostic)
@@ -151,10 +151,11 @@ namespace SpaRcle {
 			fin.close(); path.clear(); path.~basic_string();
 			return 0;
 		}
-		short n = 0, n2 = 0, number = 0, leng = 0; char method = 0;
+		short n = 0, n2 = 0, number = 0, leng = 0; float method = 0;
 		bool isBreak = false; //findType = false,
 		this->name = name;
 
+		std::string temp;
 		std::tuple<std::string, std::string, double, int> t_prw; std::string l_prw; 
 		std::tuple<std::string, int, double> t_cas;	std::string l_cas; 
 		std::tuple<std::string, double> t_syn; std::string l_syn; 
@@ -189,14 +190,18 @@ namespace SpaRcle {
 						CASE("cas") : { method = 3;
 							leng = std::atoi(post.c_str());
 							for (short i = 0; i < leng; i++) {
-								std::getline(fin, l_cas);
+								std::getline(fin, l_cas); if(l_cas.empty()) std::getline(fin, l_cas); temp = l_cas;
 
-								std::get<0>(t_cas) = ReadUpToChar(l_cas, ';', n2);
+								method = 3.1f;
+								std::get<0>(t_cas) = ReadUpToChar(l_cas, ';', n2); 
+								method = 3.15f;
 								l_cas = l_cas.substr(n2);
 
+								method = 3.2f;
 								std::get<1>(t_cas) = std::atoi(ReadUpToChar(l_cas, ';', n2).c_str());
 								l_cas = l_cas.substr(n2);
 
+								method = 3.3f;
 								std::get<2>(t_cas) = std::stod(l_cas);
 								Causes.push_back(t_cas);
 
@@ -208,14 +213,24 @@ namespace SpaRcle {
 							leng = std::atoi(post.c_str());
 							for (short i = 0; i < leng; i++)
 							{
-								std::getline(fin, l_prw);
+								std::getline(fin, l_prw); if(l_prw.empty()) std::getline(fin, l_prw); temp = l_prw;
+
+								method = 4.1f;
 								std::get<0>(t_prw) = ReadUpToChar(l_prw, ';', n2);
+
+								method = 4.2f;
 								l_prw = l_prw.substr(n2);
 								std::get<1>(t_prw) = ReadUpToChar(l_prw, ';', n2);
+
+								method = 4.3f;
 								l_prw = l_prw.substr(n2);
 								std::get<2>(t_prw) = std::stof(ReadUpToChar(l_prw, ';', n2, 8));
+
+								method = 4.4f;
 								l_prw = l_prw.substr(n2);
 								std::get<3>(t_prw) = std::atoi(l_prw.c_str());
+
+								method = 4.5f;
 								PerhapsWill.push_back(t_prw); // Load 
 
 								number++;
@@ -271,13 +286,22 @@ namespace SpaRcle {
 				//		std::cout << "\n\t" + path << std::endl;
 			}
 			catch (std::exception e) {
-				Debug::Log("Consequence::Load (3) ["+Block+"] {"+std::to_string(number)+"} : Loading failed! \n\tPath : " + path + "\n\tMethod = " + std::to_string(method) + "\n\tReason : "+ e.what(), Error);
+				Debug::Log("Consequence::Load (3) ["+Block+"] {"+std::to_string(number)+"} : Loading failed! \n\tPath : " + path
+					+ "\n\tMethod = " + std::to_string(method) + "\n\tReason : "+ e.what()+"\n\tBlock : "+Block, Error);
+				if (method >= 3 && method < 4) Debug::Log("Consequence::Load : cas = " + l_cas + "; temp = " + temp, DType::Error);
+				if (method >= 4 && method < 5) Debug::Log("Consequence::Load : prw = " + l_prw + "; temp = " + temp, DType::Error);
 				//Settings::IsActive = false;
 				fin.close();
 				path.clear(); path.~basic_string();
-				Sleep(1000);
+				this->Causes.clear(); 
+				this->PerhapsWill.clear();
+				this->Synapses.clear();
+
+				Sleep(500);
 				isRead = false;
-				return -1;
+
+				goto ret;
+				//return -1;
 			}
 		}
 		fin.close();

@@ -94,10 +94,13 @@ namespace SpaRcle {
 			*/
 			win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)), false);
 			win.core->_causality->NewEvent(Consequence(Sound("monika", 10, 15)), false);
+			win.core->_causality->NewEvent(Consequence(Motion("fuck", 3)), false);
 			win.core->_causality->NewEvent(Consequence(Sound("desu", 10, 15)), false);
 			win.core->_causality->NewEvent(Consequence(Sound("baka", 10, 15)), false);
-			for (size_t i = 0; i < Settings::Size_SCP * 2 + 5; i++)
-				core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+			win.core->_causality->NewEvent(Consequence(Motion("go", 10)), false);
+			//for (size_t i = 0; i < Settings::Size_SCP * 2 + 5; i++)
+				//core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+			for (size_t i = 0; i < 5; i++) win.core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}, 0);
 		AddButton("Hello", sf::Vector2f(25, 890), sf::Vector2f(80, 20), "  [Hello Monika]", 3, [=](Window& win, Button*button) {
 				win.core->_causality->NewEvent(Consequence(Sound("hello", 10, 15)));
@@ -124,9 +127,18 @@ namespace SpaRcle {
 				win.core->_causality->UncheckedEvents.push_back(Sound("right", 10, 15));
 			});
 
+		AddButton("wall_left", sf::Vector2f(25 + 500, 960), sf::Vector2f(80, 20), "     [Wall (Left)]", 3, [=](Window& win, Button* button) {
+			win.core->_causality->UncheckedEvents.push_back(Visual("wall", 4));
+			});
+		AddButton("wall_right", sf::Vector2f(25 + 500, 1030), sf::Vector2f(80, 20), "    [Wall (Right)]", 3, [=](Window& win, Button* button) {
+			win.core->_causality->UncheckedEvents.push_back(Visual("wall", 6));
+			});
+
 		AddCheckBox("test", sf::Vector2f(555, 830), sf::Vector2f(20, 20), "2134254354", 3, [=](Window& win, Button* button) {
 				CheckBox* box = static_cast<CheckBox*>(&(*button));
+
 				(*box).SetChecked(!box->GetChecked());
+				Settings::dynamic_win_var_1 = box->GetChecked();
 				//Debug::Log(static_cast<CheckBox*>(&(*button))->data);
 			});
 		

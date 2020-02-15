@@ -63,7 +63,7 @@ namespace SpaRcle {
 				if (tcp->process_send.joinable()) tcp->process_send.detach();
 				tcp->process_send = std::thread(THREAD_SEND, core);
 
-				size_t index = 0; float Bad, Good;
+				size_t index = 0; //float Bad, Good;
 
 				while (Settings::IsActive) { // is active connection
 					//Debug::Log("TCPServer : receiving...");
@@ -76,7 +76,8 @@ namespace SpaRcle {
 
 					if (message[message.size() - 1] == '~') message.resize(message.size() - 1);
 				ret:
-					//std::cout << message << std::endl;
+					//std::cout << "==================["+ message + "]==================" << std::endl;
+
 					splits.clear();   splits = Helper::Split(message, " ", "~", index);
 					if (splits.size() > 0) {
 						if (splits[0] == "event") {
@@ -85,33 +86,44 @@ namespace SpaRcle {
 								if (splits.size() > 4)
 									if (splits[4] == "self") { self = true; }
 
-								Bad = -std::stod(splits[3]);
-								Good = std::stod(splits[3]);
+								//Bad = -std::stod(splits[3]);
+								//Good = std::stod(splits[3]);
 
 								if (ToAType(splits[1][0]) == AType::Speech) {
 									Consequence conq = Consequence(Sound(splits[2], 10, 15)); //\^TODO
+									//Consequence conq = Consequence(Sound("sound", 10, 15)); //\^TODO
 									conq.self = self;
-									conq.Bad = Bad;
-									conq.Good = Good;
+									//conq.Bad = Bad;
+									//conq.Good = Good;
 									core->_causality->NewEvent(conq, false);
 									Sleep(20);
 								}
 								else if (ToAType(splits[1][0]) == AType::VisualData) {
-									Consequence conq = Consequence(Sound(splits[2], 10, 15)); //\^TODO
-									conq.self = self;
-									conq.Bad = Bad;
-									conq.Good = Good;
-									core->_causality->NewEvent(conq, false);
+									//Consequence conq = Consequence(Sound(splits[2], 10, 15)); //\^TODO
+									if (!Helper::Contains(splits[3], ',')) {
+										Consequence conq = Consequence(Visual(splits[2], (char)std::stoi(splits[3]))); //\^TODO
+										//Consequence conq = Consequence(Visual(splits[2], 18)); //\^TODO
+										//Consequence conq = Consequence(Visual("visual", 18)); //\^TODO
+										conq.self = self;
+										//conq.Bad = Bad;
+										//conq.Good = Good;
+										core->_causality->NewEvent(conq, false);
+									} else Debug::Log("TCP (recv) [V] : incorrect line = "+message, DType::Error);
 								}
 								else if (ToAType(splits[1][0]) == AType::Move) {
-									Consequence conq = Consequence(Motion(splits[2], std::stod(splits[3])));
+									if (Helper::Contains(splits[3], ',')) {
+										Consequence conq = Consequence(Motion(splits[2], std::stod(splits[3])));
+										//Consequence conq = Consequence(Motion(splits[2], 0));
+										//Consequence conq = Consequence(Sound(splits[2], 10, 15)); //\^TODO
+										//Consequence conq = Consequence(Motion("motion", 15)); //\^TODO
 
-									//Debug::Log("hp = "+splits[3]);
-									conq.Bad = Bad;
-									conq.Good = Good;
+										//Debug::Log("hp = "+splits[3]);
+										//conq.Bad = Bad;
+										//conq.Good = Good;
 
-									conq.self = self;
-									core->_causality->NewEvent(conq, false);
+										conq.self = self;
+										core->_causality->NewEvent(conq, false);
+									} else Debug::Log("TCP (recv) [M] : incorrect line = " + message, DType::Error);
 								}
 								else Debug::Log("TCPServer : unknown type! (" + message + ")", Error);
 							}
@@ -125,8 +137,7 @@ namespace SpaRcle {
 						else if (splits[0] == "clear") {
 							Debug::Log("======================================[HALF CLEAR]======================================");
 							//for (size_t i = 0; i < Settings::Size_SCP * 2 + 5; i++)
-							for (size_t i = 0; i < 5; i++)
-								core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+							for (size_t i = 0; i < 5; i++) core->_causality->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 						}
 						else
 							Debug::Log("TCPServer : unknown command \""+ splits[0]+ "\"");

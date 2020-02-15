@@ -39,6 +39,14 @@ namespace SpaRcle {
 
 		inline std::string& GetSN_Name(size_t index) { return std::get<0>(Synapses[index]); };
 		inline double& GetSN_HP(size_t index) { return std::get<1>(Synapses[index]); };
+		inline size_t GetSN_Index(const std::string& name) {
+			//for (std::tuple<std::string, double>& var : Synapses) {
+			for(size_t t = 0; t < Synapses.size(); t++) {
+				if (std::get<0>(Synapses[t]) == name)
+					return t;
+			}
+			Debug::Log("GetSN_Index : not found \"" + name + "\" at event = " + name, DType::Error);
+		}
 
 		std::vector<std::tuple<std::string, double>> Synapses;			/* This are ref to path Consequence		|	Max = 5   */
 		std::vector<std::tuple<std::string, std::string, double, int>> PerhapsWill;			/* This are ref to path Consequence		|	Max = 10  */

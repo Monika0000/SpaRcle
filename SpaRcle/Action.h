@@ -62,11 +62,14 @@ namespace SpaRcle {
 		Neuron(float value_1, float value_2);
 		~Neuron();
 
+		bool base = false;
+
 		/* Read only! */
 		size_t size;
-		std::string name;
+		//std::string name;
 		//std::vector<std::string> syn_name;
 		//std::vector<size_t> hash;
+		const void Remove(size_t index);
 
 		std::vector<float> value_1;
 		std::vector<float> value_2;
@@ -100,7 +103,7 @@ namespace SpaRcle {
 		//static void SaveNeuron(std::string& name, Action& action, std::string& situation);
 
 		/* После вызова функции, переданный аргумент удаляется */
-		bool SetData(Neuron * nr, std::string& sit);
+		bool SetData(Neuron * nr, std::string& sit, Consequence& conq);
 
 		static void SaveNeuron(std::string synapse, Consequence& conq, std::string& PW_situation, std::string Situation, bool Base = false);
 		static void SaveNeuron(Consequence& conq, std::string& Situation);

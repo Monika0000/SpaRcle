@@ -10,7 +10,6 @@
 
 namespace SpaRcle {
 	Action::Action() { type = AType::Undefined; }
-
 	Action::Action(Sound sound) {
 		this->sound = sound;
 		this->type = AType::Speech;
@@ -23,7 +22,6 @@ namespace SpaRcle {
 		this->visual = visual;
 		this->type = AType::VisualData;
 	}
-
 	Action::~Action() {
 		this->sound.~Sound();
 		this->visual.~Visual();
@@ -140,13 +138,14 @@ namespace SpaRcle {
 	}
 	*/
 
-	static int _cdecl r;
+	static int _cdecl r; // for the save method to work
 
-	bool Action::SetData(Neuron* nr, std::string& sit) {
+	bool Action::SetData(Neuron* nr, std::string& sit, Consequence& conq) {
 		if (nr->size == 0)
 			return false;
 
-		int index = -1, temp = 0; float hp = 0.f;
+		size_t temp = 0, index = -1; float hp = 0.f;
+		std::vector<size_t> indexes;
 		std::string temp_sit;
 
 		if (Settings::ActionDebug) Debug::Log("Action::SetData : variants = " + std::to_string(nr->size), DType::Module);
@@ -162,19 +161,69 @@ namespace SpaRcle {
 				if (temp == hash) {
 					if(Settings::ActionDebug) Debug::Log("Action::SetData : find variant = " + nr->sensitivities[i] + " " +
 						nr->data[i] + " " + std::to_string(nr->value_1[i]) + " " + std::to_string(nr->value_2[i]), DType::Module);
-					index = (int)i; break;
+					//index = (int)i; break;
+					indexes.push_back(i);
 				}
 				else {
-					if (Settings::ActionDebug) 
-						Debug::Log("Action::SetData : check [" + temp_sit + "] (" + std::to_string(hash) + ") != " + std::to_string(temp), DType::Module);
+					//if (Settings::ActionDebug) Debug::Log("Action::SetData : check [" + temp_sit + "] (" + std::to_string(hash) + ") != " + std::to_string(temp), DType::Module);
+					if (nr->size > 1) {
+						nr->Remove(i);
+						i--;
+					}
 				}
 			}
 
-			if (index == -1) {
+			if (indexes.size() == 0) {
 				index = std::rand() % nr->size;
 				if (Settings::ActionDebug) Debug::Log("Action::SetData : not found solution. Using random... [" + std::to_string(index) + "]", DType::Module);
 			}
-			if (index < 0 || index >= nr->size) { Debug::Log("Action::SetData : random error!", DType::Error); index = 0; }
+			else if (indexes.size() == 1)
+				index = indexes[0];
+			else {
+				if (Settings::ActionDebug) Debug::Log("Action::SetData : multi variant\n\tCount : "+std::to_string(indexes.size()) 
+					+ "\n\tCause : " + conq.name, DType::Module);
+				////////////////////////////[CHOICE OF VARIANT]////////////////////////////
+
+				Neuron* load = Action::LoadNeuron(conq, sit);
+				if (load != nullptr) {
+					std::string hash = std::to_string(Synapse::ToInt(sit));
+
+					switch (conq.action.type) {
+					case AType::VisualData: {
+						Visual v = conq.action;
+						for (size_t t = 0; t < load->size; t++) {
+							//Debug::Log(load->sensitivities[t] + " " + hash);
+							if (load->sensitivities[t] != hash) {
+								load->Remove(t);
+								t--;
+								continue;
+							}
+
+							if (v.tag == load->data[t])
+								if (v.pos == load->value_1[t]) {
+									Debug::Log("Action::SetData : value = " + std::to_string(load->value_1[t]) + "; index = " + std::to_string(t)
+										+ "; base = "+std::to_string(load->base), DType::Module);
+									index = t;
+									break;
+								}
+						}
+						v.~Visual();
+						break; }
+					default:
+						Debug::Log("Action::SetData : unknown type! (TODO)", DType::Error);
+						index = std::rand() % nr->size;
+						break;
+					}
+					//Debug::Log("Action::SetData : " + std::to_string(Synapse::ToInt(sit)) + " => "+ load, DType::Module);
+
+					delete load;
+				}
+
+				////////////////////////////[CHOICE OF VARIANT]////////////////////////////
+				/* impossible... */
+			}
+			if (index < 0 || index >= nr->size) { Debug::Log("Action::SetData : random error! \n\tIndex = "+std::to_string(index) +
+				"\n\tSize = "+std::to_string(nr->size), DType::Error); index = 0; }
 
 			//////////////////// [FIND THE BEST VARIANT] //////////////////// 
 		} else index = 0;
@@ -199,21 +248,27 @@ namespace SpaRcle {
 			break;
 		}
 		delete nr;
+
+		indexes.clear();
 		return true;
 	}
 
 	void Action::SaveNeuron(Consequence& conq, std::string& Situation) {
 		Action::SaveNeuron(ToATypeChar(conq.action.type) + "/" + conq.name, conq, Situation, Situation, true);
 	}
-
 	void Action::SaveNeuron(std::string synapse, Consequence& conq, std::string& PW_situation, std::string Situation, bool Base) {
 		//Debug::Log("Action::SaveNeuron : saving :\n\t\tevent = " + conq.name + ";\n\t\tsyn = " + synapse + ";\n\t\tsit = " + Situation, DType::System);
+		//return; ///\!IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 		if (conq.action.type == AType::Move) {
 			Motion m = conq.action;
+
 			if (m.part == Settings::EmptyName) {
 				Debug::Log("Action::SaveNeuron : Empty part's name!!!!", DType::Error);
 				Settings::IsActive = false;
+			}
+			else {
+				//Debug::Log("Action::SaveNeuron : saving :\n\t\tSit = "+Situation+";\n\t\tPart = "+m.part + ";\n\t\tValue = "+std::to_string(m.value), DType::System);
 			}
 		}
 
@@ -259,25 +314,26 @@ namespace SpaRcle {
 				if (line2[0] == '~') { break; }
 
 				std::vector<std::string> spl = Helper::Split(line2, ";");
-				if (spl[0] == hash_sit)
+				if (spl[0] == hash_sit) {
 					find = true;
 
-				switch (conq.action.type) {
+					switch (conq.action.type) {
 					case AType::VisualData: {
-						//std::vector<std::string> spl = Helper::Split(line, ";");
-						//if (spl[0] == conq.action.visual.tag) {
-						//	if (spl[1] == std::to_string(conq.action.visual.pos)) {
-						//	}
-						//}
-						//spl.clear(); 
+						if (spl[1] == conq.action.visual.tag) {
+							if (spl[2] != std::to_string(conq.action.visual.pos)) find = false; 
+							///\^TODO
+						}
 						break; };
 					case AType::Move: {
-
+						if (spl[1] == conq.action.motion.part) {
+							if (spl[2] != std::to_string(conq.action.motion.value)) find = false;
+						}
 						break; };
 					case AType::Speech: {
 
 						break; };
 					default: Debug::Log("Action::SaveNeuron : unknown type!"); break;
+					}
 				}
 
 				spl.clear();
@@ -292,7 +348,7 @@ namespace SpaRcle {
 				switch (conq.action.type) {
 				case AType::VisualData: {
 					Visual v = conq.action.visual;
-					temp += v.tag + ";" + std::to_string(v.pos);
+					temp += v.tag + ";" + std::to_string(v.pos) + ";0,000000"; ///\see "pos" is Integer!
 					v.~Visual(); break; };
 				case AType::Move: {
 					Motion m = conq.action.motion;
@@ -342,11 +398,9 @@ namespace SpaRcle {
 		synapse.clear(); hash.clear(); Situation.clear();
 		p.clear(); p.~basic_string();
 	}
-
 	Neuron* Action::LoadNeuron(Consequence& conq, std::string& PW_situation) {
 		return LoadNeuron(conq.name, conq.action.type, PW_situation);
 	}
-
 	Neuron* Action::LoadNeuron(std::string _Synapse, AType type, std::string& PW_situation) {
 
 		std::ifstream fint; bool exit = false, find = false;
@@ -407,6 +461,7 @@ namespace SpaRcle {
 
 				if (!find) {
 					//Debug::Log("Action::LoadNeuron : loading base neuron...");
+					n->base = true;
 
 					fint.clear();
 					fint.seekg(0);
@@ -473,26 +528,38 @@ namespace SpaRcle {
 	Neuron::Neuron() {
 		this->size = 0;
 		//this->hash = std::vector<size_t>();
-		this->name = "";
+		//this->name = "";
 		//this->syn_name = std::vector<std::string>();
 		this->value_1 = std::vector<float>();
 		this->value_2 = std::vector<float>();
 		this->data = std::vector<std::string>();
 		this->sensitivities = std::vector<std::string>();
 	}
-
 	Neuron::Neuron(float value_1, float value_2) {
 		this->size = 1;
 		this->value_1.push_back(value_1);
 		this->value_2.push_back(value_2);
 		this->data.push_back(Settings::EmptyName);
 	}
-
 	Neuron::~Neuron() {
 		value_1.clear(); value_1.~vector();
 		data.clear(); data.~vector();
 		value_2.clear(); value_2.~vector();
-		name.clear(); name.~basic_string();
+		//name.clear(); name.~basic_string();
+	}
+
+	const void Neuron::Remove(size_t index) {
+		if (index >= this->size) {
+			Debug::Log("Neuron::Remove FATAL : incorrect index!", DType::Error);
+			Settings::IsActive = false;
+			return void();
+		}
+		this->data.erase(this->data.begin() + index);
+		this->sensitivities.erase(this->sensitivities.begin() + index);
+		this->value_1.erase(this->value_1.begin() + index);
+		this->value_2.erase(this->value_2.begin() + index);
+		this->size--;
+		return void();
 	}
 
 	/*

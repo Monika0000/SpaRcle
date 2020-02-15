@@ -52,9 +52,14 @@ namespace SpaRcle {
 		Debug::Log("-> The causality core has completed it's work!", Info);
 	}
 
-	bool SpaRcle::CausalityCore::CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, Consequence& conq, const bool Diagnostic) {
+	bool SpaRcle::CausalityCore::CheckedEventsProcessing(std::vector<Consequence>& Ref_ev, std::vector<std::string>&Temp_Causes, std::vector<int>& Temp_Meets, 
+		Consequence& conq, const bool Diagnostic) {
 		// Здесь все вроде-бы готово. Пока-что лучше больше не трогать данный участок кода.
 		//Consequence& conq = Ref_ev[Settings::Size_SCP]; // 6-ый element
+
+		//if (Settings::dynamic_win_var_1) { 
+		//	std::string s; for (auto& a : Ref_ev) s += "\n\t" + a.name;
+			//Debug::Log("CEP : " + conq.name + s); }
 
 		for (size_t t = 0; t < Settings::Size_SCP; t++) {
 			/* Здесь мы суммируем и добавляем в нейрон синапсы, ведущие к другим нейронам */
@@ -185,6 +190,8 @@ namespace SpaRcle {
 					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
+
+
 			if (true) {
 				double good = 20;
 				for (size_t t = 0; t < 3; t++) {
@@ -199,7 +206,21 @@ namespace SpaRcle {
 				}
 				for (size_t tt = 0; tt < Settings::Size_SCP + 5; tt++) this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
-			if (false) {
+			if (true) {
+				double good = 20;
+				for (size_t t = 0; t < 3; t++) {
+					this->UncheckedEvents.push_back(Consequence("hello", Action(Sound("hello", 10, 15)), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("monika", Action(Sound("monika", 10, 15)), 1, 0, good));
+
+					this->UncheckedEvents.push_back(Consequence("fuck", Action(Sound("fuck", 10, 15)), 1, 0, good));
+					this->UncheckedEvents.push_back(Consequence("off", Action(Sound("off", 10, 15)), 1, 0, good));
+
+					for (size_t tt = 0; tt < Settings::Size_SCP + 2; tt++)
+						this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+				}
+				for (size_t tt = 0; tt < Settings::Size_SCP + 5; tt++) this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+			}
+			if (true) {
 				double tone = 10;
 				double volime = 15;
 
@@ -219,7 +240,7 @@ namespace SpaRcle {
 						this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 				}
 			}
-			if (false) {
+			if (true) {
 				double tone = 8;
 				double volime = 13;
 
@@ -265,6 +286,23 @@ namespace SpaRcle {
 					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
 			}
 		}
+		if (true) {
+			for (size_t t = 0; t < 3; t++) {
+				this->UncheckedEvents.push_back(Consequence(Visual("wall", 4)));
+
+				this->UncheckedEvents.push_back(Consequence(Motion("move", 1)));
+
+				for (size_t tt = 0; tt < Settings::Size_SCP * 2 + 3; tt++)
+					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+
+				this->UncheckedEvents.push_back(Consequence(Visual("wall", 6)));
+
+				this->UncheckedEvents.push_back(Consequence(Motion("move", -1)));
+
+				for (size_t tt = 0; tt < Settings::Size_SCP * 2 + 3; tt++)
+					this->UncheckedEvents.push_back(Consequence(Settings::EmptyName));
+			}
+		}
 		//Memory::GetMemory()->LoadStaticMemory();
 
 		Debug::Log("-> The causality core is started!");
@@ -279,9 +317,9 @@ namespace SpaRcle {
 				_event = this->UncheckedEvents[0]; // Get first _event
 
 				if (_event.name.empty()) {
-					Debug::Log("CausalityCore : Unknown ERROR => conseq.name == \"\"!", Error);
+					Debug::Log("CausalityCore : Unknown ERROR => conseq.name == empty()!", DType::Warning);// DType::Error
 					try { this->UncheckedEvents.erase(this->UncheckedEvents.begin()); }
-					catch (...) { Debug::Log("CausalityCore FATAL : unchecked events is bad!", Error); this->UncheckedEvents.clear(); Sleep(1500); continue; }
+					catch (...) { Debug::Log("CausalityCore FATAL : unchecked events is bad! Clear all data...", Error); this->UncheckedEvents.clear(); Sleep(1500); continue; }
 					this->size_unchk_ev--;
 				}
 				else {
@@ -300,7 +338,6 @@ namespace SpaRcle {
 							//Debug::Log("Bad = " + std::to_string(_event.Bad) + " Good = " + std::to_string(_event.Good));
 
 							if (found) {//helpData.~Consequence();
-								//Helper::SummActionConseq(_event, helpData);
 								Helper::SimpleSummConseq(_event, helpData);
 								_event.meetings = _event.meetings + helpData.meetings;
 							}
@@ -356,17 +393,17 @@ namespace SpaRcle {
 
 				if (!conq.name._Equal(Settings::EmptyName) && !conq.name.empty()) {
 					
-					if (load_conq.Load(conq.name, conq.action.type, "C_Caus")) {
-						conq.Bad = (conq.Bad + load_conq.Bad) / Div;
-						conq.Good = (conq.Good + load_conq.Good) / Div;
-
-						Helper::SimpleSummConseq(conq, load_conq);
-						//Helper::SummActionConseq(conq, load_conq);
-					}
+					//if (load_conq.Load(conq.name, conq.action.type, "C_Caus")) {
+					//	conq.Bad = (conq.Bad + load_conq.Bad) / Div;
+					//	conq.Good = (conq.Good + load_conq.Good) / Div;
+					//	Helper::SimpleSummConseq(conq, load_conq, true);
+					//}
 
 					CausalityCore::CheckedEventsProcessing(this->CheckedEvents, Temp_Causes, Temp_Meets, conq);
 
-					conq.Save("Causality_2"); // Сохраняем тут, ибо при проверке более они не сохраняются
+					L_ref.DoLowerPriopity(conq);
+					//L_ref.lower_event.push_back(new Consequence(conq)); // сохранение будет происходить там
+					//conq.Save("Causality_2"); // Сохраняем тут, ибо при проверке более они не сохраняются
 
 					//for (size_t t = 0; t < conq.Synapses.size(); t++)
 					//	Debug::Log(conq.GetSN_Name(t) + "\t" + std::to_string(conq.GetSN_HP(t)), DType::Info);
@@ -404,7 +441,8 @@ namespace SpaRcle {
 						//====================================================================================
 
 						//L_ref.EditCauses(Temp_Causes, Temp_Meets, Remove<std::string>(clean_sensiv, Temp_Causes.size()), conq);
-
+						//if (Settings::dynamic_win_var_1)
+						//	Debug::Log("CC : " + conq.name + " " + Helper::SummArray(clean_sensiv));
 						L_ref.EditCauses(Temp_Causes, Temp_Meets, clean_sensiv, conq);
 						/*
 							Самая ужасная функция!!! 
